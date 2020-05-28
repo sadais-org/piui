@@ -1,0 +1,242 @@
+/* 
+  Animation 微动画  
+ */
+
+/* css 滤镜 控制黑白底色gif的 */
+.gif-black {
+  mix-blend-mode: screen;
+}
+.gif-white {
+  mix-blend-mode: multiply;
+}
+
+/* Animation css */
+[class*='ani-'] {
+  animation-duration: $pi-animation-duration;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+
+.ani-fade {
+  animation-name: fade;
+}
+
+.ani-scale-up {
+  animation-name: scale-up;
+}
+
+.ani-scale-down {
+  animation-name: scale-down;
+}
+
+.ani-slide-top-show {
+  animation-name: slide-top-show;
+}
+
+.ani-slide-top-hide {
+  animation-name: slide-top-hide;
+}
+
+.ani-slide-bottom-show {
+  animation-name: slide-bottom-show;
+}
+
+.ani-slide-bottom-hide {
+  animation-name: slide-bottom-hide;
+}
+
+.ani-slide-left-show {
+  animation-name: slide-left-show;
+}
+
+.ani-slide-left-hide {
+  animation-name: slide-left-hide;
+}
+
+.ani-slide-right-show {
+  animation-name: slide-right-show;
+}
+
+.ani-slide-right-hide {
+  animation-name: slide-right-hide;
+}
+
+.ani-shake {
+  animation-name: shake;
+}
+
+.ani-reverse {
+  animation-direction: reverse;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-up {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-down {
+  0% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-top-show {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-top-hide {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slide-bottom-show {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-bottom-hide {
+  0% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10% {
+    transform: translateX(-9px);
+  }
+
+  20% {
+    transform: translateX(8px);
+  }
+
+  30% {
+    transform: translateX(-7px);
+  }
+
+  40% {
+    transform: translateX(6px);
+  }
+
+  50% {
+    transform: translateX(-5px);
+  }
+
+  60% {
+    transform: translateX(4px);
+  }
+
+  70% {
+    transform: translateX(-3px);
+  }
+
+  80% {
+    transform: translateX(2px);
+  }
+
+  90% {
+    transform: translateX(-1px);
+  }
+}
+
+@keyframes slide-left-show {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-left-hide {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-right-show {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-right-hide {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}

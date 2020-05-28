@@ -1,0 +1,77 @@
+$pi-font-size: 28rpx !default; // 文字大小
+$pi-fonticon-color: #999999 !default; // 文字颜色
+$pi-font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei',
+  '微软雅黑', Arial, sans-serif !default; // 字体样式
+$pi-background-color: #ffffff !default; // 背景颜色
+$pi-line-color: #d6e4ef !default; // 线颜色
+$pi-placeholder-color: #999999 !default; // placeholder颜色
+
+$pi-font-color: #333333 !default; // 文字颜色
+$pi-primary-color: #c0282f !default; // 主要颜色
+$pi-secondary-color: #6c44a1 !default; // 次级颜色
+$pi-tertiary-color: #00a8a4 !default; // 第三级颜色
+$pi-fourth-color: #12bc83 !default; // 第四级颜色
+$pi-fifth-color: #fcf2f4 !default; // 第五级颜色
+
+// status-bar
+$pi-status-bar-bg: #ffffff !default; // 状态栏背景颜色
+// ipx safearea
+$pi-safearea-bg: transparent !default; // iphonex底部安全区域背景颜色
+
+// 顶部导航
+$pi-navi-z-index: 10 !default;
+$pi-navi-icon-size: 20px !default;
+$pi-navi-height: 44px !default;
+$pi-navi-padding-lr: 16px !default; // 导航左右的padding
+
+$pi-navi-icon-weight: 500 !default;
+$pi-navi-icon-color: #333333 !default;
+$pi-navi-icon-border-height: 32px !default;
+
+// 顶部导航-微信平台
+$pi-navi-icon-size-MP-WEIXIN: 20px !default;
+$pi-navi-icon-weight-MP-WEIXIN: 800 !default;
+$pi-navi-icon-color-MP-WEIXIN: #000000 !default;
+
+$pi-navi-title-size: 32rpx !default;
+$pi-navi-background: transparent !default;
+
+// 导航栏
+$pi-navi-height: 112rpx !default;
+$pi-navi-active-color: #c0282f !default;
+
+// 表单
+$pi-form-font-size: 32rpx !default; // 表单文字大小
+$pi-form-font-weight: 400 !default; // 表单文字大小
+$pi-form-label-color: #333333 !default; // 表单label颜色
+$pi-form-item-height: 88rpx !default; // 表单高度
+$pi-form-input-color: #333333 !default; // 表单输入框颜色
+$pi-form-require-color: #c0282f !default; // 表单必选提示颜色
+$pi-upload-radius: 88rpx !default; // 表单上传图片div半径
+
+// 按钮
+$pi-button-fontsize: 32rpx !default;
+$pi-button-height: 98rpx !default;
+$pi-button-mini-height: 56rpx !default; // mini尺寸
+
+// 动画
+$pi-animation-duration: 0.3s !default; // 动画执行时长
+
+// 实现0.5px的效果
+@mixin pi-border {
+  position: relative;
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    box-sizing: border-box;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    content: ' ';
+    border-radius: inherit;
+    transform: scale(0.5);
+    transform-origin: 0 0;
+  }
+}
