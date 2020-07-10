@@ -48,7 +48,11 @@
           </view>
         </view>
         <view v-for="(item, weekIndex) in weeks" :key="weekIndex" class="uni-calendar__weeks">
-          <view v-for="(weeks, weeksIndex) in item" :key="weeksIndex" class="uni-calendar__weeks-item">
+          <view
+            v-for="(weeks, weeksIndex) in item"
+            :key="weeksIndex"
+            class="uni-calendar__weeks-item"
+          >
             <uni-calendar-item
               :weeks="weeks"
               :calendar="calendar"

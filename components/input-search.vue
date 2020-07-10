@@ -1,6 +1,9 @@
 <template>
   <view class="header-wrap pi-align-center pi-content">
-    <view class="pi-flex-sub pi-align-center input-wrap pi-bg-light-gray pi-of-hidden " :style="inputStyle">
+    <view
+      class="pi-flex-sub pi-align-center input-wrap pi-bg-light-gray pi-of-hidden "
+      :style="inputStyle"
+    >
       <view class="pi-icon-search" />
       <input
         v-model.trim="searchValue"
@@ -14,7 +17,11 @@
         @confirm="handleConfirm"
       />
     </view>
-    <view v-if="searchValue" class="pi-primary pi-fz-32 pi-fw-500 pi-mg-left-32" @tap="handleClickRightButton">
+    <view
+      v-if="searchValue"
+      class="pi-primary pi-fz-32 pi-fw-500 pi-mg-left-32"
+      @tap="handleClickRightButton"
+    >
       {{ title }}
     </view>
   </view>

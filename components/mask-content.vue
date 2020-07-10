@@ -5,7 +5,7 @@
       :class="aniShow ? animation.show : animation.hide"
       @tap="handleClose"
     >
-      <slot />
+      <slot></slot>
     </view>
   </view>
 </template>

@@ -2,9 +2,9 @@
 <template>
   <view class="ruler-box pi-relative " :style="{ width: screenW + 'px' }">
     <!-- 刻度尺指针插槽 -->
-    <slot name="arrow" />
+    <slot name="arrow"></slot>
     <!-- 展示数字插槽 -->
-    <slot name="count" :rulerData="selInd" />
+    <slot name="count" :rulerData="selInd"></slot>
     <view
       class="scroll-wrapper"
       :data-scroll-prop="{
