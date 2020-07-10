@@ -1,3 +1,19 @@
+/**
+ * z-index 定义
+ * -------------------------------------------------------------------------------------------------
+ */
+
+/**
+ * 颜色
+ * -------------------------------------------------------------------------------------------------
+ */
+$pi-font-color: #333333 !default; // 文字颜色
+$pi-primary-color: #c0282f !default; // 主要颜色
+$pi-secondary-color: #6c44a1 !default; // 次级颜色
+$pi-tertiary-color: #00a8a4 !default; // 第三级颜色
+$pi-fourth-color: #12bc83 !default; // 第四级颜色
+$pi-fifth-color: #fcf2f4 !default; // 第五级颜色
+
 $pi-font-size: 28rpx !default; // 文字大小
 $pi-fonticon-color: #999999 !default; // 文字颜色
 $pi-font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei',
@@ -5,13 +21,6 @@ $pi-font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Hiragino Sans GB',
 $pi-background-color: #ffffff !default; // 背景颜色
 $pi-line-color: #d6e4ef !default; // 线颜色
 $pi-placeholder-color: #999999 !default; // placeholder颜色
-
-$pi-font-color: #333333 !default; // 文字颜色
-$pi-primary-color: #c0282f !default; // 主要颜色
-$pi-secondary-color: #6c44a1 !default; // 次级颜色
-$pi-tertiary-color: #00a8a4 !default; // 第三级颜色
-$pi-fourth-color: #12bc83 !default; // 第四级颜色
-$pi-fifth-color: #fcf2f4 !default; // 第五级颜色
 
 // status-bar
 $pi-status-bar-bg: #ffffff !default; // 状态栏背景颜色
@@ -35,10 +44,6 @@ $pi-navi-icon-color-MP-WEIXIN: #000000 !default;
 
 $pi-navi-title-size: 32rpx !default;
 $pi-navi-background: transparent !default;
-
-// 导航栏
-$pi-navi-height: 112rpx !default;
-$pi-navi-active-color: #c0282f !default;
 
 // 表单
 $pi-form-font-size: 32rpx !default; // 表单文字大小

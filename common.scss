@@ -1,305 +1,222 @@
-@import './animation.scss';
+// 引入piui 变量声明，可以在uni.scss中进行覆盖
 @import './variable.scss';
 
-/* 字体 font
----------------------- */
+/**
+ * 颜色
+ * -------------------------------------------------------------------------------------------------
+ */
 
-// line-height
-.pi-lh-base {
-  line-height: 1;
+// 主要颜色
+.pi-primary {
+  color: $pi-primary-color;
+}
+// 次级颜色
+.pi-secondary {
+  color: $pi-secondary-color;
+}
+// 第三级颜色
+.pi-tertiary {
+  color: $pi-tertiary-color;
+}
+// 第四级颜色
+.pi-fourth {
+  color: $pi-fourth-color;
+}
+// 第五级颜色
+.pi-fifth {
+  color: $pi-fifth-color;
+}
+// 黑色
+.pi-black {
+  color: #000000;
+}
+// 白色
+.pi-white {
+  color: #ffffff;
+}
+// 灰色
+.pi-gray {
+  color: #666666;
+}
+// 灰色禁用
+.pi-gray-disable {
+  color: #cccccc;
+}
+// 浅灰色
+.pi-light-gray {
+  color: #999999;
 }
 
-.pi-bold {
-  font-weight: bold;
+/**
+ * 背景颜色
+ * -------------------------------------------------------------------------------------------------
+ */
+
+// 透明背景
+.pi-bg-opacity {
+  background: transparent;
+}
+// 背景黑色
+.pi-bg-black {
+  color: #ffffff;
+  background: #000000;
+}
+// 背景白色
+.pi-bg-white {
+  color: $pi-font-color;
+  background: #ffffff;
+}
+// 主要颜色
+.pi-bg-primary {
+  background: $pi-primary-color;
+}
+// 次级颜色
+.pi-bg-secondary {
+  background: $pi-secondary-color;
+}
+// 第三级颜色
+.pi-bg-tertiary {
+  background: $pi-tertiary-color;
+}
+// 第四级颜色
+.pi-bg-fourth {
+  background: $pi-fourth-color;
+}
+// 第五级颜色
+.pi-bg-fifth {
+  background: $pi-fifth-color;
 }
 
-@for $i from 1 through 9 {
+/**
+ * 字体 font
+ * -------------------------------------------------------------------------------------------------
+ */
+
+// 只取偶数2，4，6，8 ~ 100
+@for $i from 2 through 100 {
+  @if $i % 2 == 0 {
+    // 字号
+    .pi-fz-#{$i} {
+      font-size: #{$i}rpx !important;
+    }
+    // 行高
+    .pi-lh-#{$i} {
+      line-height: #{$i}rpx !important;
+    }
+  }
+}
+
+// 字重，单独生成 500 ~ 900 的font-weight，比如pi-fw-500 pi-fw-900
+@for $i from 5 through 9 {
   .pi-fw-#{$i * 100} {
     font-weight: $i * 100;
   }
 }
 
-.pi-line-through {
-  text-decoration: line-through;
-}
-.pi-italic {
-  font-style: italic;
-}
-.pi-indent {
-  text-indent: 2em;
+// 基础行高
+.pi-lh-1,
+.pi-lh-base {
+  line-height: 1;
 }
 
-.pi-text-Abc {
-  text-transform: Capitalize;
-}
-
-.pi-text-ABC {
-  text-transform: Uppercase;
-}
-
-.pi-text-abc {
-  text-transform: Lowercase;
-}
-
-.pi-text-price::before {
-  margin-right: 4rpx;
-  font-size: 80%;
-  content: '¥';
-}
-
-.pi-text-price.en::before {
-  content: '$';
-}
-
-.pi-text-cut,
-.pi-ellipsis {
+// 文本超出显示省略符
+.pi-text-ellipsis {
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.pi-text-bold {
-  font-weight: bold;
-}
-
+// 文字对齐方向
 .pi-text-center {
   text-align: center;
 }
-
-.pi-text-content {
-  line-height: 1.6;
-}
-
 .pi-text-left {
   text-align: left;
 }
-
 .pi-text-right {
   text-align: right;
 }
 
-/* 文字颜色 */
-.pi-black {
-  color: #0e151d;
-}
-.pi-white {
-  color: #ffffff;
-}
-.pi-blue {
-  color: #3688ff;
-}
-.pi-light-blue {
-  color: #afcfff;
-}
-.pi-blue-sky {
-  color: #61cbef;
-}
-.pi-gray {
-  color: #666666;
-}
-.pi-light-gray {
-  color: #999999;
-}
-.pi-gray-disable {
-  color: #cccccc;
-}
+/**
+ * 定位 position
+ * -------------------------------------------------------------------------------------------------
+ */
 
-.pi-red {
-  color: #e76b61;
-}
-.pi-yellow {
-  color: #ffcc00;
-}
-.pi-light-yellow {
-  color: #ecd1a8;
-}
-.pi-green {
-  color: #9dd26d;
-}
-
-.pi-default {
-  color: $pi-font-color;
-}
-
-.pi-primary {
-  color: $pi-primary-color;
-}
-
-.pi-secondary {
-  color: $pi-secondary-color;
-}
-
-.pi-tertiary {
-  color: $pi-tertiary-color;
-}
-
-.pi-fourth {
-  color: $pi-fourth-color;
-}
-
-.pi-fifth {
-  color: $pi-fifth-color;
-}
-
-/* 背景 background
----------------------- */
-
-/* 背景颜色 */
-.pi-bg-black {
-  color: #ffffff;
-  background: #000000;
-}
-.pi-bg-white {
-  color: $pi-font-color;
-  background: #ffffff;
-}
-.pi-bg-blue {
-  color: #ffffff;
-  background: #3688ff;
-}
-.pi-bg-blue-sky {
-  color: #ffffff;
-  background: #61cbef;
-}
-.pi-bg-light-gray {
-  background: #f2f2f2;
-}
-.pi-bg-gray {
-  background: #a5a7b2;
-}
-.pi-bg-red {
-  color: #ffffff;
-  background: #e76b61;
-}
-.pi-bg-green {
-  color: #ffffff;
-  background: #9dd26d;
-}
-.pi-bg-yellow {
-  color: #ffffff;
-  background: #ffcc00;
-}
-.pi-bg-light-blue {
-  color: #ffffff;
-  background: #afcfff;
-}
-.pi-bg-light-yellow {
-  color: #ffffff;
-  background: #ecd1a8;
-}
-
-.pi-bg-primary {
-  color: #ffffff;
-  background: $pi-primary-color;
-}
-
-.pi-bg-secondary {
-  color: #ffffff;
-  background: $pi-secondary-color;
-}
-
-.pi-bg-tertiary {
-  color: #ffffff;
-  background: $pi-tertiary-color;
-}
-
-.pi-bg-fourth {
-  color: #ffffff;
-  background: $pi-fourth-color;
-}
-
-.pi-bg-fifth {
-  color: #ffffff;
-  background: $pi-fifth-color;
-}
-
-.pi-bg-opacity {
-  background: transparent;
-}
-
-/*************************
-image
-**************************/
-
-.pi-image {
+// 常用布局定义
+.pi-rela {
   position: relative;
-  z-index: 0;
-  display: inline-block;
-  max-width: 100%;
 }
-
-.pi-imgbg {
-  background-repeat: no-repeat;
-  background-size: 100% auto;
-}
-.pi-imgbg-center {
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 100% auto;
-}
-.pi-imgbg-bc {
-  background-repeat: no-repeat;
-  background-position: bottom center;
-  background-size: 100% auto;
-}
-
-/*************************
-定位
-**************************/
-.pi-absolute {
+.pi-abso {
   position: absolute;
-}
-.pi-relative {
-  position: relative;
 }
 .pi-fixed {
   position: fixed;
 }
 
-// absolute
-.pi-absolute-top {
-  @extend .pi-absolute;
+// 绝对定位满屏
+.pi-abso-full {
+  @extend .pi-abso;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+// 绝对定位左上角
+.pi-abso-lt {
+  @extend .pi-abso;
 
   top: 0;
   left: 0;
-  z-index: 2;
 }
-.pi-absolute-center {
-  @extend .pi-absolute;
+// 绝对定位右上角
+.pi-abso-rt {
+  @extend .pi-abso;
+
+  top: 0;
+  right: 0;
+}
+// 绝对定位左下角
+.pi-abso-lb {
+  @extend .pi-abso;
+
+  bottom: 0;
+  left: 0;
+}
+// 绝对定位右下角
+.pi-abso-rb {
+  @extend .pi-abso;
+
+  right: 0;
+  bottom: 0;
+}
+// 绝对定位顶部居中
+.pi-abso-top-center {
+  @extend .pi-abso;
+
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+// 绝对定位底部居中
+.pi-abso-bottom-center {
+  @extend .pi-abso;
+
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+// 绝对定位自身居中
+.pi-abso-center {
+  @extend .pi-abso;
 
   top: 50%;
   left: 50%;
-  z-index: 2;
   transform: translate(-50%, -50%);
 }
 
-.pi-absolute-lt {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-}
-.pi-absolute-rt {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 2;
-}
-.pi-absolute-lb {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
-}
-.pi-absolute-rb {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-}
-
-// fixed
+// fixed 定居满屏
 .pi-fixed-full {
   @extend .pi-fixed;
 
@@ -307,120 +224,63 @@ image
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 2;
 }
+// fixed 左上角
 .pi-fixed-top {
   @extend .pi-fixed;
 
   top: 0;
   left: 0;
-  z-index: 2;
 }
-
+// fixed 左下角 ，已适配iphonex，如果需要底部内边距，配合.pd-bottom一起使用
 .pi-fixed-bottom {
   @extend .pi-fixed;
-  @extend .pi-safearea;
-
-  &.spac {
-    padding: 16rpx 32rpx;
-    padding-bottom: 16rpx;
-    padding-bottom: calc(constant(safe-area-inset-bottom) + 16rpx);
-    padding-bottom: calc(env(safe-area-inset-bottom) + 16rpx);
-  }
 
   bottom: 0;
   left: 0;
-  z-index: 2;
-}
 
+  // 定义底部padding是因为考虑到iphonex的兼容性，避免生成大量样式，只取（2 ~ 50 之间的偶数）
+  /* stylelint-disable */
+  @for $i from 2 through 50 {
+    @if $i % 2 == 0 {
+      &.pd-bottom-#{$i} {
+        padding-bottom: #{$i}rpx;
+        padding-bottom: calc(constant(safe-area-inset-bottom) + #{$i}rpx);
+        padding-bottom: calc(env(safe-area-inset-bottom) + #{$i}rpx);
+      }
+    }
+  }
+}
+// 绝对定位自身居中
 .pi-fixed-center {
   @extend .pi-fixed;
 
   top: 50%;
   left: 50%;
-  z-index: 2;
   transform: translate(-50%, -50%);
 }
 
-/* ==================
-         导航栏
- ==================== */
-.pi-navi {
-  white-space: nowrap;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  &.border {
-    @include pi-border;
-    &::after {
-      border-bottom: 1px solid $pi-line-color;
-    }
-  }
-  .pi-navi-item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: $pi-navi-height;
-    padding: 0 20rpx;
-    font-size: 32rpx;
-    font-weight: 500;
-    line-height: $pi-navi-height;
-    &.active {
-      color: $pi-navi-active-color;
-      &::after {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 4rpx;
-        content: '';
-        background: $pi-navi-active-color;
-        transition: background ease-in-out 0.3s;
-      }
-    }
-  }
-}
+/**
+ * 布局
+ * -------------------------------------------------------------------------------------------------
+ */
 
-/*************************
-布局
-**************************/
-// 正方形
+// 正方形（需要两个容器实现）
 .pi-square {
-  @extend .pi-relative;
+  @extend .pi-rela;
 
   width: 100%;
   height: 0;
   padding-bottom: 100%;
 
   & > .pi-square-content {
-    @extend .pi-absolute;
+    @extend .pi-abso;
 
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
   }
-}
-.pi-width-100vw {
-  width: 100vw;
-}
-
-.pi-width-100P {
-  width: 100%;
-}
-
-.pi-height-100vh {
-  height: 100vh;
-}
-
-.pi-height-100P {
-  height: 100%;
-}
-
-.pi-show {
-  display: inherit;
 }
 
 .pi-inline {
@@ -431,8 +291,13 @@ image
   display: inline-block;
 }
 
-.pi-hide {
-  display: none;
+.pi-opacity-show {
+  opacity: 1;
+}
+
+.pi-opacity-hide {
+  pointer-events: none; // 鼠标可穿透
+  opacity: 0;
 }
 
 .pi-visible {
@@ -455,155 +320,122 @@ image
   overflow-y: hidden;
 }
 
-.pi-of-auto {
-  overflow: auto;
-}
-
-.pi-of-x-auto {
-  overflow-x: auto;
-}
-
-.pi-of-y-auto {
-  overflow-y: auto;
-}
-
+/**
+ * flex 布局
+ * -------------------------------------------------------------------------------------------------
+ */
 .pi-flex {
   display: flex;
 }
-
+.pi-flex-sub {
+  flex: 1;
+}
 .pi-flex-wrap {
   @extend .pi-flex;
 
   flex-wrap: wrap;
 }
-
 .pi-flex-row {
   @extend .pi-flex;
 
   flex-direction: row;
 }
-
 .pi-flex-column {
   @extend .pi-flex;
 
   flex-direction: column;
 }
-
-.pi-flex-sub {
-  flex: 1;
-}
-
-.pi-flex-twice {
-  flex: 2;
-}
-
-.pi-flex-treble {
-  flex: 3;
-}
-
 .pi-align-start {
   @extend .pi-flex;
 
   align-items: flex-start;
 }
-
 .pi-align-end {
   @extend .pi-flex;
 
   align-items: flex-end;
 }
-
 .pi-align-center {
   @extend .pi-flex;
 
   align-items: center;
 }
-
 .pi-align-stretch {
   @extend .pi-flex;
 
   align-items: stretch;
 }
-
 .pi-align-baseline {
   @extend .pi-flex;
 
   align-items: baseline;
 }
-
 .pi-self-start {
   @extend .pi-flex;
 
   align-self: flex-start;
 }
-
 .pi-self-center {
   @extend .pi-flex;
 
-  align-self: flex-center;
+  align-self: center;
 }
-
 .pi-self-end {
   @extend .pi-flex;
 
   align-self: flex-end;
 }
-
 .pi-self-stretch {
   @extend .pi-flex;
 
   align-self: stretch;
 }
-
 .pi-justify-start {
   @extend .pi-flex;
 
   justify-content: flex-start;
 }
-
 .pi-justify-end {
   @extend .pi-flex;
 
   justify-content: flex-end;
 }
-
 .pi-justify-center {
   @extend .pi-flex;
 
   justify-content: center;
 }
-
 .pi-justify-between {
   @extend .pi-flex;
 
   justify-content: space-between;
 }
-
 .pi-justify-around {
   @extend .pi-flex;
 
   justify-content: space-around;
 }
-
+// 横向flex中心居中
 .pi-flex-row-center {
   @extend .pi-flex-row;
   @extend .pi-justify-center;
   @extend .pi-align-center;
 }
 
+// 纵向flex中心居中
 .pi-flex-column-center {
   @extend .pi-flex-column;
   @extend .pi-justify-center;
   @extend .pi-align-center;
 }
 
-// grid布局
-.pi-grid {
-  display: flex;
-  flex-wrap: wrap;
-}
+/**
+ * grid 宫格布局（子元素平分父级元素宽度，可配合 pi-square 生成正方形宫格）
+ * -------------------------------------------------------------------------------------------------
+ */
 
-@mixin multi-border($n) {
+// 生成宫格列边框（传入列数）
+@mixin col-border($n) {
   &.pi-grid-border {
     & > view {
       @include pi-border;
@@ -621,47 +453,20 @@ image
   }
 }
 
-.pi-grid.pi-col-2 {
+// 生成宫格间隔（间隔宽度，列数）
+@mixin space-calc($i, $n) {
   & > view {
-    width: 50%;
+    width: calc((100% - #{($n - 1) * $i}rpx) / #{$n});
+    &:not(:nth-last-child(-n + #{$n})) {
+      margin-bottom: #{$i}rpx;
+    }
+    &:not(:nth-child(#{$n}n)) {
+      margin-right: #{$i}rpx;
+    }
   }
-
-  @include multi-border(2);
 }
-
-.pi-grid.pi-col-3 {
-  & > view {
-    width: calc(100% / 3);
-  }
-
-  @include multi-border(3);
-}
-
-.pi-grid.pi-col-4 {
-  & > view {
-    width: 25%;
-  }
-
-  @include multi-border(4);
-}
-
-.pi-grid.pi-col-5 {
-  & > view {
-    width: 20%;
-  }
-
-  @include multi-border(5);
-}
-
-.pi-grid.pi-col-6 {
-  & > view {
-    width: calc(100% / 6);
-  }
-
-  @include multi-border(6);
-}
-
-.pi-grid.pi-col-1 {
+.pi-grid {
+  @extend .pi-flex-wrap;
   & > view {
     width: 100%;
   }
@@ -674,60 +479,69 @@ image
     }
   }
 }
-
-@mixin space-calc($i, $n) {
+.pi-grid-2 {
+  @extend .pi-flex-wrap;
   & > view {
-    width: calc((100% - #{($n - 1) * $i}rpx) / #{$n});
-    &:not(:nth-last-child(-n + #{$n})) {
-      margin-bottom: #{$i}rpx;
-    }
-    &:not(:nth-child(#{$n}n)) {
-      margin-right: #{$i}rpx;
-    }
+    width: 50%;
   }
+
+  @include col-border(2);
+}
+.pi-grid-3 {
+  @extend .pi-flex-wrap;
+  & > view {
+    width: calc(100% / 3);
+  }
+
+  @include col-border(3);
+}
+.pi-grid-4 {
+  @extend .pi-flex-wrap;
+  & > view {
+    width: 25%;
+  }
+
+  @include col-border(4);
+}
+.pi-grid-5 {
+  @extend .pi-flex-wrap;
+  & > view {
+    width: 20%;
+  }
+
+  @include col-border(5);
+}
+.pi-grid-6 {
+  @extend .pi-flex-wrap;
+  & > view {
+    width: calc(100% / 6);
+  }
+
+  @include col-border(6);
 }
 
 // 处理列之间需要有空隙情况
 @for $i from 1 through 50 {
-  .pi-grid.pi-col-1.pi-col-space-#{$i} {
+  .pi-grid.pi-col-space-#{$i} {
     & > view {
       margin-bottom: #{$i}rpx;
     }
   }
-  .pi-grid.pi-col-2.pi-col-space-#{$i} {
+  .pi-grid-2.pi-col-space-#{$i} {
     @include space-calc($i, 2);
   }
-  .pi-grid.pi-col-3.pi-col-space-#{$i} {
+  .pi-grid-3.pi-col-space-#{$i} {
     @include space-calc($i, 3);
   }
-  .pi-grid.pi-col-4.pi-col-space-#{$i} {
+  .pi-grid-4.pi-col-space-#{$i} {
     @include space-calc($i, 4);
   }
-  .pi-grid.pi-col-5.pi-col-space-#{$i} {
+  .pi-grid-5.pi-col-space-#{$i} {
     @include space-calc($i, 5);
   }
-  .pi-grid.pi-col-6.pi-col-space-#{$i} {
+  .pi-grid-6.pi-col-space-#{$i} {
     @include space-calc($i, 6);
   }
-}
-
-/* 浮动 */
-.pi-cf::after,
-.pi-cf::before {
-  display: table;
-  content: ' ';
-}
-
-.pi-cf::after {
-  clear: both;
-}
-
-.pi-fl {
-  float: left;
-}
-
-.pi-fr {
-  float: right;
 }
 
 /* 表单 form
@@ -744,7 +558,7 @@ image
     justify-content: space-between;
     padding: 0 32rpx;
     background: #ffffff;
-    transition: all 0.6s ease-in-out 0s;
+    transition: all $pi-animation-duration ease-in-out;
     .pi-form-label {
       flex-shrink: 0;
       height: $pi-form-item-height;
@@ -897,13 +711,19 @@ image
   }
 }
 
-.pi-upload {
-  $radius: $pi-upload-radius;
+// placeholder
+.placeholder {
+  color: $uni-text-color-grey;
+}
+.uni-input-placeholder {
+  color: $pi-placeholder-color;
+}
 
+.pi-upload {
   position: relative;
   display: inline-block;
-  width: $radius;
-  height: $radius;
+  width: $pi-upload-radius;
+  height: $pi-upload-radius;
   overflow: hidden;
   background-color: #f6f6f6;
   border-radius: 8rpx;
@@ -970,9 +790,8 @@ image
   }
 }
 
-/* ==================
-          头像
- ==================== */
+/* 头像 avatar
+---------------------- */
 .pi-avatar {
   position: relative;
   display: inline-flex;
@@ -990,52 +809,25 @@ image
   vertical-align: middle;
   background-position: center;
   background-size: cover;
-  border-radius: 50%;
 }
 
 .pi-avatar.sm {
   width: 48rpx;
   height: 48rpx;
-  font-size: 1em;
 }
 
 .pi-avatar.lg {
   width: 96rpx;
   height: 96rpx;
-  font-size: 2em;
 }
 
 .pi-avatar.xl {
   width: 128rpx;
   height: 128rpx;
-  font-size: 2.5em;
 }
 
-.pi-avatar .avatar-text {
-  font-size: 0.4em;
-}
-
-.pi-avatar-group {
-  display: inline-block;
-  padding: 0 10rpx 0 40rpx;
-  direction: rtl;
-  unicode-bidi: bidi-override;
-}
-
-.pi-avatar-group .pi-avatar {
-  margin-left: -30rpx;
-  vertical-align: middle;
-  border: 4rpx solid #f1f1f1;
-}
-
-.pi-avatar-group .pi-avatar.sm {
-  margin-left: -20rpx;
-  border: 1rpx solid #f1f1f1;
-}
-
-/*************************
- 列表
-**************************/
+/* 列表
+---------------------- */
 .more {
   position: relative;
   padding-right: 42rpx;
@@ -1057,131 +849,100 @@ image
     position: relative;
     display: flex;
     align-items: center;
-    transition: all 0.6s ease-in-out 0s;
-
-    /* 列表左滑操作 */
-    &.pi-move {
-      transform: translateX(-260rpx);
-    }
-    & > .pi-action {
-      position: absolute;
-      right: 0;
-      display: flex;
-      width: 260rpx;
-      height: 100%;
-      transform: translateX(100%);
-      view {
-        display: flex;
-        flex: 1;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-    &.more {
-      padding-right: 72rpx;
-      &::before {
-        position: absolute;
-        top: 50%;
-        right: 32rpx;
-        font-family: 'piui';
-        font-size: 16px;
-        color: #d2d2d2;
-        content: '\E6A3';
-        transform: translateY(-50%);
-      }
-    }
-    &.border {
-      @include pi-border;
-      &::after {
-        border-bottom: 1px solid $pi-line-color;
-      }
-    }
-
-    /* 列表头像 */
-    .pi-list-avatar {
-      overflow: hidden;
-    }
+    transition: all $pi-animation-duration ease-in-out;
   }
 }
 
-/* 预设常用样式 */
+/* 预设常用样式 只取双数
+---------------------- */
 @for $i from 1 through 100 {
-  /* font-size */
-  .pi-fz-#{$i} {
-    font-size: 1rpx * $i;
-  }
+  @if $i % 2 == 0 {
+    /* padding */
+    .pi-pd-#{$i} {
+      padding: 1rpx * $i;
+    }
+    .pi-pd-top-#{$i} {
+      padding-top: 1rpx * $i;
+    }
+    .pi-pd-right-#{$i} {
+      padding-right: 1rpx * $i;
+    }
+    .pi-pd-bottom-#{$i} {
+      padding-bottom: 1rpx * $i;
+    }
+    .pi-pd-left-#{$i} {
+      padding-left: 1rpx * $i;
+    }
+    .pi-pd-tb-#{$i} {
+      padding-top: 1rpx * $i;
+      padding-bottom: 1rpx * $i;
+    }
+    .pi-pd-lr-#{$i} {
+      padding-right: 1rpx * $i;
+      padding-left: 1rpx * $i;
+    }
 
-  /* padding */
-  .pi-pd-#{$i} {
-    padding: 1rpx * $i;
-  }
-  .pi-pd-top-#{$i} {
-    padding-top: 1rpx * $i;
-  }
-  .pi-pd-right-#{$i} {
-    padding-right: 1rpx * $i;
-  }
-  .pi-pd-bottom-#{$i} {
-    padding-bottom: 1rpx * $i;
-  }
-  .pi-pd-left-#{$i} {
-    padding-left: 1rpx * $i;
-  }
-  .pi-pd-tb-#{$i} {
-    padding-top: 1rpx * $i;
-    padding-bottom: 1rpx * $i;
-  }
-  .pi-pd-lr-#{$i} {
-    padding-right: 1rpx * $i;
-    padding-left: 1rpx * $i;
-  }
+    /* margin */
+    .pi-mg-#{$i} {
+      margin: 1rpx * $i;
+    }
+    .pi-mg-top-#{$i} {
+      margin-top: 1rpx * $i;
+    }
+    .pi-mg-right-#{$i} {
+      margin-right: 1rpx * $i;
+    }
+    .pi-mg-bottom-#{$i} {
+      margin-bottom: 1rpx * $i;
+    }
+    .pi-mg-left-#{$i} {
+      margin-left: 1rpx * $i;
+    }
+    .pi-mg-tb-#{$i} {
+      margin-top: 1rpx * $i;
+      margin-bottom: 1rpx * $i;
+    }
+    .pi-mg-lr-#{$i} {
+      margin-right: 1rpx * $i;
+      margin-left: 1rpx * $i;
+    }
+    // width & height
+    .pi-width-#{$i} {
+      width: 1rpx * $i;
+    }
+    .pi-height-#{$i} {
+      height: 1rpx * $i;
+    }
 
-  /* margin */
-  .pi-mg-#{$i} {
-    margin: 1rpx * $i;
-  }
-  .pi-mg-top-#{$i} {
-    margin-top: 1rpx * $i;
-  }
-  .pi-mg-right-#{$i} {
-    margin-right: 1rpx * $i;
-  }
-  .pi-mg-bottom-#{$i} {
-    margin-bottom: 1rpx * $i;
-  }
-  .pi-mg-left-#{$i} {
-    margin-left: 1rpx * $i;
-  }
-  .pi-mg-tb-#{$i} {
-    margin-top: 1rpx * $i;
-    margin-bottom: 1rpx * $i;
-  }
-  .pi-mg-lr-#{$i} {
-    margin-right: 1rpx * $i;
-    margin-left: 1rpx * $i;
-  }
-  // width & height
-  .pi-width-#{$i} {
-    width: 1rpx * $i;
-  }
-  .pi-height-#{$i} {
-    height: 1rpx * $i;
-  }
+    // radius
+    .pi-radius-#{$i} {
+      border-radius: 1rpx * $i;
+    }
 
-  // radius
-  .pi-radius-#{$i} {
-    border-radius: 1rpx * $i;
-  }
-
-  // line-height
-  .pi-lh-#{$i} {
-    line-height: 1rpx * $i;
+    // line-height
+    .pi-lh-#{$i} {
+      line-height: 1rpx * $i;
+    }
   }
 }
 
-/*************************
-初始化全局样式
-**************************/
+/* width & height 100 vw vh 100%
+---------------------- */
+.pi-width-100vw {
+  width: 100vw;
+}
+.pi-width-100P {
+  width: 100%;
+}
+.pi-height-100vh {
+  height: 100vh;
+}
+.pi-height-100P {
+  height: 100%;
+}
+
+/* 初始化全局样式
+---------------------- */
 body,
 page {
   font-family: $pi-font-family;
@@ -1223,7 +984,7 @@ button {
   background: transparent;
   border: none;
   border-radius: 0;
-  transition: all 0.6s ease-in-out;
+  transition: all $pi-animation-duration ease-in-out;
 
   &::after {
     background: transparent;
@@ -1285,11 +1046,7 @@ button {
   }
 }
 
-.pi-radius-circle {
-  border-radius: 50%;
-}
-
-// 用于没有scroll-view时候的容器
+// 用于没有scroll-view时候的容器，默认铺满整个视窗，y轴内容溢出滚动
 .pi-container {
   position: relative;
   min-height: 100vh;
@@ -1304,7 +1061,7 @@ button {
   flex-direction: column;
   height: calc(100vh - var(--window-bottom));
   overflow: hidden;
-
+  // 滚动视区
   .pi-scroll {
     position: relative;
     flex: 1;
@@ -1319,23 +1076,26 @@ button {
   background: #ffffff;
 }
 
+// 圆形
+.pi-radius-circle {
+  border-radius: 50%;
+}
+
+// 椭圆效果
 .pi-round {
   overflow: hidden;
   border-radius: 500000rpx;
 }
 
+// 安全区域，兼容iphonex
 .pi-safearea {
-  z-index: 4;
   padding-bottom: 0;
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
   background: $pi-safearea-bg;
 }
 
-.uni-input-placeholder {
-  color: $pi-placeholder-color;
-}
-
+// 底部按钮
 .pi-bottom-btns {
   @extend .pi-width-100P;
   @extend .pi-align-center;
@@ -1346,17 +1106,7 @@ button {
   }
 }
 
-.pi-bottom-area {
-  @extend .pi-safearea;
-
-  box-sizing: content-box;
-  height: $pi-button-height + $pi-form-item-height; // 按钮高度 + 表单高度
-}
-
-.placeholder {
-  color: $uni-text-color-grey;
-}
-
+// 遮罩层 pi-mask-1 代表的是 0.1 的透明度
 @for $i from 1 through 10 {
   .pi-mask-#{$i} {
     @extend .pi-fixed-top;

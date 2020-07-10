@@ -1,81 +1,89 @@
-/* 
-  Animation 微动画  
+/**
+ * piui animation 动画都以 pi-ani开头
+ * -------------------------------------------------------------------------------------------------
  */
 
-/* css 滤镜 控制黑白底色gif的 */
-.gif-black {
-  mix-blend-mode: screen;
-}
-.gif-white {
-  mix-blend-mode: multiply;
-}
-
-/* Animation css */
-[class*='ani-'] {
+[class*='pi-ani-'] {
   animation-duration: $pi-animation-duration;
   animation-timing-function: ease-in-out;
   animation-fill-mode: both;
 }
 
-.ani-fade {
-  animation-name: fade;
+// 渐入
+.pi-ani-fade-show {
+  animation-name: 'fade-show';
 }
 
-.ani-scale-up {
-  animation-name: scale-up;
+// 渐出
+.pi-ani-fade-hide {
+  animation-name: 'fade-hide';
 }
 
-.ani-scale-down {
-  animation-name: scale-down;
+.pi-ani-scale-up {
+  animation-name: 'scale-up';
 }
 
-.ani-slide-top-show {
-  animation-name: slide-top-show;
+.pi-ani-scale-down {
+  animation-name: 'scale-down';
 }
 
-.ani-slide-top-hide {
-  animation-name: slide-top-hide;
+.pi-ani-slide-top-show {
+  animation-name: 'slide-top-show';
 }
 
-.ani-slide-bottom-show {
-  animation-name: slide-bottom-show;
+.pi-ani-slide-top-hide {
+  animation-name: 'slide-top-hide';
 }
 
-.ani-slide-bottom-hide {
-  animation-name: slide-bottom-hide;
+.pi-ani-slide-bottom-show {
+  animation-name: 'slide-bottom-show';
 }
 
-.ani-slide-left-show {
-  animation-name: slide-left-show;
+.pi-ani-slide-bottom-hide {
+  animation-name: 'slide-bottom-hide';
 }
 
-.ani-slide-left-hide {
-  animation-name: slide-left-hide;
+.pi-ani-slide-left-show {
+  animation-name: 'slide-left-show';
 }
 
-.ani-slide-right-show {
-  animation-name: slide-right-show;
+.pi-ani-slide-left-hide {
+  animation-name: 'slide-left-hide';
 }
 
-.ani-slide-right-hide {
-  animation-name: slide-right-hide;
+.pi-ani-slide-right-show {
+  animation-name: 'slide-right-show';
 }
 
-.ani-shake {
-  animation-name: shake;
+.pi-ani-slide-right-hide {
+  animation-name: 'slide-right-hide';
 }
 
-.ani-reverse {
-  animation-direction: reverse;
+.pi-ani-shake {
+  animation-name: 'shake';
 }
 
-@keyframes fade {
+.pi-ani-reverse {
+  animation-direction: 'reverse';
+}
+
+@keyframes fade-show {
   0% {
     opacity: 0;
   }
 
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes fade-hide {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
   }
 }
 
