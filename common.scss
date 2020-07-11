@@ -88,6 +88,78 @@
 }
 
 /**
+ * 边框 border
+ * -------------------------------------------------------------------------------------------------
+ */
+
+// 实现0.5px的效果
+@mixin pi-border {
+  position: relative;
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    box-sizing: border-box;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    content: ' ';
+    border-radius: inherit;
+    transform: scale(0.5);
+    transform-origin: 0 0;
+  }
+}
+
+[class*='pi-solid'],
+[class*='pi-dashed'] {
+  @include pi-border;
+}
+
+// 生成1-10的边框（实线/虚线）
+@for $i from 1 through 10 {
+  // 实线
+  .pi-solid-#{$i}::after {
+    border: 1px * $i solid $pi-line-color;
+  }
+  .pi-solid-top-#{$i}::after {
+    border-top: 1px * $i solid $pi-line-color;
+  }
+  .pi-solid-right-#{$i}::after {
+    border-right: 1px * $i solid $pi-line-color;
+  }
+  .pi-solid-bottom-#{$i}::after {
+    border-bottom: 1px * $i solid $pi-line-color;
+  }
+  .pi-solid-left-#{$i}::after {
+    border-left: 1px * $i solid $pi-line-color;
+  }
+  // 虚线
+  .pi-dashed-#{$i}::after {
+    border: 1px * $i dashed $pi-line-color;
+  }
+  .pi-dashed-top-#{$i}::after {
+    border-top: 1px * $i dashed $pi-line-color;
+  }
+  .pi-dashed-right-#{$i}::after {
+    border-right: 1px * $i dashed $pi-line-color;
+  }
+  .pi-dashed-bottom-#{$i}::after {
+    border-bottom: 1px * $i dashed $pi-line-color;
+  }
+  .pi-dashed-left-#{$i}::after {
+    border-left: 1px * $i dashed $pi-line-color;
+  }
+}
+
+[class*='pi-solid-'],
+[class*='pi-dashed-'] {
+  &.pi-round::after {
+    @extend .pi-round;
+  }
+}
+
+/**
  * 字体 font
  * -------------------------------------------------------------------------------------------------
  */
@@ -162,6 +234,8 @@
   right: 0;
   bottom: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
 }
 // 绝对定位左上角
 .pi-abso-lt {
@@ -273,13 +347,9 @@
   height: 0;
   padding-bottom: 100%;
 
-  & > .pi-square-content {
-    @extend .pi-abso;
-
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  & > view {
+    // 绝对定位占满
+    @extend .pi-abso-full;
   }
 }
 
@@ -330,6 +400,13 @@
 .pi-flex-sub {
   flex: 1;
 }
+// flex不可换行
+.pi-flex-nowrap {
+  @extend .pi-flex;
+
+  flex-wrap: nowrap;
+}
+// flex可换行
 .pi-flex-wrap {
   @extend .pi-flex;
 
@@ -436,15 +513,18 @@
 
 // 生成宫格列边框（传入列数）
 @mixin col-border($n) {
-  &.pi-grid-border {
+  &.border {
     & > view {
-      @include pi-border;
+      // 除了最后一行，其余的都加上底部边框
       &:not(:nth-last-child(-n + #{$n})) {
+        @include pi-border;
         &::after {
           border-bottom: 1px solid $pi-line-color;
         }
       }
+      // 除了最后一列，其余的都加上右边框
       &:not(:nth-child(#{$n}n)) {
+        @include pi-border;
         &::after {
           border-right: 1px solid $pi-line-color;
         }
@@ -456,10 +536,13 @@
 // 生成宫格间隔（间隔宽度，列数）
 @mixin space-calc($i, $n) {
   & > view {
+    // 减去间隔后，平分宽度
     width: calc((100% - #{($n - 1) * $i}rpx) / #{$n});
+    // 除了最后一行，其余的都加上底部margin
     &:not(:nth-last-child(-n + #{$n})) {
       margin-bottom: #{$i}rpx;
     }
+    // 除了最后一列，其余的都加上右margin
     &:not(:nth-child(#{$n}n)) {
       margin-right: #{$i}rpx;
     }
@@ -470,7 +553,7 @@
   & > view {
     width: 100%;
   }
-  &.pi-grid-border {
+  &.border {
     & > view {
       @include pi-border;
       &::after {
@@ -521,26 +604,29 @@
 }
 
 // 处理列之间需要有空隙情况
-@for $i from 1 through 50 {
-  .pi-grid.pi-col-space-#{$i} {
-    & > view {
-      margin-bottom: #{$i}rpx;
+@for $i from 1 through 40 {
+  // 只处理偶数
+  @if $i % 2 == 0 {
+    .pi-grid.pi-col-space-#{$i} {
+      & > view {
+        margin-bottom: #{$i}rpx;
+      }
     }
-  }
-  .pi-grid-2.pi-col-space-#{$i} {
-    @include space-calc($i, 2);
-  }
-  .pi-grid-3.pi-col-space-#{$i} {
-    @include space-calc($i, 3);
-  }
-  .pi-grid-4.pi-col-space-#{$i} {
-    @include space-calc($i, 4);
-  }
-  .pi-grid-5.pi-col-space-#{$i} {
-    @include space-calc($i, 5);
-  }
-  .pi-grid-6.pi-col-space-#{$i} {
-    @include space-calc($i, 6);
+    .pi-grid-2.pi-col-space-#{$i} {
+      @include space-calc($i, 2);
+    }
+    .pi-grid-3.pi-col-space-#{$i} {
+      @include space-calc($i, 3);
+    }
+    .pi-grid-4.pi-col-space-#{$i} {
+      @include space-calc($i, 4);
+    }
+    .pi-grid-5.pi-col-space-#{$i} {
+      @include space-calc($i, 5);
+    }
+    .pi-grid-6.pi-col-space-#{$i} {
+      @include space-calc($i, 6);
+    }
   }
 }
 
@@ -550,34 +636,33 @@
   display: block;
   width: 100%;
 
-  .pi-form-item {
-    position: relative;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32rpx;
-    background: #ffffff;
+  .item {
+    @extend .pi-rela;
+    @extend .pi-flex-nowrap;
+    @extend .pi-justify-between;
+    @extend .pi-bg-white;
+
     transition: all $pi-animation-duration ease-in-out;
-    .pi-form-label {
-      flex-shrink: 0;
+    // 表单label（如果需要固定宽度对齐，请使用pi-width 配合text-align）
+    .label {
+      flex-shrink: 0; // 默认不收缩
       height: $pi-form-item-height;
       font-size: $pi-form-font-size;
       font-weight: $pi-form-font-weight;
       line-height: $pi-form-item-height;
       color: $pi-form-label-color;
-      &.pi-form-require {
-        // 必选红点
-        position: relative;
-        padding-left: 24rpx;
-        &::after {
-          position: absolute;
-          top: 50%;
-          left: 0;
-          color: $pi-form-require-color;
-          content: '*';
-          transform: translateY(-50%);
-        }
+    }
+    &.required .label {
+      // 必选红点
+      position: relative;
+      padding-left: 24rpx;
+      &::after {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        color: $pi-form-required-color;
+        content: '*';
+        transform: translateY(-50%);
       }
     }
     .input {
@@ -590,7 +675,7 @@
       border: 0;
     }
 
-    .pi-form-other {
+    .other {
       display: flex;
       flex: 1;
       align-items: center;
@@ -612,19 +697,7 @@
         text-align: left;
       }
     }
-    &.more {
-      padding-right: 72rpx;
-      &::before {
-        position: absolute;
-        top: 50%;
-        right: 32rpx;
-        font-family: 'piui';
-        font-size: 16px;
-        color: #d2d2d2;
-        content: '\E6A3';
-        transform: translateY(-50%);
-      }
-    }
+    // 显示边框（如果需要定制边框，自行使用pi-solid-x实现）
     &.border {
       @include pi-border;
       &::after {
@@ -635,33 +708,24 @@
       // 换行模式显示
       flex-direction: column;
       align-items: flex-start;
-      .pi-form-label,
-      .pi-form-other,
+      .label,
+      .other,
       textarea {
         width: 100%;
       }
       .input,
-      .pi-form-other {
+      .other {
         justify-content: flex-start;
         margin-left: 0;
         text-align: left;
       }
-      .pi-form-other {
+      .other {
         padding-bottom: 32rpx;
       }
     }
-    &.no-padding {
-      padding: 0;
-    }
-
-    .pi-form-sub {
-      @extend .pi-form-other;
-
-      flex: 1;
-    }
-
+    // item里面放置picker显示效果
     picker {
-      @extend .pi-form-other;
+      @extend .other;
 
       height: $pi-form-item-height;
       line-height: $pi-form-item-height;
@@ -671,278 +735,27 @@
       font-size: 28upx;
       color: #333333;
     }
-    textarea {
-      font-size: $pi-form-font-size;
-      color: #333333;
-      text-align: left;
-      background: none;
-      border: 0;
-    }
-    // 多选框颜色和标签
-    checkbox-group label {
-      &:not(:last-child) {
-        padding-right: 24rpx;
-      }
-    }
-    .uni-checkbox-input {
-      background-color: #cccccc;
-      border: 0;
-      &::before {
-        color: #ffffff;
-      }
-      &.uni-checkbox-input-checked {
-        color: #ffffff;
-        background-color: $pi-fourth-color;
-        border-radius: 4rpx;
-      }
-    }
-    // 单选框颜色修改
-    switch {
-      .uni-switch-input.uni-switch-input-checked {
-        background-color: $pi-fourth-color !important;
-        border-color: $pi-fourth-color !important;
-      }
-    }
-    label {
-      display: flex;
-      align-items: center;
-      color: #333333;
-    }
   }
 }
 
-// placeholder
-.placeholder {
-  color: $uni-text-color-grey;
-}
-.uni-input-placeholder {
-  color: $pi-placeholder-color;
-}
-
-.pi-upload {
-  position: relative;
-  display: inline-block;
-  width: $pi-upload-radius;
-  height: $pi-upload-radius;
-  overflow: hidden;
-  background-color: #f6f6f6;
-  border-radius: 8rpx;
-  &::after {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    font-family: 'piui';
-    font-size: 60rpx;
-    color: #a4a4a4;
-    text-align: center;
-    content: '\e6e4';
-    transform: translate(-50%, -50%);
-  }
-}
-
-/* 边框 border
----------------------- */
-[class*='pi-solid'],
-[class*='pi-dashed'] {
-  @include pi-border;
-}
-
-// 生成1-10的边框（实线/虚线）
-@for $i from 1 through 10 {
-  // 实线
-  .pi-solid-#{$i}::after {
-    border: 1px * $i solid $pi-line-color;
-  }
-  .pi-solid-top-#{$i}::after {
-    border-top: 1px * $i solid $pi-line-color;
-  }
-  .pi-solid-right-#{$i}::after {
-    border-right: 1px * $i solid $pi-line-color;
-  }
-  .pi-solid-bottom-#{$i}::after {
-    border-bottom: 1px * $i solid $pi-line-color;
-  }
-  .pi-solid-left-#{$i}::after {
-    border-left: 1px * $i solid $pi-line-color;
-  }
-  // 虚线
-  .pi-dashed-#{$i}::after {
-    border: 1px * $i dashed $pi-line-color;
-  }
-  .pi-dashed-top-#{$i}::after {
-    border-top: 1px * $i dashed $pi-line-color;
-  }
-  .pi-dashed-right-#{$i}::after {
-    border-right: 1px * $i dashed $pi-line-color;
-  }
-  .pi-dashed-bottom-#{$i}::after {
-    border-bottom: 1px * $i dashed $pi-line-color;
-  }
-  .pi-dashed-left-#{$i}::after {
-    border-left: 1px * $i dashed $pi-line-color;
-  }
-}
-
-[class*='pi-solid-'],
-[class*='pi-dashed-'] {
-  &.pi-round::after {
-    border-radius: 500000rpx;
-  }
-}
-
-/* 头像 avatar
----------------------- */
-.pi-avatar {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 64rpx;
-  height: 64rpx;
-  padding: 0;
-  margin: 0;
-  font-size: 1.5em;
-  font-variant: small-caps;
-  color: #ffffff;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  background-position: center;
-  background-size: cover;
-}
-
-.pi-avatar.sm {
-  width: 48rpx;
-  height: 48rpx;
-}
-
-.pi-avatar.lg {
-  width: 96rpx;
-  height: 96rpx;
-}
-
-.pi-avatar.xl {
-  width: 128rpx;
-  height: 128rpx;
-}
-
-/* 列表
----------------------- */
-.more {
-  position: relative;
-  padding-right: 42rpx;
-  &::before {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    font-family: 'piui';
-    font-size: 32rpx;
-    color: #d2d2d2;
-    content: '\E6A3';
-    transform: translateY(-50%);
-  }
-}
-
+/**
+ * 列表
+ * -------------------------------------------------------------------------------------------------
+ */
 .pi-list {
-  background: #ffffff;
-  .pi-list-item {
-    position: relative;
-    display: flex;
-    align-items: center;
+  @extend .pi-bg-white;
+  .item {
+    @extend .pi-rela;
+    @extend .pi-align-center;
+
     transition: all $pi-animation-duration ease-in-out;
   }
 }
 
-/* 预设常用样式 只取双数
----------------------- */
-@for $i from 1 through 100 {
-  @if $i % 2 == 0 {
-    /* padding */
-    .pi-pd-#{$i} {
-      padding: 1rpx * $i;
-    }
-    .pi-pd-top-#{$i} {
-      padding-top: 1rpx * $i;
-    }
-    .pi-pd-right-#{$i} {
-      padding-right: 1rpx * $i;
-    }
-    .pi-pd-bottom-#{$i} {
-      padding-bottom: 1rpx * $i;
-    }
-    .pi-pd-left-#{$i} {
-      padding-left: 1rpx * $i;
-    }
-    .pi-pd-tb-#{$i} {
-      padding-top: 1rpx * $i;
-      padding-bottom: 1rpx * $i;
-    }
-    .pi-pd-lr-#{$i} {
-      padding-right: 1rpx * $i;
-      padding-left: 1rpx * $i;
-    }
-
-    /* margin */
-    .pi-mg-#{$i} {
-      margin: 1rpx * $i;
-    }
-    .pi-mg-top-#{$i} {
-      margin-top: 1rpx * $i;
-    }
-    .pi-mg-right-#{$i} {
-      margin-right: 1rpx * $i;
-    }
-    .pi-mg-bottom-#{$i} {
-      margin-bottom: 1rpx * $i;
-    }
-    .pi-mg-left-#{$i} {
-      margin-left: 1rpx * $i;
-    }
-    .pi-mg-tb-#{$i} {
-      margin-top: 1rpx * $i;
-      margin-bottom: 1rpx * $i;
-    }
-    .pi-mg-lr-#{$i} {
-      margin-right: 1rpx * $i;
-      margin-left: 1rpx * $i;
-    }
-    // width & height
-    .pi-width-#{$i} {
-      width: 1rpx * $i;
-    }
-    .pi-height-#{$i} {
-      height: 1rpx * $i;
-    }
-
-    // radius
-    .pi-radius-#{$i} {
-      border-radius: 1rpx * $i;
-    }
-
-    // line-height
-    .pi-lh-#{$i} {
-      line-height: 1rpx * $i;
-    }
-  }
-}
-
-/* width & height 100 vw vh 100%
----------------------- */
-.pi-width-100vw {
-  width: 100vw;
-}
-.pi-width-100P {
-  width: 100%;
-}
-.pi-height-100vh {
-  height: 100vh;
-}
-.pi-height-100P {
-  height: 100%;
-}
-
-/* 初始化全局样式
----------------------- */
+/**
+ * 初始化全局样式
+ * -------------------------------------------------------------------------------------------------
+ */
 body,
 page {
   font-family: $pi-font-family;
@@ -1104,6 +917,120 @@ button {
   &.box-shadow {
     box-shadow: 0 -4rpx 10rpx 0 rgba(0, 0, 0, 0.06);
   }
+}
+
+// input
+.placeholder {
+  color: $uni-text-color-grey;
+}
+.uni-input-placeholder {
+  color: $pi-placeholder-color;
+}
+
+// 右箭头（更多）
+.more {
+  position: relative;
+  &::before {
+    position: absolute;
+    top: 50%;
+    right: 32rpx;
+    font-family: 'piui';
+    font-size: 32rpx;
+    color: #d2d2d2;
+    content: '\E6A3';
+    transform: translateY(-50%);
+  }
+}
+
+/**
+ * 预设常用样式 只取双数
+ * -------------------------------------------------------------------------------------------------
+ */
+@for $i from 1 through 100 {
+  @if $i % 2 == 0 {
+    /* padding */
+    .pi-pd-#{$i} {
+      padding: #{$i};
+    }
+    .pi-pd-top-#{$i} {
+      padding-top: 1rpx * $i;
+    }
+    .pi-pd-right-#{$i} {
+      padding-right: #{$i}rpx;
+    }
+    .pi-pd-bottom-#{$i} {
+      padding-bottom: #{$i}rpx;
+    }
+    .pi-pd-left-#{$i} {
+      padding-left: #{$i}rpx;
+    }
+    .pi-pd-tb-#{$i} {
+      padding-top: #{$i}rpx;
+      padding-bottom: #{$i}rpx;
+    }
+    .pi-pd-lr-#{$i} {
+      padding-right: #{$i}rpx;
+      padding-left: #{$i}rpx;
+    }
+
+    /* margin */
+    .pi-mg-#{$i} {
+      margin: #{$i}rpx;
+    }
+    .pi-mg-top-#{$i} {
+      margin-top: #{$i}rpx;
+    }
+    .pi-mg-right-#{$i} {
+      margin-right: #{$i}rpx;
+    }
+    .pi-mg-bottom-#{$i} {
+      margin-bottom: #{$i}rpx;
+    }
+    .pi-mg-left-#{$i} {
+      margin-left: #{$i}rpx;
+    }
+    .pi-mg-tb-#{$i} {
+      margin-top: #{$i}rpx;
+      margin-bottom: #{$i}rpx;
+    }
+    .pi-mg-lr-#{$i} {
+      margin-right: #{$i}rpx;
+      margin-left: #{$i}rpx;
+    }
+
+    // width & height
+    .pi-width-#{$i} {
+      width: #{$i}rpx;
+    }
+    .pi-height-#{$i} {
+      height: #{$i}rpx;
+    }
+
+    // radius
+    .pi-radius-#{$i} {
+      border-radius: 1rpx * $i;
+    }
+
+    // line-height
+    .pi-lh-#{$i} {
+      line-height: 1rpx * $i;
+    }
+  }
+}
+
+/* width & height 100 vw vh 100%
+---------------------- */
+.pi-width-100vw {
+  width: 100vw;
+}
+.pi-width-100P {
+  width: 100%;
+}
+.pi-height-100vh {
+  height: 100vh;
+}
+.pi-height-100P {
+  height: 100%;
 }
 
 // 遮罩层 pi-mask-1 代表的是 0.1 的透明度
