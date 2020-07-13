@@ -93,21 +93,25 @@
  */
 
 // 实现0.5px的效果
+@mixin pi-border-style {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  content: ' ';
+  border-radius: inherit;
+  transform: scale(0.5);
+  transform-origin: 0 0;
+}
+
 @mixin pi-border {
   position: relative;
   &::after {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    box-sizing: border-box;
-    width: 200%;
-    height: 200%;
-    pointer-events: none;
-    content: ' ';
-    border-radius: inherit;
-    transform: scale(0.5);
-    transform-origin: 0 0;
+    @include pi-border-style;
   }
 }
 
@@ -185,6 +189,10 @@
   }
 }
 
+.pi-text-nowrap {
+  white-space: nowrap;
+}
+
 // 基础行高
 .pi-lh-1,
 .pi-lh-base {
@@ -196,7 +204,8 @@
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+
+  @extend .pi-text-nowrap;
 }
 
 // 文字对齐方向
@@ -515,21 +524,28 @@
 @mixin col-border($n) {
   &.border {
     & > view {
-      // 除了最后一行，其余的都加上底部边框
-      &:not(:nth-last-child(-n + #{$n})) {
-        @include pi-border;
-        &::after {
-          border-bottom: 1px solid $pi-line-color;
-        }
+      @include pi-border;
+      &::after {
+        border: 0 solid $pi-line-color;
+        // 只生成右下边框
+        border-right-width: 1px;
+        border-bottom-width: 1px;
       }
-      // 除了最后一列，其余的都加上右边框
-      &:not(:nth-child(#{$n}n)) {
-        @include pi-border;
-        &::after {
-          border-right: 1px solid $pi-line-color;
-        }
+      // 每行第一个生成左边框
+      &:nth-child(#{$n}n + 1)::after {
+        border-left-width: 1px;
+      }
+      // 前n个元素生成上边框
+      &:nth-child(-n + #{$n})::before {
+        @include pi-border-style;
+
+        border-top: 1px solid $pi-line-color;
       }
     }
+  }
+  // 如果有间隔的情况下（边框全部生成）
+  &[class*='pi-grid-space'] > view::after {
+    border-width: 1px;
   }
 }
 
@@ -538,10 +554,7 @@
   & > view {
     // 减去间隔后，平分宽度
     width: calc((100% - #{($n - 1) * $i}rpx) / #{$n});
-    // 除了最后一行，其余的都加上底部margin
-    &:not(:nth-last-child(-n + #{$n})) {
-      margin-bottom: #{$i}rpx;
-    }
+    margin-bottom: #{$i}rpx;
     // 除了最后一列，其余的都加上右margin
     &:not(:nth-child(#{$n}n)) {
       margin-right: #{$i}rpx;
@@ -557,8 +570,20 @@
     & > view {
       @include pi-border;
       &::after {
-        border-bottom: 1px solid $pi-line-color;
+        border: 0 solid $pi-line-color;
+        // 只生成右下边框
+        border-width: 0 1px 1px 1px;
       }
+      // 第一个元素生成上边框
+      &:first-child::before {
+        @include pi-border-style;
+
+        border-top: 1px solid $pi-line-color;
+      }
+    }
+    // 如果有间隔的情况下（边框全部生成）
+    &[class*='pi-grid-space'] > view::after {
+      border-width: 1px;
     }
   }
 }
@@ -607,24 +632,24 @@
 @for $i from 1 through 40 {
   // 只处理偶数
   @if $i % 2 == 0 {
-    .pi-grid.pi-col-space-#{$i} {
+    .pi-grid.pi-grid-space-#{$i} {
       & > view {
         margin-bottom: #{$i}rpx;
       }
     }
-    .pi-grid-2.pi-col-space-#{$i} {
+    .pi-grid-2.pi-grid-space-#{$i} {
       @include space-calc($i, 2);
     }
-    .pi-grid-3.pi-col-space-#{$i} {
+    .pi-grid-3.pi-grid-space-#{$i} {
       @include space-calc($i, 3);
     }
-    .pi-grid-4.pi-col-space-#{$i} {
+    .pi-grid-4.pi-grid-space-#{$i} {
       @include space-calc($i, 4);
     }
-    .pi-grid-5.pi-col-space-#{$i} {
+    .pi-grid-5.pi-grid-space-#{$i} {
       @include space-calc($i, 5);
     }
-    .pi-grid-6.pi-col-space-#{$i} {
+    .pi-grid-6.pi-grid-space-#{$i} {
       @include space-calc($i, 6);
     }
   }
@@ -883,10 +908,11 @@ button {
   }
 }
 
-// 页面内容区域
+// 内容区域
 .pi-content {
-  padding: 24rpx 32rpx;
-  background: #ffffff;
+  padding: $pi-content-padding;
+
+  @extend .pi-bg-white;
 }
 
 // 圆形
@@ -1018,8 +1044,10 @@ button {
   }
 }
 
-/* width & height 100 vw vh 100%
----------------------- */
+/**
+ * 常用宽高定义
+ * -------------------------------------------------------------------------------------------------
+ */
 .pi-width-100vw {
   width: 100vw;
 }
