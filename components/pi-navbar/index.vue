@@ -8,12 +8,20 @@
       :class="{ 'navbar-fixed': fixed, 'pi-solid-bottom-1': borderBottom }"
       :style="navbarInnerStyle"
     >
-      <view v-if="showBack" class="pi-abso-left-center pi-align-center" @tap="handleGoBack">
-        <view
-          :class="`pi-icon-${backIconName}`"
-          :style="{ color: backIconColor, padding: backIconPadding, fontSize: backIconSize }"
-        />
-        <view v-if="backText" :style="backTextStyle">{{ backText }}</view>
+      <view class="pi-abso-left-center pi-align-center">
+        <view v-if="showBack" class="pi-align-center" @tap="handleGoBack">
+          <view
+            :class="`pi-icon-${backIconName}`"
+            :style="{ color: backIconColor, padding: backIconPadding, fontSize: backIconSize }"
+          />
+          <view v-if="backText" :style="backTextStyle">{{ backText }}</view>
+        </view>
+        <view v-if="showHome" class="pi-align-center">
+          <view
+            :class="`pi-icon-${homeIconName}`"
+            :style="{ color: homeIconColor, padding: homeIconPadding, fontSize: homeIconSize }"
+          />
+        </view>
       </view>
       <view :style="navTitleStyle" class=" pi-flex-sub pi-text-center">
         <block v-if="title">{{ title }}</block>
@@ -103,7 +111,26 @@ export default {
       type: String,
       default: navbar.backIconPadding
     },
-    // 返回的文字提示（默认'返回'）
+    // 主页icon的颜色（默认'#333333'）
+    homeIconColor: {
+      type: String,
+      default: navbar.homeIconColor
+    },
+    // 主页icon的图标，默认（back）
+    homeIconName: {
+      type: String,
+      default: navbar.homeIconName
+    },
+    // 主页icon图标的大小（默认'32rpx'）
+    homeIconSize: {
+      type: String,
+      default: navbar.homeIconSize
+    },
+    homeIconPadding: {
+      type: String,
+      default: navbar.homeIconPadding
+    },
+    // 返回的文字提示（默认''）
     backText: {
       type: String,
       default: navbar.backText

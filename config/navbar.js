@@ -12,7 +12,11 @@ export default {
   backIconName: 'back', // 左边返回的图标名称
   backIconSize: '32rpx', // 左边返回图标的大小
   backIconPadding: '24rpx 12rpx 24rpx 24rpx', // 左边返回图标的padding
-  backText: '返回', // 返回的文字提示
+  homeIconColor: '#333333', // 主页icon的颜色
+  homeIconName: 'home', // 主页icon的图标名称
+  homeIconSize: '32rpx', // 主页icon图标的大小
+  homeIconPadding: '24rpx 12rpx 24rpx 24rpx', // 主页icon图标的padding
+  backText: '', // 返回的文字提示
   backTextStyle: { color: '#333333' }, // 返回的文字的 样式
   zIndex: 999 // 元素 z-index
 }
