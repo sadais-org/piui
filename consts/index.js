@@ -1,1 +1,0 @@
-export const STORAGE_KEY_SYSTEM_INFO = 'SYSTEM_INFO_STORAGE_KEY' // 存储系统信息

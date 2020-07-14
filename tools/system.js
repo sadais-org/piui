@@ -1,19 +1,13 @@
-import { STORAGE_KEY_SYSTEM_INFO } from '../consts'
-
-export function getSystemInfo() {
-  let systemInfo = uni.getStorageSync(STORAGE_KEY_SYSTEM_INFO)
-  if (!systemInfo) {
-    systemInfo = uni.getSystemInfoSync()
-    uni.setStorageSync(STORAGE_KEY_SYSTEM_INFO, systemInfo)
-  }
-  return systemInfo
-}
+/**
+ * 获取系统信息（自执行完缓存起来）
+ */
+export const systemInfo = (() => {
+  const info = uni.getSystemInfoSync()
+  console.log('当前系统信息为：', info)
+  return info
+})()
 
 /**
- * 获取标题+顶部bar的高度,单位px
+ * 是否iPhone X系列机型
  */
-export function getNaviWrapHeight() {
-  const systemInfo = getSystemInfo()
-  const statusBarHeight = systemInfo && systemInfo.statusBarHeight ? systemInfo.statusBarHeight : 0
-  return 44 + statusBarHeight
-}
+export const isIpx = () => systemInfo.model.includes('iPhone X')

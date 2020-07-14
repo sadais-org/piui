@@ -290,6 +290,22 @@
   left: 50%;
   transform: translateX(-50%);
 }
+// 绝对定位左侧居中
+.pi-abso-left-center {
+  @extend .pi-abso;
+
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+// 绝对定位右侧居中
+.pi-abso-right-center {
+  @extend .pi-abso;
+
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
 // 绝对定位自身居中
 .pi-abso-center {
   @extend .pi-abso;
