@@ -38,7 +38,7 @@
       </view>
     </view>
     <!-- right action -->
-    <view v-if="showAction" class=" pi-pd-left-18" :style="[actionStyle]" @tap="handleCancel">
+    <view v-if="showAction" class=" pi-pd-left-18" :style="[actionStyle]" @tap="handleActionClick">
       {{ actionText }}
     </view>
   </view>
@@ -52,7 +52,7 @@
  * focus	输入框获得焦点时触发	event: Event
  * blur	输入框失去焦点时触发	event: Event
  * clear	点击清除按钮后触发	event: Event
- * cancel	点击取消按钮时触发
+ * action	点击右侧action触发
  */
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
@@ -208,27 +208,27 @@ export default {
     handleInputBlur() {
       this.focused = false
       this.$emit('blur', this.val)
-      // 收起键盘
-      uni.hideKeyboard()
+      uni.hideKeyboard() // 收起键盘
     },
     handleInputSearch(e) {
       this.$emit('search', e.detail.value)
-      // 收起键盘
-      uni.hideKeyboard()
+      uni.hideKeyboard() // 收起键盘
     },
     handleInputFocus() {
       this.focused = true
       this.$emit('focus', this.val)
+      uni.showKeyboard() // 弹出键盘
     },
     handleClearInput() {
       this.val = ''
+      uni.hideKeyboard() // 收起键盘
       this.$nextTick(() => {
         // 延后发出事件，避免在父组件监听clear事件时，value为更新前的值(不为空)
         this.$emit('clear', this.val)
       })
     },
-    handleCancel() {
-      this.$emit('cancel')
+    handleActionClick() {
+      this.$emit('action')
     }
   }
 }
