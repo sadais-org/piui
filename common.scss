@@ -8,43 +8,43 @@
 
 // 主要颜色
 .pi-primary {
-  color: $pi-primary-color;
+  color: $pi-primary-color !important;
 }
 // 次级颜色
 .pi-secondary {
-  color: $pi-secondary-color;
+  color: $pi-secondary-color !important;
 }
 // 第三级颜色
 .pi-tertiary {
-  color: $pi-tertiary-color;
+  color: $pi-tertiary-color !important;
 }
 // 第四级颜色
 .pi-fourth {
-  color: $pi-fourth-color;
+  color: $pi-fourth-color !important;
 }
 // 第五级颜色
 .pi-fifth {
-  color: $pi-fifth-color;
+  color: $pi-fifth-color !important;
 }
 // 黑色
 .pi-black {
-  color: #000000;
+  color: #000000 !important;
 }
 // 白色
 .pi-white {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 // 灰色
 .pi-gray {
-  color: #666666;
+  color: #666666 !important;
 }
 // 灰色禁用
 .pi-gray-disable {
-  color: #cccccc;
+  color: #cccccc !important;
 }
 // 浅灰色
 .pi-light-gray {
-  color: #999999;
+  color: #999999 !important;
 }
 
 /**
@@ -684,7 +684,7 @@
     @extend .pi-bg-white;
 
     transition: all $pi-animation-duration ease-in-out;
-    // 表单label（如果需要固定宽度对齐，请使用pi-width 配合text-align）
+    // 表单label（如果需要固定宽度对齐，请使用pi-w 配合text-align）
     .label {
       flex-shrink: 0; // 默认不收缩
       height: $pi-form-item-height;
@@ -952,7 +952,7 @@ button {
 
 // 底部按钮
 .pi-bottom-btns {
-  @extend .pi-width-100P;
+  @extend .pi-w-100P;
   @extend .pi-align-center;
 
   background-color: #ffffff;
@@ -985,7 +985,7 @@ button {
 }
 
 /**
- * 预设常用样式 只取双数
+ * 预设常用样式 只取双数 ，这里循环次数太多，只使用缩写模式
  * -------------------------------------------------------------------------------------------------
  */
 @for $i from 1 through 100 {
@@ -1041,10 +1041,10 @@ button {
     }
 
     // width & height
-    .pi-width-#{$i} {
+    .pi-w-#{$i} {
       width: #{$i}rpx;
     }
-    .pi-height-#{$i} {
+    .pi-h-#{$i} {
       height: #{$i}rpx;
     }
 
@@ -1064,16 +1064,16 @@ button {
  * 常用宽高定义
  * -------------------------------------------------------------------------------------------------
  */
-.pi-width-100vw {
+.pi-w-100vw {
   width: 100vw;
 }
-.pi-width-100P {
+.pi-w-100P {
   width: 100%;
 }
-.pi-height-100vh {
+.pi-h-100vh {
   height: 100vh;
 }
-.pi-height-100P {
+.pi-h-100P {
   height: 100%;
 }
 
@@ -1081,8 +1081,8 @@ button {
 @for $i from 1 through 10 {
   .pi-mask-#{$i} {
     @extend .pi-fixed-top;
-    @extend .pi-width-100P;
-    @extend .pi-height-100P;
+    @extend .pi-w-100P;
+    @extend .pi-h-100P;
 
     z-index: 11;
     background: rgba(0, 0, 0, $i/10);
