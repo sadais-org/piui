@@ -992,10 +992,10 @@ button {
   @if $i % 2 == 0 {
     /* padding */
     .pi-pd-#{$i} {
-      padding: #{$i};
+      padding: #{$i}rpx;
     }
     .pi-pd-top-#{$i} {
-      padding-top: 1rpx * $i;
+      padding-top: #{$i}rpx;
     }
     .pi-pd-right-#{$i} {
       padding-right: #{$i}rpx;
@@ -1050,12 +1050,12 @@ button {
 
     // radius
     .pi-radius-#{$i} {
-      border-radius: 1rpx * $i;
+      border-radius: #{$i}rpx;
     }
 
     // line-height
     .pi-lh-#{$i} {
-      line-height: 1rpx * $i;
+      line-height: #{$i}rpx;
     }
   }
 }

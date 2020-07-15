@@ -1,3 +1,7 @@
+/**
+ * 提供v-model双向绑定
+ * 提供传入value属性，将同步到val中
+ */
 export default {
   model: {
     prop: 'value',
@@ -11,6 +15,7 @@ export default {
   },
   data() {
     return {
+      // 同步value到val
       val: this.value
     }
   },

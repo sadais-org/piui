@@ -14,7 +14,7 @@ export const getConfig = () => {
 }
 
 /**
- * 设置配置
+ * 设置配置（piui install 的时候，会注入config merge一次）
  * @param {Object} updateConfig 配置
  */
 export const setConfig = updateConfig => {
