@@ -11,7 +11,7 @@
     >
       <!-- 搜索图标 -->
       <view class="pi-pd-lr-18">
-        <view :class="`pi-icon-${searchIcon}`" />
+        <view :class="'pi-icon-' + searchIcon" />
       </view>
       <!-- 输入框包裹 -->
       <view class="pi-align-center pi-flex-sub">

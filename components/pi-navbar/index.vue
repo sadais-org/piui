@@ -1,42 +1,45 @@
 <template>
-  <view class="navbar-wrap" :style="navbarStyle">
+  <view class="navbar-wrap" :style="[navbarStyle]">
+    <pi-status-bar v-if="fixed" />
     <!-- 当导航栏为fixed时候，占位用 -->
-    <view v-if="fixed && placeholder" :style="{ height: navbarWrapheight }" />
-    <!-- 真正渲染的navbar -->
-    <view
-      class="navbar-inner pi-align-center "
-      :class="{ 'navbar-fixed': fixed, 'pi-solid-bottom-1': borderBottom }"
-      :style="navbarInnerStyle"
-    >
-      <view class="pi-abso-left-center pi-align-center">
-        <view v-if="showBack" class="pi-align-center" @tap="handleGoBack">
-          <view
-            :class="`pi-icon-${backIconName}`"
-            :style="{ color: backIconColor, padding: backIconPadding, fontSize: backIconSize }"
-          />
-          <view v-if="backText" :style="backTextStyle">{{ backText }}</view>
+    <view v-if="fixed && placeholder" :style="{ height: height }" />
+    <view :class="{ 'navbar-fixed': fixed, 'pi-solid-bottom-1': borderBottom }">
+      <!-- 内部状态栏占位用 -->
+      <view v-if="fixed" class="pi-w-100P" :style="{ height: statusBarHeight }" />
+      <!-- 真正渲染的navbar -->
+      <view class="pi-rela pi-w-100P pi-align-center" :style="{ height: height }">
+        <view class="pi-abso-left-center pi-align-center">
+          <view v-if="showBack" class="pi-align-center" @tap="handleGoBack">
+            <view
+              :class="'pi-icon-' + backIconName"
+              :style="{ color: backIconColor, padding: backIconPadding, fontSize: backIconSize }"
+            />
+            <view v-if="backText" :style="backTextStyle">{{ backText }}</view>
+          </view>
+          <view v-if="showHome" class="pi-align-center" @tap="handleGoHome">
+            <view
+              :class="'pi-icon-' + homeIconName"
+              :style="{ color: homeIconColor, padding: homeIconPadding, fontSize: homeIconSize }"
+            />
+          </view>
         </view>
-        <view v-if="showHome" class="pi-align-center">
-          <view
-            :class="`pi-icon-${homeIconName}`"
-            :style="{ color: homeIconColor, padding: homeIconPadding, fontSize: homeIconSize }"
-          />
+        <view :style="[navTitleStyle]" class=" pi-flex-sub pi-text-center">
+          <block v-if="title">{{ title }}</block>
+          <!-- slot default -->
+          <slot v-else />
         </view>
+        <!-- slot right -->
+        <view class="pi-abso-right-center"><slot name="right" /></view>
       </view>
-      <view :style="navTitleStyle" class=" pi-flex-sub pi-text-center">
-        <block v-if="title">{{ title }}</block>
-        <!-- slot default -->
-        <slot v-else />
-      </view>
-      <!-- slot right -->
-      <view class="pi-abso-right-center"><slot name="right" /></view>
     </view>
   </view>
 </template>
 
 <script>
 import { systemInfo } from '../../tools/system'
+import * as navi from '../../tools/navi'
 import { getConfig } from '../../config'
+
 const TAG = 'PiNavbar'
 const { navbar } = getConfig()
 
@@ -55,9 +58,9 @@ export default {
         return navbar.titleStyle
       }
     },
-    // 导航栏高度，单位px，（默认44）
+    // 导航栏高度，（默认44px）
     height: {
-      type: [String, Number],
+      type: String,
       default: navbar.height
     },
     // 导航栏是否固定在顶部（默认true）
@@ -112,6 +115,22 @@ export default {
       type: String,
       default: navbar.backIconPadding
     },
+    // 返回的文字提示（默认''）
+    backText: {
+      type: String,
+      default: navbar.backText
+    },
+    // 返回的文字的 样式（默认{ color: '#333333' }）
+    backTextStyle: {
+      type: Object,
+      default() {
+        return navbar.backTextStyle
+      }
+    },
+    // 自定义返回函数
+    customBackFunc: {
+      type: Function
+    },
     // 主页icon的颜色（默认'#333333'）
     homeIconColor: {
       type: String,
@@ -127,54 +146,46 @@ export default {
       type: String,
       default: navbar.homeIconSize
     },
+    // 主页icon图标的padding
     homeIconPadding: {
       type: String,
       default: navbar.homeIconPadding
     },
-    // 返回的文字提示（默认''）
-    backText: {
+    // 主页路径，默认（‘’）
+    homePage: {
       type: String,
-      default: navbar.backText
+      default: navbar.homePage
     },
-    // 返回的文字的 样式（默认{ color: '#333333' }）
-    backTextStyle: {
-      type: Object,
-      default() {
-        return navbar.backTextStyle
-      }
+    // 跳转主页方法，默认（‘switchTab’）navigateTo redirectTo switchTab reLaunch
+    homePageMethod: {
+      type: String,
+      default: navbar.homePageMethod
+    },
+    // 自定义返回函数
+    customHomeFunc: {
+      type: Function
     },
     // 元素 z-index（默认999）
     zIndex: {
       type: [String, Number],
       default: navbar.zIndex
-    },
-    // 自定义返回函数
-    customBackFunc: {
-      type: Function
     }
   },
   data() {
     return {}
   },
   computed: {
-    // 导航包裹高度
-    navbarWrapheight() {
+    // 状态栏高度
+    statusBarHeight() {
       const statusBarHeight =
         systemInfo && systemInfo.statusBarHeight ? systemInfo.statusBarHeight : 0
-      return `${this.height + statusBarHeight}px`
+      return `${statusBarHeight}px`
     },
     // 导航包裹盒子样式
     navbarStyle() {
       return {
-        height: this.navbarWrapheight,
         background: this.background,
         zIndex: this.zIndex
-      }
-    },
-    // 导航内部盒子样式
-    navbarInnerStyle() {
-      return {
-        height: this.navbarWrapheight
       }
     },
     navTitleStyle() {
@@ -189,6 +200,14 @@ export default {
       } else {
         uni.navigateBack()
       }
+    },
+    handleGoHome() {
+      // 如果自定义了点击主页按钮的函数，则执行，否则执行返回逻辑
+      if (this.customHomeFunc && typeof this.customHomeFunc === 'function') {
+        this.customHomeFunc()
+      } else if (this.homePage) {
+        navi[this.homePageMethod](this.homePage)
+      }
     }
   }
 }
@@ -196,14 +215,11 @@ export default {
 
 <style lang="scss" scoped>
 .navbar-wrap {
-  .navbar-inner {
-    position: relative;
-    &.navbar-fixed {
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-    }
+  .navbar-fixed {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
   }
 }
 </style>

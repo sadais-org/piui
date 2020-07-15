@@ -1,8 +1,5 @@
 <template>
-  <view
-    class="pi-pi-width-100P"
-    :style="{ height: `${statusBarHeight}px`, background: background }"
-  />
+  <view class="pi-w-100P" :style="{ height: `${statusBarHeight}px`, background: background }" />
 </template>
 
 <script>
