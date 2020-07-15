@@ -56,10 +56,11 @@
  */
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
+const TAG = 'PiSearch'
 const { search } = getConfig()
 
 export default {
-  name: 'PiSearch',
+  name: TAG,
   mixins: [ValueSync], // 注入value与val，进行双向绑定
   props: {
     // 搜索框形状 round || square（默认'round'）
@@ -217,7 +218,6 @@ export default {
     handleInputFocus() {
       this.focused = true
       this.$emit('focus', this.val)
-      uni.showKeyboard() // 弹出键盘
     },
     handleClearInput() {
       this.val = ''
@@ -233,5 +233,3 @@ export default {
   }
 }
 </script>
-
-<style></style>

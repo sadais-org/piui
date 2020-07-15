@@ -26,10 +26,10 @@
       <view :style="navTitleStyle" class=" pi-flex-sub pi-text-center">
         <block v-if="title">{{ title }}</block>
         <!-- slot default -->
-        <slot v-else></slot>
+        <slot v-else />
       </view>
       <!-- slot right -->
-      <view class="pi-abso-right-center"><slot name="right"></slot></view>
+      <view class="pi-abso-right-center"><slot name="right" /></view>
     </view>
   </view>
 </template>
@@ -37,10 +37,11 @@
 <script>
 import { systemInfo } from '../../tools/system'
 import { getConfig } from '../../config'
+const TAG = 'PiNavbar'
 const { navbar } = getConfig()
 
 export default {
-  name: 'PiNavbar',
+  name: TAG,
   props: {
     // 标题（默认''）
     title: {

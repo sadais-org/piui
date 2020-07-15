@@ -1076,15 +1076,3 @@ button {
 .pi-h-100P {
   height: 100%;
 }
-
-// 遮罩层 pi-mask-1 代表的是 0.1 的透明度
-@for $i from 1 through 10 {
-  .pi-mask-#{$i} {
-    @extend .pi-fixed-top;
-    @extend .pi-w-100P;
-    @extend .pi-h-100P;
-
-    z-index: 11;
-    background: rgba(0, 0, 0, $i/10);
-  }
-}
