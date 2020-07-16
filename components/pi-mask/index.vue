@@ -1,9 +1,9 @@
 <template>
   <!-- 蒙层禁止触摸滚动 -->
   <view
-    v-if="showed"
+    v-if="val"
     class="pi-fixed-top pi-w-100P pi-h-100P"
-    :class="aniShow ? animationShow : animationHide"
+    :class="show ? animationShow : animationHide"
     :style="{ 'zIndex': zIndex, 'background': background, 'animation-duration': getDuration.css }"
     @touchmove.stop.prevent
     @tap="handleCloseMask"
@@ -13,18 +13,21 @@
 </template>
 
 <script>
+/**
+ * 通过v-model控制蒙层是否显示
+ * input	蒙层显示或者关闭的时候触发事件 value: boolean (蒙层是否显示)
+ * close	蒙层关闭中事件，动画还没执行完毕
+ * closed 蒙层已关闭事件，动画已经执行完毕
+ */
+import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
 const TAG = 'PiMask'
 const { mask } = getConfig()
 
 export default {
   name: TAG,
+  mixins: [ValueSync],
   props: {
-    // 是否显示遮罩
-    show: {
-      type: Boolean,
-      default: false
-    },
     // 显示的时候执行的动画，默认（'pi-ani-fade-show'）
     animationShow: {
       type: String,
@@ -69,8 +72,7 @@ export default {
   },
   data() {
     return {
-      aniShow: false, // 动画show
-      showed: false // 节点show
+      show: false
     }
   },
   computed: {
@@ -83,7 +85,7 @@ export default {
     }
   },
   watch: {
-    show: {
+    val: {
       deep: true,
       immediate: true,
       handler(value) {
@@ -100,30 +102,33 @@ export default {
   },
   methods: {
     openMask() {
-      if (this.showed) return
+      if (this.show) return
       console.log(TAG, '显示遮罩层')
-      this.showed = true
-      this.aniShow = true
+      this.show = true
+      this.handleEmitChange()
       uni.hideKeyboard()
       this.hideTabBar && uni.hideTabBar()
       // #ifdef H5
       if (this.appendToBody) {
+        console.log(this.$el)
         document.body.appendChild(this.$el)
       }
       // #endif
     },
     closeMask() {
-      if (!this.aniShow) return
+      if (!this.show) return
       console.log(TAG, '关闭遮罩层')
-      this.aniShow = false
+      this.show = false
+      this.$emit('close')
       setTimeout(() => {
-        this.showed = false
+        this.val = false
+        this.$emit('closed')
+        this.handleEmitChange()
         uni.showTabBar()
-        this.$emit('close')
       }, this.getDuration.js)
     },
     handleCloseMask() {
-      if (!this.maskClosable || !this.aniShow) return
+      if (!this.maskClosable || !this.show) return
       this.closeMask()
     }
   }

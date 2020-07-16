@@ -4,7 +4,7 @@
 export const systemInfo = (() => {
   const info = uni.getSystemInfoSync()
   console.log('当前系统信息为：', info)
-  return info
+  return info || {}
 })()
 
 /**

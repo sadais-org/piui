@@ -1,5 +1,5 @@
 <template>
-  <view class="pi-w-100P" :style="{ height: `${statusBarHeight}px`, background: background }" />
+  <view class="pi-width-100P" :style="{ height: `${statusBarHeight}px`, background: background }" />
 </template>
 
 <script>
@@ -20,9 +20,9 @@ export default {
       default: 'transparent'
     }
   },
-  data() {
-    return {
-      statusBarHeight: systemInfo && systemInfo.statusBarHeight ? systemInfo.statusBarHeight : 0
+  computed: {
+    statusBarHeight() {
+      return systemInfo.statusBarHeight
     }
   }
 }
