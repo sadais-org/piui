@@ -4,6 +4,7 @@
     :duration="duration"
     :append-to-body="appendToBody"
     :background="maskBackground"
+    :mask-closable="maskClosable"
     @close="handleCloseMask"
   >
     <view
@@ -17,13 +18,21 @@
       @tap.stop.prevent
     >
       <view
-        class="pi-w-100P pi-h-100P"
+        class="pi-rela pi-w-100P pi-h-100P"
         :class="{ 'pi-safearea': position !== 'top' && safeAreaInsetBottom }"
         :style="{
           background: background,
-          paddingTop: position !== 'bottom' && safeAreaInsetTop ? `${statusBarHeight}px` : 0
+          paddingTop: position !== 'bottom' && safeAreaInsetTop ? statusBarHeight : 0
         }"
       >
+        <view
+          v-if="showCloseIcon"
+          class="pi-abso pi-pd-24"
+          :class="'pi-icon-' + closeIconName"
+          :style="[closeIconStyle]"
+          @tap="handleCloseMask"
+        />
+        <!-- default slot -->
         <slot />
       </view>
     </view>
@@ -42,6 +51,11 @@ import { systemInfo } from '../../tools/system'
 import { getConfig } from '../../config'
 const TAG = 'PiPopup'
 const { popup } = getConfig()
+const {
+  screenHeight,
+  safeArea: { height: bodyHeight },
+  statusBarHeight
+} = systemInfo
 
 export default {
   name: TAG,
@@ -87,6 +101,39 @@ export default {
         return popup.popupStyle
       }
     },
+    // 是否可以通过点击遮罩进行关闭，默认（true）
+    maskClosable: {
+      type: Boolean,
+      default: popup.maskClosable
+    },
+    // 是否显示关闭图标，默认（true）
+    showCloseIcon: {
+      type: Boolean,
+      default: popup.showCloseIcon
+    },
+    // 关闭图标的名称，默认（close）
+    closeIconName: {
+      type: String,
+      default: popup.closeIconName
+    },
+    // 关闭图标的颜色，默认（'#999999'）
+    closeIconColor: {
+      type: String,
+      default: popup.closeIconColor
+    },
+    // 关闭图标的大小，默认（'32rpx'）
+    closeIconSize: {
+      type: [String, Number],
+      default: popup.closeIconSize
+    },
+    // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
+    closePosition: {
+      type: String,
+      default: popup.closePosition,
+      validator: function(value) {
+        return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
+      }
+    },
     // 顶部安全适配（状态栏高度，默认true）
     safeAreaInsetTop: {
       type: Boolean,
@@ -105,7 +152,11 @@ export default {
   },
   computed: {
     statusBarHeight() {
-      return systemInfo.statusBarHeight
+      return `${statusBarHeight}px`
+    },
+    safeAreaBottom() {
+      const bottomHeight = screenHeight - statusBarHeight - bodyHeight
+      return `${bottomHeight}px`
     },
     positionStyle() {
       const positionStyleMap = {
@@ -122,6 +173,40 @@ export default {
         js: duration,
         css: `${duration / 1000}s`
       }
+    },
+    getClosePosition() {
+      // 若不指定，则按照弹出位置自动显示在合适的位置
+      const closePositionMap = {
+        top: 'br', // 右下角
+        bottom: 'tr', // 右上角
+        left: 'tr', // 右上角
+        right: 'tl' // 左上角
+      }
+      const closePosition = this.closePosition || closePositionMap[this.position]
+      return closePosition
+    },
+    closeIconStyle() {
+      const closePosition = this.getClosePosition
+      const top =
+        this.safeAreaInsetTop && this.position !== 'bottom' && closePosition.includes('t')
+          ? this.statusBarHeight
+          : 0
+      const bottom =
+        this.safeAreaInsetBottom && this.position !== 'top' && closePosition.includes('b')
+          ? this.safeAreaBottom
+          : 0
+      const positionStyleMap = {
+        tl: { top, left: 0 }, // 左上角
+        tr: { top, right: 0 }, // 右上角
+        bl: { bottom, left: 0 }, // 右下角
+        br: { bottom, right: 0 } // 右下角
+      }
+      const style = {
+        color: this.closeIconColor,
+        fontSize: this.$pi.common.addUnit(this.closeIconSize),
+        ...positionStyleMap[closePosition]
+      }
+      return style
     }
   },
   watch: {

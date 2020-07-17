@@ -10,4 +10,9 @@ export const systemInfo = (() => {
 /**
  * 是否iPhone X系列机型
  */
-export const isIpx = () => systemInfo.model.includes('iPhone X')
+export const isIpx = (() => systemInfo.model.includes('iPhone X'))()
+
+/**
+ * 获取内部安全区域数据
+ */
+export const safeAreaInsets = (() => systemInfo.safeAreaInsets)()

@@ -1,6 +1,6 @@
 <template>
   <view v-if="show" class="pi-loading" :class="{ vertical: vertical }" :style="{ color: color }">
-    <view v-if="type === 'circle'" class="loading-circle" :style="[cricleStyle]" />
+    <view v-if="type === 'circular'" class="loading-circular" :style="[cricleStyle]" />
     <view v-if="type === 'spinner'" class="loading-spinner" :style="[cricleStyle]">
       <view v-for="line of 12" :key="line" />
     </view>
@@ -101,7 +101,7 @@ export default {
     }
   }
 }
-.loading-circle {
+.loading-circular {
   display: inline-block;
   width: 28rpx;
   height: 28rpx;

@@ -247,28 +247,28 @@
   height: 100%;
 }
 // 绝对定位左上角
-.pi-abso-lt {
+.pi-abso-tl {
   @extend .pi-abso;
 
   top: 0;
   left: 0;
 }
 // 绝对定位右上角
-.pi-abso-rt {
+.pi-abso-tr {
   @extend .pi-abso;
 
   top: 0;
   right: 0;
 }
 // 绝对定位左下角
-.pi-abso-lb {
+.pi-abso-bl {
   @extend .pi-abso;
 
   bottom: 0;
   left: 0;
 }
 // 绝对定位右下角
-.pi-abso-rb {
+.pi-abso-br {
   @extend .pi-abso;
 
   right: 0;
