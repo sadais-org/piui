@@ -1,8 +1,16 @@
 <template>
   <view class="pi-rela pi-w-100P pi-align-center" :style="[customStyle]">
-    <view class="pi-divider" :style="[dividerStyle]" />
+    <view
+      v-if="['center', 'right'].includes(contentPosition)"
+      class="pi-divider"
+      :style="[dividerStyle]"
+    />
     <view v-if="$slots.default" :style="{ padding: contentPadding }"><slot /></view>
-    <view class="pi-divider" :style="[dividerStyle]" />
+    <view
+      v-if="['center', 'left'].includes(contentPosition)"
+      class="pi-divider"
+      :style="[dividerStyle]"
+    />
   </view>
 </template>
 
