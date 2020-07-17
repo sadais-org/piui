@@ -66,10 +66,10 @@ export default {
   },
   computed: {
     getSize() {
-      return this.$piTools.common.addUnit(this.size)
+      return this.$pi.common.addUnit(this.size)
     },
     getTextSize() {
-      return this.$piTools.common.addUnit(this.textSize)
+      return this.$pi.common.addUnit(this.textSize)
     },
     // 加载中圆圈动画的样式
     cricleStyle() {

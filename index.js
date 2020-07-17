@@ -9,10 +9,10 @@ const install = (Vue, config = {}) => {
   console.log('%c欢迎使用piui，官网地址：https://www.sadais.com', logStyle)
   console.log('%cpiui 已安装，使用配置为：', logStyle, piConfig)
   console.log('%cpiui tools 已挂载：', logStyle, piTools)
-  console.log('%cpiui tools 模板使用方法 {{ $piTools.xxx }}', logStyle)
-  console.log('%cpiui tools js使用方法：this.$piTools.xxx', logStyle)
+  console.log('%cpiui tools 模板使用方法 {{ $pi.xxx }}', logStyle)
+  console.log('%cpiui tools js使用方法：this.$pi.xxx', logStyle)
   Vue.prototype.$piConfig = piConfig
-  Vue.prototype.$piTools = piTools
+  Vue.prototype.$pi = piTools
 }
 
 export default install

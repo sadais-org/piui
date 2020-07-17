@@ -179,7 +179,7 @@ export default {
   },
   computed: {
     getHeight() {
-      return this.$piTools.common.addUnit(this.height)
+      return this.$pi.common.addUnit(this.height)
     },
     mergeInputStyle() {
       return {
