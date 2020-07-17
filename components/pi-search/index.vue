@@ -178,12 +178,15 @@ export default {
     }
   },
   computed: {
+    getHeight() {
+      return this.$piTools.common.addUnit(this.height)
+    },
     mergeInputStyle() {
       return {
         textAlign: this.inputAlign,
         color: this.color,
         background: this.background,
-        height: `${this.height}rpx`,
+        height: this.getHeight,
         ...this.inputStyle
       }
     },
