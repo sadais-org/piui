@@ -8,14 +8,18 @@
       <view v-if="fixed" class="pi-w-100P" :style="{ height: statusBarHeight }" />
       <!-- 真正渲染的navbar -->
       <view class="pi-rela pi-w-100P pi-align-center" :style="{ height: height }">
+        <!-- 左侧 -->
         <view class="pi-abso-left-center pi-align-center">
-          <view v-if="showBack" class="pi-align-center" @tap="handleGoBack">
-            <view
-              :class="'pi-icon-' + backIconName"
-              :style="{ color: backIconColor, padding: backIconPadding, fontSize: backIconSize }"
-            />
-            <view v-if="backText" :style="backTextStyle">{{ backText }}</view>
-          </view>
+          <slot v-if="$slots.left" name="left" />
+          <template v-else>
+            <view v-if="showBack && isShowBack" class="pi-align-center" @tap="handleGoBack">
+              <view
+                :class="'pi-icon-' + backIconName"
+                :style="{ color: backIconColor, padding: backIconPadding, fontSize: backIconSize }"
+              />
+              <view v-if="backText" :style="backTextStyle">{{ backText }}</view>
+            </view>
+          </template>
           <view v-if="showHome" class="pi-align-center" @tap="handleGoHome">
             <view
               :class="'pi-icon-' + homeIconName"
@@ -23,12 +27,13 @@
             />
           </view>
         </view>
+        <!-- 标题 -->
         <view :style="[navTitleStyle]" class=" pi-flex-sub pi-text-center">
           <block v-if="title">{{ title }}</block>
           <!-- slot default -->
           <slot v-else />
         </view>
-        <!-- slot right -->
+        <!-- 右侧 -->
         <view class="pi-abso-right-center"><slot name="right" /></view>
       </view>
     </view>
@@ -36,6 +41,10 @@
 </template>
 
 <script>
+/**
+ * 返回按钮内部已经做了处理，如果当前打开页面不属于二级页面，则不显示，需要显示左侧内容，请使用 slot left
+ * slot left 和 backIcon homeIcon 冲突，两者只能取其一，默认以slot left为主
+ */
 import { systemInfo } from '../../tools/system'
 import * as navi from '../../tools/navi'
 import { getConfig } from '../../config'
@@ -172,7 +181,9 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      isShowBack: false
+    }
   },
   computed: {
     // 状态栏高度
@@ -192,7 +203,16 @@ export default {
       return this.titleStyle
     }
   },
+  created() {
+    this.syncPageRoute()
+  },
   methods: {
+    syncPageRoute() {
+      /* eslint-disable */
+      const pages = getCurrentPages()
+      // 如果堆栈大于1表示打开了子页面，需要显示返回按钮
+      this.isShowBack = pages.length > 1
+    },
     handleGoBack() {
       // 如果自定义了点击返回按钮的函数，则执行，否则执行返回逻辑
       if (this.customBackFunc && typeof this.customBackFunc === 'function') {
