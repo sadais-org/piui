@@ -2,7 +2,9 @@
  * 验证电子邮箱格式
  */
 export const isEmail = value => {
-  return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value)
+  return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    value
+  )
 }
 
 /**
@@ -26,13 +28,6 @@ export const isUrl = value => {
  */
 export const isDate = value => {
   return !/Invalid|NaN/.test(new Date(value).toString())
-}
-
-/**
- * 验证ISO类型的日期格式
- */
-export const isDateISO = value => {
-  return /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value)
 }
 
 /**
