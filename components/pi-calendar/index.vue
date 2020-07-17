@@ -6,7 +6,7 @@
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
 const TAG = 'PiMask'
-const { calender } = getConfig()
+const { calendar } = getConfig()
 
 export default {}
 </script>
