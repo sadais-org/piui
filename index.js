@@ -4,7 +4,7 @@ import { getConfig, setConfig } from './config'
 const logStyle = 'color:#ff6a00;font-size:20px;font-weight:500;'
 
 const install = (Vue, config = {}) => {
-  const piConfig = piTools.object.mergeDeep(getConfig(), config)
+  const piConfig = piTools.lang.mergeDeep(getConfig(), config)
   setConfig(piConfig)
   console.log('%c欢迎使用piui，官网地址：https://www.sadais.com', logStyle)
   console.log('%cpiui 已安装，使用配置为：', logStyle, piConfig)

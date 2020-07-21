@@ -643,6 +643,14 @@
 
   @include col-border(6);
 }
+.pi-grid-7 {
+  @extend .pi-flex-wrap;
+  & > view {
+    width: calc(100% / 7);
+  }
+
+  @include col-border(6);
+}
 
 // 处理列之间需要有空隙情况
 @for $i from 1 through 40 {

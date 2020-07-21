@@ -8,10 +8,10 @@
     @close="handleCloseMask"
   >
     <view
-      class="pi-abso"
+      class="pi-abso pi-of-hidden"
       :class="show ? 'pi-ani-slide-' + position + '-show' : 'pi-ani-slide-' + position + '-hide'"
       :style="[
-        { 'zIndex': zIndex, 'animation-duration': getDuration.css },
+        { 'zIndex': zIndex, 'borderRadius': borderRadius, 'animation-duration': getDuration.css },
         positionStyle,
         popupStyle
       ]"
@@ -27,7 +27,7 @@
       >
         <view
           v-if="showCloseIcon"
-          class="pi-abso pi-pd-24"
+          class="pi-abso"
           :class="'pi-icon-' + closeIconName"
           :style="[closeIconStyle]"
           @tap="handleCloseMask"
@@ -94,6 +94,11 @@ export default {
       type: String,
       default: popup.background
     },
+    // 控制弹窗的四个角圆角效果（默认'0 0 0 0'）
+    borderRadius: {
+      type: [String, Number],
+      default: '0 0 0 0'
+    },
     // 指定popupStyle样式（默认{}）
     popupStyle: {
       type: Object,
@@ -115,6 +120,10 @@ export default {
     closeIconName: {
       type: String,
       default: popup.closeIconName
+    },
+    closeIconPadding: {
+      type: [String, Number],
+      default: popup.closeIconPadding
     },
     // 关闭图标的颜色，默认（'#999999'）
     closeIconColor: {
@@ -203,6 +212,7 @@ export default {
       }
       const style = {
         color: this.closeIconColor,
+        padding: this.$pi.common.addUnit(this.closeIconPadding),
         fontSize: this.$pi.common.addUnit(this.closeIconSize),
         ...positionStyleMap[closePosition]
       }

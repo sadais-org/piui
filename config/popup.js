@@ -5,10 +5,12 @@ export default {
   zIndex: 1099, // 元素 z-index
   maskBackground: 'rgba(0, 0, 0, .5)', // 蒙层背景颜色（默认'#000000'）
   background: '#ffffff', // 背景颜色（默认'#ffffff'）
+  borderRadius: '0 0 0 0', // 控制弹窗的四个角圆角效果
   popupStyle: {}, // 指定popupStyle样式（默认{}）
   maskClosable: true, // 是否可以通过点击遮罩进行关闭，默认（true）
   showCloseIcon: true, // 是否显示关闭图标，默认（true）
   closeIconName: 'close', // 关闭图标的名称，默认（close）
+  closeIconPadding: '24rpx 24rpx', // 关闭图标的padding
   closeIconColor: '#999999', // 关闭图标的颜色，默认（'#999999'）
   closeIconSize: 36, // 关闭图标的大小，默认（'32rpx'）
   closeIconPosition: '', // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置

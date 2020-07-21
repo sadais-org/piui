@@ -29,7 +29,7 @@
         </view>
         <!-- 标题 -->
         <view :style="[navTitleStyle]" class=" pi-flex-sub pi-text-center">
-          <block v-if="title">{{ title }}</block>
+          <template v-if="title">{{ title }}</template>
           <!-- slot default -->
           <slot v-else />
         </view>

@@ -7,6 +7,9 @@
 }
 
 [class*='pi-icon-'] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'pi-icon' !important;
   font-size: 16px;
   font-style: normal;
@@ -17,6 +20,13 @@
 
 .pi-icon-next::before {
   content: '\e61c';
+}
+
+.pi-icon-before {
+  transform: rotate(180deg);
+  &::before {
+    content: '\e61c';
+  }
 }
 
 .pi-icon-filter-fill::before {
