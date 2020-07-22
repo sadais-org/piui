@@ -836,78 +836,6 @@ image {
   will-change: transform;
 }
 
-// 按钮样式修改
-button {
-  height: $pi-button-height;
-  margin: 0;
-  font-size: $pi-button-fontsize;
-  font-weight: 500;
-  line-height: $pi-button-height;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  transition: all $pi-animation-duration ease-in-out;
-
-  &::after {
-    background: transparent;
-    border: none;
-  }
-  // 默认样式
-  &[type='default'] {
-    color: $pi-primary-color;
-    background-color: #ffffff;
-    &.border::after {
-      border: 4rpx solid $pi-primary-color;
-    }
-    &.mini {
-      height: $pi-button-mini-height;
-      line-height: $pi-button-mini-height;
-    }
-  }
-  &[disabled][type='default'] {
-    color: $pi-primary-color;
-    background-color: #ffffff;
-    opacity: 0.2;
-    &.border::after {
-      border: 4rpx solid $pi-primary-color;
-    }
-    &.mini {
-      height: $pi-button-mini-height;
-      line-height: $pi-button-mini-height;
-    }
-  }
-  &.button-hover[type='default'] {
-    color: $pi-primary-color;
-    background-color: #ffffff;
-    opacity: 0.8;
-  }
-  &[loading][type='default'] {
-    color: hsla(0, 0%, 100%, 0.6);
-    background-color: #ffffff;
-  }
-  // 主要样式
-  &[type='primary'] {
-    color: #ffffff;
-    background-color: $pi-primary-color;
-    &.mini {
-      height: $pi-button-mini-height;
-      line-height: $pi-button-mini-height;
-    }
-  }
-  &[disabled][type='primary'] {
-    background-color: $pi-primary-color;
-    opacity: 0.2;
-  }
-  &.button-hover[type='primary'] {
-    background-color: $pi-primary-color;
-    opacity: 0.8;
-  }
-  &[loading][type='primary'] {
-    color: hsla(0, 0%, 100%, 0.6);
-    background-color: $pi-primary-color;
-  }
-}
-
 // 用于没有scroll-view时候的容器，默认铺满整个视窗，y轴内容溢出滚动
 .pi-container {
   position: relative;
@@ -948,6 +876,11 @@ button {
 .pi-round {
   overflow: hidden;
   border-radius: 500000rpx;
+}
+
+// 去除webkit的默认样式
+.fix-webkit-appearance {
+  -webkit-appearance: none;
 }
 
 // 安全区域，兼容iphonex

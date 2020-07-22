@@ -25,10 +25,17 @@ $pi-form-input-color: #333333 !default; // 表单输入框颜色
 $pi-form-required-color: #c0282f !default; // 表单必选提示颜色
 // iphonex底部安全区域背景颜色
 $pi-safearea-bg: transparent !default;
-$pi-navi-icon-weight: 500 !default;
-$pi-navi-icon-color: #333333 !default;
-$pi-navi-icon-border-height: 32px !default;
-// 按钮
-$pi-button-fontsize: 32rpx !default;
-$pi-button-height: 98rpx !default;
-$pi-button-mini-height: 56rpx !default; // mini尺寸
+
+// 按钮default样式
+$pi-button-default-font-size: 28rpx !default;
+$pi-button-default-height: 88rpx !default;
+
+// 按钮medium样式
+$pi-button-medium-font-size: 26rpx !default;
+$pi-button-medium-height: 70rpx !default;
+$pi-button-medium-padding: 0 40rpx !default;
+
+// 按钮mini样式
+$pi-button-mini-font-size: 22rpx !default;
+$pi-button-mini-height: 52rpx !default;
+$pi-button-mini-padding: 0 20rpx !default;
