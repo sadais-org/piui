@@ -1,7 +1,8 @@
 <template>
   <button
     class="pi-button fix-webkit-appearance"
-    :class="{ 'pi-round': round }"
+    :style="[customStyle]"
+    :class="[customClass, round ? 'pi-round' : '']"
     :size="size"
     :type="type"
     :plain="plain"
@@ -16,7 +17,6 @@
     :session-from="sessionFrom"
     :send-message-img="sendMessageImg"
     :show-message-card="showMessageCard"
-    :style="[customStyle]"
     :hover-class="getHoverClass"
     :hover-start-time="hoverStartTime"
     :hover-stay-time="hoverStayTime"
@@ -44,11 +44,14 @@
  * 因为小程序不兼容v-bind="$attrs"写法，所以只能把官网属性重定义一遍
  */
 import { getConfig } from '../../config'
+import { createCustomPropsByConfig } from '../../mixin/component-custom'
 const TAG = 'PiButton'
 const { button } = getConfig()
 
 export default {
   name: TAG,
+  // 混入自定义样式customStyle和customClass
+  mixins: [createCustomPropsByConfig(button)],
   props: {
     /**
      * uniapp button 官方属性定义
@@ -166,13 +169,6 @@ export default {
     rippleBgColor: {
       type: String,
       default: button.rippleBgColor
-    },
-    // 自定义样式，对象形式（默认值：{}）
-    customStyle: {
-      type: Object,
-      default() {
-        return button.customStyle
-      }
     }
   },
   data() {
@@ -196,7 +192,7 @@ export default {
         'left': this.waveInfo.left + 'px',
         'width': this.waveInfo.fields.targetWidth + 'px',
         'height': this.waveInfo.fields.targetWidth + 'px',
-        'background-color': this.rippleBgColor || 'rgba(0, 0, 0, 0.15)'
+        'background-color': this.rippleBgColor || 'rgba(0, 0, 0, 0.1)'
       }
     }
   },

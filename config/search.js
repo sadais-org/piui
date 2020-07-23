@@ -1,4 +1,6 @@
 export default {
+  customClass: '', // 自定义样式类，字符串形式（''）
+  customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   shape: 'round', // 搜索框形状 round || square
   background: '#f7f7f7', // 背景颜色（默认#f2f2f2）
   clearable: true, // 是否启用清除控件（默认true）

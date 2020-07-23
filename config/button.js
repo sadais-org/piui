@@ -1,4 +1,6 @@
 export default {
+  customClass: '', // 自定义样式类，字符串形式（''）
+  customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   size: 'default', // 按钮尺寸，default，mini
   type: 'default', // 按钮的预置样式，default，primary，warn（默认值：'default'）
   plain: false, // 按钮是否镂空（默认值：false）
@@ -19,6 +21,5 @@ export default {
   showMessageCard: false, // 用户点击后可以快速发送小程序消息，open-type="contact"时有效（默认值：'false'）
   round: false, // 按钮是否椭圆（默认值：false）
   ripple: true, // 是否开启水波纹效果（默认值：true）
-  rippleBgColor: '', // 水波纹的背景颜色（默认值：''）
-  customStyle: {} // 自定义样式，对象形式（默认值：{}）
+  rippleBgColor: '' // 水波纹的背景颜色（默认值：''）
 }

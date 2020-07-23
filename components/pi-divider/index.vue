@@ -1,5 +1,5 @@
 <template>
-  <view class="pi-rela pi-w-100P pi-align-center" :style="[customStyle]">
+  <view class="pi-rela pi-w-100P pi-align-center" :style="[customStyle]" :class="[customClass]">
     <view
       v-if="['center', 'right'].includes(contentPosition)"
       class="pi-divider"
@@ -16,11 +16,14 @@
 
 <script>
 import { getConfig } from '../../config'
+import { createCustomPropsByConfig } from '../../mixin/component-custom'
 const TAG = 'PiDivider'
 const { divider } = getConfig()
 
 export default {
   name: TAG,
+  // 混入自定义样式customStyle和customClass
+  mixins: [createCustomPropsByConfig(divider)],
   props: {
     // 是否使用0.5px线
     halfline: {
@@ -36,13 +39,6 @@ export default {
     borderStyle: {
       type: String,
       default: divider.borderStyle
-    },
-    // 整个divider自定义样式
-    customStyle: {
-      type: Object,
-      default() {
-        return divider.customStyle
-      }
     },
     // 内容位置：center left right
     contentPosition: {

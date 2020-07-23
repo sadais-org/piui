@@ -1,5 +1,5 @@
 <template>
-  <view class="navbar-wrap" :style="[navbarStyle]">
+  <view class="navbar-wrap" :style="[customStyle, navbarStyle]" :class="[customClass]">
     <pi-status-bar v-if="fixed" />
     <!-- 当导航栏为fixed时候，占位用 -->
     <view v-if="fixed && placeholder" :style="{ height: height }" />
@@ -48,12 +48,15 @@
 import { systemInfo } from '../../tools/system'
 import * as navi from '../../tools/navi'
 import { getConfig } from '../../config'
+import { createCustomPropsByConfig } from '../../mixin/component-custom'
 
 const TAG = 'PiNavbar'
 const { navbar } = getConfig()
 
 export default {
   name: TAG,
+  // 混入自定义样式customStyle和customClass
+  mixins: [createCustomPropsByConfig(navbar)],
   props: {
     // 标题（默认''）
     title: {

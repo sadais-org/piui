@@ -1,4 +1,6 @@
 export default {
+  customClass: '', // 自定义样式类，字符串形式（''）
+  customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   animationShow: 'pi-ani-fade-show', // 显示的时候执行的动画
   animationHide: 'pi-ani-fade-hide', // 隐藏的时候执行的动画
   duration: 300, // 遮罩的过渡时间，单位为ms

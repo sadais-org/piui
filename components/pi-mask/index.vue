@@ -1,10 +1,13 @@
 <template>
-  <!-- 蒙层禁止触摸滚动 -->
+  <!-- 蒙层禁止触摸滚动 @touchmove.stop.prevent -->
   <view
     v-if="val"
     class="pi-fixed-top pi-w-100P pi-h-100P"
-    :class="show ? animationShow : animationHide"
-    :style="{ 'zIndex': zIndex, 'background': background, 'animation-duration': getDuration.css }"
+    :class="[customClass, show ? animationShow : animationHide]"
+    :style="[
+      customStyle,
+      { 'zIndex': zIndex, 'background': background, 'animation-duration': getDuration.css }
+    ]"
     @touchmove.stop.prevent
     @tap="handleCloseMask"
   >
@@ -21,12 +24,15 @@
  */
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
+import { createCustomPropsByConfig } from '../../mixin/component-custom'
 const TAG = 'PiMask'
 const { mask } = getConfig()
 
 export default {
   name: TAG,
-  mixins: [ValueSync],
+  // 混入v-model
+  // 混入自定义样式customStyle和customClass
+  mixins: [ValueSync, createCustomPropsByConfig(mask)],
   props: {
     // 显示的时候执行的动画，默认（'pi-ani-fade-show'）
     animationShow: {

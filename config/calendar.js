@@ -3,6 +3,8 @@ const maxYear = currentYear + 30
 const minYear = currentYear - 80
 
 export default {
+  customClass: '', // 自定义样式类，字符串形式（''）
+  customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   title: '日期选择', // title
   type: 'date', // 日历的类型，date 单选，range 日历范围
   defaultValue: '', // 日期默认值，单选时候，传入Date，日历范围，传入Date[]

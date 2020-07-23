@@ -12,7 +12,7 @@
     :mask-closable="maskClosable"
     @close="handlePopupClose"
   >
-    <view class="pi-calendar">
+    <view class="pi-calendar" :style="[customStyle]" :class="[customClass]">
       <!-- title -->
       <view
         class="pi-justify-center pi-fz-32 pi-fw-500"
@@ -86,12 +86,15 @@
 <script>
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
+import { createCustomPropsByConfig } from '../../mixin/component-custom'
 const TAG = 'PiCalendar'
 const { calendar } = getConfig()
 
 export default {
   name: TAG,
-  mixins: [ValueSync],
+  // 混入v-model
+  // 混入自定义样式customStyle和customClass
+  mixins: [ValueSync, createCustomPropsByConfig(calendar)],
   props: {
     title: {
       type: String,

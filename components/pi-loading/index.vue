@@ -1,5 +1,10 @@
 <template>
-  <view v-if="show" class="pi-loading" :class="{ vertical: vertical }" :style="{ color: color }">
+  <view
+    v-if="show"
+    class="pi-loading"
+    :style="[customStyle, { color: color }]"
+    :class="[customClass, vertical ? vertical : '']"
+  >
     <view v-if="type === 'circular'" class="loading-circular" :style="[cricleStyle]" />
     <view v-if="type === 'spinner'" class="loading-spinner" :style="[cricleStyle]">
       <view v-for="line of 12" :key="line" />
@@ -10,11 +15,14 @@
 
 <script>
 import { getConfig } from '../../config'
+import { createCustomPropsByConfig } from '../../mixin/component-custom'
 const TAG = 'PiLoading'
 const { loading } = getConfig()
 
 export default {
   name: TAG,
+  // 混入自定义样式customStyle和customClass
+  mixins: [createCustomPropsByConfig(loading)],
   props: {
     // 是否显示loading
     show: {
@@ -77,7 +85,7 @@ export default {
         width: this.getSize,
         height: this.getSize
       }
-      if (this.type == 'circle')
+      if (this.type === 'circular')
         style.borderColor = `#e4e4e4 #e4e4e4 #e4e4e4 ${this.color ? this.color : '#c7c7c7'}`
       return style
     }

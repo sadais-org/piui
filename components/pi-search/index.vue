@@ -1,17 +1,21 @@
 <template>
-  <view class="pi-align-center">
+  <view class="pi-align-center" :style="[customStyle]" :class="[customClass]">
     <view class="pi-pd-right-18" :style="searchLabelStyle">{{ searchLabel }}</view>
     <!-- 中间灰色包裹块 -->
     <view
       class="pi-flex-sub pi-align-center pi-of-hidden"
-      :style="{
-        background: background,
-        borderRadius: shape == 'round' ? '2000px' : '8rpx'
-      }"
+      :class="[customClass]"
+      :style="[
+        customStyle,
+        {
+          background: background,
+          borderRadius: shape == 'round' ? '2000px' : '8rpx'
+        }
+      ]"
     >
       <!-- 搜索图标 -->
       <view class="pi-pd-lr-18">
-        <view :class="'pi-icon-' + searchIcon" />
+        <view :class="'pi-fz-32 pi-icon-' + searchIcon" />
       </view>
       <!-- 输入框包裹 -->
       <view class="pi-align-center pi-flex-sub">
@@ -56,12 +60,13 @@
  */
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
+import { createCustomPropsByConfig } from '../../mixin/component-custom'
 const TAG = 'PiSearch'
 const { search } = getConfig()
 
 export default {
   name: TAG,
-  mixins: [ValueSync], // 注入value与val，进行双向绑定
+  mixins: [ValueSync, createCustomPropsByConfig(search)], // 注入value与val，进行双向绑定
   props: {
     // 搜索框形状 round || square（默认'round'）
     shape: {

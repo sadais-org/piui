@@ -1,4 +1,6 @@
 export default {
+  customClass: '', // 自定义样式类，字符串形式（''）
+  customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   title: '', // 标题
   titleStyle: { fontSize: '32rpx', fontWeight: 500, color: '#333333' }, // 标题样式
   height: '44px', // 导航栏高度

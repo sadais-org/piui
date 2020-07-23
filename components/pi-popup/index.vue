@@ -9,11 +9,14 @@
   >
     <view
       class="pi-abso pi-of-hidden"
-      :class="show ? 'pi-ani-slide-' + position + '-show' : 'pi-ani-slide-' + position + '-hide'"
+      :class="[
+        customClass,
+        show ? 'pi-ani-slide-' + position + '-show' : 'pi-ani-slide-' + position + '-hide'
+      ]"
       :style="[
         { 'zIndex': zIndex, 'borderRadius': borderRadius, 'animation-duration': getDuration.css },
         positionStyle,
-        popupStyle
+        customStyle
       ]"
       @tap.stop.prevent
     >
@@ -49,6 +52,8 @@
 import ValueSync from '../../mixin/value-sync'
 import { systemInfo } from '../../tools/system'
 import { getConfig } from '../../config'
+import { createCustomPropsByConfig } from '../../mixin/component-custom'
+
 const TAG = 'PiPopup'
 const { popup } = getConfig()
 const {
@@ -59,7 +64,9 @@ const {
 
 export default {
   name: TAG,
-  mixins: [ValueSync],
+  // 混入v-model
+  // 混入自定义样式customStyle和customClass
+  mixins: [ValueSync, createCustomPropsByConfig(popup)],
   props: {
     // 弹出位置，可选值为 top bottom right left
     position: {
@@ -98,13 +105,6 @@ export default {
     borderRadius: {
       type: [String, Number],
       default: '0 0 0 0'
-    },
-    // 指定popupStyle样式（默认{}）
-    popupStyle: {
-      type: Object,
-      default() {
-        return popup.popupStyle
-      }
     },
     // 是否可以通过点击遮罩进行关闭，默认（true）
     maskClosable: {

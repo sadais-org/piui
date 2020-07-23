@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-width-100P" :style="{ height: `${statusBarHeight}px`, background: background }" />
+  <view
+    class="pi-width-100P"
+    :style="[customStyle, { height: `${statusBarHeight}px`, background: background }]"
+    :class="[customClass]"
+  />
 </template>
 
 <script>
@@ -10,8 +14,14 @@
  * @example <status-bar />
  */
 import { systemInfo } from '../../tools/system'
+import { createCustomPropsByConfig } from '../../mixin/component-custom'
+import { getConfig } from '../../config'
+const { statusBar } = getConfig()
+
 export default {
   name: 'PiStatusBar',
+  // 混入自定义样式customStyle和customClass
+  mixins: [createCustomPropsByConfig(statusBar)],
   props: {
     // 背景颜色（默认透明）
     background: {
