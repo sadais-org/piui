@@ -1,23 +1,23 @@
 <template>
   <pi-popup
     :value="val"
-    :z-index="zIndex"
-    :border-radius="popupBorderRadius"
-    :show-close-icon="showCloseIcon"
-    :close-icon-name="closeIconName"
-    :close-icon-padding="closeIconPadding"
-    :close-icon-color="closeIconColor"
-    :close-icon-size="closeIconSize"
-    :safe-area-inset-bottom="safeAreaInsetBottom"
-    :mask-closable="maskClosable"
+    :mask="popup.mask"
+    :z-index="popup.zIndex"
+    :border-radius="popup.borderRadius"
+    :show-close-icon="popup.showCloseIcon"
+    :close-icon-name="popup.closeIconName"
+    :close-icon-padding="popup.closeIconPadding"
+    :close-icon-color="popup.closeIconColor"
+    :close-icon-size="popup.closeIconSize"
+    :close-icon-position="popup.closeIconPosition"
+    :safe-area-inset-bottom="popup.safeAreaInsetBottom"
+    :mask-closable="popup.maskClosable"
+    :hide-tab-bar="popup.hideTabBar"
     @close="handlePopupClose"
   >
     <view class="pi-calendar" :style="[customStyle]" :class="[customClass]">
-      <!-- title -->
-      <view
-        class="pi-justify-center pi-fz-32 pi-fw-500"
-        :style="[{ padding: getCloseIconPadding }]"
-      >
+      <!-- 标题栏 -->
+      <view class="pi-justify-center pi-fz-32 pi-fw-500" :style="[{ padding: getTitlePadding }]">
         <slot v-if="$slots.title" name="title" />
         <template v-else>{{ title }}</template>
       </view>
@@ -110,9 +110,20 @@ export default {
   // 混入自定义样式customStyle和customClass
   mixins: [ValueSync, createCustomPropsByConfig(calendar)],
   props: {
+    // 弹窗的配置，默认选项请参照popup
+    popup: {
+      type: Object,
+      default() {
+        return calendar.popup
+      }
+    },
     title: {
       type: String,
       default: calendar.title
+    },
+    titlePadding: {
+      type: [String, Number],
+      default: calendar.titlePadding
     },
     // date 单个日期 || range [开始日期 结束日期]
     type: {
@@ -196,51 +207,6 @@ export default {
     dateFormat: {
       type: String,
       default: calendar.dateFormat
-    },
-    // 层级z-index，（默认1099）
-    zIndex: {
-      type: [Number, String],
-      default: calendar.zIndex
-    },
-    // 控制弹窗的四个角圆角效果（默认'0 0 0 0'）
-    popupBorderRadius: {
-      type: [String, Number],
-      default: calendar.popupBorderRadius
-    },
-    // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
-    safeAreaInsetBottom: {
-      type: Boolean,
-      default: calendar.safeAreaInsetBottom
-    },
-    // 是否可以通过点击遮罩进行关闭，默认（true）
-    maskClosable: {
-      type: Boolean,
-      default: calendar.maskClosable
-    },
-    // 是否显示关闭图标，默认（true）
-    showCloseIcon: {
-      type: Boolean,
-      default: calendar.showCloseIcon
-    },
-    // 关闭图标的名称，默认（close）
-    closeIconName: {
-      type: String,
-      default: calendar.closeIconName
-    },
-    // 关闭按钮padding
-    closeIconPadding: {
-      type: [String, Number],
-      default: calendar.closeIconPadding
-    },
-    // 关闭图标的颜色，默认（'#999999'）
-    closeIconColor: {
-      type: String,
-      default: calendar.closeIconColor
-    },
-    // 关闭图标的大小，默认（'36rpx'）
-    closeIconSize: {
-      type: [String, Number],
-      default: calendar.closeIconSize
     }
   },
   data() {
@@ -264,8 +230,8 @@ export default {
         .join('-')
       return options
     },
-    getCloseIconPadding() {
-      return this.$pi.common.addUnit(this.closeIconPadding)
+    getTitlePadding() {
+      return this.$pi.common.addUnit(this.titlePadding)
     },
     getActiveBorderRadius() {
       return this.$pi.common.addUnit(this.activeBorderRadius)

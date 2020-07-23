@@ -45,6 +45,7 @@
  */
 import { getConfig } from '../../config'
 import { createCustomPropsByConfig } from '../../mixin/component-custom'
+import { debounce } from '../../tools/common'
 const TAG = 'PiButton'
 const { button } = getConfig()
 
@@ -197,7 +198,7 @@ export default {
     }
   },
   methods: {
-    handleButtonTap(e) {
+    handleButtonTap: debounce(function(e) {
       if (this.loading || this.disabled || !this.ripple) return
       // 是否开启水波纹效果
       this.waveInfo.active = false
@@ -206,7 +207,7 @@ export default {
       this.$nextTick(function() {
         this.queryWaveInfo(e)
       })
-    },
+    }, 200),
     // 查询按钮的节点信息
     queryWaveInfo(e) {
       this.getElRectQuery().then(res => {

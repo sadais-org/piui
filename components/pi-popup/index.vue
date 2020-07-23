@@ -1,10 +1,14 @@
 <template>
   <pi-mask
     :value="val"
-    :duration="duration"
-    :append-to-body="appendToBody"
-    :background="maskBackground"
-    :mask-closable="maskClosable"
+    :animation-show="mask.animationShow"
+    :animation-hide="mask.animationHide"
+    :duration="mask.duration"
+    :mask-closable="mask.maskClosable"
+    :hide-tab-bar="mask.hideTabBar"
+    :append-to-body="mask.appendToBody"
+    :z-index="mask.zIndex"
+    :background="mask.background"
     @close="handleCloseMask"
   >
     <view
@@ -14,7 +18,7 @@
         show ? 'pi-ani-slide-' + position + '-show' : 'pi-ani-slide-' + position + '-hide'
       ]"
       :style="[
-        { 'zIndex': zIndex, 'borderRadius': borderRadius, 'animation-duration': getDuration.css },
+        { 'borderRadius': borderRadius, 'animation-duration': getDuration.css },
         positionStyle,
         customStyle
       ]"
@@ -68,6 +72,13 @@ export default {
   // 混入自定义样式customStyle和customClass
   mixins: [ValueSync, createCustomPropsByConfig(popup)],
   props: {
+    // 弹窗蒙层的配置，默认选项请参照mask
+    mask: {
+      type: Object,
+      default() {
+        return popup.mask
+      }
+    },
     // 弹出位置，可选值为 top bottom right left
     position: {
       type: String,
@@ -75,26 +86,6 @@ export default {
       validator: function(value) {
         return ['top', 'bottom', 'right', 'left'].includes(value)
       }
-    },
-    // 遮罩的过渡时间，单位为ms，默认（300）
-    duration: {
-      type: [Number, String],
-      default: popup.duration
-    },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）,默认（false）
-    appendToBody: {
-      type: Boolean,
-      default: popup.appendToBody
-    },
-    // 层级z-index，（默认1000）
-    zIndex: {
-      type: [Number, String],
-      default: popup.zIndex
-    },
-    // 蒙层背景颜色（默认'rgba(0, 0, 0, .5)'）
-    maskBackground: {
-      type: String,
-      default: popup.maskBackground
     },
     // 背景颜色（默认'ffffff'）
     background: {
@@ -105,11 +96,6 @@ export default {
     borderRadius: {
       type: [String, Number],
       default: '0 0 0 0'
-    },
-    // 是否可以通过点击遮罩进行关闭，默认（true）
-    maskClosable: {
-      type: Boolean,
-      default: popup.maskClosable
     },
     // 是否显示关闭图标，默认（true）
     showCloseIcon: {
@@ -136,9 +122,9 @@ export default {
       default: popup.closeIconSize
     },
     // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
-    closePosition: {
+    closeIconPosition: {
       type: String,
-      default: popup.closePosition,
+      default: popup.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
@@ -177,7 +163,7 @@ export default {
       return positionStyleMap[this.position]
     },
     getDuration() {
-      const duration = parseInt(this.duration)
+      const duration = parseInt(this.mask.duration || popup.mask.duration)
       return {
         js: duration,
         css: `${duration / 1000}s`
@@ -191,7 +177,7 @@ export default {
         left: 'tr', // 右上角
         right: 'tl' // 左上角
       }
-      const closePosition = this.closePosition || closePositionMap[this.position]
+      const closePosition = this.closeIconPosition || closePositionMap[this.position]
       return closePosition
     },
     closeIconStyle() {

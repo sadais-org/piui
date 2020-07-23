@@ -44,7 +44,7 @@ export default {
       type: String,
       default: mask.animationHide
     },
-    // 遮罩的过渡时间，单位为ms，默认（300）
+    // 遮罩的过渡时间，单位为ms，默认（500）
     duration: {
       type: [Number, String],
       default: mask.duration
@@ -130,7 +130,7 @@ export default {
         this.val = false
         this.$emit('closed')
         this.handleEmitChange()
-        uni.showTabBar()
+        this.hideTabBar && uni.showTabBar()
       }, this.getDuration.js)
     },
     handleCloseMask() {
