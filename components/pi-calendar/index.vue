@@ -62,11 +62,20 @@
               v-for="day in days"
               :key="day.key"
               class="date-item"
-              :style="[day.nowStyle, day.activeStyle]"
+              style="cursor: pointer;"
+              :style="[day.nowStyle, day.activeStyle, day.disabledStyle]"
               @tap="handleSelectDate(day)"
             >
               <view class="pi-square">
-                <view class="pi-flex-column-center">{{ day.date }}</view>
+                <view class="pi-rela pi-flex-column-center">
+                  <text>{{ day.date }}</text>
+                  <text
+                    v-if="day.tip"
+                    class="pi-abso-bottom-center pi-text-nowrap pi-fz-20 pi-pd-bottom-6"
+                  >
+                    {{ day.tip }}
+                  </text>
+                </view>
               </view>
             </view>
             <!-- 日历背后蒙层 -->
@@ -76,6 +85,11 @@
             >
               {{ month }}
             </view>
+          </view>
+          <!-- footer -->
+          <view class="pi-abso-bl pi-w-100P pi-align-center pi-pd-24">
+            <view class="pi-flex-sub pi-fz-30 pi-fw-500">{{ displayValue }}</view>
+            <pi-button type="primary" size="medium" @tap="handleConfirm">确定</pi-button>
           </view>
         </view>
       </view>
@@ -108,9 +122,9 @@ export default {
         return ['date', 'range'].includes(value)
       }
     },
-    // 日期默认值，单选时候，传入Date，日历范围，传入Date[]
+    // 日期默认值，单选时候，传入Date(时间戳，时间字符串，Date类型)，日历范围，传入Date[]
     defaultValue: {
-      type: [String, Date, Array],
+      type: [Number, String, Date, Array],
       default: calendar.defaultValue
     },
     // 可切换的最小年份
@@ -123,67 +137,67 @@ export default {
       type: [Number, String],
       default: calendar.maxYear
     },
-    // 最小可选日期(不在范围内日期禁用不可选)
+    // 最小可选日期(不在范围内日期禁用不可选，默认''，不作限制)
     minDate: {
-      type: [Number, String],
-      default: ''
+      type: [Number, String, Date],
+      default: calendar.minDate
     },
-    // 最大可选日期(不在范围内日期禁用不可选)
+    // 最大可选日期(不在范围内日期禁用不可选，默认''，不作限制)
     maxDate: {
-      type: [Number, String],
-      default: ''
+      type: [Number, String, Date],
+      default: calendar.maxDate
     },
-    // 是否显示回到今日
+    // 是否显示回到今日，默认（true）
     showBackToday: {
       type: Boolean,
-      default: true
+      default: calendar.showBackToday
     },
-    // 今日日期激活边框颜色
+    // 今日日期激活边框颜色，默认（'#ff6a00'）
     todayActiveBorderColor: {
       type: String,
-      default: '#ff6a00'
+      default: calendar.todayActiveBorderColor
     },
-    // 默认日期字体颜色
-    color: {
-      type: String,
-      default: '#303133'
-    },
-    // 选中|起始结束日期字体颜色
+    // 选中|起始结束日期字体颜色，默认（'#ffffff'）
     activeColor: {
       type: String,
-      default: '#ffffff'
+      default: calendar.activeColor
     },
-    // 选中|起始结束日期背景
+    // 选中|起始结束日期背景，默认（'#ff6a00'）
     activeBg: {
       type: String,
-      default: '#ff6a00'
+      default: calendar.activeBg
     },
     // 选中圆角效果（默认'0 0 0 0'）
     activeBorderRadius: {
       type: [String, Number],
       default: calendar.activeBorderRadius
     },
-    // 范围内日期字体颜色
+    // 范围内日期字体颜色默认（'#ff6a00'）
     rangeColor: {
       type: String,
-      default: '#ff6a00'
+      default: calendar.rangeColor
     },
-    // 范围内日期背景色
+    // 范围内日期背景色，默认（'rgba(254, 106, 0, 0.1)'）
     rangeBg: {
       type: String,
-      default: 'rgba(254, 106, 0, 0.1)'
+      default: calendar.rangeBg
     },
-    // mode=range时生效，起始日期自定义文案
+    // type=range时生效，起始日期自定义文案，默认（'开始'）
     startText: {
       type: String,
-      default: '开始'
+      default: calendar.startText
     },
-    // mode=range时生效，结束日期自定义文案
+    // type=range时生效，结束日期自定义文案，默认（'结束'）
     endText: {
       type: String,
-      default: '结束'
+      default: calendar.endText
     },
-    // 层级z-index，（默认1000）
+    // 已选择的时间格式化显示规则，默认（'yyyy-mm-dd'）
+    dateFormat: {
+      type: String,
+      default: calendar.dateFormat
+    },
+    // 层级z-index，（默认1099）
     zIndex: {
       type: [Number, String],
       default: calendar.zIndex
@@ -223,33 +237,32 @@ export default {
       type: String,
       default: calendar.closeIconColor
     },
-    // 关闭图标的大小，默认（'32rpx'）
+    // 关闭图标的大小，默认（'36rpx'）
     closeIconSize: {
       type: [String, Number],
       default: calendar.closeIconSize
     }
   },
   data() {
+    const now = this.$pi.date.parseDate()
     return {
-      now: this.$pi.date.parseDate(), // 当前时间
+      now: now, // 当前时间
       year: '', // 年份
       month: '', // 月份
-      date: 0, // type 为 date 当前选中日期
+      date: now, // type 为 date 当前选中日期
       ranges: [] // type 为 range 的开始和结束日期
     }
   },
   computed: {
     // ! 使用计算属性依赖变化的特征，watch options
+    // ! 因为使用对象，在H5端watch的时候，就算没有发生改变，也会触发，这里直接监听toString后的值
     options() {
-      const { defaultValue, type, minYear, maxYear, minDate, maxDate } = this
-      return {
-        defaultValue,
-        type,
-        minYear,
-        maxYear,
-        minDate,
-        maxDate
-      }
+      const watchs = ['defaultValue', 'type', 'minYear', 'maxYear', 'minDate', 'maxDate']
+      const options = watchs
+        .filter(d => this[d])
+        .map(d => this[d].toString())
+        .join('-')
+      return options
     },
     getCloseIconPadding() {
       return this.$pi.common.addUnit(this.closeIconPadding)
@@ -264,6 +277,12 @@ export default {
     firstDay() {
       return new Date(`${this.year}/${this.month}/01 00:00:00`).getDay()
     },
+    getMinDate() {
+      return this.minDate ? this.$pi.date.parseDate(this.minDate) : ''
+    },
+    getMaxDate() {
+      return this.minDate ? this.$pi.date.parseDate(this.maxDate) : ''
+    },
     // 总天数
     days() {
       const days = []
@@ -273,6 +292,14 @@ export default {
           key: 'pi-calander-day-item-' + i,
           index: i,
           ...this.$pi.date.parseDate(`${this.year}/${this.month}/${i}`)
+        }
+        const isDisabled = this.isDisabled(day)
+        // 禁用
+        if (isDisabled) {
+          day.disabledStyle = {
+            opacity: '0.3',
+            cursor: 'not-allowed'
+          }
         }
         // 单选选中样式
         if (this.type === 'date' && this.isSameDay(this.date, day)) {
@@ -292,7 +319,7 @@ export default {
           const inRange =
             start && end && day.timestamp > start.timestamp && day.timestamp < end.timestamp
           const activeStyle = {}
-          // 处理两端样式
+          // 处理两端
           if (isBegin || isEnd) {
             activeStyle.color = this.activeColor
             activeStyle.borderRadius = isBegin
@@ -306,6 +333,9 @@ export default {
             activeStyle.background = this.rangeBg
           }
           day.activeStyle = activeStyle
+          // type 为 range 开始和结束的提示
+          if (isBegin) day.tip = this.startText
+          if (isEnd) day.tip = this.endText
         }
         // 当天样式
         if (this.showBackToday && this.isSameDay(this.now, day)) {
@@ -317,6 +347,20 @@ export default {
         days.push(day)
       }
       return days
+    },
+    displayValue() {
+      if (this.type === 'date') {
+        return this.date.format(this.dateFormat)
+      } else {
+        let value = ''
+        if (this.ranges[0]) {
+          value += this.ranges[0].format(this.dateFormat)
+        }
+        if (this.ranges[1]) {
+          value += ` 至 ${this.ranges[1].format(this.dateFormat)}`
+        }
+        return value
+      }
     }
   },
   watch: {
@@ -361,9 +405,15 @@ export default {
         day1.date === day2.date
       )
     },
-    initDateType() {},
-    initRangeType() {},
+    isDisabled(day) {
+      const isDisabled =
+        (this.getMinDate && day.timestamp < this.getMinDate.timestamp) ||
+        (this.getMaxDate && day.timestamp > this.getMaxDate.timestamp)
+      return isDisabled
+    },
     handleSelectDate(date) {
+      const isDisabled = this.isDisabled(date)
+      if (isDisabled) return
       if (this.type === 'date') {
         // 单选方式
         this.date = date
@@ -374,6 +424,9 @@ export default {
         // 如果选了两项，则重新开始选择范围
         this.ranges = [date]
       } else {
+        // 如果第二项选择的和第一项一样，不做处理
+        const isSameDay = this.isSameDay(this.ranges[0], date)
+        if (isSameDay) return
         // 和第一项判断一下大小，小的放前面
         if (date.timestamp > this.ranges[0].timestamp) {
           this.ranges = [this.ranges[0], date]
@@ -410,6 +463,11 @@ export default {
       this.val = false
       this.$emit('close')
       this.handleEmitChange()
+    },
+    handleConfirm() {
+      const value = this.type === 'date' ? this.date : this.ranges
+      this.$emit('confirm', value)
+      this.handlePopupClose()
     }
   }
 }

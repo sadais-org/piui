@@ -57,7 +57,7 @@ export default {
      * uniapp button 官方属性定义
      * ---------------------------------------------------------------------------------------------
      */
-    // 按钮尺寸，default，mini（默认值：'default'）
+    // 按钮尺寸，default，medium, mini（默认值：'default'）
     size: {
       type: String,
       default: button.size

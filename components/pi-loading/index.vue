@@ -29,7 +29,7 @@ export default {
       type: Boolean,
       default: false
     },
-    // 颜色
+    // 颜色（默认'#c1c1c1'）
     color: {
       type: String,
       default: loading.color
@@ -85,8 +85,6 @@ export default {
         width: this.getSize,
         height: this.getSize
       }
-      if (this.type === 'circular')
-        style.borderColor = `#e4e4e4 #e4e4e4 #e4e4e4 ${this.color ? this.color : '#c7c7c7'}`
       return style
     }
   }
@@ -116,7 +114,7 @@ export default {
   vertical-align: middle;
   background: 0 0;
   border: 2px solid;
-  border-color: #e5e5e5 #e5e5e5 #e5e5e5 #8f8d8e;
+  border-color: #e5e5e5 #e5e5e5 #e5e5e5 currentColor;
   border-radius: 50%;
   animation: circle 1s linear infinite;
 }
