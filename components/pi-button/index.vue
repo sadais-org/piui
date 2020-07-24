@@ -2,7 +2,7 @@
   <button
     class="pi-button fix-webkit-appearance"
     :style="[customStyle]"
-    :class="[customClass, round ? 'pi-round' : '']"
+    :class="[customClass, { round: round }]"
     :size="size"
     :type="type"
     :plain="plain"
@@ -29,12 +29,9 @@
     @launchapp="$emit('launchapp', $event)"
   >
     <slot />
-    <view
-      v-if="ripple"
-      class="wave-ripple"
-      :class="{ active: waveInfo.active }"
-      :style="[waveStyle]"
-    />
+    <view v-if="ripple" class="pi-abso-full" :class="[{ round: round }]">
+      <view class="wave-ripple" :class="[{ active: waveInfo.active }]" :style="[waveStyle]" />
+    </view>
   </button>
 </template>
 
@@ -263,10 +260,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// 按钮样式修改
+.round {
+  overflow: hidden;
+  border-radius: 500000rpx;
+}
+
 .pi-button {
   position: relative;
   border: 0;
+  // 椭圆
+  &.round {
+    &::after {
+      @extend .round;
+    }
+  }
   // 默认尺寸
   &[size='default'] {
     height: $pi-button-default-height;
@@ -305,6 +312,7 @@ export default {
   .wave-ripple {
     position: absolute;
     z-index: 0;
+    overflow: hidden;
     pointer-events: none;
     user-select: none;
     background-clip: padding-box;

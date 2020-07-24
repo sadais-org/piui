@@ -22,5 +22,5 @@ export default {
   homeIconPadding: '24rpx 12rpx 24rpx 24rpx', // 主页icon图标的padding
   homePage: '', // 主页路径
   homePageMethod: 'switchTab', // 跳转主页方法 navigateTo redirectTo switchTab reLaunch
-  zIndex: 999 // 元素 z-index
+  zIndex: 99 // 元素 z-index
 }

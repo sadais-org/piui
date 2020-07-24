@@ -1,18 +1,20 @@
 <template>
   <pi-popup
     :value="val"
-    :mask="popup.mask"
-    :z-index="popup.zIndex"
-    :border-radius="popup.borderRadius"
-    :show-close-icon="popup.showCloseIcon"
-    :close-icon-name="popup.closeIconName"
-    :close-icon-padding="popup.closeIconPadding"
-    :close-icon-color="popup.closeIconColor"
-    :close-icon-size="popup.closeIconSize"
-    :close-icon-position="popup.closeIconPosition"
-    :safe-area-inset-bottom="popup.safeAreaInsetBottom"
-    :mask-closable="popup.maskClosable"
-    :hide-tab-bar="popup.hideTabBar"
+    :border-radius="borderRadius"
+    :show-close-icon="showCloseIcon"
+    :close-icon-name="closeIconName"
+    :close-icon-padding="closeIconPadding"
+    :close-icon-color="closeIconColor"
+    :close-icon-size="closeIconSize"
+    :close-icon-position="closeIconPosition"
+    :safe-area-inset-bottom="safeAreaInsetBottom"
+    :duration="duration"
+    :mask-closable="maskClosable"
+    :hide-tab-bar="hideTabBar"
+    :append-to-body="appendToBody"
+    :z-index="zIndex"
+    :mask-background="maskBackground"
     @close="handlePopupClose"
   >
     <view class="pi-calendar" :style="[customStyle]" :class="[customClass]">
@@ -110,17 +112,17 @@ export default {
   // 混入自定义样式customStyle和customClass
   mixins: [ValueSync, createCustomPropsByConfig(calendar)],
   props: {
-    // 弹窗的配置，默认选项请参照popup
-    popup: {
-      type: Object,
-      default() {
-        return calendar.popup
-      }
+    // 是否显示title（默认：true）
+    showTitle: {
+      type: Boolean,
+      default: calendar.showTitle
     },
+    // 标题（默认：日期选择）
     title: {
       type: String,
       default: calendar.title
     },
+    // 标题 padding（默认：24rpx）
     titlePadding: {
       type: [String, Number],
       default: calendar.titlePadding
@@ -207,6 +209,96 @@ export default {
     dateFormat: {
       type: String,
       default: calendar.dateFormat
+    },
+    /**
+     * 弹窗的配置，默认选项请参照popup
+     * -------------------------------------------------------------------------------------------------
+     */
+    // 控制弹窗的四个角圆角效果（默认'0 0 0 0'）
+    borderRadius: {
+      type: [String, Number],
+      default: '0 0 0 0'
+    },
+    // 是否显示关闭图标，默认（true）
+    showCloseIcon: {
+      type: Boolean,
+      default: calendar.showCloseIcon
+    },
+    // 关闭图标的名称，默认（close）
+    closeIconName: {
+      type: String,
+      default: calendar.closeIconName
+    },
+    closeIconPadding: {
+      type: [String, Number],
+      default: calendar.closeIconPadding
+    },
+    // 关闭图标的颜色，默认（'#c9c9c9'）
+    closeIconColor: {
+      type: String,
+      default: calendar.closeIconColor
+    },
+    // 关闭图标的大小，默认（'42rpx'）
+    closeIconSize: {
+      type: [String, Number],
+      default: calendar.closeIconSize
+    },
+    closeIconWeight: {
+      type: [String, Number],
+      default: calendar.closeIconWeight
+    },
+    // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
+    closeIconPosition: {
+      type: String,
+      default: calendar.closeIconPosition,
+      validator: function(value) {
+        return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
+      }
+    },
+    // 顶部安全适配（状态栏高度，默认true）
+    safeAreaInsetTop: {
+      type: Boolean,
+      default: calendar.safeAreaInsetTop
+    },
+    // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
+    safeAreaInsetBottom: {
+      type: Boolean,
+      default: calendar.safeAreaInsetBottom
+    },
+    /**
+     * mask props
+     * -------------------------------------------------------------------------------------------------
+     */
+    // 遮罩的过渡时间，单位为ms，默认（500）
+    duration: {
+      type: [Number, String],
+      default: calendar.duration
+    },
+    // 是否可以通过点击遮罩进行关闭，默认（true）
+    maskClosable: {
+      type: Boolean,
+      default: calendar.maskClosable
+    },
+    // 是否隐藏TabBar，默认（false）
+    hideTabBar: {
+      required: false,
+      type: Boolean,
+      default: calendar.hideTabBar
+    },
+    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）,默认（false）
+    appendToBody: {
+      type: Boolean,
+      default: calendar.appendToBody
+    },
+    // 层级z-index，（默认1000）
+    zIndex: {
+      type: [Number, String],
+      default: calendar.zIndex
+    },
+    // 背景颜色（默认'rgba(0, 0, 0, .5)'）
+    maskBackground: {
+      type: String,
+      default: calendar.maskBackground
     }
   },
   data() {
@@ -306,6 +398,7 @@ export default {
         // 当天样式
         if (this.showBackToday && this.isSameDay(this.now, day)) {
           day.nowStyle = {
+            color: this.todayActiveBorderColor,
             border: '1px solid ' + this.todayActiveBorderColor,
             borderRadius: this.getActiveBorderRadius
           }

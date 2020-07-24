@@ -13,6 +13,9 @@ const install = (Vue, config = {}) => {
   console.log('%cpiui tools js使用方法：this.$pi.xxx', logStyle)
   Vue.prototype.$piConfig = piConfig
   Vue.prototype.$pi = piTools
+  Vue.prototype.$toast = piTools.toast.info
+  Vue.prototype.$loading = piTools.toast.loading
+  Vue.prototype.$hideLoading = piTools.toast.hideLoading
 }
 
 export default install

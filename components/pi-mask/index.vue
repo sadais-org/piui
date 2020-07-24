@@ -9,7 +9,7 @@
       { 'zIndex': zIndex, 'background': background, 'animation-duration': getDuration.css }
     ]"
     @touchmove.stop.prevent
-    @tap="handleCloseMask"
+    @tap.stop.prevent="handleCloseMask"
   >
     <slot />
   </view>
@@ -78,7 +78,8 @@ export default {
   },
   data() {
     return {
-      show: false
+      show: false,
+      showed: false // 是否动画执行完毕
     }
   },
   computed: {
@@ -110,31 +111,37 @@ export default {
     openMask() {
       if (this.show) return
       console.log(TAG, '显示遮罩层')
+      this.showed = false
       this.show = true
       this.handleEmitChange()
       uni.hideKeyboard()
       this.hideTabBar && uni.hideTabBar()
+      setTimeout(() => {
+        this.showed = true
+        console.log(TAG, '遮罩层已显示')
+      }, this.getDuration.js)
       // #ifdef H5
       if (this.appendToBody) {
-        console.log(this.$el)
         document.body.appendChild(this.$el)
       }
       // #endif
     },
     closeMask() {
-      if (!this.show) return
+      if (!this.show || !this.showed) return
       console.log(TAG, '关闭遮罩层')
       this.show = false
+      this.showed = false
       this.$emit('close')
       setTimeout(() => {
-        this.val = false
         this.$emit('closed')
+        this.val = false
         this.handleEmitChange()
         this.hideTabBar && uni.showTabBar()
+        console.log(TAG, '遮罩层已关闭')
       }, this.getDuration.js)
     },
     handleCloseMask() {
-      if (!this.maskClosable || !this.show) return
+      if (!this.maskClosable) return
       this.closeMask()
     }
   }

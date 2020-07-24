@@ -689,6 +689,7 @@
     @extend .pi-rela;
     @extend .pi-flex-nowrap;
     @extend .pi-justify-between;
+    @extend .pi-align-center;
     @extend .pi-bg-white;
 
     transition: all $pi-animation-duration ease-in-out;

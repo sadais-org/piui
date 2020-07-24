@@ -40,11 +40,19 @@ export const isString = value => {
 }
 
 /**
- * 判断arr是否为数组
+ * 判断是否为数组
  * @param {Array} value 数据
  */
 export const isArray = value => {
   return getTag(value) === '[object Array]'
+}
+
+/**
+ * 判断是否为函数
+ * @param {Array} value 数据
+ */
+export const isFunction = value => {
+  return getTag(value) === '[object Function]'
 }
 
 /**
