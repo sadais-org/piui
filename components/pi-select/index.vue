@@ -309,8 +309,7 @@ export default {
       }
     },
     handleConfirm() {
-      const result = this.$emit('confirm', this.selected)
-      console.log(result)
+      this.$emit('confirm', this.selected)
       this.handlePopupClose()
     }
   }
