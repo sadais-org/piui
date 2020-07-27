@@ -13,19 +13,31 @@
       @load="handleLoad"
     />
     <view class="pi-abso-center">
-      <slot v-if="$slots.loading" name="loading" />
-      <pi-loading
-        v-else
-        :show="loading"
-        :type="loadingType"
-        :color="loadingColor"
-        :size="loadingSize"
-      />
+      <!-- 加载中 -->
+      <template v-if="loading">
+        <slot v-if="$slots.loading" name="loading" />
+        <pi-loading
+          v-else
+          :show="loading"
+          :type="loadingType"
+          :color="loadingColor"
+          :size="loadingSize"
+        />
+      </template>
+      <!-- 加载失败 -->
+      <template v-if="error">
+        <slot v-if="$slots.error" name="error" />
+        <view class="pi-icon-pic" />
+      </template>
     </view>
   </view>
 </template>
 
 <script>
+/**
+ * 注意，必须指定宽度和高度，否则没办法显示低图和加载错误占位图
+ * 如果要自定义loading底图和请求失败图，请使用slot对本组件进行二次封装
+ */
 import { getConfig } from '../../config'
 import { createCustomPropsByConfig } from '../../mixin/component-custom'
 const TAG = 'PiImg'
@@ -41,7 +53,7 @@ export default {
       type: String,
       default: img.src
     },
-    // 裁剪模式（默认值：'widthFix'）
+    // 裁剪模式（默认值：'aspectFill'）
     mode: {
       type: String,
       default: img.mode
@@ -64,7 +76,7 @@ export default {
         return ['square', 'circle'].includes(value)
       }
     },
-    // shape为square的时候设置（默认值：'8rpx'）
+    // shape为square的时候设置（默认值：'0'）
     borderRadius: {
       type: [String, Number],
       default: img.borderRadius

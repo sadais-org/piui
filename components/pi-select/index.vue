@@ -144,6 +144,11 @@ export default {
         return select.itemStyle
       }
     },
+    // 是否点击确认的时候关闭弹窗（默认：'true'）
+    onConfirmClose: {
+      type: Boolean,
+      default: select.onConfirmClose
+    },
     /**
      * 弹窗的配置，默认选项请参照popup
      * ---------------------------------------------------------------------------------------------
@@ -310,7 +315,7 @@ export default {
     },
     handleConfirm() {
       this.$emit('confirm', this.selected)
-      this.handlePopupClose()
+      this.onConfirmClose && this.handlePopupClose()
     }
   }
 }

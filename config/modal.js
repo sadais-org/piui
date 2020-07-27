@@ -1,24 +1,26 @@
 export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
-  items: [], // 选项列表，默认（[]）
-  keyField: 'id', // 选项id字段，默认为id
-  displayField: 'text', // 选项显示字段，默认为text
-  defaultValue: null, // 默认值，单选是传Object，多选时传Array，默认null
-  isMulti: false, // 是否多选，（默认：false）
-  showTitle: false, // 是否显示title（默认：true）
+  onConfirmClose: true, // 是否点击确认的时候关闭弹窗（默认：'true'）
+  showTitle: true, // 是否显示title（默认：true）
   title: '弹出选择', // 标题（默认：日期选择）
   titlePadding: '24rpx', // 标题 padding（默认：24rpx）
-  height: '60vh', // 弹出选择层的高度，不可填百分比（默认：'60vh'）
-  itemHeight: 110, // 行高（默认：'110rpx'）
-  showItemBottomBorder: true, // 是否显示item下边框（默认：'true'）
-  itemStyle: {}, // 行样式（默认：'{}'）
-  onConfirmClose: true, // 是否点击确认的时候关闭弹窗（默认：'true'）
+  width: 600, // 弹窗宽度，可以是数值(rpx)，百分比，auto等
+  content: '内容', // 弹窗内容
+  contentStyle: {}, // 内容样式
+  showConfirmButton: true, // 是否显示确认按钮
+  confirmText: '确认', // 确认文案
+  confirmColor: '#ffffff', // 确认文字颜色
+  confirmBgColor: '', // 确认按钮背景颜色
+  showCancelButton: true, // 是否显示取消按钮
+  cancelText: '取消', // 取消文案
+  cancelColor: '#666666', // 取消文字颜色
+  cancelBgColor: '', // 取消按钮背景颜色
   /**
    * 弹窗的配置，默认选项请参照popup
    * -------------------------------------------------------------------------------------------------
    */
-  borderRadius: '0 0 0 0', // 控制弹窗的圆角效果
+  borderRadius: '8rpx', // 控制弹窗的圆角效果
   showCloseIcon: true, // 是否显示关闭图标，默认（true）
   closeIconName: 'close', // 关闭图标的名称，默认（close）
   closeIconPadding: '24rpx 24rpx', // 关闭图标的padding

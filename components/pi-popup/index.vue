@@ -12,10 +12,7 @@
   >
     <view
       class="pi-abso pi-of-hidden"
-      :class="[
-        customClass,
-        show ? 'pi-ani-slide-' + position + '-show' : 'pi-ani-slide-' + position + '-hide'
-      ]"
+      :class="[customClass, aniClass]"
       :style="[
         { 'borderRadius': borderRadius, 'animation-duration': getDuration.css },
         positionStyle,
@@ -25,10 +22,11 @@
     >
       <view
         class="pi-rela pi-w-100P pi-h-100P"
-        :class="{ 'pi-safearea': position !== 'top' && safeAreaInsetBottom }"
+        :class="{ 'pi-safearea': !['top', 'center'].includes(position) && safeAreaInsetBottom }"
         :style="{
           background: background,
-          paddingTop: position !== 'bottom' && safeAreaInsetTop ? statusBarHeight : 0
+          paddingTop:
+            !['bottom', 'center'].includes(position) && safeAreaInsetTop ? statusBarHeight : 0
         }"
       >
         <view
@@ -71,12 +69,12 @@ export default {
   // 混入自定义样式customStyle和customClass
   mixins: [ValueSync, createCustomPropsByConfig(popup)],
   props: {
-    // 弹出位置，可选值为 top bottom right left
+    // 弹出位置，可选值为 top bottom right left center
     position: {
       type: String,
       default: popup.position,
       validator: function(value) {
-        return ['top', 'bottom', 'right', 'left'].includes(value)
+        return ['top', 'bottom', 'right', 'left', 'center'].includes(value)
       }
     },
     // 背景颜色（默认'ffffff'）
@@ -168,7 +166,7 @@ export default {
     // 背景颜色（默认'rgba(0, 0, 0, .5)'）
     maskBackground: {
       type: String,
-      default: popup.background
+      default: popup.maskBackground
     }
   },
   data() {
@@ -191,7 +189,8 @@ export default {
         top: { top: 0, left: 0, right: 0 },
         bottom: { bottom: 0, left: 0, right: 0 },
         left: { top: 0, bottom: 0, left: 0 },
-        right: { top: 0, bottom: 0, right: 0 }
+        right: { top: 0, bottom: 0, right: 0 },
+        center: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
       }
       return positionStyleMap[this.position]
     },
@@ -208,7 +207,8 @@ export default {
         top: 'br', // 右下角
         bottom: 'tr', // 右上角
         left: 'tr', // 右上角
-        right: 'tl' // 左上角
+        right: 'tl', // 左上角
+        center: 'tr' // 右上角
       }
       const closePosition = this.closeIconPosition || closePositionMap[this.position]
       return closePosition
@@ -216,11 +216,15 @@ export default {
     closeIconStyle() {
       const closePosition = this.getClosePosition
       const top =
-        this.safeAreaInsetTop && this.position !== 'bottom' && closePosition.includes('t')
+        this.safeAreaInsetTop &&
+        !['bottom', 'center'].includes(this.position) &&
+        closePosition.includes('t')
           ? this.statusBarHeight
           : 0
       const bottom =
-        this.safeAreaInsetBottom && this.position !== 'top' && closePosition.includes('b')
+        this.safeAreaInsetBottom &&
+        !['top', 'center'].includes(this.position) &&
+        closePosition.includes('b')
           ? this.safeAreaBottom
           : 0
       const positionStyleMap = {
@@ -236,6 +240,15 @@ export default {
         ...positionStyleMap[closePosition]
       }
       return style
+    },
+    aniClass() {
+      if (this.position === 'center') {
+        return this.show ? 'ani-scale-center-up' : 'ani-scale-center-down'
+      } else {
+        return this.show
+          ? 'pi-ani-slide-' + this.position + '-show'
+          : 'pi-ani-slide-' + this.position + '-hide'
+      }
     }
   },
   watch: {
@@ -295,3 +308,37 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.ani-scale-center-up {
+  animation: scale-center-up $pi-animation-duration ease-in-out both;
+}
+
+.ani-scale-center-down {
+  animation: scale-center-down $pi-animation-duration ease-in-out both;
+}
+
+@keyframes scale-center-up {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes scale-center-down {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+}
+</style>

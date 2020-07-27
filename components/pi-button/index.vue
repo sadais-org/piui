@@ -1,7 +1,7 @@
 <template>
   <button
     class="pi-button fix-webkit-appearance"
-    :style="[customStyle]"
+    :style="[getCustomStyle]"
     :class="[customClass, { round: round }]"
     :size="size"
     :type="type"
@@ -153,6 +153,16 @@ export default {
      * 自定义属性扩展
      * ---------------------------------------------------------------------------------------------
      */
+    // 自定义颜色按钮（type为default，可自定义设置）
+    color: {
+      type: String,
+      default: ''
+    },
+    // 自定义背景色按钮（type为default，可自定义设置）
+    bgColor: {
+      type: String,
+      default: ''
+    },
     // 按钮是否椭圆（默认值：false）
     round: {
       type: Boolean,
@@ -180,6 +190,16 @@ export default {
     }
   },
   computed: {
+    getCustomStyle() {
+      const customStyle = {
+        ...this.customStyle
+      }
+      if (this.type === 'default') {
+        if (this.color) customStyle.color = this.color
+        if (this.bgColor) customStyle.backgroundColor = this.bgColor
+      }
+      return customStyle
+    },
     getHoverClass() {
       if (this.loading || this.disabled || this.ripple) return ''
       return this.hoverClass
@@ -267,7 +287,16 @@ export default {
 
 .pi-button {
   position: relative;
-  border: 0;
+  border: none;
+  &::after {
+    border: none;
+  }
+  &[disabled] {
+    opacity: 0.6;
+  }
+  &[loading]::before {
+    margin-right: 12rpx;
+  }
   // 椭圆
   &.round {
     &::after {
@@ -298,15 +327,8 @@ export default {
   &[type='primary'] {
     background-color: $pi-primary-color;
   }
-  &[disabled][type='primary'] {
-    background-color: rgba($pi-primary-color, 0.4);
-  }
   &.button-hover[type='primary'] {
     background-color: rgba($pi-primary-color, 0.8);
-  }
-  &[loading][type='primary'] {
-    color: hsla(0, 0%, 100%, 0.6);
-    background-color: $pi-primary-color;
   }
 
   .wave-ripple {

@@ -6,7 +6,7 @@ export default {
   width: '100%', // 宽度（默认值：'100%'）
   height: 'auto', // 高度（默认值：'auto'）
   shape: 'square', // 图片形状，circle-圆形，square-方形（默认值：'square'）
-  borderRadius: 8, // shape为square的时候设置（默认值：'8rpx'）
+  borderRadius: 0, // shape为square的时候设置（默认值：'0rpx'）
   lazyLoad: true, // 是否懒加载（默认值：'true'）
   showMenuByLongpress: true, // 开启长按图片显示识别微信小程序码菜单（默认值：'true'）
   showLoading: true, // 是否显示加载中的图标或者自定义的slot（默认值：'true'）
