@@ -23,11 +23,7 @@
       <view
         class="pi-rela pi-w-100P pi-h-100P"
         :class="{ 'pi-safearea': !['top', 'center'].includes(position) && safeAreaInsetBottom }"
-        :style="{
-          background: background,
-          paddingTop:
-            !['bottom', 'center'].includes(position) && safeAreaInsetTop ? statusBarHeight : 0
-        }"
+        :style="contentStyle"
       >
         <view
           v-if="showCloseIcon"
@@ -193,6 +189,15 @@ export default {
         center: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
       }
       return positionStyleMap[this.position]
+    },
+    contentStyle() {
+      return {
+        background: this.background,
+        paddingTop:
+          !['bottom', 'center'].includes(this.position) && this.safeAreaInsetTop
+            ? this.statusBarHeight
+            : 0
+      }
     },
     getDuration() {
       const duration = parseInt(this.duration)
