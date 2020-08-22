@@ -8,7 +8,7 @@
 export const objToUrl = (obj = {}, encodeURI = true, preConnectChat = '?') => {
   const result = Object.keys(obj).map(prop => {
     const value = encodeURI ? encodeURIComponent(obj[prop]) : obj[prop]
-    return `${name}=${value}`
+    return `${prop}=${value}`
   })
   return result.length ? preConnectChat + result.join('&') : ''
 }
@@ -24,7 +24,7 @@ export const urlToObj = (str = '', decodeURI) => {
   const query = strSplits.length === 2 ? strSplits[1] : str
   const params = query.split('&')
   const result = params.map(param => {
-    const paramObj = item.split('=')
+    const paramObj = param.split('=')
     const name = paramObj[0]
     const value = paramObj[1] || ''
     return {
