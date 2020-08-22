@@ -7,5 +7,3 @@ export default {
   name: 'PiCheckbox'
 }
 </script>
-
-<style scoped></style>
