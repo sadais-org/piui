@@ -63,13 +63,6 @@ export default {
       default() {
         return loading.textStyle
       }
-    },
-    // 整个loading自定义样式
-    customStyle: {
-      type: Object,
-      default() {
-        return loading.customStyle
-      }
     }
   },
   computed: {

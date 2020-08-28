@@ -23,7 +23,7 @@
       <view
         class="pi-rela pi-w-100P pi-h-100P"
         :class="{ 'pi-safearea': !['top', 'center'].includes(position) && safeAreaInsetBottom }"
-        :style="contentStyle"
+        :style="[contentStyle]"
       >
         <view
           v-if="showCloseIcon"

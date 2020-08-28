@@ -66,6 +66,7 @@ const { search } = getConfig()
 
 export default {
   name: TAG,
+  // 混入自定义样式customStyle和customClass
   mixins: [ValueSync, createCustomPropsByConfig(search)], // 注入value与val，进行双向绑定
   props: {
     // 搜索框形状 round || square（默认'round'）
