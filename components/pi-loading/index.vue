@@ -5,7 +5,7 @@
     :style="[customStyle, { color: color }]"
     :class="[customClass, vertical ? vertical : '']"
   >
-    <view v-if="type === 'circle'" class="loading-circle" :style="[cricleStyle]" />
+    <view v-if="type === 'round'" class="loading-round" :style="[cricleStyle]" />
     <view v-if="type === 'spinner'" class="loading-spinner" :style="[cricleStyle]">
       <view v-for="line of 12" :key="line" />
     </view>
@@ -46,12 +46,12 @@ export default {
       type: String,
       default: loading.color
     },
-    // 类型： spinner 菊花 circle 圆环
+    // 类型： spinner 菊花 round 圆环
     type: {
       type: String,
       default: loading.type,
       validator: function(value) {
-        return ['spinner', 'circle'].includes(value)
+        return ['spinner', 'round'].includes(value)
       }
     },
     // 尺寸，默认38rpx
@@ -112,7 +112,7 @@ export default {
     }
   }
 }
-.loading-circle {
+.loading-round {
   display: inline-block;
   width: 28rpx;
   height: 28rpx;
@@ -121,7 +121,7 @@ export default {
   border: 2px solid;
   border-color: #e5e5e5 #e5e5e5 #e5e5e5 currentColor;
   border-radius: 50%;
-  animation: circle 1s linear infinite;
+  animation: round 1s linear infinite;
 }
 
 .loading-spinner {
@@ -129,7 +129,7 @@ export default {
   width: 20px;
   height: 20px;
   vertical-align: middle;
-  animation: circle 1s steps(12) infinite;
+  animation: round 1s steps(12) infinite;
   view {
     position: absolute;
     top: 0;

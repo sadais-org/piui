@@ -80,12 +80,12 @@ export default {
       type: [String, Number],
       default: img.height
     },
-    // 图片形状，circle-圆形，square-方形（默认值：'square'）
+    // 图片形状，round-圆形，square-方形（默认值：'square'）
     shape: {
       type: String,
       default: img.shape,
       validator: function(value) {
-        return ['square', 'circle'].includes(value)
+        return ['square', 'round'].includes(value)
       }
     },
     // shape为square的时候设置（默认值：'0'）
@@ -113,12 +113,12 @@ export default {
       type: String,
       default: img.loadingColor
     },
-    // 类型： spinner 菊花 circle 圆环（默认值：'spinner'）
+    // 类型： spinner 菊花 round 圆环（默认值：'spinner'）
     loadingType: {
       type: String,
       default: img.loadingType,
       validator: function(value) {
-        return ['spinner', 'circle'].includes(value)
+        return ['spinner', 'round'].includes(value)
       }
     },
     // 尺寸，默认38rpx
@@ -151,7 +151,7 @@ export default {
         overflow: 'hidden',
         width: this.$pi.common.addUnit(this.width),
         height: this.$pi.common.addUnit(this.height),
-        borderRadius: this.shape === 'circle' ? '50%' : this.$pi.common.addUnit(this.borderRadius)
+        borderRadius: this.shape === 'round' ? '50%' : this.$pi.common.addUnit(this.borderRadius)
       }
     }
   },

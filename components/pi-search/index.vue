@@ -90,7 +90,10 @@ export default {
     // 搜索框形状 round || square（默认'round'）
     shape: {
       type: String,
-      default: search.shape
+      default: search.shape,
+      validator: function(value) {
+        return ['square', 'round'].includes(value)
+      }
     },
     // 背景颜色（默认'#f2f2f2'）
     background: {
