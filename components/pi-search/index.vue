@@ -1,6 +1,6 @@
 <template>
   <view class="pi-align-center" :style="[customStyle]" :class="[customClass]">
-    <view class="pi-pd-right-18" :style="searchLabelStyle">{{ searchLabel }}</view>
+    <view class="pi-pd-right-18" :style="[searchLabelStyle]">{{ searchLabel }}</view>
     <!-- 中间灰色包裹块 -->
     <view
       class="pi-flex-sub pi-align-center pi-of-hidden"
@@ -29,7 +29,7 @@
           :placeholder="placeholder"
           :placeholder-style="placeholderStyle"
           type="text"
-          :style="mergeInputStyle"
+          :style="[mergeInputStyle]"
           @blur="handleInputBlur"
           @confirm="handleInputSearch"
           @input="handleInputChange"
