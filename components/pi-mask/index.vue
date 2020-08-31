@@ -24,16 +24,33 @@
  */
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
+
 const TAG = 'PiMask'
 const { mask } = getConfig()
 
 export default {
   name: TAG,
   // 混入v-model
-  // 混入自定义样式customStyle和customClass
-  mixins: [ValueSync, createCustomPropsByConfig(mask)],
+  mixins: [ValueSync],
   props: {
+    // 初始值
+    value: {
+      required: false
+    },
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return mask.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return mask.customClass
+      }
+    },
     // 显示的时候执行的动画，默认（'pi-ani-fade-show'）
     animationShow: {
       type: String,

@@ -48,16 +48,27 @@
 import { systemInfo } from '../../tools/system'
 import * as navi from '../../tools/navi'
 import { getConfig } from '../../config'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
 
 const TAG = 'PiNavbar'
 const { navbar } = getConfig()
 
 export default {
   name: TAG,
-  // 混入自定义样式customStyle和customClass
-  mixins: [createCustomPropsByConfig(navbar)],
   props: {
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return navbar.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return navbar.customClass
+      }
+    },
     // 标题（默认''）
     title: {
       type: String,

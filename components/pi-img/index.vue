@@ -39,15 +39,27 @@
  * 如果要自定义loading底图和请求失败图，请使用slot对本组件进行二次封装
  */
 import { getConfig } from '../../config'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
+
 const TAG = 'PiImg'
 const { img } = getConfig()
 
 export default {
   name: TAG,
-  // 混入自定义样式customStyle和customClass
-  mixins: [createCustomPropsByConfig(img)],
   props: {
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return img.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return img.customClass
+      }
+    },
     // 图片地址（默认值：''）
     src: {
       type: String,

@@ -102,16 +102,33 @@
 <script>
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
+
 const TAG = 'PiCalendar'
 const { calendar } = getConfig()
 
 export default {
   name: TAG,
   // 混入v-model
-  // 混入自定义样式customStyle和customClass
-  mixins: [ValueSync, createCustomPropsByConfig(calendar)],
+  mixins: [ValueSync],
   props: {
+    // 初始值
+    value: {
+      required: false
+    },
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return calendar.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return calendar.customClass
+      }
+    },
     // 是否显示title（默认：true）
     showTitle: {
       type: Boolean,

@@ -31,13 +31,13 @@
       </view>
       <!-- 内容区域 -->
       <view class="pi-flex-column-center pi-pd-24" :style="[contentStyle]">
-        <slot v-if="$slots.default" />
+        <slot v-if="$slots.default || $slots.$default" />
         <view v-else>{{ content }}</view>
       </view>
 
       <!-- 按钮区域 -->
       <view class="modal-footer pi-align-center pi-justify-center pi-pd-24">
-        <slot v-if="$slots.default" name="footer" />
+        <slot v-if="$slots.footer" name="footer" />
         <template v-else>
           <pi-button
             v-if="showCancelButton"
@@ -67,16 +67,33 @@
 <script>
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
+
 const TAG = 'PiModal'
 const { modal } = getConfig()
 
 export default {
   name: TAG,
   // 混入v-model
-  // 混入自定义样式customStyle和customClass
-  mixins: [ValueSync, createCustomPropsByConfig(modal)],
+  mixins: [ValueSync],
   props: {
+    // 初始值
+    value: {
+      required: false
+    },
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return modal.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return modal.customClass
+      }
+    },
     // 是否点击确认的时候关闭弹窗（默认：'true'）
     onConfirmClose: {
       type: Boolean,

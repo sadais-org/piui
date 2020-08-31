@@ -60,15 +60,33 @@
  */
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
+
 const TAG = 'PiSearch'
 const { search } = getConfig()
 
 export default {
   name: TAG,
   // 混入自定义样式customStyle和customClass
-  mixins: [ValueSync, createCustomPropsByConfig(search)], // 注入value与val，进行双向绑定
+  mixins: [ValueSync], // 注入value与val，进行双向绑定
   props: {
+    // 初始值
+    value: {
+      required: false
+    },
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return search.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return search.customClass
+      }
+    },
     // 搜索框形状 round || square（默认'round'）
     shape: {
       type: String,

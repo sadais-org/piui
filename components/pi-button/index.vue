@@ -41,15 +41,13 @@
  * 因为小程序不兼容v-bind="$attrs"写法，所以只能把官网属性重定义一遍
  */
 import { getConfig } from '../../config'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
+
 import { debounce } from '../../tools/common'
 const TAG = 'PiButton'
 const { button } = getConfig()
 
 export default {
   name: TAG,
-  // 混入自定义样式customStyle和customClass
-  mixins: [createCustomPropsByConfig(button)],
   props: {
     /**
      * uniapp button 官方属性定义
@@ -153,6 +151,20 @@ export default {
      * 自定义属性扩展
      * ---------------------------------------------------------------------------------------------
      */
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return button.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return button.customClass
+      }
+    },
     // 自定义颜色按钮（type为default，可自定义设置）
     color: {
       type: String,

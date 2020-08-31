@@ -70,16 +70,33 @@
 <script>
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
+
 const TAG = 'PiSelect'
 const { select } = getConfig()
 
 export default {
   name: TAG,
   // 混入v-model
-  // 混入自定义样式customStyle和customClass
-  mixins: [ValueSync, createCustomPropsByConfig(select)],
+  mixins: [ValueSync],
   props: {
+    // 初始值
+    value: {
+      required: false
+    },
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return select.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return select.customClass
+      }
+    },
     // 选项列表，默认（[]）
     items: {
       type: Array,

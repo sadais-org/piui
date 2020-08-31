@@ -8,12 +8,6 @@ export default {
     prop: 'value',
     event: 'input'
   },
-  props: {
-    // 初始值
-    value: {
-      required: false
-    }
-  },
   data() {
     return {
       // 同步value到val

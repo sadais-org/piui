@@ -9,21 +9,33 @@
     <view v-if="type === 'spinner'" class="loading-spinner" :style="[cricleStyle]">
       <view v-for="line of 12" :key="line" />
     </view>
-    <view v-if="$slots.default" class="slot"><slot /></view>
+    <view v-if="$slots.default || $slots.$default" class="slot"><slot /></view>
   </view>
 </template>
 
 <script>
 import { getConfig } from '../../config'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
+
 const TAG = 'PiLoading'
 const { loading } = getConfig()
 
 export default {
   name: TAG,
-  // 混入自定义样式customStyle和customClass
-  mixins: [createCustomPropsByConfig(loading)],
   props: {
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return loading.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return loading.customClass
+      }
+    },
     // 是否显示loading
     show: {
       type: Boolean,

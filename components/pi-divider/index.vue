@@ -5,7 +5,10 @@
       class="pi-divider"
       :style="[dividerStyle]"
     />
-    <view v-if="$slots.default" :style="{ padding: contentPadding }"><slot /></view>
+    <!-- $slots.$default 是为了支持支付宝小程序 -->
+    <view v-if="$slots.default || $slots.$default" :style="[{ padding: contentPadding }]">
+      <slot />
+    </view>
     <view
       v-if="['center', 'left'].includes(contentPosition)"
       class="pi-divider"
@@ -16,15 +19,27 @@
 
 <script>
 import { getConfig } from '../../config'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
+
 const TAG = 'PiDivider'
 const { divider } = getConfig()
 
 export default {
   name: TAG,
-  // 混入自定义样式customStyle和customClass
-  mixins: [createCustomPropsByConfig(divider)],
   props: {
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return divider.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return divider.customClass
+      }
+    },
     // 是否使用0.5px线
     halfline: {
       type: Boolean,

@@ -49,7 +49,6 @@
 import ValueSync from '../../mixin/value-sync'
 import { systemInfo } from '../../tools/system'
 import { getConfig } from '../../config'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
 
 const TAG = 'PiPopup'
 const { popup } = getConfig()
@@ -62,9 +61,26 @@ const {
 export default {
   name: TAG,
   // 混入v-model
-  // 混入自定义样式customStyle和customClass
-  mixins: [ValueSync, createCustomPropsByConfig(popup)],
+  mixins: [ValueSync],
   props: {
+    // 初始值
+    value: {
+      required: false
+    },
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return popup.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return popup.customClass
+      }
+    },
     // 弹出位置，可选值为 top bottom right left center
     position: {
       type: String,

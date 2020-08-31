@@ -14,15 +14,27 @@
  * @example <status-bar />
  */
 import { systemInfo } from '../../tools/system'
-import { createCustomPropsByConfig } from '../../mixin/component-custom'
+
 import { getConfig } from '../../config'
 const { statusBar } = getConfig()
 
 export default {
   name: 'PiStatusBar',
-  // 混入自定义样式customStyle和customClass
-  mixins: [createCustomPropsByConfig(statusBar)],
   props: {
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return statusBar.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return statusBar.customClass
+      }
+    },
     // 背景颜色（默认透明）
     background: {
       required: false,
