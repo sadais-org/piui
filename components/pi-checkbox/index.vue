@@ -1,9 +1,15 @@
 <template>
-  <view class="pi-check-wrap" @tap="handleCheckboxToggle">
-    <view class="check-icon" :style="[checkboxStyle, customStyle]" :class="[iconClass]">
+  <view class="pi-check-wrap" :class="{ disabled: disabled }" @tap="handleCheckboxToggle">
+    <view
+      class="check-icon"
+      :style="[checkboxStyle, customStyle]"
+      :class="[iconClass, customClass]"
+    >
       <pi-icon name="check" :size="iconSize" />
     </view>
-    <view class="checkbox-label"><slot /></view>
+    <view class="checkbox-label">
+      <slot />
+    </view>
   </view>
 </template>
 
@@ -36,6 +42,11 @@ export default {
       default() {
         return checkbox.customClass
       }
+    },
+    // checkbox组件的标示符
+    name: {
+      type: [String, Number],
+      default: checkbox.name
     },
     // 形状 round || square（默认'round'）
     shape: {
@@ -74,6 +85,9 @@ export default {
       }
     }
   },
+  inject: {
+    piCheckboxGroup: { default: undefined }
+  },
   data() {
     return {
       // 初始化组件时，默认为加载中状态
@@ -92,7 +106,7 @@ export default {
         height: this.getSize
       }
       this.shape === 'round' && (style.borderRadius = '50%')
-      if (this.activeColor && this.value) {
+      if (this.activeColor && this.val) {
         style.borderColor = this.activeColor
         if (this.activeMode === 'line') {
           style.color = this.activeColor
@@ -104,21 +118,40 @@ export default {
     },
     iconClass() {
       const classes = [this.activeMode]
-      if (this.value) classes.push('active')
-      if (this.disabled) classes.push('disabled')
+      if (this.val) classes.push('active')
       return classes.join(' ')
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    init() {
+      if (!this.piCheckboxGroup) return
+      this.piCheckboxGroup.children.push(this)
+      const checkboxGroupValue = this.piCheckboxGroup.value
+      if (checkboxGroupValue && checkboxGroupValue.includes(this.name)) {
+        this.val = true
+      }
+    },
     handleCheckboxToggle() {
+      if (this.disabled) return
+      // 如果父组件做了可选数量限制
+      if (!this.val && this.piCheckboxGroup && this.piCheckboxGroup.getMax > 0) {
+        const max = this.piCheckboxGroup.getMax
+        const currentCount = this.piCheckboxGroup.children.filter(c => c.val).length
+        if (max === currentCount) return
+      }
       this.val = !this.val
       this.handleEmitChange()
+      this.piCheckboxGroup && this.piCheckboxGroup.emitChange()
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+$disable-color: #c8c9cc;
 .pi-check-wrap {
   display: inline-flex;
   align-items: center;
@@ -129,7 +162,7 @@ export default {
     overflow: hidden;
     font-weight: 800;
     color: transparent;
-    border: 1px solid #c8c9cc;
+    border: 1px solid $disable-color;
     border-radius: 4rpx;
     transition: all $pi-animation-duration ease-in-out;
     &.line.active {
@@ -140,6 +173,14 @@ export default {
       color: #ffffff;
       background: $pi-primary-color;
       border-color: $pi-primary-color;
+    }
+  }
+  &.disabled {
+    color: $disable-color;
+    cursor: not-allowed;
+    .check-icon {
+      background-color: #ebedf0;
+      border-color: $disable-color;
     }
   }
   .checkbox-label {

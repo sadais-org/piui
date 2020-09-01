@@ -26,6 +26,7 @@ export default {
   methods: {
     handleEmitChange() {
       this.$emit('input', this.val)
+      this.$emit('change', this.val)
     }
   }
 }
