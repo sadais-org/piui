@@ -18,16 +18,7 @@
     :mask-background="maskBackground"
     @close="handlePopupClose"
   >
-    <view
-      class="pi-select"
-      :style="[
-        customStyle,
-        {
-          height: $pi.common.addUnit(height)
-        }
-      ]"
-      :class="[customClass]"
-    >
+    <view class="pi-select" :style="[customStyle, { getHeight }]" :class="[customClass]">
       <!-- 标题栏 -->
       <view
         v-if="showTitle"
@@ -47,9 +38,9 @@
       <!-- 选择区域 -->
       <scroll-view class="pi-scroll" scroll-y scroll-with-animation>
         <view
-          v-for="(item, index) in getItems"
+          v-for="item in getItems"
           :id="`id-${item[keyField]}`"
-          :key="index"
+          :key="item[keyField]"
           :style="[itemStyle, getItemStyle]"
           :class="{ 'pi-solid-bottom-1': showItemBottomBorder }"
           class="pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
@@ -271,6 +262,9 @@ export default {
         .join('-')
       return options
     },
+    getHeight() {
+      return this.$pi.common.addUnit(this.height)
+    },
     getTitlePadding() {
       return this.$pi.common.addUnit(this.titlePadding)
     },
@@ -295,6 +289,7 @@ export default {
     }
   },
   watch: {
+    // ! 因为使用对象，在H5端watch的时候，就算没有发生改变，也会触发，这里直接监听toString后的值
     options(val) {
       this.init()
     }

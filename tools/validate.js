@@ -31,10 +31,10 @@ export const isDate = value => {
 }
 
 /**
- * 验证十进制数字
+ * 验证数字
  */
 export const isNumber = value => {
-  return /^(?:-?\d+|-?\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(value)
+  return /^\d{1,}$/.test(value)
 }
 
 /**

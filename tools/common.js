@@ -1,4 +1,5 @@
 import { isNumber } from './validate'
+
 /**
  * 动态import文件
  * 默认取export default对象，如果export default对象不存在的情况下，取本身的export
@@ -27,7 +28,6 @@ export const dynamicImport = (context, excludeIndex = true) => {
  * @param  {string} v2 目标版本
  * @return {number}    如果原始版本大于目标版本，则返回大于0的数值, 如果原始小于目标版本则返回小于0的数值。0当然是两个版本都相等拉。
  */
-
 export const compareVersion = (v1, v2) => {
   var _v1 = v1.split('.'),
     _v2 = v2.split('.'),
@@ -38,7 +38,7 @@ export const compareVersion = (v1, v2) => {
 
 // 添加单位，如果非数值类型，直接返回，否则加上rpx单位结尾
 export const addUnit = (value = 'auto', unit = 'rpx') => {
-  return isNumber(String(value)) ? `${value}${unit}` : value
+  return isNumber(value) ? `${value}${unit}` : value
 }
 
 /**
@@ -91,4 +91,26 @@ export const throttle = function(fn, delay, immediate, debounce) {
  */
 export const debounce = function(fn, delay, immediate) {
   return throttle(fn, delay, immediate, true)
+}
+
+/**
+ * 查询节点信息
+ * @param {Object} scope 传this
+ * @param {String} selector 查询节点表达式
+ * @param {Boolean} all 是否查询多个节点
+ * @return Promise
+ */
+export const queryRect = function(scope, selector, all) {
+  return new Promise(resolve => {
+    const method = all ? 'selectAll' : 'select'
+    const nodesRef = uni
+      .createSelectorQuery()
+      .in(scope)
+      [method](selector)
+    nodesRef
+      .boundingClientRect(rect => {
+        resolve(rect)
+      })
+      .exec()
+  })
 }
