@@ -1,30 +1,31 @@
 <template>
-  <view class="pi-tabs">
-    <!-- 选择区域 -->
-    <scroll-view class="pi-scroll" :scroll-left="scrollLeft" scroll-x scroll-with-animation>
-      <view class="scroll-wrap" :style="[scrollWrapStyle]">
-        <view
-          v-for="item in items"
-          :id="`id-${item[keyField]}`"
-          :key="item[keyField]"
-          :style="[getItemStyle, itemStyle]"
-          class="pi-tab pi-align-center pi-fz-30"
-          @tap="handleSelectItem(item)"
-        >
-          <!-- slot slot-scoped只支持app,h5,微信小程序平台 -->
-          <!-- <template slot="item" slot-scope="{ item }">{{ item.tag }}</template> -->
-          <slot name="item" :item="item">
-            {{ item[displayField] }}
-          </slot>
+  <view>
+    <view class="pi-tabs">
+      <scroll-view class="pi-scroll" :scroll-left="scrollLeft" scroll-x scroll-with-animation>
+        <view class="scroll-wrap" :style="[scrollWrapStyle]">
+          <view
+            v-for="item in items"
+            :id="`id-${item[keyField]}`"
+            :key="item[keyField]"
+            :style="[getItemStyle, itemStyle]"
+            class="pi-tab pi-align-center pi-fz-30"
+            @tap="handleSelectItem(item)"
+          >
+            <!-- slot slot-scoped只支持app,h5,微信小程序平台 -->
+            <!-- <template slot="item" slot-scope="{ item }">{{ item.tag }}</template> -->
+            <slot name="item" :item="item">
+              {{ item[displayField] }}
+            </slot>
+          </view>
+          <view
+            class="slider-bar-guide"
+            :style="[{ 'background-color': showSliderBarGuide ? '#e4e7ed' : 'unset' }]"
+          >
+            <view :style="[getSliderBarStyle]" class="slider-bar" />
+          </view>
         </view>
-        <view
-          class="slider-bar-guide"
-          :style="[{ 'background-color': showSliderBarGuide ? '#e4e7ed' : 'unset' }]"
-        >
-          <view :style="[getSliderBarStyle]" class="slider-bar" />
-        </view>
-      </view>
-    </scroll-view>
+      </scroll-view>
+    </view>
   </view>
 </template>
 
@@ -131,6 +132,13 @@ export default {
         return tabs.sliderBarHeight
       }
     },
+    // 底部的滑块的圆角，单位rpx
+    sliderBarRadius: {
+      type: [String, Number],
+      default() {
+        return tabs.sliderBarRadius
+      }
+    },
     // 导航栏的高度，单位rpx
     height: {
       type: [String, Number],
@@ -182,6 +190,9 @@ export default {
     getSliderBarHeight() {
       return this.$pi.common.addUnit(this.sliderBarHeight)
     },
+    getSliderBarRadius() {
+      return this.$pi.common.addUnit(this.sliderBarRadius)
+    },
     getItemPadding() {
       return this.$pi.common.addUnit(this.itemPadding)
     },
@@ -207,6 +218,7 @@ export default {
       const style = {
         width: this.getSliderBarWidth,
         height: this.getSliderBarHeight,
+        borderRadius: this.getSliderBarRadius,
         transitionDuration: `${this.duration / 1000}s`
       }
       if (!this.tabRects.length) return style
@@ -283,6 +295,7 @@ export default {
       .slider-bar {
         width: 80rpx;
         height: 100%;
+        overflow: hidden;
         background-color: $pi-primary-color;
         transition-delay: $pi-animation-duration;
         transition-timing-function: ease-in-out;
