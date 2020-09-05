@@ -47,20 +47,20 @@ export default {
       type: [String, Number],
       default: checkboxGroup.max
     },
-    // 排列方向，可选值为 horizontal vertical
+    // 排列方向，可选值为 horizontal vertical（默认''，不设置）
     direction: {
       type: String,
       default: checkboxGroup.direction,
       validator: function(value) {
-        return ['horizontal', 'vertical'].includes(value)
+        return ['', 'horizontal', 'vertical'].includes(value)
       }
     },
-    // 形状 round || square（默认'round'）
+    // 形状 round || square（默认''，不设置）
     shape: {
       type: String,
       default: checkboxGroup.shape,
       validator: function(value) {
-        return ['square', 'round'].includes(value)
+        return ['', 'square', 'round'].includes(value)
       }
     },
     // 是否禁用复选框
@@ -83,12 +83,12 @@ export default {
       type: [String],
       default: checkboxGroup.activeColor
     },
-    // 激活模式（line: 线框模式，fill: 实底模式）
+    // 激活模式（line: 线框模式，fill: 实底模式）（默认''，不设置）
     activeMode: {
       type: [String],
       default: checkboxGroup.activeMode,
       validator: function(value) {
-        return ['line', 'fill'].includes(value)
+        return ['', 'line', 'fill'].includes(value)
       }
     }
   },
@@ -121,6 +121,7 @@ export default {
 <style lang="scss" scoped>
 .pi-checkbox-group {
   display: inline-flex;
+  flex-wrap: wrap;
   &.horizontal {
     flex-direction: row;
     align-items: center;

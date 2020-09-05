@@ -1,11 +1,12 @@
 <template>
-  <view class="pi-check-wrap" :class="{ disabled: disabled }" @tap="handleCheckboxToggle">
-    <view
-      class="check-icon"
-      :style="[checkboxStyle, customStyle]"
-      :class="[iconClass, customClass]"
-    >
-      <pi-icon name="check" :size="iconSize" />
+  <view
+    class="pi-check-wrap"
+    :style="[customStyle]"
+    :class="[customClass, { disabled: getDisable }]"
+    @tap="handleCheckboxToggle"
+  >
+    <view class="check-icon" :style="[checkboxStyle]" :class="[iconClass]">
+      <pi-icon name="check" :size="getIconSize" />
     </view>
     <view class="checkbox-label">
       <slot />
@@ -97,27 +98,52 @@ export default {
     }
   },
   computed: {
+    getShape() {
+      return this.piCheckboxGroup && this.piCheckboxGroup.shape
+        ? this.piCheckboxGroup.shape
+        : this.shape
+    },
+    getDisable() {
+      return this.piCheckboxGroup && this.piCheckboxGroup.disabled ? true : this.disabled
+    },
+    getActiveMode() {
+      return this.piCheckboxGroup && this.piCheckboxGroup.activeMode
+        ? this.piCheckboxGroup.activeMode
+        : this.activeMode
+    },
+    getActiveColor() {
+      return this.piCheckboxGroup && this.piCheckboxGroup.activeColor
+        ? this.piCheckboxGroup.activeColor
+        : this.activeColor
+    },
     getSize() {
-      return this.$pi.common.addUnit(this.size)
+      return this.piCheckboxGroup && this.piCheckboxGroup.size
+        ? this.$pi.common.addUnit(this.piCheckboxGroup.size)
+        : this.$pi.common.addUnit(this.size)
+    },
+    getIconSize() {
+      return this.piCheckboxGroup && this.piCheckboxGroup.iconSize
+        ? this.$pi.common.addUnit(this.piCheckboxGroup.iconSize)
+        : this.$pi.common.addUnit(this.iconSize)
     },
     checkboxStyle() {
       const style = {
         width: this.getSize,
         height: this.getSize
       }
-      this.shape === 'round' && (style.borderRadius = '50%')
-      if (this.activeColor && this.val) {
-        style.borderColor = this.activeColor
-        if (this.activeMode === 'line') {
-          style.color = this.activeColor
+      this.getShape === 'round' && (style.borderRadius = '50%')
+      if (this.getActiveColor && this.val) {
+        style.borderColor = this.getActiveColor
+        if (this.getActiveMode === 'line') {
+          style.color = this.getActiveColor
         } else {
-          style.backgroundColor = this.activeColor
+          style.backgroundColor = this.getActiveColor
         }
       }
       return style
     },
     iconClass() {
-      const classes = [this.activeMode]
+      const classes = [this.getActiveMode]
       if (this.val) classes.push('active')
       return classes.join(' ')
     }
@@ -135,7 +161,7 @@ export default {
       }
     },
     handleCheckboxToggle() {
-      if (this.disabled) return
+      if (this.getDisable) return
       // 如果父组件做了可选数量限制
       if (!this.val && this.piCheckboxGroup && this.piCheckboxGroup.getMax > 0) {
         const max = this.piCheckboxGroup.getMax
@@ -160,33 +186,41 @@ $disable-color: #c8c9cc;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    font-weight: 800;
-    color: transparent;
+    font-weight: 900;
+    color: #cccccc;
     border: 1px solid $disable-color;
     border-radius: 4rpx;
     transition: all $pi-animation-duration ease-in-out;
-    &.line.active {
-      color: $pi-primary-color;
-      border-color: $pi-primary-color;
+    &.line {
+      &.active {
+        color: $pi-primary-color;
+        background-color: #ffffff;
+        border-color: $pi-primary-color;
+      }
     }
-    &.fill.active {
+    &.fill {
       color: #ffffff;
-      background: $pi-primary-color;
-      border-color: $pi-primary-color;
-    }
-  }
-  &.disabled {
-    color: $disable-color;
-    cursor: not-allowed;
-    .check-icon {
-      background-color: #ebedf0;
-      border-color: $disable-color;
+      background-color: #cccccc;
+      border-color: #cccccc;
+      &.active {
+        color: #ffffff;
+        background: $pi-primary-color;
+        border-color: $pi-primary-color;
+      }
     }
   }
   .checkbox-label {
-    margin-right: 24rpx;
     margin-left: 10rpx;
     word-wrap: break-word;
+  }
+  &.disabled {
+    cursor: not-allowed;
+    .check-icon {
+      opacity: 0.4;
+    }
+    .checkbox-label {
+      color: #cccccc;
+    }
   }
 }
 </style>
