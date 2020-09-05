@@ -63,6 +63,11 @@ export default {
         return ['', 'square', 'round'].includes(value)
       }
     },
+    // 边框大小，单位rpx
+    border: {
+      type: [String, Number],
+      default: checkboxGroup.border
+    },
     // 是否禁用复选框
     disabled: {
       type: Boolean,

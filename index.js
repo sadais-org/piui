@@ -1,4 +1,5 @@
 import piTools from './tools'
+import piUtils from './utils'
 import { getConfig, setConfig } from './config'
 
 const logStyle = 'color:#ff6a00;font-size:20px;font-weight:500;'
@@ -13,6 +14,7 @@ const install = (Vue, config = {}) => {
   console.log('%cpiui tools js使用方法：this.$pi.xxx', logStyle)
   Vue.prototype.$piConfig = piConfig
   Vue.prototype.$pi = piTools
+  Vue.prototype.$piUtils = piUtils
   Vue.prototype.$toast = piTools.toast.info
   Vue.prototype.$loading = piTools.toast.loading
   Vue.prototype.$hideLoading = piTools.toast.hideLoading

@@ -4,6 +4,8 @@ export default {
   max: 0, // 最大可选数，0为无限制
   direction: '', // 排列方向，可选值为 horizontal vertical
   shape: '', // 形状，可选值为 square round
+  borderRadius: 0, // 当shape为square的时候，设置圆角，单位rpx
+  border: 0, // 边框大小，单位rpx
   disabled: false, // 是否禁用复选框
   size: 0, // checkbox大小，单位rpx
   iconSize: 0, // checkbox icon 大小，单位rpx

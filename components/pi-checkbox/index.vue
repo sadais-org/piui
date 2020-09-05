@@ -6,7 +6,7 @@
     @tap="handleCheckboxToggle"
   >
     <view class="check-icon" :style="[checkboxStyle]" :class="[iconClass]">
-      <pi-icon name="check" :size="getIconSize" />
+      <pi-icon name="blod-check" :size="getIconSize" />
     </view>
     <view class="checkbox-label">
       <slot />
@@ -57,6 +57,16 @@ export default {
         return ['square', 'round'].includes(value)
       }
     },
+    // 当shape为square的时候，设置圆角，单位rpx
+    borderRadius: {
+      type: [String, Number],
+      default: checkbox.borderRadius
+    },
+    // 边框大小，单位rpx
+    border: {
+      type: [String, Number],
+      default: checkbox.border
+    },
     // 是否禁用复选框
     disabled: {
       type: Boolean,
@@ -90,18 +100,23 @@ export default {
     piCheckboxGroup: { default: undefined }
   },
   data() {
-    return {
-      // 初始化组件时，默认为加载中状态
-      loading: true,
-      // 图片是否加载错误，如果是，则显示错误占位图
-      error: false
-    }
+    return {}
   },
   computed: {
     getShape() {
       return this.piCheckboxGroup && this.piCheckboxGroup.shape
         ? this.piCheckboxGroup.shape
         : this.shape
+    },
+    getBorderRadius() {
+      return this.piCheckboxGroup && this.piCheckboxGroup.borderRadius
+        ? this.$pi.common.addUnit(this.piCheckboxGroup.borderRadius)
+        : this.$pi.common.addUnit(this.borderRadius)
+    },
+    getBorder() {
+      return this.piCheckboxGroup && this.piCheckboxGroup.border
+        ? this.$pi.common.addUnit(this.piCheckboxGroup.border)
+        : this.$pi.common.addUnit(this.border)
     },
     getDisable() {
       return this.piCheckboxGroup && this.piCheckboxGroup.disabled ? true : this.disabled
@@ -129,7 +144,9 @@ export default {
     checkboxStyle() {
       const style = {
         width: this.getSize,
-        height: this.getSize
+        height: this.getSize,
+        borderRadius: this.getBorderRadius,
+        borderWidth: this.getBorder
       }
       this.getShape === 'round' && (style.borderRadius = '50%')
       if (this.getActiveColor && this.val) {
@@ -186,10 +203,8 @@ $disable-color: #c8c9cc;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    font-weight: 900;
     color: #cccccc;
-    border: 1px solid $disable-color;
-    border-radius: 4rpx;
+    border: 4rpx solid $disable-color;
     transition: all $pi-animation-duration ease-in-out;
     &.line {
       &.active {
