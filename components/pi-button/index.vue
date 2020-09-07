@@ -1,7 +1,7 @@
 <template>
   <button
     class="pi-button fix-webkit-appearance"
-    :style="[getCustomStyle]"
+    :style="[getCustomStyle, customStyle]"
     :class="[customClass, { round: round }]"
     :size="size"
     :type="type"
@@ -29,7 +29,7 @@
     @launchapp="$emit('launchapp', $event)"
   >
     <slot />
-    <view v-if="ripple" class="pi-abso-full" :class="[{ round: round }]">
+    <view v-if="ripple" class="pi-abso-full pi-of-hidden" :class="[{ round: round }]">
       <view class="wave-ripple" :class="[{ active: waveInfo.active }]" :style="[waveStyle]" />
     </view>
   </button>
@@ -53,15 +53,21 @@ export default {
      * uniapp button 官方属性定义
      * ---------------------------------------------------------------------------------------------
      */
-    // 按钮尺寸，default，medium, mini（默认值：'default'）
+    // 按钮尺寸，default，big medium small tiny mini（默认值：'default'）
     size: {
       type: String,
-      default: button.size
+      default: button.size,
+      validator: function(value) {
+        return ['default', 'big', 'medium', 'small', 'tiny', 'mini'].includes(value)
+      }
     },
-    // 按钮的预置样式，default，primary，warn（默认值：'default'）
+    // 按钮的预置样式，default，primary，warn，secondary line（默认值：'default'）
     type: {
       type: String,
-      default: button.type
+      default: button.type,
+      validator: function(value) {
+        return ['default', 'primary', 'warn', 'secondary', 'line'].includes(value)
+      }
     },
     // 按钮是否镂空（默认值：false）
     plain: {
@@ -165,6 +171,11 @@ export default {
         return button.customClass
       }
     },
+    // 按钮宽度，不设置默认自动撑开，如果需要占满一行，填写’100%‘
+    width: {
+      type: [String, Number],
+      default: button.width
+    },
     // 自定义颜色按钮（type为default，可自定义设置）
     color: {
       type: String,
@@ -203,17 +214,20 @@ export default {
   },
   computed: {
     getCustomStyle() {
-      const customStyle = {
-        ...this.customStyle
+      const style = {}
+
+      if (this.color) style.color = this.color
+      if (this.bgColor) style.backgroundColor = this.bgColor
+      if (this.width) style.width = this.$pi.common.addUnit(this.width)
+
+      if (style.width === '100%') {
+        style.display = 'block'
       }
-      if (this.type === 'default') {
-        if (this.color) customStyle.color = this.color
-        if (this.bgColor) customStyle.backgroundColor = this.bgColor
-      }
-      return customStyle
+
+      return style
     },
     getHoverClass() {
-      if (this.loading || this.disabled || this.ripple) return ''
+      if (this.loading || this.disabled || this.ripple) return 'none'
       return this.hoverClass
     },
     waveStyle() {
@@ -222,7 +236,7 @@ export default {
         'left': this.waveInfo.left + 'px',
         'width': this.waveInfo.fields.targetWidth + 'px',
         'height': this.waveInfo.fields.targetWidth + 'px',
-        'background-color': this.rippleBgColor || 'rgba(0, 0, 0, 0.1)'
+        'background-color': this.rippleBgColor || 'rgba(0, 0, 0, 0.05)'
       }
     }
   },
@@ -294,17 +308,20 @@ export default {
 <style lang="scss" scoped>
 .round {
   overflow: hidden;
-  border-radius: 500000rpx;
+  border-radius: 500000rpx !important;
 }
 
 .pi-button {
   position: relative;
+  display: inline-block;
+  padding: $pi-button-default-padding;
   border: none;
+  border-radius: $pi-button-default-radius;
   &::after {
     border: none;
   }
   &[disabled] {
-    opacity: 0.6;
+    opacity: 0.4;
   }
   &[loading]::before {
     margin-right: 12rpx;
@@ -315,32 +332,82 @@ export default {
       @extend .round;
     }
   }
-  // 默认尺寸
+  // 默认
   &[size='default'] {
     height: $pi-button-default-height;
+    padding: $pi-button-default-padding;
     font-size: $pi-button-default-font-size;
     line-height: $pi-button-default-height;
+    &[plain] {
+      border: 4rpx solid #e5e5e5;
+    }
   }
+  // 大
+  &[size='big'] {
+    height: $pi-button-big-height;
+    padding: $pi-button-big-padding;
+    font-size: $pi-button-big-font-size;
+    line-height: $pi-button-big-height;
+    border-radius: $pi-button-big-radius;
+  }
+  // 中
   &[size='medium'] {
-    display: inline-block;
     height: $pi-button-medium-height;
     padding: $pi-button-medium-padding;
     font-size: $pi-button-medium-font-size;
     line-height: $pi-button-medium-height;
+    border-radius: $pi-button-medium-radius;
   }
+  // 小
+  &[size='small'] {
+    height: $pi-button-small-height;
+    padding: $pi-button-small-padding;
+    font-size: $pi-button-small-font-size;
+    line-height: $pi-button-small-height;
+    border-radius: $pi-button-small-radius;
+  }
+  // 超小
+  &[size='tiny'] {
+    height: $pi-button-tiny-height;
+    padding: $pi-button-tiny-padding;
+    font-size: $pi-button-tiny-font-size;
+    line-height: $pi-button-tiny-height;
+    border-radius: $pi-button-tiny-radius;
+  }
+  // 迷你
   &[size='mini'] {
-    display: inline-block;
     height: $pi-button-mini-height;
     padding: $pi-button-mini-padding;
     font-size: $pi-button-mini-font-size;
     line-height: $pi-button-mini-height;
+    border-radius: $pi-button-mini-radius;
   }
+
   // 主要样式
   &[type='primary'] {
     background-color: $pi-primary-color;
   }
   &.button-hover[type='primary'] {
     background-color: rgba($pi-primary-color, 0.8);
+  }
+
+  // 次要
+  &[type='secondary'] {
+    color: $pi-primary-color;
+    background-color: rgba($pi-primary-color, 0.1);
+  }
+  &.button-hover[type='secondary'] {
+    background-color: rgba($pi-primary-color, 0.08);
+  }
+
+  // 线框
+  &[type='line'] {
+    color: $pi-primary-color;
+    background-color: #ffffff;
+    border: 4rpx solid $pi-primary-color;
+  }
+  &.button-hover[type='line'] {
+    background-color: rgba($pi-primary-color, 0.08);
   }
 
   .wave-ripple {

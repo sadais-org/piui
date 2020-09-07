@@ -1,7 +1,8 @@
 export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
-  size: 'default', // 按钮尺寸，default，mini
+  width: '', // 按钮宽度，不设置默认自动撑开，如果需要占满一行，填写’100%‘
+  size: 'default', // 按钮尺寸，default，big medium small tiny mini
   type: 'default', // 按钮的预置样式，default，primary，warn（默认值：'default'）
   plain: false, // 按钮是否镂空（默认值：false）
   disabled: false, // 是否禁止状态（默认值：false）
