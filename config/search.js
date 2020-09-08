@@ -2,7 +2,7 @@ export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   shape: 'round', // 搜索框形状 round || square
-  background: '#f7f7f7', // 背景颜色（默认#f2f2f2）
+  background: '#f5f5f5', // 背景颜色（默认#f2f2f2）
   clearable: true, // 是否启用清除控件（默认true）
   clearTrigger: 'always', // 显示清除图标的时机，always 表示输入框不为空时展示，focus 表示输入框聚焦且不为空时展示
   focus: false, // 是否自动获得焦点（默认false）

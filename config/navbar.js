@@ -2,7 +2,7 @@ export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   title: '', // 标题
-  titleStyle: { fontSize: '32rpx', fontWeight: 500, color: '#333333' }, // 标题样式
+  titleStyle: { fontSize: '36rpx', fontWeight: 500, color: '#333333' }, // 标题样式
   height: '44px', // 导航栏高度
   fixed: true, // 导航栏是否固定在顶部
   placeholder: true, // 固定在顶部时，是否在标签位置生成一个等高的占位元素
@@ -17,8 +17,8 @@ export default {
   backText: '', // 返回的文字提示
   backTextStyle: { color: '#333333' }, // 返回的文字的 样式
   homeIconColor: '#333333', // 主页icon的颜色
-  homeIconName: 'homepage', // 主页icon的图标名称
-  homeIconSize: '42rpx', // 主页icon图标的大小
+  homeIconName: 'homefill', // 主页icon的图标名称
+  homeIconSize: '36rpx', // 主页icon图标的大小
   homeIconPadding: '24rpx 12rpx 24rpx 24rpx', // 主页icon图标的padding
   homePage: '', // 主页路径
   homePageMethod: 'switchTab', // 跳转主页方法 navigateTo redirectTo switchTab reLaunch

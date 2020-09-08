@@ -2,39 +2,45 @@
   <view class="navbar-wrap" :style="[customStyle, navbarStyle]" :class="[customClass]">
     <pi-status-bar v-if="fixed" />
     <!-- 当导航栏为fixed时候，占位用 -->
-    <view v-if="fixed && placeholder" :style="{ height: height }" />
+    <view v-if="fixed && placeholder" :style="[{ height: height }]" />
     <view :class="{ 'navbar-fixed': fixed, 'pi-solid-bottom-1': borderBottom }">
       <!-- 内部状态栏占位用 -->
-      <view v-if="fixed" class="pi-w-100P" :style="{ height: statusBarHeight }" />
+      <view v-if="fixed" class="pi-w-100P" :style="[{ height: statusBarHeight }]" />
       <!-- 真正渲染的navbar -->
-      <view class="pi-rela pi-w-100P pi-align-center" :style="{ height: height }">
+      <view class="pi-rela pi-w-100P pi-align-center" :style="[{ height: height }]">
         <!-- 左侧 -->
-        <view class="pi-abso-left-center pi-align-center">
+        <view class="pi-align-center nav-icon">
           <slot v-if="$slots.left" name="left" />
           <template v-else>
             <view v-if="showBack && isShowBack" class="pi-align-center" @tap="handleGoBack">
               <view
                 :class="'pi-icon-' + backIconName"
-                :style="{ color: backIconColor, padding: backIconPadding, fontSize: backIconSize }"
+                :style="[
+                  { color: backIconColor, padding: backIconPadding, fontSize: backIconSize }
+                ]"
               />
-              <view v-if="backText" :style="backTextStyle">{{ backText }}</view>
+              <view v-if="backText" :style="[backTextStyle]">{{ backText }}</view>
             </view>
           </template>
           <view v-if="showHome" class="pi-align-center" @tap="handleGoHome">
             <view
               :class="'pi-icon-' + homeIconName"
-              :style="{ color: homeIconColor, padding: homeIconPadding, fontSize: homeIconSize }"
+              :style="[{ color: homeIconColor, padding: homeIconPadding, fontSize: homeIconSize }]"
             />
           </view>
         </view>
-        <!-- 标题 -->
-        <view :style="[navTitleStyle]" class=" pi-flex-sub pi-text-center">
-          <template v-if="title">{{ title }}</template>
+        <!-- 标题剩余空间 -->
+        <view :style="[navTitleStyle]" class="pi-flex-sub ">
+          <slot v-if="$slots.title" name="title" />
+        </view>
+        <!-- 贯穿标题 -->
+        <view :style="[navTitleStyle]" class="through-space">
           <!-- slot default -->
-          <slot v-else />
+          <slot v-if="$slots.default || $slots.$default" />
+          <template v-else-if="title">{{ title }}</template>
         </view>
         <!-- 右侧 -->
-        <view class="pi-abso-right-center"><slot name="right" /></view>
+        <view class="nav-icon"><slot name="right" /></view>
       </view>
     </view>
   </view>
@@ -44,6 +50,9 @@
 /**
  * 返回按钮内部已经做了处理，如果当前打开页面不属于二级页面，则不显示，需要显示左侧内容，请使用 slot left
  * slot left 和 backIcon homeIcon 冲突，两者只能取其一，默认以slot left为主
+ * slot right
+ * slot title 是除开icon的剩余空间
+ * slot 整个标题栏的插槽
  */
 import { systemInfo } from '../../tools/system'
 import * as navi from '../../tools/navi'
@@ -254,6 +263,22 @@ export default {
     top: 0;
     right: 0;
     left: 0;
+  }
+  .nav-icon {
+    position: relative;
+    z-index: 1;
+  }
+  .through-space {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transform: translateY(-50%);
   }
 }
 </style>

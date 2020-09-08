@@ -1,9 +1,11 @@
 <template>
-  <view class="pi-align-center" :style="[customStyle]" :class="[customClass]">
-    <view class="pi-pd-right-18" :style="[searchLabelStyle]">{{ searchLabel }}</view>
+  <view class="pi-align-center pi-w-100P" :style="[customStyle]" :class="[customClass]">
+    <view v-if="searchLabel" class="pi-pd-right-18" :style="[searchLabelStyle]">
+      {{ searchLabel }}
+    </view>
     <!-- 中间灰色包裹块 -->
     <view
-      class="pi-flex-sub pi-align-center pi-of-hidden"
+      class="pi-search-wrap pi-flex-sub pi-align-center pi-of-hidden"
       :class="[customClass]"
       :style="[
         customStyle,
@@ -37,12 +39,17 @@
         />
         <!-- clear action -->
         <view v-if="showClear" class="pi-pd-right-18" @tap="handleClearInput">
-          <view class=" pi-icon-close" />
+          <view class="pi-icon-roundclosefill" />
         </view>
       </view>
     </view>
     <!-- right action -->
-    <view v-if="showAction" class=" pi-pd-left-18" :style="[actionStyle]" @tap="handleActionClick">
+    <view
+      v-if="showAction"
+      class="pi-pd-left-18 pi-primary pi-fz-28"
+      :style="[actionStyle]"
+      @tap="handleActionClick"
+    >
       {{ actionText }}
     </view>
   </view>
@@ -263,3 +270,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.pi-search-wrap {
+  font-weight: initial;
+  color: #cccccc;
+}
+</style>
