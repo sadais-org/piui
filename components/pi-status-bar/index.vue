@@ -39,7 +39,7 @@ export default {
     background: {
       required: false,
       type: String,
-      default: 'transparent'
+      default: statusBar.background
     }
   },
   computed: {

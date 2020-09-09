@@ -29,7 +29,7 @@
     @launchapp="$emit('launchapp', $event)"
   >
     <slot />
-    <view v-if="ripple" class="pi-abso-full pi-of-hidden" :class="[{ round: round }]">
+    <view v-if="ripple" class="pi-abso-full pi-of-hidden" :class="[{ round }]">
       <view class="wave-ripple" :class="[{ active: waveInfo.active }]" :style="[waveStyle]" />
     </view>
   </button>

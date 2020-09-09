@@ -1,13 +1,13 @@
 <template>
-  <view class="navbar-wrap" :style="[customStyle, navbarStyle]" :class="[customClass]">
-    <pi-status-bar v-if="fixed" />
+  <view class="navbar-wrap" :style="[{ zIndex }, customStyle]" :class="[customClass]">
+    <pi-status-bar v-if="fixed" :background="statusBarBackground" />
     <!-- 当导航栏为fixed时候，占位用 -->
     <view v-if="fixed && placeholder" :style="[{ height: height }]" />
     <view :class="{ 'navbar-fixed': fixed, 'pi-solid-bottom-1': borderBottom }">
       <!-- 内部状态栏占位用 -->
       <view v-if="fixed" class="pi-w-100P" :style="[{ height: statusBarHeight }]" />
       <!-- 真正渲染的navbar -->
-      <view class="pi-rela pi-w-100P pi-align-center" :style="[{ height: height }]">
+      <view class="pi-rela pi-w-100P pi-align-center" :style="[{ background, height }]">
         <!-- 左侧 -->
         <view class="pi-align-center nav-icon">
           <slot v-if="$slots.left" name="left" />
@@ -83,7 +83,7 @@ export default {
       type: String,
       default: navbar.title
     },
-    // 标题样式（默认{ fontSize: '32rpx', fontWeight: 500, color: '#333333' }）
+    // 标题样式（默认{ fontSize: '36rpx', fontWeight: 500, color: '#333333' }）
     titleStyle: {
       type: Object,
       default() {
@@ -109,6 +109,11 @@ export default {
     borderBottom: {
       type: Boolean,
       default: navbar.borderBottom
+    },
+    // 状态栏的背景色
+    statusBarBackground: {
+      type: String,
+      default: navbar.statusBarBackground
     },
     // 背景颜色（默认'#000000'）
     background: {
@@ -214,13 +219,6 @@ export default {
       const statusBarHeight =
         systemInfo && systemInfo.statusBarHeight ? systemInfo.statusBarHeight : 0
       return `${statusBarHeight}px`
-    },
-    // 导航包裹盒子样式
-    navbarStyle() {
-      return {
-        background: this.background,
-        zIndex: this.zIndex
-      }
     },
     navTitleStyle() {
       return this.titleStyle
