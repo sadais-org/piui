@@ -13,7 +13,10 @@
           class="pi-align-center nav-icon"
           :class="[
             capsuleTheme,
-            { 'capsule pi-round': capsuleButton && !$slots.left && showBack && showHome }
+            {
+              'capsule pi-round':
+                capsuleButton && !$slots.left && showBack && isShowBack && showHome
+            }
           ]"
         >
           <slot v-if="$slots.left" name="left" />
@@ -291,9 +294,14 @@ export default {
   .nav-icon {
     position: relative;
     z-index: 1;
+
+    // 小程序才开启胶囊效果
+
+    /* #ifdef MP */
     &.capsule {
       position: relative;
       margin-left: 20rpx;
+      border: 1px solid rgba(0, 0, 0, 0.1);
       &::before {
         position: absolute;
         top: 50%;
@@ -304,16 +312,22 @@ export default {
         transform: scaleX(0.5) translate(-50%, -50%);
       }
       &.dark {
-        background: #999999;
+        &::before {
+          background: #999999;
+        }
+
         background: rgba(0, 0, 0, 0.35);
-        border: 1px solid rgba(0, 0, 0, 0.5);
       }
       &.light {
-        background: #e5e5e5;
+        &::before {
+          background: #e5e5e5;
+        }
+
         background: rgba(252, 252, 252, 0.3);
-        border: 1px solid rgba(0, 0, 0, 0.1);
       }
     }
+
+    /* #endif */
   }
   .through-space {
     position: absolute;

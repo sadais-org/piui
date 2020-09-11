@@ -4,11 +4,16 @@
       <scroll-view class="pi-scroll" :scroll-left="scrollLeft" scroll-x scroll-with-animation>
         <view class="scroll-wrap" :style="[scrollWrapStyle]">
           <view
-            v-for="item in items"
+            v-for="(item, index) in items"
             :id="`id-${item[keyField]}`"
             :key="item[keyField]"
-            :style="[getItemStyle, itemStyle]"
+            :style="[
+              getItemStyle,
+              itemStyle,
+              activeIndex === index && activeColor ? { color: activeColor } : ''
+            ]"
             class="pi-tab pi-align-center pi-fz-30"
+            :class="[{ active: activeIndex === index }]"
             @tap="handleSelectItem(item)"
           >
             <!-- slot slot-scoped只支持app,h5,微信小程序平台 -->
@@ -178,7 +183,7 @@ export default {
   computed: {
     activeIndex() {
       if (!this.val) return 0
-      return this.items.findIndex(i => i[this.keyField] === this.val[this.keyField])
+      return this.items.findIndex(item => item[this.keyField] === this.val[this.keyField]) || 0
     },
     getHeight() {
       return this.$pi.common.addUnit(this.height)
@@ -284,6 +289,10 @@ export default {
     .pi-tab {
       display: inline-block;
       text-align: center;
+      transition: all $pi-animation-duration ease-in-out;
+      &.active {
+        color: $pi-primary-color;
+      }
     }
     .slider-bar-guide {
       position: absolute;

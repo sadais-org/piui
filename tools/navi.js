@@ -45,6 +45,9 @@ export const decodeParams = params => {
   return convertObject
 }
 
+let routing = false // 控制重复打开页面
+const routingMethods = ['navigateTo', 'redirectTo', 'reLaunch', 'switchTab'] // 需要路由控制的页面
+
 /**
  * 页面跳转封装
  * @param {String} method 微信JS跳转方法
@@ -52,6 +55,7 @@ export const decodeParams = params => {
  * @param {Object} params 页面参数
  */
 const _openInterceptor = (method, url, params) => {
+  if (routing && routingMethods.includes(method)) return
   if (url.indexOf('/') !== 0) {
     url = '/' + url
   }
@@ -59,7 +63,18 @@ const _openInterceptor = (method, url, params) => {
   url = url + (url.indexOf('?') !== -1 ? stringParams.replace('?', '&') : stringParams)
   uni.hideKeyboard()
   console.log('使用导航：', method, url, params)
-  return uni[method]({ url })
+  return new Promise((resolve, reject) => {
+    if (routingMethods.includes(method)) routing = true
+    uni[method]({
+      url,
+      complete: res => {
+        routing = false
+        const isSuccess = res.errMsg && res.errMsg.indexOf(':ok') !== -1
+        if (isSuccess) resolve(res)
+        else reject(res)
+      }
+    })
+  })
 }
 
 /**
