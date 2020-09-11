@@ -2,8 +2,8 @@
   <view
     v-if="show"
     class="pi-loading"
-    :style="[customStyle, { color: color }]"
-    :class="[customClass, vertical ? vertical : '']"
+    :style="[customStyle, loadingStyle]"
+    :class="[customClass, vertical ? 'vertical' : '']"
   >
     <view v-if="type === 'round'" class="loading-round" :style="[cricleStyle]" />
     <view v-if="type === 'spinner'" class="loading-spinner" :style="[cricleStyle]">
@@ -84,6 +84,13 @@ export default {
     getTextSize() {
       return this.$pi.common.addUnit(this.textSize)
     },
+    loadingStyle() {
+      const style = {
+        fontSize: this.getSize
+      }
+      if (this.color) style.color = this.color
+      return style
+    },
     // 加载中圆圈动画的样式
     cricleStyle() {
       const style = {
@@ -99,6 +106,9 @@ export default {
 <style lang="scss" scoped>
 .pi-loading {
   display: inline-block;
+  overflow: hidden;
+  line-height: 1;
+  color: $pi-primary-color;
   .slot {
     display: inline-block;
     margin-left: 12rpx;
@@ -114,8 +124,7 @@ export default {
 }
 .loading-round {
   display: inline-block;
-  width: 28rpx;
-  height: 28rpx;
+  overflow: hidden;
   vertical-align: middle;
   background: 0 0;
   border: 2px solid;
@@ -125,9 +134,9 @@ export default {
 }
 
 .loading-spinner {
+  position: relative;
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  overflow: hidden;
   vertical-align: middle;
   animation: round 1s steps(12) infinite;
   view {
