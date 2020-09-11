@@ -9,10 +9,20 @@
       <!-- 真正渲染的navbar -->
       <view class="pi-rela pi-w-100P pi-align-center" :style="[{ background, height }]">
         <!-- 左侧 -->
-        <view class="pi-align-center nav-icon">
+        <view
+          class="pi-align-center nav-icon"
+          :class="[
+            capsuleTheme,
+            { 'capsule pi-round': capsuleButton && !$slots.left && showBack && showHome }
+          ]"
+        >
           <slot v-if="$slots.left" name="left" />
           <template v-else>
-            <view v-if="showBack && isShowBack" class="pi-align-center" @tap="handleGoBack">
+            <view
+              v-if="showBack && isShowBack"
+              class="pi-align-center back-wrap"
+              @tap="handleGoBack"
+            >
               <view
                 :class="'pi-icon-' + backIconName"
                 :style="[
@@ -21,13 +31,15 @@
               />
               <view v-if="backText" :style="[backTextStyle]">{{ backText }}</view>
             </view>
+            <view v-if="showHome" class="pi-align-center home-wrap" @tap="handleGoHome">
+              <view
+                :class="'pi-icon-' + homeIconName"
+                :style="[
+                  { color: homeIconColor, padding: homeIconPadding, fontSize: homeIconSize }
+                ]"
+              />
+            </view>
           </template>
-          <view v-if="showHome" class="pi-align-center" @tap="handleGoHome">
-            <view
-              :class="'pi-icon-' + homeIconName"
-              :style="[{ color: homeIconColor, padding: homeIconPadding, fontSize: homeIconSize }]"
-            />
-          </view>
         </view>
         <!-- 标题剩余空间 -->
         <view :style="[navTitleStyle]" class="pi-flex-sub ">
@@ -129,8 +141,22 @@ export default {
     // 是否显示主页按钮（默认false）
     showHome: {
       required: false,
-      type: [String, Boolean],
+      type: Boolean,
       default: navbar.showHome
+    },
+    // 在微信小程序中，当showBack和showHome同时显示的时候，以胶囊按钮样式显示
+    capsuleButton: {
+      required: false,
+      type: Boolean,
+      default: navbar.capsuleButton
+    },
+    // 胶囊按钮主题， light or dark
+    capsuleTheme: {
+      type: String,
+      default: navbar.capsuleTheme,
+      validator: function(value) {
+        return ['light', 'dark'].includes(value)
+      }
     },
     // 返回箭头的颜色（默认'#333333'）
     backIconColor: {
@@ -265,6 +291,29 @@ export default {
   .nav-icon {
     position: relative;
     z-index: 1;
+    &.capsule {
+      position: relative;
+      margin-left: 20rpx;
+      &::before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 1px;
+        height: 60%;
+        content: '';
+        transform: scaleX(0.5) translate(-50%, -50%);
+      }
+      &.dark {
+        background: #999999;
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(0, 0, 0, 0.5);
+      }
+      &.light {
+        background: #e5e5e5;
+        background: rgba(252, 252, 252, 0.3);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+    }
   }
   .through-space {
     position: absolute;

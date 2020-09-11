@@ -11,16 +11,18 @@ export default {
   background: '#ffffff', // 背景颜色（默认白色）
   showBack: true, // 是否显示后退按钮
   showHome: false, // 是否显示主页按钮
+  capsuleButton: true, // 在微信小程序中，当showBack和showHome同时显示的时候，以胶囊按钮样式显示
+  capsuleTheme: 'light', // 胶囊按钮主题， light or dark
   backIconColor: '#333333', // 返回箭头的颜色
   backIconName: 'back', // 左边返回的图标名称
-  backIconSize: '32rpx', // 左边返回图标的大小
-  backIconPadding: '24rpx 12rpx 24rpx 24rpx', // 左边返回图标的padding
+  backIconSize: '36rpx', // 左边返回图标的大小
+  backIconPadding: '10rpx 24rpx', // 左边返回图标的padding
   backText: '', // 返回的文字提示
   backTextStyle: { color: '#333333' }, // 返回的文字的 样式
   homeIconColor: '#333333', // 主页icon的颜色
   homeIconName: 'homefill', // 主页icon的图标名称
   homeIconSize: '36rpx', // 主页icon图标的大小
-  homeIconPadding: '24rpx 12rpx 24rpx 24rpx', // 主页icon图标的padding
+  homeIconPadding: '10rpx 24rpx', // 主页icon图标的padding
   homePage: '', // 主页路径
   homePageMethod: 'switchTab', // 跳转主页方法 navigateTo redirectTo switchTab reLaunch
   zIndex: 99 // 元素 z-index
