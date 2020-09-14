@@ -1,5 +1,5 @@
 <template>
-  <view class="pi-grid" :style="[customStyle]" :class="[{ border }, customClass]">
+  <view class="pi-grid" :style="[customStyle]" :class="[{ border: showBorder }, customClass]">
     <slot />
   </view>
 </template>
@@ -42,6 +42,11 @@ export default {
       type: Boolean,
       default: grid.border
     },
+    // 宫格之间间隔，（默认：0）
+    gap: {
+      type: [String, Number],
+      default: grid.gap
+    },
     // 宫格对齐方式，靠左，居中，还是靠右
     align: {
       type: String,
@@ -57,6 +62,11 @@ export default {
     return {
       piGrid: this
     }
+  },
+  computed: {
+    showBorder() {
+      return this.border && !this.gap
+    }
   }
 }
 </script>
@@ -65,14 +75,11 @@ export default {
 @import '~@/piui/scss/border.scss';
 
 .pi-grid {
-  display: flex;
-  flex-wrap: wrap;
-
+  width: 100%;
   &.border {
     @include pi-border;
     &::after {
       border: 0 solid $pi-grid-border-color;
-      // 只生成右下边框
       border-top-width: $pi-grid-border-width;
       border-left-width: $pi-grid-border-width;
     }
