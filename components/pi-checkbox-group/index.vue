@@ -16,11 +16,11 @@
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
 
-const TAG = 'PiCheckbox'
+const TAG = 'PiCheckboxGroup'
 const { checkboxGroup } = getConfig()
 
 export default {
-  name: 'PiCheckboxGroup',
+  name: TAG,
   // 混入自定义样式customStyle和customClass
   mixins: [ValueSync], // 注入value与val，进行双向绑定
   props: {

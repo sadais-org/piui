@@ -46,7 +46,7 @@ export const decodeParams = params => {
 }
 
 let routing = false // 控制重复打开页面
-const routingMethods = ['navigateTo', 'redirectTo', 'reLaunch', 'switchTab'] // 需要路由控制的页面
+const routingMethods = ['navigateTo', 'redirectTo', 'reLaunch', 'switchTab'] // 需要路由控制的方法
 
 /**
  * 页面跳转封装

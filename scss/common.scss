@@ -1,5 +1,6 @@
 // 引入piui 变量声明，可以在uni.scss中进行覆盖
 @import './variable.scss';
+@import './border.scss';
 
 /**
  * 颜色
@@ -91,29 +92,6 @@
  * 边框 border
  * -------------------------------------------------------------------------------------------------
  */
-
-// 实现0.5px的效果
-@mixin pi-border-style {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  box-sizing: border-box;
-  width: 200%;
-  height: 200%;
-  pointer-events: none;
-  content: ' ';
-  border-radius: inherit;
-  transform: scale(0.5);
-  transform-origin: 0 0;
-}
-
-@mixin pi-border {
-  position: relative;
-  &::after {
-    @include pi-border-style;
-  }
-}
 
 [class*='pi-solid'],
 [class*='pi-dashed'] {
@@ -531,154 +509,6 @@
   @extend .pi-align-center;
 }
 
-/**
- * grid 宫格布局（子元素平分父级元素宽度，可配合 pi-square 生成正方形宫格）
- * -------------------------------------------------------------------------------------------------
- */
-
-// 生成宫格列边框（传入列数）
-@mixin col-border($n) {
-  &.border {
-    & > view {
-      @include pi-border;
-      &::after {
-        border: 0 solid $pi-line-color;
-        // 只生成右下边框
-        border-right-width: 1px;
-        border-bottom-width: 1px;
-      }
-      // 每行第一个生成左边框
-      &:nth-child(#{$n}n + 1)::after {
-        border-left-width: 1px;
-      }
-      // 前n个元素生成上边框
-      &:nth-child(-n + #{$n})::before {
-        @include pi-border-style;
-
-        border-top: 1px solid $pi-line-color;
-      }
-    }
-  }
-  // 如果有间隔的情况下（边框全部生成）
-  &[class*='pi-grid-space'] > view::after {
-    border-width: 1px;
-  }
-}
-
-// 生成宫格间隔（间隔宽度，列数）
-@mixin space-calc($i, $n) {
-  & > view {
-    // 减去间隔后，平分宽度
-    width: calc((100% - #{($n - 1) * $i}rpx) / #{$n});
-    margin-bottom: #{$i}rpx;
-    // 除了最后一列，其余的都加上右margin
-    &:not(:nth-child(#{$n}n)) {
-      margin-right: #{$i}rpx;
-    }
-  }
-}
-.pi-grid {
-  @extend .pi-flex-wrap;
-  & > view {
-    width: 100%;
-  }
-  &.border {
-    & > view {
-      @include pi-border;
-      &::after {
-        border: 0 solid $pi-line-color;
-        // 只生成右下边框
-        border-width: 0 1px 1px 1px;
-      }
-      // 第一个元素生成上边框
-      &:first-child::before {
-        @include pi-border-style;
-
-        border-top: 1px solid $pi-line-color;
-      }
-    }
-    // 如果有间隔的情况下（边框全部生成）
-    &[class*='pi-grid-space'] > view::after {
-      border-width: 1px;
-    }
-  }
-}
-.pi-grid-2 {
-  @extend .pi-flex-wrap;
-  & > view {
-    width: 50%;
-  }
-
-  @include col-border(2);
-}
-.pi-grid-3 {
-  @extend .pi-flex-wrap;
-  & > view {
-    width: calc(100% / 3);
-  }
-
-  @include col-border(3);
-}
-.pi-grid-4 {
-  @extend .pi-flex-wrap;
-  & > view {
-    width: 25%;
-  }
-
-  @include col-border(4);
-}
-.pi-grid-5 {
-  @extend .pi-flex-wrap;
-  & > view {
-    width: 20%;
-  }
-
-  @include col-border(5);
-}
-.pi-grid-6 {
-  @extend .pi-flex-wrap;
-  & > view {
-    width: calc(100% / 6);
-  }
-
-  @include col-border(6);
-}
-.pi-grid-7 {
-  @extend .pi-flex-wrap;
-  & > view {
-    width: calc(100% / 7);
-  }
-
-  @include col-border(6);
-}
-
-// 处理列之间需要有空隙情况
-@for $i from 1 through 40 {
-  // 只处理偶数
-  @if $i % 2 == 0 {
-    .pi-grid.pi-grid-space-#{$i} {
-      & > view {
-        margin-bottom: #{$i}rpx;
-      }
-    }
-    .pi-grid-2.pi-grid-space-#{$i} {
-      @include space-calc($i, 2);
-    }
-    .pi-grid-3.pi-grid-space-#{$i} {
-      @include space-calc($i, 3);
-    }
-    .pi-grid-4.pi-grid-space-#{$i} {
-      @include space-calc($i, 4);
-    }
-    .pi-grid-5.pi-grid-space-#{$i} {
-      @include space-calc($i, 5);
-    }
-    .pi-grid-6.pi-grid-space-#{$i} {
-      @include space-calc($i, 6);
-    }
-  }
-}
-
 /* 表单 form
 ---------------------- */
 .pi-form {
@@ -835,6 +665,11 @@ image {
   height: 0;
   height: auto;
   will-change: transform;
+}
+
+// 点击态
+.pi-hover-class {
+  opacity: 0.6;
 }
 
 // 用于没有scroll-view时候的容器，默认铺满整个视窗，y轴内容溢出滚动
