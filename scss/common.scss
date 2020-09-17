@@ -669,7 +669,15 @@ image {
 
 // 点击态
 .pi-hover-class {
-  opacity: 0.6;
+  position: relative;
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.05);
+  }
 }
 
 // 用于没有scroll-view时候的容器，默认铺满整个视窗，y轴内容溢出滚动
