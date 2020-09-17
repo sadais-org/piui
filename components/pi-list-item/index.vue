@@ -15,7 +15,7 @@
     <!-- 中间区域 -->
     <view class="pi-flex-sub"><slot /></view>
     <!-- 右侧区域 -->
-    <view>{{ extraText }}</view>
+    <view class="extra">{{ extraText }}</view>
     <slot v-if="$slots.right" name="right" />
     <pi-icon
       v-else-if="showRightIcon"
@@ -192,6 +192,7 @@ export default {
 @import '~@/piui/scss/border.scss';
 
 .pi-list-item {
+  height: $pi-form-item-height;
   .list-item-title {
     font-size: $pi-list-title-fontsize;
     color: $pi-list-title-color;
@@ -199,6 +200,9 @@ export default {
   .list-item-desc {
     font-size: $pi-list-desc-fontsize;
     color: $pi-list-desc-color;
+  }
+  .extra {
+    padding-right: 12rpx;
   }
   &.border {
     @include pi-border;

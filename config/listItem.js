@@ -1,7 +1,7 @@
 export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
-  height: 98, // 表格高度
+  height: 110, // 表格高度
   title: '', // 标题
   titleStyle: {}, // 标题自定义样式，对象形式（默认值：{}）
   desc: '', // 描述

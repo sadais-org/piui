@@ -1,5 +1,6 @@
 <template>
   <view class="pi-list" :style="[customStyle]" :class="[{ border: showBorder }, customClass]">
+    <view v-if="title" class="list-title" :style="[titleStyle]">{{ title }}</view>
     <slot />
   </view>
 </template>
@@ -25,6 +26,20 @@ export default {
       type: String,
       default() {
         return list.customClass
+      }
+    },
+    // 列表面板标题
+    title: {
+      type: String,
+      default() {
+        return list.title
+      }
+    },
+    // 标题自定义样式，对象形式（默认值：{}）
+    titleStyle: {
+      type: Object,
+      default() {
+        return list.titleStyle
       }
     },
     // 是否显示边框
@@ -57,5 +72,27 @@ export default {
 @import '~@/piui/scss/border.scss';
 
 .pi-list {
+  .list-title {
+    position: relative;
+    padding-left: 48rpx;
+    margin: 24rpx 0;
+    font-size: 32rpx;
+    font-weight: 500;
+    color: #6a6a77;
+
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 24rpx;
+      display: inline-block;
+      width: 6rpx;
+      height: 60%;
+      overflow: hidden;
+      content: '';
+      background-color: #6190e8;
+      border-radius: 2rpx;
+      transform: translateY(-50%);
+    }
+  }
 }
 </style>
