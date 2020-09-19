@@ -41,6 +41,13 @@ export default {
         return list.title
       }
     },
+    // 列表面板描述
+    desc: {
+      type: String,
+      default() {
+        return list.desc
+      }
+    },
     // 标题自定义样式，对象形式（默认值：{}）
     titleStyle: {
       type: Object,
