@@ -9,7 +9,7 @@ export default {
   borderBottom: true, // 是否显示导航栏的下边框
   statusBarBackground: 'transparent', // 状态栏的背景色
   background: '#ffffff', // 背景颜色（默认白色）
-  showBack: true, // 是否显示后退按钮
+  showBack: undefined, // 是否显示后退按钮，默认不设置，根据当前页面堆栈自动判断
   showHome: false, // 是否显示主页按钮
   capsuleButton: true, // 在微信小程序中，当showBack和showHome同时显示的时候，以胶囊按钮样式显示
   capsuleTheme: 'light', // 胶囊按钮主题， light or dark

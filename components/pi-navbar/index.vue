@@ -14,18 +14,13 @@
           :class="[
             capsuleTheme,
             {
-              'capsule pi-round':
-                capsuleButton && !$slots.left && showBack && isShowBack && showHome
+              'capsule pi-round': capsuleButton && !$slots.left && isShowBack && showHome
             }
           ]"
         >
           <slot v-if="$slots.left" name="left" />
           <template v-else>
-            <view
-              v-if="showBack && isShowBack"
-              class="pi-align-center back-wrap"
-              @tap="handleGoBack"
-            >
+            <view v-if="isShowBack" class="pi-align-center back-wrap" @tap="handleGoBack">
               <view
                 :class="'pi-icon-' + backIconName"
                 :style="[
@@ -258,10 +253,14 @@ export default {
   },
   methods: {
     syncPageRoute() {
-      /* eslint-disable */
+      if (this.showBack === undefined) {
+        /* eslint-disable */
       const pages = getCurrentPages()
       // 如果堆栈大于1表示打开了子页面，需要显示返回按钮
       this.isShowBack = pages.length > 1
+      } else {
+        this.isShowBack = this.showBack
+      }
     },
     handleGoBack() {
       // 如果自定义了点击返回按钮的函数，则执行，否则执行返回逻辑
