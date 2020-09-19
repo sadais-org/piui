@@ -6,8 +6,10 @@ $pi-background-color: #ffffff !default; // 背景颜色
 $pi-line-color: #f4f4f4 !default; // 通用线颜色
 $pi-placeholder-color: #999999 !default; // placeholder颜色
 $pi-content-padding: 24rpx !default; // pi-content内容区域默认padding
+
 // 动画
 $pi-animation-duration: 0.3s !default; // 动画执行时长
+
 // 颜色
 $pi-font-color: #666666 !default; // 文字颜色
 $pi-primary-color: #5a7dff !default; // 主要颜色 // ff6a00
@@ -15,9 +17,21 @@ $pi-secondary-color: #6c44a1 !default; // 次级颜色
 $pi-tertiary-color: #00a8a4 !default; // 第三级颜色
 $pi-fourth-color: #12bc83 !default; // 第四级颜色
 $pi-fifth-color: #fcf2f4 !default; // 第五级颜色
+
+// section 章节
+$pi-section-border-color: #f4f4f4 !default; // 章节边框颜色
+$pi-section-border-width: 4rpx !default; // 章节边框宽度
+$pi-section-title-fontsize: 32rpx !default; // 章节标题字体大小
+$pi-section-title-color: #333333 !default; // 章节标题字体大小
+$pi-section-desc-fontsize: 28rpx !default; // 章节描述字体大小
+$pi-section-desc-color: #999999 !default; // 章节描述字体大小
+$pi-section-extra-fontsize: 28rpx !default; // 章节描述字体大小
+$pi-section-extra-color: #999999 !default; // 章节描述字体大小
+
 // 宫格
 $pi-grid-border-color: #f4f4f4 !default; // 宫格边框颜色
 $pi-grid-border-width: 2px !default; // 宫格边框宽度
+
 // 列表
 $pi-list-border-color: #f4f4f4 !default; // 列表边框颜色
 $pi-list-border-width: 4rpx !default; // 列表边框宽度
@@ -25,6 +39,8 @@ $pi-list-title-fontsize: 32rpx !default; // 列表项标题字体大小
 $pi-list-title-color: #333333 !default; // 列表项标题字体大小
 $pi-list-desc-fontsize: 28rpx !default; // 列表项描述字体大小
 $pi-list-desc-color: #999999 !default; // 列表项描述字体大小
+$pi-list-extra-fontsize: 28rpx !default; // 列表项右侧字体大小
+$pi-list-extra-color: #999999 !default; // 列表项右侧字体大小
 
 // 表单
 $pi-form-font-size: 32rpx !default; // 表单文字大小
@@ -33,6 +49,7 @@ $pi-form-label-color: #333333 !default; // 表单label颜色
 $pi-form-item-height: 110rpx !default; // 表单高度
 $pi-form-input-color: #333333 !default; // 表单输入框颜色
 $pi-form-required-color: #c0282f !default; // 表单必选提示颜色
+
 // iphonex底部安全区域背景颜色
 $pi-safearea-bg: transparent !default;
 

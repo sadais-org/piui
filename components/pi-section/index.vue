@@ -1,20 +1,16 @@
 <template>
   <view
-    class="pi-list-item pi-align-center"
-    :hover-class="hoverClass"
-    :style="[customStyle, itemStyle]"
-    :class="[{ border: getBorder }, customClass]"
-    :hover-start-time="hoverStartTime"
-    :hover-stay-time="hoverStayTime"
-    @tap="handleItemClick"
+    class="section pi-align-center"
+    :style="[itemStyle, customStyle]"
+    :class="[{ border }, customClass]"
   >
+    <view v-if="line" class="line" />
     <!-- 左侧区域 -->
     <view v-if="$slots.left" class="pi-pd-right-24">
       <slot name="left" />
     </view>
-
     <!-- 标题和描述 -->
-    <view v-if="title || desc">
+    <view v-if="title || desc" class="pi-align-baseline">
       <view v-if="title" :style="[titleStyle]" class="list-item-title">{{ title }}</view>
       <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{ desc }}</view>
     </view>
@@ -42,7 +38,7 @@
 import { getConfig } from '../../config'
 
 const TAG = 'PiListItem'
-const { listItem } = getConfig()
+const { section } = getConfig()
 
 export default {
   name: TAG,
@@ -51,135 +47,98 @@ export default {
     customStyle: {
       type: Object,
       default() {
-        return listItem.customStyle
+        return section.customStyle
       }
     },
     // 自定义样式类，字符串形式（''）
     customClass: {
       type: String,
       default() {
-        return listItem.customClass
-      }
-    },
-    // 列表高度
-    height: {
-      type: [String, Number],
-      default() {
-        return listItem.height
+        return section.customClass
       }
     },
     // 标题
     title: {
       type: String,
       default() {
-        return listItem.title
+        return section.title
       }
     },
     // 标题自定义样式，对象形式（默认值：{}）
     titleStyle: {
       type: Object,
       default() {
-        return listItem.titleStyle
+        return section.titleStyle
       }
     },
     // 描述
     desc: {
       type: String,
       default() {
-        return listItem.title
+        return section.title
       }
     },
     // 描述自定义样式，对象形式（默认值：{}）
     descStyle: {
       type: Object,
       default() {
-        return listItem.descStyle
+        return section.descStyle
       }
     },
     // 右侧文字
     extraText: {
       type: String,
       default() {
-        return listItem.title
+        return section.title
       }
     },
     // 右侧文字自定义样式，对象形式（默认值：{}）
     extraStyle: {
       type: Object,
       default() {
-        return listItem.extraStyle
-      }
-    },
-    // 是否禁用
-    disabled: {
-      type: Boolean,
-      default() {
-        return listItem.disabled
+        return section.extraStyle
       }
     },
     // 是否显示边框
     border: {
       type: Boolean,
       default() {
-        return listItem.border
+        return section.border
+      }
+    },
+    // 是否显示左侧竖线
+    line: {
+      type: Boolean,
+      default() {
+        return section.line
       }
     },
     // 列表项内边距
     padding: {
       type: String,
       default() {
-        return listItem.padding
+        return section.padding
       }
     },
     // 是否显示右边icon
     showRightIcon: {
       type: Boolean,
       default() {
-        return listItem.showRightIcon
+        return section.showRightIcon
       }
     },
     // 右侧icon样式
     rightIcon: {
       type: Object,
       default() {
-        return listItem.rightIcon
-      }
-    },
-    // 指定按下去的样式类。当 hover-class="none" 时，没有点击态效果
-    hoverClass: {
-      type: String,
-      default() {
-        return listItem.hoverClass
-      }
-    },
-    // 按住后多久出现点击态，单位毫秒
-    hoverStartTime: {
-      type: [String, Number],
-      default() {
-        return listItem.hoverStartTime
-      }
-    },
-    // 手指松开后点击态保留时间，单位毫秒
-    hoverStayTime: {
-      type: [String, Number],
-      default() {
-        return listItem.hoverStayTime
+        return section.rightIcon
       }
     }
   },
   computed: {
-    getBorder() {
-      return this.piList ? this.piList.border : this.border
-    },
-    getHeight() {
-      return this.$pi.common.addUnit(
-        this.piList && this.piList.height ? this.piList.height : this.height
-      )
-    },
     itemStyle() {
       const style = {
-        padding: this.padding,
-        height: this.getHeight
+        padding: this.padding
       }
       return style
     }
@@ -199,28 +158,35 @@ export default {
 
 <style lang="scss" scoped>
 @import '~@/piui/scss/border.scss';
-
-.pi-list-item {
-  height: $pi-form-item-height;
+.section {
+  position: relative;
   line-height: 1;
   .list-item-title {
-    font-size: $pi-list-title-fontsize;
-    color: $pi-list-title-color;
+    margin-right: 12rpx;
+    font-size: $pi-section-title-fontsize;
+    color: $pi-section-title-color;
   }
   .list-item-desc {
-    padding-top: 12rpx;
-    font-size: $pi-list-desc-fontsize;
-    color: $pi-list-desc-color;
+    font-size: $pi-section-desc-fontsize;
+    color: $pi-section-desc-color;
+  }
+  .line {
+    width: 6rpx;
+    height: 32rpx;
+    margin-right: 12rpx;
+    overflow: hidden;
+    background-color: #6190e8;
+    border-radius: 4rpx;
   }
   .extra {
-    font-size: $pi-list-extra-fontsize;
-    color: $pi-list-extra-color;
+    font-size: $pi-section-extra-fontsize;
+    color: $pi-section-extra-color;
   }
   &.border {
     @include pi-border;
     &::after {
-      border: 0 solid $pi-list-border-color;
-      border-bottom-width: $pi-list-border-width;
+      border: 0 solid $pi-section-border-color;
+      border-bottom-width: $pi-section-border-width;
     }
   }
 }

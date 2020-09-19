@@ -33,7 +33,7 @@
       :color="rightIcon.color"
       :size="rightIcon.size"
       :class-prefix="rightIcon.classPrefix"
-      custom-class="pi-pd-left-4"
+      custom-class="pi-pd-left-12"
     />
   </view>
 </template>
@@ -202,19 +202,13 @@ export default {
 
 .pi-list-item {
   height: $pi-form-item-height;
-  line-height: 1;
   .list-item-title {
     font-size: $pi-list-title-fontsize;
     color: $pi-list-title-color;
   }
   .list-item-desc {
-    padding-top: 12rpx;
     font-size: $pi-list-desc-fontsize;
     color: $pi-list-desc-color;
-  }
-  .extra {
-    font-size: $pi-list-extra-fontsize;
-    color: $pi-list-extra-color;
   }
   &.border {
     @include pi-border;
