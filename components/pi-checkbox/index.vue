@@ -16,6 +16,7 @@
 
 <script>
 import ValueSync from '../../mixin/value-sync'
+import { childInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
 const TAG = 'PiCheckbox'
@@ -24,7 +25,7 @@ const { checkbox } = getConfig()
 export default {
   name: TAG,
   // 混入自定义样式customStyle和customClass
-  mixins: [ValueSync], // 注入value与val，进行双向绑定
+  mixins: [ValueSync, childInit('PiCheckboxGroup')], // 注入value与val，进行双向绑定
   props: {
     // 初始值
     value: {
@@ -96,49 +97,40 @@ export default {
       }
     }
   },
-  inject: {
-    piCheckboxGroup: { default: undefined }
-  },
   data() {
     return {}
   },
   computed: {
     getShape() {
-      return this.piCheckboxGroup && this.piCheckboxGroup.shape
-        ? this.piCheckboxGroup.shape
-        : this.shape
+      return this.inheritProps.shape || this.shape
     },
     getBorderRadius() {
-      return this.piCheckboxGroup && this.piCheckboxGroup.borderRadius
-        ? this.$pi.common.addUnit(this.piCheckboxGroup.borderRadius)
+      return this._parent && this._parent.borderRadius
+        ? this.$pi.common.addUnit(this._parent.borderRadius)
         : this.$pi.common.addUnit(this.borderRadius)
     },
     getBorder() {
-      return this.piCheckboxGroup && this.piCheckboxGroup.border
-        ? this.$pi.common.addUnit(this.piCheckboxGroup.border)
+      return this.inheritProps.border
+        ? this.$pi.common.addUnit(this.inheritProps.border)
         : this.$pi.common.addUnit(this.border)
     },
     getDisable() {
-      return this.piCheckboxGroup && this.piCheckboxGroup.disabled ? true : this.disabled
+      return this.inheritProps.disabled || this.disabled
     },
     getActiveMode() {
-      return this.piCheckboxGroup && this.piCheckboxGroup.activeMode
-        ? this.piCheckboxGroup.activeMode
-        : this.activeMode
+      return this.inheritProps.activeMode || this.activeMode
     },
     getActiveColor() {
-      return this.piCheckboxGroup && this.piCheckboxGroup.activeColor
-        ? this.piCheckboxGroup.activeColor
-        : this.activeColor
+      return this.inheritProps.activeColor || this.activeColor
     },
     getSize() {
-      return this.piCheckboxGroup && this.piCheckboxGroup.size
-        ? this.$pi.common.addUnit(this.piCheckboxGroup.size)
+      return this.inheritProps.size
+        ? this.$pi.common.addUnit(this.inheritProps.size)
         : this.$pi.common.addUnit(this.size)
     },
     getIconSize() {
-      return this.piCheckboxGroup && this.piCheckboxGroup.iconSize
-        ? this.$pi.common.addUnit(this.piCheckboxGroup.iconSize)
+      return this.inheritProps.iconSize
+        ? this.$pi.common.addUnit(this.inheritProps.iconSize)
         : this.$pi.common.addUnit(this.iconSize)
     },
     checkboxStyle() {
@@ -170,9 +162,7 @@ export default {
   },
   methods: {
     init() {
-      if (!this.piCheckboxGroup) return
-      this.piCheckboxGroup.children.push(this)
-      const checkboxGroupValue = this.piCheckboxGroup.value
+      const checkboxGroupValue = this.inheritProps.value
       if (checkboxGroupValue && checkboxGroupValue.includes(this.name)) {
         this.val = true
       }
@@ -180,14 +170,14 @@ export default {
     handleCheckboxToggle() {
       if (this.getDisable) return
       // 如果父组件做了可选数量限制
-      if (!this.val && this.piCheckboxGroup && this.piCheckboxGroup.getMax > 0) {
-        const max = this.piCheckboxGroup.getMax
-        const currentCount = this.piCheckboxGroup.children.filter(c => c.val).length
+      if (!this.val && this._parent && this._parent.getMax > 0) {
+        const max = this._parent.getMax
+        const currentCount = this._parent.children.filter(c => c.val).length
         if (max === currentCount) return
       }
       this.val = !this.val
       this.handleEmitChange()
-      this.piCheckboxGroup && this.piCheckboxGroup.emitChange()
+      this._parent && this._parent.emitChange()
     }
   }
 }
@@ -199,6 +189,7 @@ $disable-color: #c8c9cc;
   display: inline-flex;
   align-items: center;
   .check-icon {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;

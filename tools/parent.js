@@ -10,6 +10,10 @@ export default function parent(componentScope, componentName) {
     if (parent.$options && parent.$options.name !== componentName) {
       parent = parent.$parent
     } else {
+      if (parent._children) {
+        // 如果父组件需要和子组件做关联，需要在created生命周期设置this.children = []
+        parent._children.push(componentScope)
+      }
       return parent
     }
   }

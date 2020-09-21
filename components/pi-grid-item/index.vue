@@ -2,13 +2,13 @@
   <view
     class="pi-grid-item"
     :style="[customStyle, itemStyle]"
-    :class="[{ border: getBorder, gap: getGap }, customClass]"
+    :class="[itemClass, customClass]"
     :hover-class="hoverClass"
     :hover-start-time="hoverStartTime"
     :hover-stay-time="hoverStayTime"
     @tap="handleItemClick"
   >
-    <view class="grid-item-box" :class="[{ 'pi-square': getSquare }]">
+    <view class="grid-item-box" :class="[itemBoxClass]">
       <view><slot /></view>
     </view>
   </view>
@@ -88,12 +88,17 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      parentData: {}
+    }
+  },
   computed: {
     getGap() {
-      return this.piGrid ? this.piGrid.gap : this.gap
+      return this.parentData.gap || this.gap
     },
     getCol() {
-      const col = this.piGrid && this.piGrid.col ? this.piGrid.col : this.col
+      const col = this.parentData.col ? this.parentData.col : this.col
       return parseInt(col, 10)
     },
     getRowGapWidth() {
@@ -103,10 +108,10 @@ export default {
       return `calc((100% - ${this.getRowGapWidth}) / ${this.getCol})`
     },
     getSquare() {
-      return this.piGrid ? this.piGrid.square : this.square
+      return this.parentData.square || this.square
     },
     getBorder() {
-      return this.piGrid ? this.piGrid.border : this.border
+      return this.parentData.border || this.border
     },
     itemStyle() {
       const gap = this.$pi.common.addUnit(this.getGap)
@@ -121,15 +126,31 @@ export default {
       }
       if (this.bgColor) style.backgroundColor = this.bgColor
       return style
+    },
+    itemClass() {
+      const clazz = []
+      this.getBorder && clazz.push('border')
+      this.getGap && clazz.push('gap')
+      return clazz.join(' ')
+    },
+    itemBoxClass() {
+      const clazz = []
+      this.getSquare && clazz.push('pi-square')
+      return clazz.join(' ')
     }
   },
   inject: {
     piGrid: { default: undefined }
   },
   created() {
+    this.init()
     this.valid()
   },
   methods: {
+    init() {
+      if (!this.piGrid) return
+      this.parentData = { ...this.piGrid.$props, ...this.piGrid.$data }
+    },
     valid() {
       if (this.getGap && this.index === undefined) {
         console.warn(TAG, '当设置gap的时候，请把当前迭代器的索引传递到index属性，否则宽度计算有误')

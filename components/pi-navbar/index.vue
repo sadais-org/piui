@@ -14,11 +14,11 @@
           :class="[
             capsuleTheme,
             {
-              'capsule pi-round': capsuleButton && !$slots.left && isShowBack && showHome
+              'capsule pi-round': capsuleButton && isShowBack && showHome
             }
           ]"
         >
-          <slot v-if="$slots.left" name="left" />
+          <slot v-if="$slots && $slots.left" name="left" />
           <template v-else>
             <view v-if="isShowBack" class="pi-align-center back-wrap" @tap="handleGoBack">
               <view
@@ -50,7 +50,7 @@
           <template v-else-if="title">{{ title }}</template>
         </view>
         <!-- 右侧 -->
-        <view class="nav-icon"><slot name="right" /></view>
+        <view v-if="$slots.right" class="nav-icon"><slot name="right" /></view>
       </view>
     </view>
   </view>
@@ -130,10 +130,10 @@ export default {
       type: String,
       default: navbar.background
     },
-    // 是否显示后退按钮（默认true）
+    // 是否显示后退按钮，默认不设置，根据当前页面堆栈自动判断
     showBack: {
       required: false,
-      type: Boolean,
+      type: [String, Boolean],
       default: navbar.showBack
     },
     // 是否显示主页按钮（默认false）
@@ -253,7 +253,7 @@ export default {
   },
   methods: {
     syncPageRoute() {
-      if (this.showBack === undefined) {
+      if (this.showBack === '') {
         /* eslint-disable */
       const pages = getCurrentPages()
       // 如果堆栈大于1表示打开了子页面，需要显示返回按钮

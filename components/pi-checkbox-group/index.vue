@@ -14,6 +14,7 @@
 
 <script>
 import ValueSync from '../../mixin/value-sync'
+import { parentInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
 const TAG = 'PiCheckboxGroup'
@@ -22,7 +23,19 @@ const { checkboxGroup } = getConfig()
 export default {
   name: TAG,
   // 混入自定义样式customStyle和customClass
-  mixins: [ValueSync], // 注入value与val，进行双向绑定
+  mixins: [
+    ValueSync,
+    parentInit([
+      'value',
+      'shape',
+      'border',
+      'disabled',
+      'size',
+      'iconSize',
+      'activeColor',
+      'activeMode'
+    ])
+  ], // 注入value与val，进行双向绑定
   props: {
     // 初始值
     value: {
@@ -102,18 +115,10 @@ export default {
       return parseInt(this.max, 10)
     }
   },
-  provide() {
-    return {
-      piCheckboxGroup: this
-    }
-  },
-  created() {
-    this.children = []
-  },
   methods: {
     emitChange() {
       const vals = []
-      this.children.map(val => {
+      this._children.map(val => {
         if (val.val && val.name) vals.push(val.name)
       })
       this.val = vals
