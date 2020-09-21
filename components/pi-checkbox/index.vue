@@ -172,7 +172,7 @@ export default {
       // 如果父组件做了可选数量限制
       if (!this.val && this._parent && this._parent.getMax > 0) {
         const max = this._parent.getMax
-        const currentCount = this._parent.children.filter(c => c.val).length
+        const currentCount = this._parent._children.filter(c => c.val).length
         if (max === currentCount) return
       }
       this.val = !this.val

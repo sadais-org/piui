@@ -21,6 +21,6 @@ export default {
     classPrefix: 'pi-icon-' // 类名前缀，用于使用自定义图标，默认为（pi-icon-）
   },
   hoverClass: 'pi-hover-class', // 宫格按压时的样式类，"none"为无效果
-  hoverStartTime: 50, // 按住后多久出现点击态，单位毫秒
-  hoverStayTime: 400 // 手指松开后点击态保留时间，单位毫秒
+  hoverStartTime: 10, // 按住后多久出现点击态，单位毫秒
+  hoverStayTime: 100 // 手指松开后点击态保留时间，单位毫秒
 }

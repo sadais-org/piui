@@ -7,6 +7,6 @@ export default {
   gap: 0, // 宫格之间间隔，（默认：0）
   bgColor: '', // 宫格背景色
   hoverClass: 'pi-hover-class', // 宫格按压时的样式类，"none"为无效果
-  hoverStartTime: 50, // 按住后多久出现点击态，单位毫秒
-  hoverStayTime: 400 // 手指松开后点击态保留时间，单位毫秒
+  hoverStartTime: 10, // 按住后多久出现点击态，单位毫秒
+  hoverStayTime: 100 // 手指松开后点击态保留时间，单位毫秒
 }
