@@ -654,70 +654,70 @@ image {
   @if $i % 2 == 0 {
     /* padding */
     .pi-pd-#{$i} {
-      padding: #{$i}rpx;
+      padding: #{$i}rpx !important;
     }
     .pi-pd-top-#{$i} {
-      padding-top: #{$i}rpx;
+      padding-top: #{$i}rpx !important;
     }
     .pi-pd-right-#{$i} {
-      padding-right: #{$i}rpx;
+      padding-right: #{$i}rpx !important;
     }
     .pi-pd-bottom-#{$i} {
-      padding-bottom: #{$i}rpx;
+      padding-bottom: #{$i}rpx !important;
     }
     .pi-pd-left-#{$i} {
-      padding-left: #{$i}rpx;
+      padding-left: #{$i}rpx !important;
     }
     .pi-pd-tb-#{$i} {
-      padding-top: #{$i}rpx;
-      padding-bottom: #{$i}rpx;
+      padding-top: #{$i}rpx !important;
+      padding-bottom: #{$i}rpx !important;
     }
     .pi-pd-lr-#{$i} {
-      padding-right: #{$i}rpx;
-      padding-left: #{$i}rpx;
+      padding-right: #{$i}rpx !important;
+      padding-left: #{$i}rpx !important;
     }
 
     /* margin */
     .pi-mg-#{$i} {
-      margin: #{$i}rpx;
+      margin: #{$i}rpx !important;
     }
     .pi-mg-top-#{$i} {
-      margin-top: #{$i}rpx;
+      margin-top: #{$i}rpx !important;
     }
     .pi-mg-right-#{$i} {
-      margin-right: #{$i}rpx;
+      margin-right: #{$i}rpx !important;
     }
     .pi-mg-bottom-#{$i} {
-      margin-bottom: #{$i}rpx;
+      margin-bottom: #{$i}rpx !important;
     }
     .pi-mg-left-#{$i} {
-      margin-left: #{$i}rpx;
+      margin-left: #{$i}rpx !important;
     }
     .pi-mg-tb-#{$i} {
-      margin-top: #{$i}rpx;
-      margin-bottom: #{$i}rpx;
+      margin-top: #{$i}rpx !important;
+      margin-bottom: #{$i}rpx !important;
     }
     .pi-mg-lr-#{$i} {
-      margin-right: #{$i}rpx;
-      margin-left: #{$i}rpx;
+      margin-right: #{$i}rpx !important;
+      margin-left: #{$i}rpx !important;
     }
 
     // width & height
     .pi-w-#{$i} {
-      width: #{$i}rpx;
+      width: #{$i}rpx !important;
     }
     .pi-h-#{$i} {
-      height: #{$i}rpx;
+      height: #{$i}rpx !important;
     }
 
     // radius
     .pi-radius-#{$i} {
-      border-radius: #{$i}rpx;
+      border-radius: #{$i}rpx !important;
     }
 
     // line-height
     .pi-lh-#{$i} {
-      line-height: #{$i}rpx;
+      line-height: #{$i}rpx !important;
     }
   }
 }
