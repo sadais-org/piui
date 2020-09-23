@@ -6,7 +6,7 @@
   >
     <view
       class="active-bar pi-align-center pi-justify-end"
-      :class="[{ 'pi-round': round }, { striped: striped }, { active: 'stripedActive' }]"
+      :class="[{ 'pi-round': round }, { striped: striped }, { active: stripedActive }]"
       :style="[activeBarStyle]"
     >
       <slot v-if="$slots.default || $slots.$default" />
