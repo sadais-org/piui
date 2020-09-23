@@ -18,8 +18,10 @@ import { systemInfo } from '../../tools/system'
 import { getConfig } from '../../config'
 const { statusBar } = getConfig()
 
+const TAG = 'PiStatusBar'
+
 export default {
-  name: 'PiStatusBar',
+  name: TAG,
   props: {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
