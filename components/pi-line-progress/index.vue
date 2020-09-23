@@ -47,31 +47,26 @@ export default {
     },
     // 两端是否半圆（默认值：false）
     round: {
-      required: false,
       type: Boolean,
       default: lineProgress.round
     },
     // 激活部分的颜色（不设置默认为主题色）
     activeColor: {
-      required: false,
       type: String,
       default: lineProgress.activeColor
     },
     // 未激活底色
     inactiveColor: {
-      required: false,
       type: String,
       default: lineProgress.inactiveColor
     },
     // 进度百分比，数值
     percent: {
-      required: false,
       type: [String, Number],
       default: lineProgress.percent
     },
     // 是否在进度条内部显示百分比的值
     showPercent: {
-      required: false,
       type: Boolean,
       default: lineProgress.showPercent
     },
@@ -82,21 +77,23 @@ export default {
         return lineProgress.percentStyle
       }
     },
+    // 进度条的宽度，单位rpx，不设置默认为100%
+    width: {
+      type: [String, Number],
+      default: lineProgress.width
+    },
     // 进度条的高度，单位rpx
     height: {
-      required: false,
       type: [String, Number],
       default: lineProgress.height
     },
     // 是否显示条纹
     striped: {
-      required: false,
       type: Boolean,
       default: lineProgress.striped
     },
     // 条纹是否具有动态效果
     stripedActive: {
-      required: false,
       type: Boolean,
       default: lineProgress.stripedActive
     }
@@ -110,6 +107,7 @@ export default {
         height: this.getHeight,
         backgroundColor: this.inactiveColor
       }
+      if (this.width) style.width = this.$pi.common.addUnit(this.width)
       return style
     },
     activeBarStyle() {
