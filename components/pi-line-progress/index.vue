@@ -21,8 +21,6 @@
 /**
  * 线型进度条
  */
-import { systemInfo } from '../../tools/system'
-
 import { getConfig } from '../../config'
 const { lineProgress } = getConfig()
 
