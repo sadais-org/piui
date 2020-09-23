@@ -175,7 +175,7 @@ export default {
     height: 32rpx;
     margin-right: 12rpx;
     overflow: hidden;
-    background-color: #6190e8;
+    background-color: $pi-primary-color;
     border-radius: 4rpx;
   }
   .extra {
