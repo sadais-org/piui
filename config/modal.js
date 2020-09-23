@@ -23,7 +23,7 @@ export default {
   borderRadius: '8rpx', // 控制弹窗的圆角效果
   showCloseIcon: true, // 是否显示关闭图标，默认（true）
   closeIconName: 'close', // 关闭图标的名称，默认（close）
-  closeIconPadding: '24rpx 24rpx', // 关闭图标的padding
+  closeIconPadding: '32rpx 32rpx', // 关闭图标的padding
   closeIconColor: '#c9c9c9', // 关闭图标的颜色，默认（'#c9c9c9'）
   closeIconSize: 42, // 关闭图标的大小，默认（'42rpx'）
   closeIconWeight: 800, // 关闭图标font-weight，默认（'800'）
