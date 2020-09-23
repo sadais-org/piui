@@ -1,6 +1,7 @@
 export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
+  toolbarPosition: 'bottom', // 操作条（确定，取消按钮）位置，可选值 'top', 'bottom'
   items: [], // 选项列表，默认（[]）
   keyField: 'id', // 选项id字段，默认为id
   displayField: 'text', // 选项显示字段，默认为text
@@ -9,7 +10,7 @@ export default {
   showTitle: false, // 是否显示title（默认：true）
   title: '弹出选择', // 标题（默认：日期选择）
   titlePadding: '24rpx', // 标题 padding（默认：24rpx）
-  height: '60vh', // 弹出选择层的高度，不可填百分比（默认：'60vh'）
+  height: '50vh', // 弹出选择层的高度，不可填百分比（默认：'60vh'）
   itemHeight: 110, // 行高（默认：'110rpx'）
   showItemBottomBorder: true, // 是否显示item下边框（默认：'true'）
   itemStyle: {}, // 行样式（默认：'{}'）

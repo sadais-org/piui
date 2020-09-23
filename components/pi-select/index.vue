@@ -18,7 +18,11 @@
     :mask-background="maskBackground"
     @close="handlePopupClose"
   >
-    <view class="pi-select" :style="[customStyle, { getHeight }]" :class="[customClass]">
+    <view
+      class="pi-select pi-flex-column"
+      :style="[customStyle, { getHeight }]"
+      :class="[customClass]"
+    >
       <!-- 标题栏 -->
       <view
         v-if="showTitle"
@@ -28,12 +32,16 @@
         <slot v-if="$slots.title" name="title" />
         <template v-else>{{ title }}</template>
       </view>
-      <!-- 确认/取消 -->
+      <!-- 顶部操作条 -->
       <view
+        v-if="toolbarPosition === 'top'"
         class="pi-justify-between pi-align-center pi-solid-bottom-1 pi-fz-32 pi-fw-500 pi-pd-32"
       >
-        <view class="item-btn" @tap="handlePopupClose">取消</view>
-        <view class="item-btn pi-primary" @tap="handleConfirm">确定</view>
+        <slot v-if="$slots.toolbar" name="toolbar" />
+        <template v-else>
+          <view class="item-btn" @tap="handlePopupClose">取消</view>
+          <view class="item-btn pi-primary" @tap="handleConfirm">确定</view>
+        </template>
       </view>
       <!-- 选择区域 -->
       <scroll-view class="pi-scroll" scroll-y scroll-with-animation>
@@ -50,10 +58,16 @@
             <!-- 后备内容 -->
             {{ item[displayField] }}
           </slot>
-          <view v-if="item.isSelected" class="pi-icon-check pi-primary pi-fz-48 pi-fw-800" />
+          <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" />
         </view>
       </scroll-view>
-      <slot name="footer" />
+      <!-- 顶部操作条 -->
+      <pi-bottom-bar v-if="toolbarPosition === 'bottom'">
+        <slot v-if="$slots.toolbar" name="toolbar" />
+        <pi-button v-else width="100%" type="primary" @tap="handleConfirm">
+          确定
+        </pi-button>
+      </pi-bottom-bar>
     </view>
   </pi-popup>
 </template>
@@ -86,6 +100,13 @@ export default {
       type: String,
       default() {
         return select.customClass
+      }
+    },
+    toolbarPosition: {
+      type: String,
+      default: select.toolbarPosition,
+      validator: function(value) {
+        return ['top', 'bottom'].includes(value)
       }
     },
     // 选项列表，默认（[]）

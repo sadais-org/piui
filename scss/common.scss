@@ -576,13 +576,13 @@ image {
   flex-direction: column;
   height: calc(100vh - var(--window-bottom));
   overflow: hidden;
-  // 滚动视区
-  .pi-scroll {
-    position: relative;
-    flex: 1;
-    height: 100%;
-    overflow: hidden;
-  }
+}
+// 滚动视区
+.pi-scroll {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
 }
 
 // 内容区域
