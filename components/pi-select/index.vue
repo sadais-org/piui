@@ -20,7 +20,7 @@
   >
     <view
       class="pi-select pi-flex-column"
-      :style="[customStyle, { getHeight }]"
+      :style="[customStyle, { height: getHeight }]"
       :class="[customClass]"
     >
       <!-- 标题栏 -->
