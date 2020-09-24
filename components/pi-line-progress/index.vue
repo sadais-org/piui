@@ -2,16 +2,18 @@
   <view
     class="pi-line-progress"
     :style="[progressStyle, customStyle]"
-    :class="[customClass, { 'pi-round': round }]"
+    :class="[customClass, { round: round }]"
   >
     <view
-      class="active-bar pi-align-center pi-justify-end"
-      :class="[{ 'pi-round': round }, { striped: striped }, { active: stripedActive }]"
+      class="active-bar"
+      :class="[{ round: round }, { striped: striped }, { active: stripedActive }]"
       :style="[activeBarStyle]"
     >
-      <slot v-if="$slots.default || $slots.$default" />
-      <view v-else-if="showPercent" class="percent">
-        {{ percent + '%' }}
+      <view class="percent" :style="[{ height: getHeight, lineHeight: getHeight }, percentStyle]">
+        <slot v-if="$slots.default || $slots.$default" />
+        <template v-else-if="showPercent">
+          {{ percent + '%' }}
+        </template>
       </view>
     </view>
   </view>
@@ -110,6 +112,8 @@ export default {
     },
     activeBarStyle() {
       const style = {
+        height: this.getHeight,
+        lineHeight: this.getHeight,
         width: this.percent + '%'
       }
       if (this.activeColor) style.backgroundColor = this.activeColor
@@ -120,10 +124,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.round {
+  border-radius: 200px;
+}
 .pi-line-progress {
+  overflow: hidden;
+  font-size: 0;
   .active-bar {
+    position: relative;
+    text-align: right;
+    white-space: nowrap;
+    vertical-align: middle;
     background: $pi-primary-color;
     transition: all $pi-animation-duration ease-in-out;
+    &::after {
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+      content: '';
+    }
     &.striped {
       &.active {
         animation: progress-stripes 2s linear infinite;
@@ -143,10 +162,13 @@ export default {
     }
 
     .percent {
-      padding-right: 10rpx;
+      display: inline-block;
+      padding: 0 12rpx;
       font-size: 18rpx;
-      line-height: 1;
       color: #ffffff;
+      text-align: right;
+      white-space: nowrap;
+      vertical-align: middle;
     }
   }
 }
