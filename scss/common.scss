@@ -535,6 +535,7 @@ label,
 navigator,
 image {
   box-sizing: border-box;
+  font-size: $pi-font-size;
   &:focus {
     outline: none;
   }

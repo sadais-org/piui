@@ -250,7 +250,7 @@ export default {
       type: [String, Number],
       default: calendar.closeIconPadding
     },
-    // 关闭图标的颜色，默认（'#c9c9c9'）
+    // 关闭图标的颜色，默认（'#666666'）
     closeIconColor: {
       type: String,
       default: calendar.closeIconColor
