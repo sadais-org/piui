@@ -172,6 +172,5 @@ export default {
 <style lang="scss" scoped>
 .pi-img {
   position: relative;
-  min-height: 50%;
 }
 </style>

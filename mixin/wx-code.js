@@ -1,4 +1,5 @@
 export default {
+  // #ifdef MP
   data() {
     return {
       code: '' // 微信login获取的code
@@ -23,4 +24,5 @@ export default {
       await this.getWxLoginCode()
     }
   }
+  // #endif
 }
