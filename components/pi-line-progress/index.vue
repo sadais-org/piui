@@ -129,9 +129,10 @@ export default {
 }
 .pi-line-progress {
   overflow: hidden;
-  font-size: 0;
+
   .active-bar {
     position: relative;
+    font-size: 0;
     text-align: right;
     white-space: nowrap;
     vertical-align: middle;
