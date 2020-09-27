@@ -3,7 +3,7 @@
   <view
     v-if="!closed"
     class="pi-fixed-top pi-w-100P pi-h-100P"
-    :class="[customClass, show ? 'pi-ani-fade-show' : 'pi-ani-fade-hide']"
+    :class="[show ? 'pi-ani-fade-show' : 'pi-ani-fade-hide']"
     :style="[
       { 'zIndex': zIndex, 'background': maskBackground, 'animation-duration': getDuration.css }
     ]"
