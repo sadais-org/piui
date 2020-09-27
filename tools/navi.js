@@ -39,9 +39,10 @@ export const urlToObj = (str = '', decodeURI) => {
  * @param {Object} params params
  */
 export const decodeParams = params => {
-  const convertObject = Object.keys(params).map(paramObject => ({
-    [paramObject]: decodeURIComponent(params[paramObject])
-  }))
+  const convertObject = {}
+  for (const paramObject of Object.keys(params)) {
+    convertObject[paramObject] = decodeURIComponent(params[paramObject])
+  }
   return convertObject
 }
 
