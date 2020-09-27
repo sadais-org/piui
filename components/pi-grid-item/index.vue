@@ -157,7 +157,6 @@ export default {
       }
     },
     handleItemClick(e) {
-      this.$emit('tap', e)
       this.$emit('click', e)
     }
   }

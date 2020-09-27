@@ -246,7 +246,6 @@ export default {
       // 是否开启水波纹效果
       this.waveInfo.active = false
       this.$emit('click', e)
-      this.$emit('tap', e)
       this.$nextTick(function() {
         this.queryWaveInfo(e)
       })
