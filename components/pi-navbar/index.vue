@@ -254,7 +254,7 @@ export default {
   methods: {
     syncPageRoute() {
       if (this.showBack === '') {
-        /* eslint-disable */
+      /* eslint-disable */
       const pages = getCurrentPages()
       // 如果堆栈大于1表示打开了子页面，需要显示返回按钮
       this.isShowBack = pages.length > 1

@@ -62,3 +62,28 @@ export const formatDate = (value = new Date(), fmt = 'yyyy-mm-dd') => {
   }
   return fmt
 }
+
+/**
+ * 计算剩余时间
+ * @param {*} timestamp 时间差
+ * @param {*} showDay 是否显示天数
+ */
+export const calcuLeftTime = (timestamp, showDay = true) => {
+  const defaultValue = [0, 0, 0, 0]
+  let [day, hour, minute, second] = defaultValue
+
+  if (timestamp <= 0) return defaultValue
+
+  day = Math.floor(timestamp / (60 * 60 * 24))
+  hour = Math.floor(timestamp / (60 * 60)) - day * 24
+  minute = Math.floor(timestamp / 60) - hour * 60 - day * 24 * 60
+  second = Math.floor(timestamp) - day * 24 * 60 * 60 - hour * 60 * 60 - minute * 60
+
+  day = day < 10 ? '0' + day : day
+  let formatHour = showDay ? hour : Math.floor(timestamp / (60 * 60))
+  formatHour = formatHour < 10 ? '0' + formatHour : formatHour
+  minute = minute < 10 ? '0' + minute : minute
+  second = second < 10 ? '0' + second : second
+
+  return { day, hour: formatHour, minute, second }
+}
