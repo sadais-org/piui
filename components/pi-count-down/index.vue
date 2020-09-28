@@ -195,6 +195,7 @@ export default {
       position: relative;
       min-width: 44rpx;
       min-height: 44rpx;
+      font-size: 24rpx;
       line-height: initial;
     }
     &.separator {
