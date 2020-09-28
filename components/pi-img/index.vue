@@ -3,6 +3,7 @@
     class="pi-img pi-w-100P pi-align-center"
     :style="[imageStyle, customStyle]"
     :class="[customClass]"
+    @tap="handleButtonTap"
   >
     <image
       :src="src"
@@ -39,6 +40,7 @@
  * 如果要自定义loading底图和请求失败图，请使用slot对本组件进行二次封装
  */
 import { getConfig } from '../../config'
+import { debounce } from '../../tools/common'
 
 const TAG = 'PiImg'
 const { img } = getConfig()
@@ -156,6 +158,9 @@ export default {
     }
   },
   methods: {
+    handleButtonTap: debounce(function(e) {
+      this.$emit('click', e)
+    }, 200),
     handleError() {
       this.error = true
       this.loading = false

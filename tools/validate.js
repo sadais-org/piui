@@ -1,4 +1,12 @@
 /**
+ * 校验密码 （6-16位字母数字混合）
+ * @param {String} password 密码
+ */
+export const checkPassword = password => {
+  return /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/.test(password)
+}
+
+/**
  * 验证电子邮箱格式
  */
 export const isEmail = value => {
