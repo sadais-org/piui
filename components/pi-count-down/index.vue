@@ -192,8 +192,10 @@ export default {
     // 欺骗浏览器使用gpu渲染
     transform: translateZ(0);
     &.time {
+      position: relative;
       min-width: 44rpx;
       min-height: 44rpx;
+      line-height: initial;
     }
     &.separator {
       margin: 0 4rpx;
