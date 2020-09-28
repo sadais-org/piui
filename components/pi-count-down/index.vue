@@ -146,6 +146,10 @@ export default {
       }
     }
   },
+  beforeDestroy() {
+    clearInterval(this.timer)
+    this.timer = null
+  },
   methods: {
     run() {
       // 避免可能出现的倒计时重叠情况
@@ -153,6 +157,7 @@ export default {
       if (this.timestamp <= 0) return
       this.timer = setInterval(() => {
         this.val--
+        this.handleEmitChange()
         if (this.val <= 0) {
           return this.stop()
         }
