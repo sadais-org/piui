@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="pi-tabs">
+    <view class="pi-tabs" :class="[customClass]">
       <scroll-view class="pi-scroll" :scroll-left="scrollLeft" scroll-x scroll-with-animation>
         <view class="scroll-wrap" :style="[scrollWrapStyle]">
           <view
@@ -10,7 +10,7 @@
             :style="[
               getItemStyle,
               itemStyle,
-              activeIndex === index && activeColor ? { color: activeColor } : ''
+              activeIndex === index && activeTextColor ? { color: activeTextColor } : ''
             ]"
             class="pi-tab pi-align-center pi-fz-30"
             :class="[{ active: activeIndex === index }]"
@@ -104,6 +104,13 @@ export default {
     },
     // 激活颜色（不设置，默认主题色）
     activeColor: {
+      type: String,
+      default() {
+        return tabs.activeColor
+      }
+    },
+    // 激活颜色（不设置，默认主题色）
+    activeTextColor: {
       type: String,
       default() {
         return tabs.activeColor
@@ -267,6 +274,9 @@ export default {
     handleSelectItem(item) {
       this.val = item
       this.handleEmitChange()
+    },
+    handleEmitChange() {
+      this.$emit('change', this.val)
     }
   }
 }
