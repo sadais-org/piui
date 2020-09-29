@@ -114,3 +114,12 @@ export const queryRect = function(scope, selector, all) {
       .exec()
   })
 }
+
+/**
+ * 生成一个从 start 到 end 的连续数组
+ * @param start 开始
+ * @param end 结束
+ */
+export function generateArray(start = 0, end = 0) {
+  return Array.from(new Array(end + 1).keys()).slice(start)
+}

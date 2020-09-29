@@ -19,7 +19,7 @@
     @close="handlePopupClose"
   >
     <view
-      class="pi-select pi-flex-column"
+      class="pi-datePicker pi-flex-column"
       :style="[customStyle, { height: getHeight }]"
       :class="[customClass]"
     >
@@ -44,23 +44,32 @@
         </template>
       </view>
       <!-- 选择区域 -->
-      <scroll-view class="pi-scroll" scroll-y scroll-with-animation>
-        <view
-          v-for="item in getItems"
-          :id="`id-${item[keyField]}`"
-          :key="item[keyField]"
-          :style="[itemStyle, getItemStyle]"
-          :class="{ 'pi-solid-bottom-1': showItemBottomBorder }"
-          class="pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
-          @tap="handleSelectItem(item)"
+      <view class="pi-w-100P pi-scroll">
+        <!-- uniapp 底层bug picker-view 如果不加v-if会导致小程序和app端初始化不正常 -->
+        <picker-view
+          v-if="val"
+          class="pi-text-center pi-h-100P"
+          :indicator-style="indicatorStyle"
+          :value="pickerValue"
+          @change="handleChange"
         >
-          <slot name="item" :item="item">
-            <!-- 后备内容 -->
-            {{ item[displayField] }}
-          </slot>
-          <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" />
-        </view>
-      </scroll-view>
+          <picker-view-column>
+            <view v-for="(item, index) in years" :key="index" :style="indicatorStyle">
+              {{ item }}年
+            </view>
+          </picker-view-column>
+          <picker-view-column v-if="showMonth">
+            <view v-for="(item, index) in months" :key="index" :style="indicatorStyle">
+              {{ item }}月
+            </view>
+          </picker-view-column>
+          <picker-view-column v-if="showDay">
+            <view v-for="(item, index) in days" :key="index" :style="indicatorStyle">
+              {{ item }}日
+            </view>
+          </picker-view-column>
+        </picker-view>
+      </view>
       <!-- 顶部操作条 -->
       <pi-bottom-bar v-if="toolbarPosition === 'bottom'">
         <slot v-if="$slots.toolbar" name="toolbar" />
@@ -76,15 +85,15 @@
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
 
-const TAG = 'PiSelect'
-const { select } = getConfig()
+const TAG = 'PiDatePicker'
+const { datePicker } = getConfig()
 
 export default {
   name: TAG,
   // 混入v-model
   mixins: [ValueSync],
   props: {
-    // 初始值
+    // 是否显示弹窗
     value: {
       required: false
     },
@@ -92,91 +101,94 @@ export default {
     customStyle: {
       type: Object,
       default() {
-        return select.customStyle
+        return datePicker.customStyle
       }
     },
     // 自定义样式类，字符串形式（''）
     customClass: {
       type: String,
       default() {
-        return select.customClass
+        return datePicker.customClass
       }
+    },
+    // 开始年份（默认当前年份）
+    startYear: {
+      type: [String, Number],
+      default() {
+        return datePicker.startYear
+      }
+    },
+    // 结束年份（默认当前年份 - 80）
+    endYear: {
+      type: [String, Number],
+      default() {
+        return datePicker.endYear
+      }
+    },
+    // 选择器的粒度 year、month、day、hour、minute、second
+    field: {
+      type: String,
+      validator: function(value) {
+        // 这个值必须匹配下列字符串中的一个
+        return ['year', 'month', 'day', 'hour', 'minute', 'second'].includes(value)
+      },
+      default() {
+        return datePicker.field
+      }
+    },
+    // 日期默认值
+    defaultValue: {
+      type: [Number, String, Date],
+      default: datePicker.defaultValue
     },
     toolbarPosition: {
       type: String,
-      default: select.toolbarPosition,
+      default: datePicker.toolbarPosition,
       validator: function(value) {
         return ['top', 'bottom'].includes(value)
       }
     },
-    // 选项列表，默认（[]）
-    items: {
-      type: Array,
-      default() {
-        return select.items
-      }
-    },
-    // 选项id字段，默认为id
-    keyField: {
-      type: String,
-      default: select.keyField
-    },
-    // 选项显示字段，默认为text
-    displayField: {
-      type: String,
-      default: select.displayField
-    },
-    // 默认值，单选是传Object，多选时传Array，默认null
-    defaultValue: {
-      type: [Object, Array],
-      default: select.defaultValue
-    },
-    // 是否多选，（默认：false）
-    isMulti: {
-      type: Boolean,
-      default: select.isMulti
-    },
     // 是否显示title（默认：true）
     showTitle: {
       type: Boolean,
-      default: select.showTitle
+      default: datePicker.showTitle
     },
     // 标题（默认：日期选择）
     title: {
       type: String,
-      default: select.title
+      default: datePicker.title
     },
     // 标题 padding（默认：24rpx）
     titlePadding: {
       type: [String, Number],
-      default: select.titlePadding
+      default: datePicker.titlePadding
     },
     // 弹出选择层的高度，不可填百分比（默认：'50vh'）
     height: {
       type: String,
-      default: select.height
+      default: datePicker.height
     },
     // 行高（默认：'110rpx'）
     itemHeight: {
       type: [String, Number],
-      default: select.itemHeight
+      default: datePicker.itemHeight
     },
     // 是否显示item下边框（默认：'true'）
     showItemBottomBorder: {
       type: Boolean,
-      default: select.showItemBottomBorder
+      default: datePicker.showItemBottomBorder
     },
     // 行样式（默认：'{}'）
     itemStyle: {
       type: Object,
       default() {
-        return select.itemStyle
+        return datePicker.itemStyle
       }
     },
     // 是否点击确认的时候关闭弹窗（默认：'true'）
     onConfirmClose: {
       type: Boolean,
-      default: select.onConfirmClose
+      default: datePicker.onConfirmClose
     },
     /**
      * 弹窗的配置，默认选项请参照popup
@@ -185,40 +197,40 @@ export default {
     // 控制弹窗的四个角圆角效果（默认'0 0 0 0'）
     borderRadius: {
       type: [String, Number],
-      default: select.borderRadius
+      default: datePicker.borderRadius
     },
     // 是否显示关闭图标，默认（true）
     showCloseIcon: {
       type: Boolean,
-      default: select.showCloseIcon
+      default: datePicker.showCloseIcon
     },
     // 关闭图标的名称，默认（close）
     closeIconName: {
       type: String,
-      default: select.closeIconName
+      default: datePicker.closeIconName
     },
     closeIconPadding: {
       type: [String, Number],
-      default: select.closeIconPadding
+      default: datePicker.closeIconPadding
     },
     // 关闭图标的颜色，默认（'#666666'）
     closeIconColor: {
       type: String,
-      default: select.closeIconColor
+      default: datePicker.closeIconColor
     },
     // 关闭图标的大小，默认（'42rpx'）
     closeIconSize: {
       type: [String, Number],
-      default: select.closeIconSize
+      default: datePicker.closeIconSize
     },
     closeIconWeight: {
       type: [String, Number],
-      default: select.closeIconWeight
+      default: datePicker.closeIconWeight
     },
     // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
     closeIconPosition: {
       type: String,
-      default: select.closeIconPosition,
+      default: datePicker.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
@@ -226,12 +238,12 @@ export default {
     // 顶部安全适配（状态栏高度，默认true）
     safeAreaInsetTop: {
       type: Boolean,
-      default: select.safeAreaInsetTop
+      default: datePicker.safeAreaInsetTop
     },
     // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
     safeAreaInsetBottom: {
       type: Boolean,
-      default: select.safeAreaInsetBottom
+      default: datePicker.safeAreaInsetBottom
     },
     /**
      * mask props
@@ -240,43 +252,44 @@ export default {
     // 遮罩的过渡时间，单位为ms，默认（500）
     duration: {
       type: [Number, String],
-      default: select.duration
+      default: datePicker.duration
     },
     // 是否可以通过点击遮罩进行关闭，默认（true）
     maskClosable: {
       type: Boolean,
-      default: select.maskClosable
+      default: datePicker.maskClosable
     },
     // 是否隐藏TabBar，默认（false）
     hideTabBar: {
       required: false,
       type: Boolean,
-      default: select.hideTabBar
+      default: datePicker.hideTabBar
     },
     // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）,默认（false）
     appendToBody: {
       type: Boolean,
-      default: select.appendToBody
+      default: datePicker.appendToBody
     },
     // 层级z-index，（默认1000）
     zIndex: {
       type: [Number, String],
-      default: select.zIndex
+      default: datePicker.zIndex
     },
     // 背景颜色（默认'rgba(0, 0, 0, .5)'）
     maskBackground: {
       type: String,
-      default: select.maskBackground
+      default: datePicker.maskBackground
     }
   },
   data() {
+    const date = this.$pi.date.parseDate(this.defaultValue)
     return {
-      selected: {}
+      date
     }
   },
   computed: {
     options() {
-      const watchs = ['defaultValue', 'items', 'keyField', 'displayField', 'isMulti']
+      const watchs = ['startYear', 'endYear', 'field', 'defaultValue']
       const options = watchs
         .filter(d => this[d])
         .map(d => this[d].toString())
@@ -289,24 +302,40 @@ export default {
     getTitlePadding() {
       return this.$pi.common.addUnit(this.titlePadding)
     },
-    getItemStyle() {
-      const itemHeight = this.$pi.common.addUnit(this.itemHeight)
-      return {
-        height: itemHeight,
-        lineHeight: itemHeight
-      }
+    indicatorStyle() {
+      const itemHeight = uni.upx2px(this.itemHeight)
+      return `height: ${itemHeight}px;line-height: ${itemHeight}px;`
     },
-    getItems() {
-      return this.items.map(item => {
-        let isSelected = false
-        if (this.isMulti) {
-          isSelected = this.selected.findIndex(s => s[this.keyField] === item[this.keyField]) !== -1
-        } else {
-          isSelected = this.selected[this.keyField] === item[this.keyField]
-        }
-        item.isSelected = isSelected
-        return item
-      })
+    showYear() {
+      return ['year', 'month', 'day', 'hour', 'minute', 'second'].includes(this.field)
+    },
+    showMonth() {
+      return ['month', 'day', 'hour', 'minute', 'second'].includes(this.field)
+    },
+    showDay() {
+      return ['day', 'hour', 'minute', 'second'].includes(this.field)
+    },
+    showHour() {
+      return ['hour', 'minute', 'second'].includes(this.field)
+    },
+    showMinute() {
+      return ['minute', 'second'].includes(this.field)
+    },
+    showSecond() {
+      return ['second'].includes(this.field)
+    },
+    years() {
+      return this.$pi.common.generateArray(this.startYear, this.endYear)
+    },
+    months() {
+      return this.$pi.common.generateArray(1, 12)
+    },
+    days() {
+      const monthDays = new Date(this.date.year, this.date.month, 0).getDate()
+      return this.$pi.common.generateArray(1, monthDays)
+    },
+    pickerValue() {
+      return []
     }
   },
   watch: {
@@ -320,34 +349,16 @@ export default {
   },
   methods: {
     init() {
-      let selected = this.defaultValue
-      if (!selected) {
-        selected = this.isMulti ? [] : {}
-      }
-      this.selected = selected
+      this.date = this.$pi.date.parseDate(this.defaultValue)
     },
     handlePopupClose() {
       this.val = false
       this.$emit('close')
       this.handleEmitChange()
     },
-    handleSelectItem(item) {
-      if (!this.isMulti) {
-        // 单选
-        this.selected = item
-        return
-      }
-      // 多选
-      const hasSelected =
-        this.selected.findIndex(s => s[this.keyField] === item[this.keyField]) !== -1
-      if (hasSelected) {
-        this.selected = this.selected.filter(s => s[this.keyField] !== item[this.keyField])
-      } else {
-        this.selected.push(item)
-      }
-    },
+    handleDatePickerItem(item) {},
     handleConfirm() {
-      this.$emit('confirm', this.selected)
+      // this.$emit('confirm', this.datePickered)
       this.onConfirmClose && this.handlePopupClose()
     }
   }
@@ -355,7 +366,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pi-select {
+.pi-date-picker {
   height: 50vh;
 }
 </style>

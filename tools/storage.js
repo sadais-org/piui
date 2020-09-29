@@ -1,3 +1,5 @@
+const EXPIRY_DATE = 'EXPIRY_DATE'
+
 /**
  * 保存到缓存中
  * @param {String} storeKey key
@@ -19,7 +21,9 @@ export const setStorage = (storeKey, value, expiryDate) => {
 export const getStorage = storeKey => {
   let value = uni.getStorageSync(storeKey)
   if (value) {
+    // 如果缓存获取到内容，判断有没有失效
     const timestamp = uni.getStorageSync(storeKey + '_' + EXPIRY_DATE)
+    // 已设置缓存时间
     const now = new Date().getTime()
     if (timestamp && now > timestamp) {
       // 如果已过期，则返回空
