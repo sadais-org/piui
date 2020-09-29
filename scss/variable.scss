@@ -9,7 +9,7 @@ $pi-content-padding: 24rpx !default; // pi-content内容区域默认padding
 
 // 动画
 $pi-animation-duration: 0.3s !default; // 动画执行时长
-$pi-animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !default; // 动画执行函数
+$pi-animation-timing-function: ease-in-out !default; // 动画执行函数
 
 // 颜色
 $pi-font-color: #666666 !default; // 文字颜色
