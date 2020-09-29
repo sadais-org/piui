@@ -42,7 +42,7 @@ export default {
    * 加载中
    * @param title
    */
-  loading(title = '请稍后...', mask = false) {
+  loading(title = '请稍后...', mask = true) {
     return uni.showLoading({
       title,
       mask
