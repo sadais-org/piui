@@ -152,7 +152,6 @@ export default {
   },
   methods: {
     run() {
-      // 避免可能出现的倒计时重叠情况
       this.clearTimer()
       if (this.timestamp <= 0) return
       this.timer = setInterval(() => {

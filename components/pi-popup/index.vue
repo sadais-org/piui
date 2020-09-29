@@ -332,11 +332,11 @@ export default {
 
 <style lang="scss" scoped>
 .ani-scale-center-up {
-  animation: scale-center-up $pi-animation-duration ease-in-out both;
+  animation: scale-center-up $pi-animation-duration $pi-animation-timing-function both;
 }
 
 .ani-scale-center-down {
-  animation: scale-center-down $pi-animation-duration ease-in-out both;
+  animation: scale-center-down $pi-animation-duration $pi-animation-timing-function both;
 }
 
 @keyframes scale-center-up {

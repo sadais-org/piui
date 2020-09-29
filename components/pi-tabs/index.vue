@@ -289,7 +289,7 @@ export default {
     .pi-tab {
       display: inline-block;
       text-align: center;
-      transition: all $pi-animation-duration ease-in-out;
+      transition: all $pi-animation-duration $pi-animation-timing-function;
       &.active {
         color: $pi-primary-color;
       }
@@ -307,7 +307,7 @@ export default {
         overflow: hidden;
         background-color: $pi-primary-color;
         transition-delay: $pi-animation-duration;
-        transition-timing-function: ease-in-out;
+        transition-timing-function: $pi-animation-timing-function;
         transition-property: all;
       }
     }

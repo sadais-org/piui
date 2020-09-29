@@ -196,7 +196,7 @@ $disable-color: #c8c9cc;
     overflow: hidden;
     color: #cccccc;
     border: 4rpx solid $disable-color;
-    transition: all $pi-animation-duration ease-in-out;
+    transition: all $pi-animation-duration $pi-animation-timing-function;
     &.line {
       &.active {
         color: $pi-primary-color;

@@ -137,7 +137,7 @@ export default {
     white-space: nowrap;
     vertical-align: middle;
     background: $pi-primary-color;
-    transition: all $pi-animation-duration ease-in-out;
+    transition: all $pi-animation-duration $pi-animation-timing-function;
     &::after {
       display: inline-block;
       height: 100%;
