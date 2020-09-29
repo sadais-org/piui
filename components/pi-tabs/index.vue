@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="pi-tabs" :class="[customClass]">
+    <view class="pi-tabs" :style="[customStyle]" :class="[customClass]">
       <scroll-view class="pi-scroll" :scroll-left="scrollLeft" scroll-x scroll-with-animation>
         <view class="scroll-wrap" :style="[scrollWrapStyle]">
           <view
@@ -10,7 +10,7 @@
             :style="[
               getItemStyle,
               itemStyle,
-              activeIndex === index && activeTextColor ? { color: activeTextColor } : ''
+              activeIndex === index && activeTextColor ? { color: activeTextColor } : {}
             ]"
             class="pi-tab pi-align-center pi-fz-30"
             :class="[{ active: activeIndex === index }]"
@@ -88,7 +88,7 @@ export default {
         return tabs.itemPadding
       }
     },
-    // 标签是否自动撑开，（当scrollable时候生效）
+    // 标签是否自动撑开
     stretch: {
       type: Boolean,
       default() {
@@ -109,11 +109,11 @@ export default {
         return tabs.activeColor
       }
     },
-    // 激活颜色（不设置，默认主题色）
+    // 文字激活颜色（不设置，默认主题色）
     activeTextColor: {
       type: String,
       default() {
-        return tabs.activeColor
+        return tabs.activeTextColor
       }
     },
     // 是否显示底部的滑块
