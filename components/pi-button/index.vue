@@ -53,12 +53,12 @@ export default {
      * uniapp button 官方属性定义
      * ---------------------------------------------------------------------------------------------
      */
-    // 按钮尺寸，default，big medium small tiny mini（默认值：'default'）
+    // 按钮尺寸，default，large medium small tiny mini（默认值：'default'）
     size: {
       type: String,
       default: button.size,
       validator: function(value) {
-        return ['default', 'big', 'medium', 'small', 'tiny', 'mini'].includes(value)
+        return ['default', 'large', 'medium', 'small', 'tiny', 'mini'].includes(value)
       }
     },
     // 按钮的预置样式，default，primary，warn，secondary line（默认值：'default'）
@@ -342,12 +342,12 @@ export default {
     }
   }
   // 大
-  &[size='big'] {
-    height: $pi-button-big-height;
-    padding: $pi-button-big-padding;
-    font-size: $pi-button-big-font-size;
-    line-height: $pi-button-big-height;
-    border-radius: $pi-button-big-radius;
+  &[size='large'] {
+    height: $pi-button-large-height;
+    padding: $pi-button-large-padding;
+    font-size: $pi-button-large-font-size;
+    line-height: $pi-button-large-height;
+    border-radius: $pi-button-large-radius;
   }
   // 中
   &[size='medium'] {
