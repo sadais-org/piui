@@ -183,7 +183,9 @@ export default {
 .pi-count-down {
   display: inline-block;
   .countdown-item {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 2rpx;
     text-align: center;
     white-space: nowrap;
@@ -195,7 +197,6 @@ export default {
       min-width: 44rpx;
       min-height: 44rpx;
       font-size: 24rpx;
-      line-height: initial;
     }
     &.separator {
       margin: 0 4rpx;
