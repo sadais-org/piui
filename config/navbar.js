@@ -7,7 +7,7 @@ export default {
   fixed: true, // 导航栏是否固定在顶部
   placeholder: true, // 固定在顶部时，是否在标签位置生成一个等高的占位元素
   borderBottom: true, // 是否显示导航栏的下边框
-  statusBarBackground: 'transparent', // 状态栏的背景色
+  statusBarBackground: '#ffffff', // 状态栏的背景色
   background: '#ffffff', // 背景颜色（默认白色）
   showBack: '', // 是否显示后退按钮，默认不设置，根据当前页面堆栈自动判断
   showHome: false, // 是否显示主页按钮
