@@ -377,9 +377,7 @@ export default {
         pickerValue.push(this.years.findIndex(m => m === parseInt(this.date.year, 10)))
       }
       if (this.showMonth && this.date.month) {
-        let index = this.months.findIndex(m => m === parseInt(this.date.month, 10))
-        if (index > 0) index--
-        pickerValue.push(index)
+        pickerValue.push(this.months.findIndex(m => m === parseInt(this.date.month - 1, 10)))
       }
       if (this.showDay && this.date.date) {
         pickerValue.push(this.days.findIndex(m => m === parseInt(this.date.date, 10)))
