@@ -9,7 +9,7 @@ export default {
   isMulti: false, // 是否多选，（默认：false）
   showTitle: false, // 是否显示title（默认：true）
   title: '弹出选择', // 标题（默认：日期选择）
-  titlePadding: '24rpx', // 标题 padding（默认：24rpx）
+  titlePadding: '32rpx', // 标题 padding（默认：32rpx）
   height: '50vh', // 弹出选择层的高度，不可填百分比（默认：'50vh'）
   itemHeight: 110, // 行高（默认：'110rpx'）
   showItemBottomBorder: true, // 是否显示item下边框（默认：'true'）

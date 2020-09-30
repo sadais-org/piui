@@ -51,7 +51,7 @@
           class="pi-text-center pi-h-100P"
           :indicator-style="indicatorStyle"
           :value="pickerValue"
-          @change="handleChange"
+          @change="handleDateChange"
         >
           <picker-view-column>
             <view v-for="(item, index) in years" :key="index" :style="indicatorStyle">
@@ -60,12 +60,27 @@
           </picker-view-column>
           <picker-view-column v-if="showMonth">
             <view v-for="(item, index) in months" :key="index" :style="indicatorStyle">
-              {{ item }}月
+              {{ item + 1 }}月
             </view>
           </picker-view-column>
           <picker-view-column v-if="showDay">
             <view v-for="(item, index) in days" :key="index" :style="indicatorStyle">
               {{ item }}日
+            </view>
+          </picker-view-column>
+          <picker-view-column v-if="showHour">
+            <view v-for="(item, index) in hours" :key="index" :style="indicatorStyle">
+              {{ item }}时
+            </view>
+          </picker-view-column>
+          <picker-view-column v-if="showMinute">
+            <view v-for="(item, index) in minutes" :key="index" :style="indicatorStyle">
+              {{ item }}分
+            </view>
+          </picker-view-column>
+          <picker-view-column v-if="showSecond">
+            <view v-for="(item, index) in seconds" :key="index" :style="indicatorStyle">
+              {{ item }}秒
             </view>
           </picker-view-column>
         </picker-view>
@@ -87,6 +102,14 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiDatePicker'
 const { datePicker } = getConfig()
+const FIELD_MAPS = [
+  { field: 'year', getMethod: 'years', setMethod: 'setYear' },
+  { field: 'month', getMethod: 'months', setMethod: 'setMonth' },
+  { field: 'day', getMethod: 'days', setMethod: 'setDate' },
+  { field: 'hour', getMethod: 'hours', setMethod: 'setHours' },
+  { field: 'minute', getMethod: 'minutes', setMethod: 'setMinutes' },
+  { field: 'second', getMethod: 'seconds', setMethod: 'setSeconds' }
+]
 
 export default {
   name: TAG,
@@ -140,6 +163,11 @@ export default {
     defaultValue: {
       type: [Number, String, Date],
       default: datePicker.defaultValue
+    },
+    // 返回的日期格式
+    format: {
+      type: String,
+      default: datePicker.format
     },
     toolbarPosition: {
       type: String,
@@ -328,14 +356,44 @@ export default {
       return this.$pi.common.generateArray(this.startYear, this.endYear)
     },
     months() {
-      return this.$pi.common.generateArray(1, 12)
+      return this.$pi.common.generateArray(0, 11)
     },
     days() {
       const monthDays = new Date(this.date.year, this.date.month, 0).getDate()
       return this.$pi.common.generateArray(1, monthDays)
     },
+    hours() {
+      return this.$pi.common.generateArray(0, 23)
+    },
+    minutes() {
+      return this.$pi.common.generateArray(0, 59)
+    },
+    seconds() {
+      return this.$pi.common.generateArray(0, 59)
+    },
     pickerValue() {
-      return []
+      const pickerValue = []
+      if (this.showYear && this.date.year) {
+        pickerValue.push(this.years.findIndex(m => m === parseInt(this.date.year, 10)))
+      }
+      if (this.showMonth && this.date.month) {
+        let index = this.months.findIndex(m => m === parseInt(this.date.month, 10))
+        if (index > 0) index--
+        pickerValue.push(index)
+      }
+      if (this.showDay && this.date.date) {
+        pickerValue.push(this.days.findIndex(m => m === parseInt(this.date.date, 10)))
+      }
+      if (this.showHour && this.date.hour) {
+        pickerValue.push(this.hours.findIndex(m => m === parseInt(this.date.hour, 10)))
+      }
+      if (this.showMinute && this.date.minute) {
+        pickerValue.push(this.minutes.findIndex(m => m === parseInt(this.date.minute, 10)))
+      }
+      if (this.showSecond && this.date.second) {
+        pickerValue.push(this.seconds.findIndex(m => m === parseInt(this.date.second, 10)))
+      }
+      return pickerValue
     }
   },
   watch: {
@@ -356,9 +414,22 @@ export default {
       this.$emit('close')
       this.handleEmitChange()
     },
-    handleDatePickerItem(item) {},
+    handleDateChange(e) {
+      const values = e.detail.value // values 返回的数组固定是picker的数量，只返回有变化的索引值
+      const time = this.date.time // 取出当前data的实际时间
+      values.forEach((value, index) => {
+        if (value != null) {
+          // value为picker列的索引值
+          const field = FIELD_MAPS[index] // day
+          const val = this[field.getMethod][value] // days[index] 取出对应picker值
+          time[field.setMethod](val) // 调用原生date方法赋值
+        }
+      })
+      // 重新解析
+      this.date = this.$pi.date.parseDate(time)
+    },
     handleConfirm() {
-      // this.$emit('confirm', this.datePickered)
+      this.$emit('confirm', this.date.format(this.format))
       this.onConfirmClose && this.handlePopupClose()
     }
   }

@@ -7,7 +7,7 @@ export default {
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   showTitle: true, // 是否显示title（默认：true）
   title: '日期选择', // 标题（默认：日期选择）
-  titlePadding: '24rpx', // 标题 padding（默认：24rpx）
+  titlePadding: '32rpx', // 标题 padding（默认：32rpx）
   type: 'date', // 日历的类型，date 单选，range 日历范围
   defaultValue: '', // 日期默认值，单选时候，传入Date，日历范围，传入Date[]
   minYear, // 可切换的最大年份（默认当前年份 - 30）

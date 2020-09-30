@@ -29,7 +29,7 @@ export const parseDate = (value = new Date(), weekPrefix = '星期') => {
     second: date.getSeconds(), // 秒
     time: date,
     timestamp: date.getTime(), // 时间戳
-    format(fmt) {
+    format(fmt = 'yyyy-mm-dd HH:MM:ss') {
       return formatDate(date, fmt)
     }
   }
@@ -47,7 +47,7 @@ export const formatDate = (value = new Date(), fmt = 'yyyy-mm-dd') => {
     'y+|Y+': date.year, // 年
     'm+': date.month, // 月
     'd+|D+': date.date, // 日
-    'h+': date.hour, // 时
+    'h+|H+': date.hour, // 时
     'M+': date.minute, // 分
     's+': date.second // 秒
   }

@@ -4,7 +4,7 @@ export default {
   onConfirmClose: true, // 是否点击确认的时候关闭弹窗（默认：'true'）
   showTitle: true, // 是否显示title（默认：true）
   title: '弹出选择', // 标题（默认：日期选择）
-  titlePadding: '24rpx', // 标题 padding（默认：24rpx）
+  titlePadding: '32rpx', // 标题 padding（默认：32rpx）
   width: 600, // 弹窗宽度，可以是数值(rpx)，百分比，auto等
   content: '内容', // 弹窗内容
   contentStyle: {}, // 内容样式
