@@ -10,6 +10,7 @@
             :style="[
               getItemStyle,
               itemStyle,
+              activeIndex === index && activeItemStyle ? activeItemStyle : {},
               activeIndex === index && activeTextColor ? { color: activeTextColor } : {}
             ]"
             class="pi-tab pi-align-center pi-fz-30"
@@ -259,6 +260,15 @@ export default {
       return style
     }
   },
+  watch: {
+    items: {
+      deep: true,
+      immediate: false,
+      handler(value) {
+        this.init()
+      }
+    }
+  },
   mounted() {
     this.init()
   },
@@ -274,9 +284,6 @@ export default {
     handleSelectItem(item) {
       this.val = item
       this.handleEmitChange()
-    },
-    handleEmitChange() {
-      this.$emit('change', this.val)
     }
   }
 }
