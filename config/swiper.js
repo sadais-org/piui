@@ -2,11 +2,9 @@ export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   value: 0, // 显示第几项
-  items: [], // 选项列表，默认（[]）
-  imgField: 'img', // items内部读取图片字段
-  titleField: 'title', // items内部读取标题字段
-  height: '', // 轮播图的高度
-  imgMode: 'aspectFill', // 图片的裁剪模式，详见image组件裁剪模式
+  imgs: [], // 轮播图列表，默认（[]）
+  height: 'auto', // 轮播图的高度
+  imgMode: 'widthFix', // 图片的裁剪模式，详见image组件裁剪模式，默认（widthFix）
   bgColor: 'transparent', // 背景颜色
   indicatorType: 'number', // 指示器模式 rect / dot / number / none
   indicatorPosition: 'br', // 指示器的位置 tl 左上角/ tc 上中/ tr 右上角/ bl 左下角/ bc 下种 /br 右下角
