@@ -8,6 +8,7 @@ export default {
   bgColor: 'transparent', // 背景颜色
   indicatorType: 'number', // 指示器模式 rect / dot / number / none
   indicatorPosition: 'br', // 指示器的位置 tl 左上角/ tc 上中/ tr 右上角/ bl 左下角/ bc 下种 /br 右下角
+  indicatorActiveColor: '', // 指示器激活颜色，不设置默认为主题色
   effect3d: false, // 是否开启3d效果
   effect3dPreviousMargin: 50, // effect3d = true的情况下，激活项与前后项之间的距离，单位rpx
   autoplay: true, // 是否自动播放

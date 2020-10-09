@@ -15,21 +15,15 @@
       :style="[swiperStyle]"
       @change="handleSwiperChange"
     >
-      <swiper-item
-        v-for="(img, index) in imgs"
-        :key="img"
-        class="swiper-item"
-        :style="{
-          padding: effect3d && val !== index ? '0 20rpx' : 0
-        }"
-      >
+      <swiper-item v-for="(img, index) in imgs" :key="img" class="swiper-item">
         <view
           class="swiper-image-wrap"
           :class="[val != index ? 'list-scale' : '']"
           :style="[
             {
               borderRadius: `${borderRadius}rpx`,
-              transform: effect3d && val !== index ? 'scaleY(0.9)' : 'scaleY(1)'
+              transform: effect3d && val !== index ? 'scaleY(0.9)' : 'scaleY(1)',
+              padding: effect3d && val !== index ? '0 20rpx' : 0
             }
           ]"
           @tap="$emit('click', index)"
@@ -53,7 +47,15 @@
         <view
           v-for="(item, index) in imgs"
           :key="index"
-          :class="`indicator-item ${indicatorType} ${index === val ? 'active' : ''}`"
+          class="indicator-item"
+          :class="[index === val ? 'active' : '', indicatorType]"
+          :style="[
+            index === val && indicatorActiveColor
+              ? {
+                  backgroundColor: indicatorActiveColor
+                }
+              : {}
+          ]"
         />
       </template>
     </view>
@@ -133,6 +135,11 @@ export default {
       validator: function(value) {
         return ['tl', 'tc', 'tr', 'bl', 'bc', 'br'].includes(value)
       }
+    },
+    // 指示器激活颜色，不设置默认为主题色
+    indicatorActiveColor: {
+      type: String,
+      default: swiper.indicatorActiveColor
     },
     // 是否开启3d效果
     effect3d: {
@@ -232,6 +239,8 @@ export default {
   transform: translateY(0);
   .swiper-item {
     box-sizing: border-box;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     .swiper-image-wrap {
       position: relative;
@@ -274,7 +283,6 @@ export default {
         border-radius: 20rpx;
         &.active {
           width: 30rpx;
-          background-color: $pi-primary-color;
         }
       }
       &.rect {
