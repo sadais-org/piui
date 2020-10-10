@@ -10,8 +10,8 @@
             :style="[
               getItemStyle,
               itemStyle,
-              activeIndex === index && activeItemStyle ? activeItemStyle : {},
-              activeIndex === index && activeTextColor ? { color: activeTextColor } : {}
+              activeIndex === index && activeTextColor ? { color: activeTextColor } : {},
+              activeIndex === index && activeItemStyle ? activeItemStyle : {}
             ]"
             class="pi-tab pi-align-center pi-fz-30"
             :class="[{ active: activeIndex === index }]"
@@ -27,7 +27,7 @@
             class="slider-bar-guide"
             :style="[{ 'background-color': showSliderBarGuide ? '#e4e7ed' : 'unset' }]"
           >
-            <view :style="[getSliderBarStyle]" class="slider-bar" />
+            <view :style="[getSliderBarStyle]" :class="{ 'slider-bar': showSliderBar }" />
           </view>
         </view>
       </scroll-view>
