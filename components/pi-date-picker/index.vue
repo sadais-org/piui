@@ -372,25 +372,25 @@ export default {
       return this.$pi.common.generateArray(0, 59)
     },
     pickerValue() {
+      const dateFieldMaps = [
+        { key: 'year', dataKey: 'years', showKey: 'showYear' },
+        { key: 'month', dataKey: 'months', showKey: 'showMonth' },
+        { key: 'date', dataKey: 'days', showKey: 'showDay' },
+        { key: 'hour', dataKey: 'hours', showKey: 'showHour' },
+        { key: 'minute', dataKey: 'minutes', showKey: 'showMinute' },
+        { key: 'second', dataKey: 'seconds', showKey: 'showSecond' }
+      ]
       const pickerValue = []
-      if (this.showYear && this.date.year) {
-        pickerValue.push(this.years.findIndex(m => m === parseInt(this.date.year, 10)))
-      }
-      if (this.showMonth && this.date.month) {
-        pickerValue.push(this.months.findIndex(m => m === parseInt(this.date.month - 1, 10)))
-      }
-      if (this.showDay && this.date.date) {
-        pickerValue.push(this.days.findIndex(m => m === parseInt(this.date.date, 10)))
-      }
-      if (this.showHour && this.date.hour) {
-        pickerValue.push(this.hours.findIndex(m => m === parseInt(this.date.hour, 10)))
-      }
-      if (this.showMinute && this.date.minute) {
-        pickerValue.push(this.minutes.findIndex(m => m === parseInt(this.date.minute, 10)))
-      }
-      if (this.showSecond && this.date.second) {
-        pickerValue.push(this.seconds.findIndex(m => m === parseInt(this.date.second, 10)))
-      }
+      dateFieldMaps.forEach(map => {
+        // 当前日期字段
+        let value = this.date[map.key]
+        if (this[map.showKey] && value) {
+          if (map.key === 'month') value--
+          // 查找当前picker中索引对应的真实值
+          const val = this[map.dataKey].findIndex(m => m === parseInt(value, 10))
+          pickerValue.push(val)
+        }
+      })
       return pickerValue
     }
   },
