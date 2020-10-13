@@ -44,8 +44,8 @@
         </template>
       </view>
       <pi-tabs v-if="val" v-model="tabCurrentItem" :items="getTabItems" />
-      <swiper class="pi-scroll" :current-item-id="tabCurrentItem.id" @change="handleSwiperChange">
-        <swiper-item v-for="item in getTabItems" :key="item.id" :item-id="item.id">
+      <swiper class="pi-scroll" :current="tabCurrent" @change="handleSwiperChange">
+        <swiper-item v-for="item in getTabItems" :key="item.id">
           <!-- 选择区域 -->
           <scroll-view class="pi-h-100P" scroll-y scroll-with-animation>
             <view
@@ -298,9 +298,13 @@ export default {
         lineHeight: itemHeight
       }
     },
+    tabCurrent() {
+      return this.getTabItems.findIndex(t => t.id === this.tabCurrentItem.id)
+    },
     getRegions() {
       const regionsKey = this.tabCurrentItem.id
-      return this.regions[regionsKey].regions || []
+      const regions = this.regions[regionsKey].regions || []
+      return regions
     },
     getSelectCode() {
       const regionsKey = this.tabCurrentItem.id
@@ -361,14 +365,13 @@ export default {
         this.regions[regionsKey].name = item.name
         this.regions.code = item.code
       }
-
       setTimeout(() => {
         // 如果当前tab激活项不是最后一个，向右移动一项
         const tabIndex = this.getTabItems.findIndex(t => t.id === regionsKey)
         if (tabIndex !== this.getTabItems.length - 1) {
           this.tabCurrentItem = this.getTabItems[tabIndex + 1]
         }
-      }, 30)
+      }, 50)
     },
     handleConfirm() {
       this.regions.generateName()

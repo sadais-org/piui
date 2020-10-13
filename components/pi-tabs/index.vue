@@ -221,7 +221,9 @@ export default {
     scrollLeft() {
       if (!this.tabRects.length) return
       // 计算当前激活item移动到容器中心距离左边距离
-      const activeRect = this.tabRects[this.activeIndex]
+      const activeIndex =
+        this.activeIndex >= this.tabRects.length ? this.tabRects.length - 1 : this.activeIndex
+      const activeRect = this.tabRects[activeIndex]
       const activeRectWidth = activeRect.width
       const activeRectLeft = activeRect.left
       const scrollLeft = activeRectLeft - this.tabsLeft - this.tabsWidth / 2 + activeRectWidth / 2
@@ -235,7 +237,9 @@ export default {
         transitionDuration: `${this.duration / 1000}s`
       }
       if (!this.tabRects.length) return style
-      const activeRect = this.tabRects[this.activeIndex]
+      const activeIndex =
+        this.activeIndex >= this.tabRects.length ? this.tabRects.length - 1 : this.activeIndex
+      const activeRect = this.tabRects[activeIndex]
       const activeRectWidth = activeRect.width
       const activeRectLeft = activeRect.left
       let sliderScrollLeft = activeRectLeft - this.tabsLeft
