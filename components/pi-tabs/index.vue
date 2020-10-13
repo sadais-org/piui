@@ -314,7 +314,7 @@ export default {
     .slider-bar-guide {
       position: absolute;
       right: 0;
-      bottom: 0;
+      bottom: 12rpx;
       left: 0;
       width: 100%;
       height: 4rpx;

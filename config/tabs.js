@@ -12,7 +12,7 @@ export default {
   showSliderBar: true, // 是否显示底部的滑块
   showSliderBarGuide: false, // 是否显示底部滑块导轨
   sliderBarWidth: '', // 底部的滑块的宽度，单位rpx（如果不设置，默认按照当前item文字的宽度去适配）
-  sliderBarHeight: 8, // 底部的滑块的高度，单位rpx
+  sliderBarHeight: 4, // 底部的滑块的高度，单位rpx
   sliderBarRadius: 4, // 底部的滑块的圆角，单位rpx
   height: 80, // 导航栏的高度，单位rpx
   itemStyle: {}, // 选项样式（默认：'{}'）
