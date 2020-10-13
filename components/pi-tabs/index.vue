@@ -323,8 +323,8 @@ export default {
         height: 100%;
         overflow: hidden;
         background-color: $pi-primary-color;
-        transition-delay: $pi-animation-duration;
         transition-timing-function: $pi-animation-timing-function;
+        transition-duration: $pi-animation-duration;
         transition-property: all;
       }
     }

@@ -43,30 +43,32 @@
           <view class="item-btn pi-primary" @tap="handleConfirm">确定</view>
         </template>
       </view>
-      <pi-tabs v-model="tabCurrentItem" :items="getTabItems" />
-      <!-- 选择区域 -->
-      <scroll-view
-        class="pi-scroll"
-        scroll-y
-        scroll-with-animation
-        :scroll-into-view="`id-${getSelectCode}`"
-      >
-        <view
-          v-for="item in getItems"
-          :id="`id-${item.code}`"
-          :key="item.code"
-          :style="[itemStyle, getItemStyle]"
-          :class="{ 'pi-solid-bottom-1': showItemBottomBorder }"
-          class="pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
-          @tap="handleSelectItem(item)"
-        >
-          <slot name="item" :item="item">
-            <!-- 后备内容 -->
-            {{ item.name }}
-          </slot>
-          <pi-checkbox :value="item.code === getSelectCode" active-mode="fill" shape="round" />
-        </view>
-      </scroll-view>
+      <pi-tabs v-if="val" v-model="tabCurrentItem" :items="getTabItems" />
+      <swiper class="pi-scroll" :current-item-id="tabCurrentItem.id" @change="handleSwiperChange">
+        <swiper-item v-for="item in getTabItems" :key="item.id" :item-id="item.id">
+          <!-- 选择区域 -->
+          <scroll-view class="pi-h-100P" scroll-y scroll-with-animation>
+            <view
+              v-for="region in getRegions"
+              :key="region.code"
+              :style="[itemStyle, getItemStyle]"
+              :class="{ 'pi-solid-bottom-1': showItemBottomBorder }"
+              class="pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
+              @tap="handleSelectItem(region)"
+            >
+              <slot name="item" :item="region">
+                <!-- 后备内容 -->
+                {{ region.name }}
+              </slot>
+              <pi-checkbox
+                :value="region.code === getSelectCode"
+                active-mode="fill"
+                shape="round"
+              />
+            </view>
+          </scroll-view>
+        </swiper-item>
+      </swiper>
       <!-- 顶部操作条 -->
       <pi-bottom-bar v-if="toolbarPosition === 'bottom'">
         <slot v-if="$slots.toolbar" name="toolbar" />
@@ -273,7 +275,7 @@ export default {
   },
   data() {
     return {
-      tabCurrentItem: null,
+      tabCurrentItem: { id: 'province', text: PLEASE_SELECT_TIP },
       regions: {
         province: { name: '', code: '' },
         city: { name: '', code: '' },
@@ -296,7 +298,7 @@ export default {
         lineHeight: itemHeight
       }
     },
-    getItems() {
+    getRegions() {
       const regionsKey = this.tabCurrentItem.id
       return this.regions[regionsKey].regions || []
     },
@@ -338,6 +340,12 @@ export default {
       this.val = false
       this.$emit('close')
       this.handleEmitChange()
+    },
+    handleSwiperChange(e) {
+      const detail = e.detail
+      if (detail.source === 'touch') {
+        this.tabCurrentItem = this.getTabItems[detail.current]
+      }
     },
     handleSelectItem(item, index) {
       const regionsKey = this.tabCurrentItem.id
