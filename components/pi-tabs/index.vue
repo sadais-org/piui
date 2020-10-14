@@ -5,7 +5,7 @@
         <view class="scroll-wrap" :style="[scrollWrapStyle]">
           <view
             v-for="(item, index) in items"
-            :id="`id-${item[keyField]}`"
+            :id="`tab-id-${item[keyField]}`"
             :key="item[keyField]"
             :style="[
               getItemStyle,
@@ -184,7 +184,6 @@ export default {
   data() {
     return {
       tabsWidth: 0, // 组件区域宽度
-      tabsLeft: 0, // 组件区域离屏幕左边的距离
       tabRects: [] // 标签节点信息
     }
   },
@@ -218,15 +217,23 @@ export default {
       if (this.stretch) style.flex = '1'
       return style
     },
-    scrollLeft() {
-      if (!this.tabRects.length) return
-      // 计算当前激活item移动到容器中心距离左边距离
+    activeRect() {
+      const rect = {
+        left: 0,
+        width: 0
+      }
+      if (!this.tabRects.length) return rect
       const activeIndex =
         this.activeIndex >= this.tabRects.length ? this.tabRects.length - 1 : this.activeIndex
-      const activeRect = this.tabRects[activeIndex]
-      const activeRectWidth = activeRect.width
-      const activeRectLeft = activeRect.left
-      const scrollLeft = activeRectLeft - this.tabsLeft - this.tabsWidth / 2 + activeRectWidth / 2
+      rect.left = this.tabRects.slice(0, activeIndex).reduce((previous, current) => {
+        return previous + current.width
+      }, 0)
+      rect.width = this.tabRects[activeIndex].width
+      return rect
+    },
+    scrollLeft() {
+      // 计算当前激活item移动到容器中心距离左边距离
+      const scrollLeft = this.activeRect.left - this.tabsWidth / 2 + this.activeRect.width / 2
       return scrollLeft < 0 ? 0 : scrollLeft
     },
     getSliderBarStyle() {
@@ -236,23 +243,17 @@ export default {
         borderRadius: this.getSliderBarRadius,
         transitionDuration: `${this.duration / 1000}s`
       }
-      if (!this.tabRects.length) return style
-      const activeIndex =
-        this.activeIndex >= this.tabRects.length ? this.tabRects.length - 1 : this.activeIndex
-      const activeRect = this.tabRects[activeIndex]
-      const activeRectWidth = activeRect.width
-      const activeRectLeft = activeRect.left
-      let sliderScrollLeft = activeRectLeft - this.tabsLeft
+      let sliderScrollLeft = this.activeRect.left
       if (style.width !== 'auto') {
         // 如果width设置了固定的宽度，将滑块移动到对应激活下的中心
         const sliderBarWidth = uni.upx2px(parseInt(this.sliderBarWidth))
-        sliderScrollLeft = sliderScrollLeft + (activeRectWidth - sliderBarWidth) / 2
+        sliderScrollLeft = sliderScrollLeft + (this.activeRect.width - sliderBarWidth) / 2
         style.transform = `translateX(${sliderScrollLeft}px)`
       }
       if (style.width === 'auto') {
         // 如果width设定了auto，根据当前激活项文字动态计算宽度
         const itemPadding = uni.upx2px(parseInt(this.itemPadding))
-        style.width = `${activeRectWidth - itemPadding * 2}px`
+        style.width = `${this.activeRect.width - itemPadding * 2}px`
         style.transform = `translateX(${sliderScrollLeft + itemPadding}px)`
       }
       if (this.activeColor) style.backgroundColor = this.activeColor
@@ -281,7 +282,6 @@ export default {
       const srollWrapRect = await this.$pi.common.queryRect(this, '.pi-tabs', false)
       if (srollWrapRect) {
         this.tabsWidth = srollWrapRect.width
-        this.tabsLeft = srollWrapRect.left
       }
       this.tabRects = await this.$pi.common.queryRect(this, '.pi-tab', true)
       console.log(TAG, '计算.pi-tab布局', this.tabRects)
