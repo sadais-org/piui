@@ -19,7 +19,7 @@
     @close="handlePopupClose"
   >
     <view
-      class="pi-regionsSelect pi-flex-column"
+      class="pi-regions-select pi-flex-column"
       :style="[customStyle, { height: getHeight }]"
       :class="[customClass]"
     >
@@ -395,7 +395,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pi-regionsSelect {
-  height: 50vh;
+.pi-regions-select {
+  height: 60vh;
 }
 </style>
