@@ -541,6 +541,16 @@ image {
   }
 }
 
+// 不显示滚动条
+::-webkit-scrollbar {
+  display: none;
+  width: 0 !important;
+  height: 0 !important;
+  color: transparent;
+  background: transparent;
+  -webkit-appearance: none;
+}
+
 // 解决image加载闪烁的问题
 image {
   width: 100%;
@@ -578,6 +588,7 @@ image {
   height: calc(100vh - var(--window-bottom));
   overflow: hidden;
 }
+
 // 滚动视区
 .pi-scroll {
   position: relative;

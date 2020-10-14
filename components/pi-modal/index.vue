@@ -39,25 +39,27 @@
       <view class="modal-footer pi-align-center pi-justify-center pi-pd-24">
         <slot v-if="$slots.footer" name="footer" />
         <template v-else>
-          <pi-button
-            v-if="showCancelButton"
-            :color="cancelColor"
-            :bg-color="cancelBgColor"
-            class="pi-button"
-            @tap="handleCancel"
-          >
-            {{ cancelText }}
-          </pi-button>
-          <pi-button
-            v-if="showConfirmButton"
-            :type="confirmBgColor ? 'default' : 'primary'"
-            :color="confirmColor"
-            :bg-color="confirmBgColor"
-            class="pi-button"
-            @tap="handleConfirm"
-          >
-            {{ confirmText }}
-          </pi-button>
+          <view v-if="showCancelButton" class="pi-button-wrap">
+            <pi-button
+              :color="cancelColor"
+              :bg-color="cancelBgColor"
+              custom-class="pi-w-100P"
+              @tap="handleCancel"
+            >
+              {{ cancelText }}
+            </pi-button>
+          </view>
+          <view v-if="showConfirmButton" class="pi-button-wrap">
+            <pi-button
+              :type="confirmBgColor ? 'default' : 'primary'"
+              :color="confirmColor"
+              :bg-color="confirmBgColor"
+              custom-class="pi-w-100P"
+              @tap="handleConfirm"
+            >
+              {{ confirmText }}
+            </pi-button>
+          </view>
         </template>
       </view>
     </view>
@@ -296,7 +298,7 @@ export default {
 
 <style lang="scss" scoped>
 .modal-footer {
-  .pi-button {
+  .pi-button-wrap {
     flex: 1;
     &:nth-child(2) {
       margin-left: 24rpx;

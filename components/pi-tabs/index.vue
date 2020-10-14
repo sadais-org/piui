@@ -284,6 +284,7 @@ export default {
         this.tabsLeft = srollWrapRect.left
       }
       this.tabRects = await this.$pi.common.queryRect(this, '.pi-tab', true)
+      console.log(TAG, '计算.pi-tab布局', this.tabRects)
     },
     handleSelectItem(item) {
       this.val = item
@@ -295,14 +296,6 @@ export default {
 
 <style lang="scss" scoped>
 .pi-tabs {
-  // 不显示滚动条
-  ::v-deep ::-webkit-scrollbar {
-    display: none;
-    width: 0 !important;
-    height: 0 !important;
-    -webkit-appearance: none;
-    background: transparent;
-  }
   .scroll-wrap {
     position: relative;
     display: inline-block;

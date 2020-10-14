@@ -43,7 +43,7 @@
           <view class="item-btn pi-primary" @tap="handleConfirm">确定</view>
         </template>
       </view>
-      <pi-tabs v-if="val" v-model="tabCurrentItem" :items="getTabItems" />
+      <pi-tabs v-model="tabCurrentItem" :items="getTabItems" />
       <swiper class="pi-scroll" :current="tabCurrent" @change="handleSwiperChange">
         <swiper-item v-for="item in getTabItems" :key="item.id">
           <!-- 选择区域 -->
@@ -61,7 +61,8 @@
                 {{ region.name }}
               </slot>
               <pi-checkbox
-                :value="region.code === getSelectCode"
+                v-if="region.code === getSelectCode"
+                :value="true"
                 active-mode="fill"
                 shape="round"
               />
@@ -371,7 +372,7 @@ export default {
         if (tabIndex !== this.getTabItems.length - 1) {
           this.tabCurrentItem = this.getTabItems[tabIndex + 1]
         }
-      }, 50)
+      }, 200)
     },
     handleConfirm() {
       this.regions.generateName()
