@@ -40,7 +40,15 @@
         <slot v-if="$slots.toolbar" name="toolbar" />
         <template v-else>
           <view class="item-btn" @tap="handlePopupClose">取消</view>
-          <view class="item-btn pi-primary" @tap="handleConfirm">确定</view>
+          <pi-button
+            type="secondary"
+            size="small"
+            :disabled="!isCompleted"
+            :custom-style="{ padding: 0, backgroundColor: 'transparent' }"
+            @tap="handleConfirm"
+          >
+            确定
+          </pi-button>
         </template>
       </view>
       <pi-tabs v-model="tabCurrentItem" :items="getTabItems" />
@@ -73,7 +81,7 @@
       <!-- 顶部操作条 -->
       <pi-bottom-bar v-if="toolbarPosition === 'bottom'">
         <slot v-if="$slots.toolbar" name="toolbar" />
-        <pi-button v-else width="100%" type="primary" @tap="handleConfirm">
+        <pi-button v-else :disabled="!isCompleted" width="100%" type="primary" @tap="handleConfirm">
           确定
         </pi-button>
       </pi-bottom-bar>
@@ -321,6 +329,9 @@ export default {
         tabs.push({ id: 'county', text: county.name || PLEASE_SELECT_TIP })
       }
       return tabs
+    },
+    isCompleted() {
+      return this.getTabItems.findIndex(t => t.text === PLEASE_SELECT_TIP) === -1
     }
   },
   watch: {

@@ -26,6 +26,7 @@
       <!-- 标题栏 -->
       <view
         v-if="showTitle"
+        style="z-index: 1;"
         class="pi-justify-center pi-fz-32 pi-fw-500"
         :style="[{ padding: getTitlePadding }]"
       >

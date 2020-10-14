@@ -314,6 +314,7 @@ export default {
   position: relative;
   display: inline-block;
   padding: $pi-button-default-padding;
+  margin: initial;
   border: none;
   border-radius: $pi-button-default-radius;
   &::after {
