@@ -12,7 +12,7 @@ PiUI基础库
   "^pi-(.*)": "@/piui/components/pi-$1/index.vue"
 }
 ```
-3， main.js引入piui
+3. main.js引入piui
 
 ```js
 // 引入piui
