@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { parentInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
 const TAG = 'PiGrid'
@@ -12,6 +13,7 @@ const { grid } = getConfig()
 
 export default {
   name: TAG,
+  mixins: [parentInit(['border', 'col', 'gap', 'square', 'hoverClass'])],
   props: {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
@@ -47,20 +49,10 @@ export default {
       type: [String, Number],
       default: grid.gap
     },
-    // 宫格对齐方式，靠左，居中，还是靠右
-    align: {
-      type: String,
-      default: grid.align
-    },
     // 宫格按压时的样式类，"none"为无效果
     hoverClass: {
       type: String,
       default: grid.hoverClass
-    }
-  },
-  provide() {
-    return {
-      piGrid: this
     }
   },
   computed: {

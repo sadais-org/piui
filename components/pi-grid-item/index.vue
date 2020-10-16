@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { childInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
 const TAG = 'PiGridItem'
@@ -22,6 +23,8 @@ const { gridItem } = getConfig()
 
 export default {
   name: TAG,
+  // 混入自定义样式customStyle和customClass
+  mixins: [childInit('PiGrid')], // 注入value与val，进行双向绑定
   props: {
     // 当前宫格索引
     index: {
@@ -89,16 +92,14 @@ export default {
     }
   },
   data() {
-    return {
-      parentData: {}
-    }
+    return {}
   },
   computed: {
     getGap() {
-      return this.parentData.gap || this.gap
+      return this.inheritProps.gap || this.gap
     },
     getCol() {
-      const col = this.parentData.col ? this.parentData.col : this.col
+      const col = this.inheritProps.col ? this.inheritProps.col : this.col
       return parseInt(col, 10)
     },
     getRowGapWidth() {
@@ -108,10 +109,10 @@ export default {
       return `calc((100% - ${this.getRowGapWidth}) / ${this.getCol})`
     },
     getSquare() {
-      return this.parentData.square || this.square
+      return this.inheritProps.square || this.square
     },
     getBorder() {
-      return this.parentData.border || this.border
+      return this.inheritProps.border || this.border
     },
     itemStyle() {
       const gap = this.$pi.common.addUnit(this.getGap)
@@ -139,18 +140,10 @@ export default {
       return clazz.join(' ')
     }
   },
-  inject: {
-    piGrid: { default: undefined }
-  },
   created() {
-    this.init()
     this.valid()
   },
   methods: {
-    init() {
-      if (!this.piGrid) return
-      this.parentData = { ...this.piGrid.$props, ...this.piGrid.$data }
-    },
     valid() {
       if (this.getGap && this.index === undefined) {
         console.warn(TAG, '当设置gap的时候，请把当前迭代器的索引传递到index属性，否则宽度计算有误')
