@@ -44,7 +44,7 @@
               :color="cancelColor"
               :bg-color="cancelBgColor"
               custom-class="pi-w-100P"
-              @tap="handleCancel"
+              @tap.stop="handleCancel"
             >
               {{ cancelText }}
             </pi-button>
@@ -55,7 +55,7 @@
               :color="confirmColor"
               :bg-color="confirmBgColor"
               custom-class="pi-w-100P"
-              @tap="handleConfirm"
+              @tap.stop="handleConfirm"
             >
               {{ confirmText }}
             </pi-button>

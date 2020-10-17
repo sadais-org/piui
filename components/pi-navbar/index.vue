@@ -20,7 +20,7 @@
         >
           <slot v-if="$slots && $slots.left" name="left" />
           <template v-else>
-            <view v-if="isShowBack" class="pi-align-center back-wrap" @tap="handleGoBack">
+            <view v-if="isShowBack" class="pi-align-center back-wrap" @tap.stop="handleGoBack">
               <view
                 :class="'pi-icon-' + backIconName"
                 :style="[
@@ -29,7 +29,7 @@
               />
               <view v-if="backText" :style="[backTextStyle]">{{ backText }}</view>
             </view>
-            <view v-if="showHome" class="pi-align-center home-wrap" @tap="handleGoHome">
+            <view v-if="showHome" class="pi-align-center home-wrap" @tap.stop="handleGoHome">
               <view
                 :class="'pi-icon-' + homeIconName"
                 :style="[

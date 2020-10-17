@@ -29,8 +29,7 @@
         class="pi-justify-center pi-fz-32 pi-fw-500"
         :style="[{ padding: getTitlePadding }]"
       >
-        <slot v-if="$slots.title" name="title" />
-        <template v-else>{{ title }}</template>
+        <slot name="title">{{ title }}</slot>
       </view>
       <!-- 顶部操作条 -->
       <view
@@ -39,8 +38,8 @@
       >
         <slot v-if="$slots.toolbar" name="toolbar" />
         <template v-else>
-          <view class="item-btn" @tap="handlePopupClose">取消</view>
-          <view class="item-btn pi-primary" @tap="handleConfirm">确定</view>
+          <view class="item-btn" @tap.stop="handlePopupClose">取消</view>
+          <view class="item-btn pi-primary" @tap.stop="handleConfirm">确定</view>
         </template>
       </view>
       <!-- 选择区域 -->

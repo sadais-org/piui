@@ -6,7 +6,7 @@
     :hover-class="hoverClass"
     :hover-start-time="hoverStartTime"
     :hover-stay-time="hoverStayTime"
-    @tap="handleItemClick"
+    @tap.stop="handleItemClick"
   >
     <view class="grid-item-box" :class="[itemBoxClass]">
       <view><slot /></view>
@@ -151,6 +151,7 @@ export default {
     },
     handleItemClick(e) {
       this.$emit('click', e)
+      this.$emit('tap', e)
     }
   }
 }

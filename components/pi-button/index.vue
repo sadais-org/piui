@@ -21,7 +21,7 @@
     :hover-start-time="hoverStartTime"
     :hover-stay-time="hoverStayTime"
     :loading="loading"
-    @tap="handleButtonTap"
+    @tap.stop="handleButtonTap"
     @getphonenumber="$emit('getphonenumber', $event)"
     @getuserinfo="$emit('getuserinfo', $event)"
     @error="$emit('error', $event)"
@@ -246,6 +246,7 @@ export default {
       // 是否开启水波纹效果
       this.waveInfo.active = false
       this.$emit('click', e)
+      this.$emit('tap', e)
       this.$nextTick(function() {
         this.queryWaveInfo(e)
       })

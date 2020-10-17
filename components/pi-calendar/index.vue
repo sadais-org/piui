@@ -66,7 +66,7 @@
               class="date-item"
               style="cursor: pointer;"
               :style="[day.nowStyle, day.activeStyle, day.disabledStyle]"
-              @tap="handleSelectDate(day)"
+              @tap.stop="handleSelectDate(day)"
             >
               <view class="pi-square">
                 <view class="pi-rela pi-flex-column-center">

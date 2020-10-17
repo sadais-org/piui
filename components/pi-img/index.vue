@@ -3,7 +3,7 @@
     class="pi-img pi-w-100P pi-align-center"
     :style="[imageStyle, customStyle]"
     :class="[customClass]"
-    @tap="handleButtonTap"
+    @tap.stop="handleButtonTap"
   >
     <image
       :src="src"
@@ -160,6 +160,7 @@ export default {
   methods: {
     handleButtonTap: debounce(function(e) {
       this.$emit('click', e)
+      this.$emit('tap', e)
     }, 200),
     handleError() {
       this.error = true

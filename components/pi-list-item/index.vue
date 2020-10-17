@@ -6,7 +6,7 @@
     :class="[{ border: getBorder }, customClass]"
     :hover-start-time="hoverStartTime"
     :hover-stay-time="hoverStayTime"
-    @tap="handleItemClick"
+    @tap.stop="handleItemClick"
   >
     <!-- 左侧区域 -->
     <view v-if="$slots.left" class="pi-pd-right-24">
@@ -191,6 +191,7 @@ export default {
   methods: {
     handleItemClick(e) {
       this.$emit('click', e)
+      this.$emit('tap', e)
     }
   }
 }

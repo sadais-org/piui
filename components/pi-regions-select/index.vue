@@ -39,7 +39,7 @@
       >
         <slot v-if="$slots.toolbar" name="toolbar" />
         <template v-else>
-          <view class="item-btn" @tap="handlePopupClose">取消</view>
+          <view class="item-btn" @tap.stop="handlePopupClose">取消</view>
           <pi-button
             type="secondary"
             size="small"
@@ -62,7 +62,7 @@
               :style="[itemStyle, getItemStyle]"
               :class="{ 'pi-solid-bottom-1': showItemBottomBorder }"
               class="pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
-              @tap="handleSelectItem(region)"
+              @tap.stop="handleSelectItem(region)"
             >
               <slot name="item" :item="region">
                 <!-- 后备内容 -->

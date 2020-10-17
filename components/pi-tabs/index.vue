@@ -15,7 +15,7 @@
             ]"
             class="pi-tab pi-align-center pi-fz-30"
             :class="[{ active: activeIndex === index }]"
-            @tap="handleSelectItem(item)"
+            @tap.stop="handleSelectItem(item)"
           >
             <!-- slot slot-scoped只支持app,h5,微信小程序平台 -->
             <!-- <template slot="item" slot-scope="{ item }">{{ item.tag }}</template> -->

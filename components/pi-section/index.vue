@@ -146,12 +146,7 @@ export default {
   inject: {
     piList: { default: undefined }
   },
-  created() {},
-  methods: {
-    handleItemClick(e) {
-      this.$emit('click', e)
-    }
-  }
+  created() {}
 }
 </script>
 

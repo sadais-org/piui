@@ -38,7 +38,7 @@
           @focus="handleInputFocus"
         />
         <!-- clear action -->
-        <view v-if="showClear" class="pi-pd-right-18" @tap="handleClearInput">
+        <view v-if="showClear" class="pi-pd-right-18" @tap.stop="handleClearInput">
           <view class="pi-icon-roundclosefill" />
         </view>
       </view>
@@ -48,7 +48,7 @@
       v-if="showAction"
       class="pi-pd-left-18 pi-primary pi-fz-28"
       :style="[actionStyle]"
-      @tap="handleActionClick"
+      @tap.stop="handleActionClick"
     >
       {{ actionText }}
     </view>

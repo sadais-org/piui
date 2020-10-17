@@ -26,7 +26,7 @@
               padding: effect3d && val !== index ? '0 20rpx' : 0
             }
           ]"
-          @tap="$emit('click', index)"
+          @tap.stop="handleSwiperClick(index)"
         >
           <image
             class="swiper-image"
@@ -227,6 +227,10 @@ export default {
       const current = e.detail.current
       this.val = current
       this.handleEmitChange()
+    },
+    handleSwiperClick(index) {
+      this.$emit('click', index)
+      this.$emit('tap', index)
     }
   }
 }

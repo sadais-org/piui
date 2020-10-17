@@ -30,7 +30,7 @@
           class="pi-abso"
           :class="'pi-icon-' + closeIconName"
           :style="[closeIconStyle, { fontWeight: closeIconWeight }]"
-          @tap="handleCloseMask"
+          @tap.stop="handleCloseMask"
         />
         <!-- default slot -->
         <slot />
