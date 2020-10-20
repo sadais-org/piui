@@ -338,8 +338,8 @@ export default {
     padding: $pi-button-default-padding;
     font-size: $pi-button-default-font-size;
     line-height: $pi-button-default-height;
-    &[plain] {
-      border: 4rpx solid #e5e5e5;
+    &[plain]::after {
+      border: 8rpx solid #e5e5e5;
     }
   }
   // 大
@@ -404,7 +404,9 @@ export default {
   &[type='line'] {
     color: $pi-primary-color;
     background-color: #ffffff;
-    border: 4rpx solid $pi-primary-color;
+    &::after {
+      border: 8rpx solid $pi-primary-color;
+    }
   }
   &.button-hover[type='line'] {
     background-color: rgba($pi-primary-color, 0.08);
