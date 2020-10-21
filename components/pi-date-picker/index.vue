@@ -388,7 +388,8 @@ export default {
         if (this[map.showKey] && value) {
           if (map.key === 'month') value--
           // 查找当前picker中索引对应的真实值
-          const val = this[map.dataKey].findIndex(m => m === parseInt(value, 10))
+          const intValue = parseInt(value, 10)
+          const val = this[map.dataKey].findIndex(m => m === intValue)
           pickerValue.push(val)
         }
       })
