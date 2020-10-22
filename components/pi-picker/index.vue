@@ -105,6 +105,7 @@ export default {
         return picker.customClass
       }
     },
+    // 操作栏（确定/取消）位置
     toolbarPosition: {
       type: String,
       default: picker.toolbarPosition,
@@ -130,9 +131,9 @@ export default {
       default: picker.displayField
     },
     // 自定义多列联动模式的children属性名
-    childName: {
+    childField: {
       type: String,
-      default: picker.childName
+      default: picker.childField
     },
     // 默认值，单选是传Object，多选时传Array，默认null
     defaultValue: {
@@ -311,8 +312,8 @@ export default {
         return this.pickerValue.map((value, index) => {
           const returnValue = [...columns]
           const column = columns[value]
-          if (column[this.childName] && column[this.childName].length) {
-            columns = column[this.childName]
+          if (column[this.childField] && column[this.childField].length) {
+            columns = column[this.childField]
           }
           return returnValue
         })
@@ -342,8 +343,8 @@ export default {
           let count = 1
           let column = this.items
           // 只要有元素并且第一个元素有children属性，继续历遍
-          while (column[0][this.childName]) {
-            column = column[0] ? column[0][this.childName] : {}
+          while (column[0][this.childField]) {
+            column = column[0] ? column[0][this.childField] : {}
             count++
           }
           this.pickerValue = new Array(count).fill(0)
@@ -366,8 +367,8 @@ export default {
         let columnValue = pickerValue[columnIndex]
         let columns = this.columns[columnIndex]
         let column = columns[columnValue]
-        while (column[this.childName]) {
-          columns = column[this.childName]
+        while (column[this.childField]) {
+          columns = column[this.childField]
           column = columns[0]
           columnIndex++
           pickerValue[columnIndex] = 0
