@@ -22,5 +22,8 @@ Vue.use(piui)
 
 * 以上@/piui路径根据实际clone的项目位置改
 
+## 注意事项
+所有组件的点击事件请监听click，不要使用tap
+
 
 
