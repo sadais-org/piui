@@ -9,13 +9,20 @@
     <view v-if="$slots.left" class="pi-pd-right-24">
       <slot name="left" />
     </view>
-    <!-- 标题和描述 -->
-    <view v-if="title || desc" class="pi-align-baseline">
-      <view v-if="title" :style="[titleStyle]" class="list-item-title">{{ title }}</view>
-      <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{ desc }}</view>
-    </view>
     <!-- 中间区域 -->
-    <view class="pi-flex-sub"><slot /></view>
+    <view class="pi-flex-sub pi-align-baseline">
+      <!-- 标题和描述 -->
+      <view
+        v-if="$slots.default || $slots.$default || title"
+        :style="[titleStyle]"
+        class="list-item-title"
+      >
+        <slot>{{ title }}</slot>
+      </view>
+      <view v-if="$slots.desc || desc" :style="[descStyle]" class="list-item-desc">
+        <slot name="desc">{{ desc }}</slot>
+      </view>
+    </view>
     <!-- 右侧区域 -->
     <view class="extra">{{ extraText }}</view>
     <view v-if="$slots.right" class="pi-pd-left-24">
