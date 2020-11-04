@@ -27,7 +27,6 @@
             class="slider-bar-guide"
             :style="[{ 'background-color': showSliderBarGuide ? '#e4e7ed' : 'unset' }]"
           >
-            fixf
             <view v-if="showSliderBar" class="slider-bar" :style="[getSliderBarStyle]" />
           </view>
         </view>
