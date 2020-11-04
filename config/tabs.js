@@ -5,7 +5,7 @@ export default {
   keyField: 'id', // 选项id字段，默认为id
   displayField: 'text', // 选项显示字段，默认为text
   itemPadding: 30, // 选项两边的padding，单位rpx
-  stretch: false, // 标签是否自动撑开，（当scrollable时候生效）
+  stretch: false, // 标签是否自动撑开
   duration: 300, // 动画执行时间（毫秒）
   activeColor: '', // 激活颜色（不设置，默认主题色）
   activeTextColor: '', // 文字激活颜色（不设置，默认主题色）
