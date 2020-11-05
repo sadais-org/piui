@@ -334,7 +334,7 @@ export default {
     handleSelectItem(item) {
       if (!this.isMulti) {
         // 单选
-        this.selected = item
+        this.selected = this.$pi.lang.isEmpty(this.selected) ? item : {}
         return
       }
       // 多选
