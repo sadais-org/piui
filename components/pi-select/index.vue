@@ -275,14 +275,6 @@ export default {
     }
   },
   computed: {
-    options() {
-      const watchs = ['defaultValue', 'items', 'keyField', 'displayField', 'isMulti']
-      const options = watchs
-        .filter(d => this[d])
-        .map(d => this[d].toString())
-        .join('-')
-      return options
-    },
     getHeight() {
       return this.$pi.common.addUnit(this.height)
     },
@@ -310,16 +302,13 @@ export default {
     }
   },
   watch: {
-    // ! 因为使用对象，在H5端watch的时候，就算没有发生改变，也会触发，这里直接监听toString后的值
-    options(val) {
-      this.init()
+    value(val) {
+      val && this.init()
     }
-  },
-  created() {
-    this.init()
   },
   methods: {
     init() {
+      console.log(TAG, '初始化')
       let selected = this.defaultValue
       if (!selected) {
         selected = this.isMulti ? [] : {}
@@ -334,7 +323,11 @@ export default {
     handleSelectItem(item) {
       if (!this.isMulti) {
         // 单选
-        this.selected = this.$pi.lang.isEmpty(this.selected) ? item : {}
+        const isSame =
+          !this.$pi.lang.isEmpty(this.selected) &&
+          this.selected[this.keyField] === item[this.keyField]
+        // 如果当前已勾选，比较是否同一个，如果同一个就取消勾选
+        this.selected = isSame ? {} : item
         return
       }
       // 多选
