@@ -3,7 +3,7 @@
     class="pi-check-wrap"
     :style="[customStyle]"
     :class="[customClass, { disabled: getDisable }]"
-    @tap.stop="handleCheckboxToggle"
+    @tap="handleCheckboxToggle"
   >
     <view class="check-icon" :style="[checkboxStyle]" :class="[iconClass]">
       <pi-icon name="blod-check" :size="getIconSize" />
