@@ -47,7 +47,7 @@ const TAG = 'PiButton'
 const { button } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'Button',
   props: {
     /**
      * uniapp button 官方属性定义

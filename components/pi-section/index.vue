@@ -48,7 +48,7 @@ const TAG = 'PiListItem'
 const { section } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'Section',
   props: {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {

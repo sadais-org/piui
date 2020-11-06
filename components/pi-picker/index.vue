@@ -83,7 +83,7 @@ const { picker } = getConfig()
  * 多列模式 如设置default-value为[1, 3]表示第一列默认选中第2个，第二列默认选中第4个。
  */
 export default {
-  name: TAG,
+  name: 'Picker',
   // 混入v-model
   mixins: [ValueSync],
   props: {

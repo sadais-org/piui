@@ -58,8 +58,9 @@ const {
   statusBarHeight
 } = systemInfo
 
+// 弹出窗
 export default {
-  name: TAG,
+  name: 'Popup',
   // 混入v-model
   mixins: [ValueSync],
   props: {

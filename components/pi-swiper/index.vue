@@ -72,7 +72,7 @@ const { swiper } = getConfig()
 const TAG = 'PiSwiper'
 
 export default {
-  name: TAG,
+  name: 'Swiper',
   // 混入v-model
   mixins: [ValueSync],
   props: {

@@ -5,6 +5,7 @@
       :style="[customStyle, barStyle]"
       :class="[customClass, { fixed: fixed }]"
     >
+      <!-- 默认插槽 -->
       <slot />
       <view class="pi-safearea" :style="[{ backgroundColor: safeAreaBgColor }]" />
     </view>
@@ -23,12 +24,14 @@
 import { getConfig } from '../../config'
 const { bottomBar } = getConfig()
 
+// 底部栏
 export default {
-  name: 'PiBottomBar',
+  name: 'BottomBar',
   props: {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
       type: Object,
+      // {}
       default() {
         return bottomBar.customStyle
       }
@@ -36,6 +39,7 @@ export default {
     // 自定义样式类，字符串形式（''）
     customClass: {
       type: String,
+      // ''
       default() {
         return bottomBar.customClass
       }
@@ -43,6 +47,7 @@ export default {
     // 顶部边框样式，如需去掉，设置'none'
     borderTop: {
       type: String,
+      // '1px solid #e6e6e6'
       default() {
         return bottomBar.borderTop
       }
@@ -50,21 +55,25 @@ export default {
     // 安全区域背景颜色
     safeAreaBgColor: {
       type: String,
+      // '#ffffff'
       default: bottomBar.safeAreaBgColor
     },
     // 建议传值，不传的时候，自动根据内容撑开
     height: {
       type: [String, Number],
+      // ''
       default: bottomBar.height
     },
     // 是否fixed定位
     fixed: {
       type: Boolean,
+      // false
       default: bottomBar.fixed
     },
     // 内边距
     padding: {
       type: [String, Number],
+      // '17rpx 32rpx'
       default: bottomBar.padding
     }
   },

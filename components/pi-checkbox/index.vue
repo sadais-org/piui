@@ -21,11 +21,12 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiCheckbox'
 const { checkbox } = getConfig()
+const extendCheckboxGroup = childInit('CheckboxGroup')
 
 export default {
-  name: TAG,
+  name: 'Checkbox',
   // 混入自定义样式customStyle和customClass
-  mixins: [ValueSync, childInit('PiCheckboxGroup')], // 注入value与val，进行双向绑定
+  mixins: [ValueSync, extendCheckboxGroup], // 注入value与val，进行双向绑定
   props: {
     // 初始值
     value: {

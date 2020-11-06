@@ -22,14 +22,13 @@
  * switch 开关
  */
 import ValueSync from '../../mixin/value-sync'
-import { systemInfo } from '../../tools/system'
 import { getConfig } from '../../config'
 
 const TAG = 'PiSwitch'
 const { switch: switchConfig } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'Switch',
   // 混入v-model
   mixins: [ValueSync],
   props: {

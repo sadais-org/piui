@@ -20,11 +20,12 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiGridItem'
 const { gridItem } = getConfig()
+const extendPiGrid = childInit('PiGrid')
 
 export default {
-  name: TAG,
+  name: 'GridItem',
   // 混入自定义样式customStyle和customClass
-  mixins: [childInit('PiGrid')], // 注入value与val，进行双向绑定
+  mixins: [extendPiGrid], // 注入value与val，进行双向绑定
   props: {
     // 当前宫格索引
     index: {

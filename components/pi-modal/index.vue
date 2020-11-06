@@ -74,7 +74,7 @@ const TAG = 'PiModal'
 const { modal } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'Modal',
   // 混入v-model
   mixins: [ValueSync],
   props: {

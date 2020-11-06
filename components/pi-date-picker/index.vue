@@ -113,7 +113,7 @@ const FIELD_MAPS = [
 ]
 
 export default {
-  name: TAG,
+  name: 'DatePicker',
   // 混入v-model
   mixins: [ValueSync],
   props: {

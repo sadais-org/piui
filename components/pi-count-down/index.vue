@@ -20,7 +20,7 @@ const { countDown } = getConfig()
 const TAG = 'PiCountDown'
 
 export default {
-  name: TAG,
+  name: 'CountDown',
   // 混入v-model
   mixins: [ValueSync],
   props: {
