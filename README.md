@@ -9,18 +9,18 @@ PiUI基础库
 
 ```
 "easycom": {
-  "^pi-(.*)": "@/piui/components/pi-$1/index.vue"
+  "^pi-(.*)": "sadais-piui/components/pi-$1/index.vue"
 }
 ```
 3. main.js引入piui
 
 ```js
 // 引入piui
-import piui from '@/piui'
+import piui from 'sadais-piui'
 Vue.use(piui)
 ```
 
-* 以上@/piui路径根据实际clone的项目位置改
+* 以上sadais-piui路径根据实际clone的项目位置改
 
 ## 注意事项
 所有组件的点击事件请监听click，不要使用tap

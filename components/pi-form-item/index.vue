@@ -198,7 +198,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/piui/scss/border.scss';
+@import '../../scss/border.scss';
 
 .pi-list-item {
   height: $pi-form-item-height;

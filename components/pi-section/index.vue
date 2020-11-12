@@ -158,7 +158,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/piui/scss/border.scss';
+@import '../../scss/border.scss';
 .section {
   position: relative;
   line-height: 1;
