@@ -14,7 +14,7 @@
       class="pi-abso pi-of-hidden"
       :class="[customClass, aniClass]"
       :style="[
-        { 'borderRadius': borderRadius, 'animation-duration': getDuration.css },
+        { 'borderRadius': getBorderRadius, 'animation-duration': getDuration.css },
         positionStyle,
         customStyle
       ]"
@@ -196,6 +196,9 @@ export default {
     safeAreaBottom() {
       const bottomHeight = screenHeight - statusBarHeight - bodyHeight
       return `${bottomHeight}px`
+    },
+    getBorderRadius() {
+      return this.$pi.common.addUnit(this.borderRadius)
     },
     positionStyle() {
       const positionStyleMap = {

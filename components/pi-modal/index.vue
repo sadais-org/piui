@@ -36,7 +36,10 @@
       </view>
 
       <!-- 按钮区域 -->
-      <view class="modal-footer pi-align-center pi-justify-center pi-pd-24">
+      <view
+        v-if="$slots.footer || showCancelButton || showConfirmButton"
+        class="modal-footer pi-align-center pi-justify-center pi-pd-24"
+      >
         <slot v-if="$slots.footer" name="footer" />
         <template v-else>
           <view v-if="showCancelButton" class="pi-button-wrap">
