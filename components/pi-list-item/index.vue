@@ -27,12 +27,12 @@
     </view>
     <pi-icon
       v-else-if="showRightIcon"
-      :name="rightIcon.name"
-      :dot="rightIcon.dot"
-      :badge="rightIcon.badge"
-      :color="rightIcon.color"
-      :size="rightIcon.size"
-      :class-prefix="rightIcon.classPrefix"
+      :name="rightIconName"
+      :dot="rightIconDot"
+      :badge="rightIconBadge"
+      :color="rightIconColor"
+      :size="rightIconSize"
+      :class-prefix="rightIconClassPrefix"
       custom-class="pi-pd-left-4"
     />
   </view>
