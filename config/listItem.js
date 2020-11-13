@@ -12,14 +12,12 @@ export default {
   border: true, // 是否显示边框
   padding: '24rpx 32rpx', // padding
   showRightIcon: true, // 是否显示右边icon，默认是箭头（可以自定义设置成其他图标）
-  rightIcon: {
-    name: 'right', // 图标名称或图片链接
-    dot: false, // 是否显示图标右上角小红点，默认值 false
-    badge: '', // 图标右上角徽标的内容
-    color: '#cccccc', // 图标颜色
-    size: '', // 图标字体大小，单位rpx
-    classPrefix: 'pi-icon-' // 类名前缀，用于使用自定义图标，默认为（pi-icon-）
-  },
+  rightIconName: 'right' , // 图标名称或图片链接
+  rightIconDot: false, // 是否显示图标右上角小红点，默认值 false
+  rightIconBadge: '', // 图标右上角徽标的内容
+  rightIconColor: '#cccccc', // 图标颜色
+  rightIconSize: '', // 图标字体大小，单位rpx
+  rightIconClassPrefix: 'pi-icon-', // 类名前缀，用于使用自定义图标，默认为（pi-icon-）
   hoverClass: 'pi-hover-class', // 宫格按压时的样式类，"none"为无效果
   hoverStartTime: 10, // 按住后多久出现点击态，单位毫秒
   hoverStayTime: 100 // 手指松开后点击态保留时间，单位毫秒

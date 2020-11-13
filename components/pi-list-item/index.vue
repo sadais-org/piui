@@ -138,11 +138,52 @@ export default {
         return listItem.showRightIcon
       }
     },
-    // 右侧icon样式
-    rightIcon: {
-      type: Object,
+    // 右侧icon名称
+    rightIconName: {
+      type: String,
+      // 'right'
       default() {
-        return listItem.rightIcon
+        return listItem.rightIconName
+      }
+    },
+    // 是否显示图标右上角小红点，默认值 false
+    rightIconDot: {
+      type: Boolean,
+      // false
+      default() {
+        return listItem.rightIconDot
+      }
+    },
+    // 图标右上角徽标的内容
+    rightIconBadge: {
+      type: Boolean,
+      // ''
+      default() {
+        return listItem.rightIconBadge
+      }
+    },
+    // 图标颜色
+    rightIconColor: {
+      type: Boolean,
+      // #cccccc
+      default() {
+        return listItem.rightIconColor
+      }
+    },
+    // 图标字体大小，单位rpx
+    rightIconSize: {
+      type: Boolean,
+      // ''
+      default() {
+        return listItem.rightIconSize
+      }
+    },
+    // 类名前缀，用于使用自定义图标，默认为（pi-icon-）
+    rightIconClassPrefix: {
+      type: Boolean,
+      // 'pi-icon-'
+      default() {
+        return listItem.rightIconClassPrefix
       }
     },
     // 指定按下去的样式类。当 hover-class="none" 时，没有点击态效果
