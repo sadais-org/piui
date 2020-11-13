@@ -41,36 +41,43 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
+      // {}
       default() {
         return checkboxGroup.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
+      // ''
       default() {
         return checkboxGroup.customClass
       }
     },
-    // 最大可选数，-1为无限制
+    // 最大可选数，0为无限制
     max: {
       type: [String, Number],
+      // 0
       default: checkboxGroup.max
     },
-    // 排列方向，可选值为 horizontal vertical（默认''，不设置）
+    // 排列方向
     direction: {
+      // '', horizontal', 'vertical'
       type: String,
+      // ''
       default: checkboxGroup.direction,
       validator: function(value) {
-        return ['', 'horizontal', 'vertical'].includes(value)
+        return ['horizontal', 'vertical'].includes(value)
       }
     },
-    // 形状 round || square（默认''，不设置）
+    // 形状
     shape: {
+      // round || square
       type: String,
+      // ''
       default: checkboxGroup.shape,
       validator: function(value) {
         return ['', 'square', 'round'].includes(value)
@@ -79,30 +86,36 @@ export default {
     // 边框大小，单位rpx
     border: {
       type: [String, Number],
+      // 0
       default: checkboxGroup.border
     },
     // 是否禁用复选框
     disabled: {
       type: Boolean,
+      // false
       default: checkboxGroup.disabled
     },
     // checkbox大小，单位rpx
     size: {
       type: [String, Number],
+      // 0
       default: checkboxGroup.size
     },
     // checkbox icon 大小，单位rpx
     iconSize: {
       type: [String, Number],
+      // 0
       default: checkboxGroup.iconSize
     },
     // 选中时图标的颜色
     activeColor: {
       type: [String],
+      // ''
       default: checkboxGroup.activeColor
     },
-    // 激活模式（line: 线框模式，fill: 实底模式）（默认''，不设置）
+    // 激活模式
     activeMode: {
+      // '', 'line', 'fill'
       type: [String],
       default: checkboxGroup.activeMode,
       validator: function(value) {

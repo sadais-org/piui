@@ -28,6 +28,7 @@
     @opensetting="$emit('opensetting', $event)"
     @launchapp="$emit('launchapp', $event)"
   >
+    <!-- 按钮内容 -->
     <slot />
     <view v-if="ripple" class="pi-abso-full pi-of-hidden" :class="[{ round }]">
       <view class="wave-ripple" :class="[{ active: waveInfo.active }]" :style="[waveStyle]" />
@@ -49,9 +50,9 @@ const { button } = getConfig()
 export default {
   name: 'Button',
   props: {
-    // ------------------------- uniapp button 官方属性定义 Start -------------------------
-    // 按钮尺寸，default，large medium small tiny mini
+    // 按钮尺寸
     size: {
+      // 'default', 'large', 'medium', 'small', 'tiny', 'mini'
       type: String,
       // default
       default: button.size,
@@ -59,8 +60,9 @@ export default {
         return ['default', 'large', 'medium', 'small', 'tiny', 'mini'].includes(value)
       }
     },
-    // 按钮的预置样式，default，primary，warn，secondary line
+    // 按钮的预置样式
     type: {
+      // 'default', 'primary', 'warn', 'secondary', 'line'
       type: String,
       // default
       default: button.type,
@@ -168,7 +170,6 @@ export default {
       // false
       default: button.showMessageCard
     },
-    // ------------------------- uniapp button 官方属性定义 End ---------------------------
     // 自定义样式，对象形式
     customStyle: {
       type: Object,
@@ -265,6 +266,7 @@ export default {
       if (this.loading || this.disabled || !this.ripple) return
       // 是否开启水波纹效果
       this.waveInfo.active = false
+      // 点击事件
       this.$emit('click', e)
       this.$nextTick(function() {
         this.queryWaveInfo(e)

@@ -28,16 +28,18 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
+      // {}
       default() {
         return countDown.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类，字符串形式
     customClass: {
       type: String,
+      // ''
       default() {
         return countDown.customClass
       }
@@ -45,6 +47,7 @@ export default {
     // 每一个项时间的自定义样式
     timeStyle: {
       type: Object,
+      // {}
       default() {
         return countDown.timeStyle
       }
@@ -52,19 +55,23 @@ export default {
     // 每一个项分隔符的自定义样式
     separatorStyle: {
       type: Object,
+      // {}
       default() {
         return countDown.separatorStyle
       }
     },
     autoplay: {
       type: Boolean,
+      // true
       default() {
         return countDown.autoplay
       }
     },
-    // 分隔符，colon为英文冒号，zh为中文
+    // 分隔符，
     separator: {
+      // 'colon'：英文冒号, 'zh'：中文
       type: String,
+      // colon
       default() {
         return countDown.separator
       },
@@ -75,6 +82,7 @@ export default {
     // 是否显示天
     showDay: {
       type: Boolean,
+      // true
       default() {
         return countDown.showDay
       }
@@ -82,6 +90,7 @@ export default {
     // 是否显示小时
     showHour: {
       type: Boolean,
+      // true
       default() {
         return countDown.showHour
       }
@@ -89,6 +98,7 @@ export default {
     // 是否显示分钟
     showMinute: {
       type: Boolean,
+      // true
       default() {
         return countDown.showMinute
       }
@@ -96,6 +106,7 @@ export default {
     // 是否显示秒
     showSecond: {
       type: Boolean,
+      // true
       default() {
         return countDown.showSecond
       }

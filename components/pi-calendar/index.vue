@@ -115,38 +115,45 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
+      // {}
       default() {
         return calendar.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类，字符串形式
     customClass: {
       type: String,
+      // ''
       default() {
         return calendar.customClass
       }
     },
-    // 是否显示title（默认：true）
+    // 是否显示title
     showTitle: {
       type: Boolean,
+      // true
       default: calendar.showTitle
     },
-    // 标题（默认：日期选择）
+    // 标题
     title: {
       type: String,
+      // '日期选择'
       default: calendar.title
     },
-    // 标题 padding（默认：24rpx）
+    // 标题 padding
     titlePadding: {
       type: [String, Number],
+      // 24
       default: calendar.titlePadding
     },
-    // date 单个日期 || range [开始日期 结束日期]
+    // 日历类型
     type: {
+      // 'date：单个日期', 'range：范围日期'
       type: String,
+      // 'date'
       default: calendar.type,
       validator: function(value) {
         return ['date', 'range'].includes(value)
@@ -155,166 +162,199 @@ export default {
     // 日期默认值，单选时候，传入Date(时间戳，时间字符串，Date类型)，日历范围，传入Date[]
     defaultValue: {
       type: [Number, String, Date, Array],
+      // -
       default: calendar.defaultValue
     },
     // 可切换的最小年份
     minYear: {
       type: [Number, String],
+      // 当前年份 - 80
       default: calendar.minYear
     },
     // 可切换的最大年份（默认当前年份）
     maxYear: {
       type: [Number, String],
+      // 当前年份 + 30
       default: calendar.maxYear
     },
     // 最小可选日期(不在范围内日期禁用不可选，默认''，不作限制)
     minDate: {
       type: [Number, String, Date],
+      // ''
       default: calendar.minDate
     },
     // 最大可选日期(不在范围内日期禁用不可选，默认''，不作限制)
     maxDate: {
       type: [Number, String, Date],
+      // ''
       default: calendar.maxDate
     },
-    // 是否显示回到今日，默认（true）
+    // 是否显示回到今日
     showBackToday: {
       type: Boolean,
+      // true
       default: calendar.showBackToday
     },
-    // 今日日期激活边框颜色，默认（'#ff6a00'）
+    // 今日日期激活边框颜色
     todayActiveBorderColor: {
       type: String,
+      // '#ff6a00'
       default: calendar.todayActiveBorderColor
     },
-    // 选中|起始结束日期字体颜色，默认（'#ffffff'）
+    // 选中|起始结束日期字体颜色
     activeColor: {
       type: String,
+      // '#ffffff'
       default: calendar.activeColor
     },
-    // 选中|起始结束日期背景，默认（'#ff6a00'）
+    // 选中|起始结束日期背景，默认
     activeBg: {
       type: String,
+      // '#ff6a00'
       default: calendar.activeBg
     },
-    // 选中圆角效果（默认'0 0 0 0'）
+    // 选中圆角效果
     activeBorderRadius: {
       type: [String, Number],
+      // '0 0 0 0'
       default: calendar.activeBorderRadius
     },
-    // 范围内日期字体颜色默认（'#ff6a00'）
+    // 范围内日期字体颜色默认
     rangeColor: {
       type: String,
+      // '#ff6a00'
       default: calendar.rangeColor
     },
-    // 范围内日期背景色，默认（'rgba(254, 106, 0, 0.1)'）
+    // 范围内日期背景色
     rangeBg: {
       type: String,
+      // 'rgba(254, 106, 0, 0.1)'
       default: calendar.rangeBg
     },
-    // type=range时生效，起始日期自定义文案，默认（'开始'）
+    // type=range时生效，起始日期自定义文案
     startText: {
       type: String,
+      // '开始'
       default: calendar.startText
     },
-    // type=range时生效，结束日期自定义文案，默认（'结束'）
+    // type=range时生效，结束日期自定义文案
     endText: {
       type: String,
+      // '结束'
       default: calendar.endText
     },
-    // 已选择的时间格式化显示规则，默认（'yyyy-mm-dd'）
+    // 已选择的时间格式化显示规则
     dateFormat: {
       type: String,
+      // 'yyyy-mm-dd'
       default: calendar.dateFormat
     },
     /**
      * 弹窗的配置，默认选项请参照popup
      * -------------------------------------------------------------------------------------------------
      */
-    // 控制弹窗的四个角圆角效果（默认'0 0 0 0'）
+    // 控制弹窗的四个角圆角效果
     borderRadius: {
       type: [String, Number],
-      default: '0 0 0 0'
+      // '0 0 0 0'
+      default: calendar.borderRadius
     },
-    // 是否显示关闭图标，默认（true）
+    // 是否显示关闭图标
     showCloseIcon: {
       type: Boolean,
+      // true
       default: calendar.showCloseIcon
     },
-    // 关闭图标的名称，默认（close）
+    // 关闭图标的名称
     closeIconName: {
       type: String,
+      // 'close'
       default: calendar.closeIconName
     },
     closeIconPadding: {
       type: [String, Number],
+      // '32rpx 32rpx'
       default: calendar.closeIconPadding
     },
-    // 关闭图标的颜色，默认（'#666666'）
+    // 关闭图标的颜色
     closeIconColor: {
       type: String,
+      // '#666666'
       default: calendar.closeIconColor
     },
-    // 关闭图标的大小，默认（'42rpx'）
+    // 关闭图标的大小
     closeIconSize: {
       type: [String, Number],
+      // 42
       default: calendar.closeIconSize
     },
+    // 关闭图标font-weight
     closeIconWeight: {
       type: [String, Number],
+      // 800
       default: calendar.closeIconWeight
     },
-    // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
+    // 关闭图标位置，若不指定，则按照弹出位置自动显示在合适的位置
     closeIconPosition: {
+      // tl为左上角，tr为右上角，bl为左下角，br为右下角
       type: String,
       default: calendar.closeIconPosition,
+      // -
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
-    // 顶部安全适配（状态栏高度，默认true）
+    // 顶部安全适配（状态栏高度）
     safeAreaInsetTop: {
       type: Boolean,
+      // true
       default: calendar.safeAreaInsetTop
     },
-    // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
+    // 底部安全适配（iPhoneX 留出底部安全距离）
     safeAreaInsetBottom: {
       type: Boolean,
+      // true
       default: calendar.safeAreaInsetBottom
     },
     /**
      * mask props
      * -------------------------------------------------------------------------------------------------
      */
-    // 遮罩的过渡时间，单位为ms，默认（500）
+    // 遮罩的过渡时间，单位为ms
     duration: {
       type: [Number, String],
+      // 500
       default: calendar.duration
     },
-    // 是否可以通过点击遮罩进行关闭，默认（true）
+    // 是否可以通过点击遮罩进行关闭，默认
     maskClosable: {
       type: Boolean,
+      // true
       default: calendar.maskClosable
     },
-    // 是否隐藏TabBar，默认（false）
+    // 是否隐藏TabBar
     hideTabBar: {
       required: false,
       type: Boolean,
+      // false
       default: calendar.hideTabBar
     },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）,默认（false）
+    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
     appendToBody: {
       type: Boolean,
+      // false
       default: calendar.appendToBody
     },
-    // 层级z-index，（默认1000）
+    // 层级z-index
     zIndex: {
       type: [Number, String],
+      // 100
       default: calendar.zIndex
     },
     // 背景颜色（默认'rgba(0, 0, 0, .5)'）
     maskBackground: {
       type: String,
+      // 'rgba(0, 0, 0, .5)'
       default: calendar.maskBackground
     }
   },
@@ -527,11 +567,13 @@ export default {
     },
     handlePopupClose() {
       this.val = false
+      // 关闭
       this.$emit('close')
       this.handleEmitChange()
     },
     handleConfirm() {
       const value = this.type === 'date' ? this.date : this.ranges
+      // 确认
       this.$emit('confirm', value)
       this.handlePopupClose()
     }

@@ -28,7 +28,7 @@ const { bottomBar } = getConfig()
 export default {
   name: 'BottomBar',
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
       // {}

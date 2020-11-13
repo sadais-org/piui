@@ -32,16 +32,18 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return checkbox.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类，字符串形式
     customClass: {
       type: String,
+      // ''
       default() {
         return checkbox.customClass
       }
@@ -49,11 +51,14 @@ export default {
     // checkbox组件的标示符
     name: {
       type: [String, Number],
+      // -
       default: checkbox.name
     },
-    // 形状 round || square（默认'round'）
+    // 形状
     shape: {
+      // round || square
       type: String,
+      // round
       default: checkbox.shape,
       validator: function(value) {
         return ['square', 'round'].includes(value)
@@ -62,36 +67,44 @@ export default {
     // 当shape为square的时候，设置圆角，单位rpx
     borderRadius: {
       type: [String, Number],
+      // 8
       default: checkbox.borderRadius
     },
     // 边框大小，单位rpx
     border: {
       type: [String, Number],
+      // 4
       default: checkbox.border
     },
     // 是否禁用复选框
     disabled: {
       type: Boolean,
+      // false
       default: checkbox.disabled
     },
     // checkbox大小，单位rpx
     size: {
       type: [String, Number],
+      // 40
       default: checkbox.size
     },
     // checkbox icon 大小，单位rpx
     iconSize: {
       type: [String, Number],
+      // 24
       default: checkbox.iconSize
     },
     // 选中时图标的颜色
     activeColor: {
       type: [String],
+      // ''
       default: checkbox.activeColor
     },
-    // 激活模式（line: 线框模式，fill: 实底模式）
+    // 激活模式
     activeMode: {
+      // line: 线框模式，fill: 实底模式
       type: [String],
+      // 'line'
       default: checkbox.activeMode,
       validator: function(value) {
         return ['line', 'fill'].includes(value)
