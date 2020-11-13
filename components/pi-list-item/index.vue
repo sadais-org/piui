@@ -156,7 +156,7 @@ export default {
     },
     // 图标右上角徽标的内容
     rightIconBadge: {
-      type: Boolean,
+      type: String,
       // ''
       default() {
         return listItem.rightIconBadge
@@ -164,7 +164,7 @@ export default {
     },
     // 图标颜色
     rightIconColor: {
-      type: Boolean,
+      type: String,
       // #cccccc
       default() {
         return listItem.rightIconColor
@@ -172,7 +172,7 @@ export default {
     },
     // 图标字体大小，单位rpx
     rightIconSize: {
-      type: Boolean,
+      type: [String, Number],
       // ''
       default() {
         return listItem.rightIconSize
@@ -180,7 +180,7 @@ export default {
     },
     // 类名前缀，用于使用自定义图标，默认为（pi-icon-）
     rightIconClassPrefix: {
-      type: Boolean,
+      type: String,
       // 'pi-icon-'
       default() {
         return listItem.rightIconClassPrefix
