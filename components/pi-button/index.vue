@@ -49,124 +49,138 @@ const { button } = getConfig()
 export default {
   name: 'Button',
   props: {
-    /**
-     * uniapp button 官方属性定义
-     * ---------------------------------------------------------------------------------------------
-     */
-    // 按钮尺寸，default，large medium small tiny mini（默认值：'default'）
+    // ------------------------- uniapp button 官方属性定义 Start -------------------------
+    // 按钮尺寸，default，large medium small tiny mini
     size: {
       type: String,
+      // default
       default: button.size,
       validator: function(value) {
         return ['default', 'large', 'medium', 'small', 'tiny', 'mini'].includes(value)
       }
     },
-    // 按钮的预置样式，default，primary，warn，secondary line（默认值：'default'）
+    // 按钮的预置样式，default，primary，warn，secondary line
     type: {
       type: String,
+      // default
       default: button.type,
       validator: function(value) {
         return ['default', 'primary', 'warn', 'secondary', 'line'].includes(value)
       }
     },
-    // 按钮是否镂空（默认值：false）
+    // 按钮是否镂空
     plain: {
       type: Boolean,
+      // false
       default: button.plain
     },
-    // 是否禁止状态（默认值：false）
+    // 是否禁止状态
     disabled: {
       type: Boolean,
+      // false
       default: button.disabled
     },
-    // 是否加载中（默认值：false）
+    // 是否加载中
     loading: {
       type: Boolean,
+      // false
       default: button.loading
     },
-    // 取值为submit（提交表单），reset（重置表单）（默认值：''）
+    // 取值为submit（提交表单），reset（重置表单）
     formType: {
       type: String,
+      // ''
       default: button.formType
     },
-    // 开放能力，具体请看uniapp稳定关于button组件部分说明（默认值：''）
+    // 开放能力，具体请看uniapp稳定关于button组件部分说明
     openType: {
       type: String,
+      // ''
       default: button.openType
     },
-    // 指定按钮按下去的样式类。当 hover-class="none" 时，没有点击态效果，默认（button-hover）
+    // 指定按钮按下去的样式类。当 hover-class="none" 时，没有点击态效果
     hoverClass: {
       type: String,
+      // 'button-hover'
       default: button.hoverClass
     },
-    // 按住后多久出现点击态，单位毫秒（默认值：20）
+    // 按住后多久出现点击态，单位毫秒
     hoverStartTime: {
       type: Number,
+      // 20
       default: button.hoverStartTime
     },
-    // 手指松开后点击态保留时间，单位毫秒（默认值：70）
+    // 手指松开后点击态保留时间，单位毫秒
     hoverStayTime: {
       type: Number,
+      // 70
       default: button.hoverStayTime
     },
-    // 打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效（默认值：''）
+    // 打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效
     appParameter: {
       type: String,
+      // ''
       default: button.appParameter
     },
-    // 指定是否阻止本节点的祖先节点出现点击态，微信小程序有效（默认值：false）
+    // 指定是否阻止本节点的祖先节点出现点击态，微信小程序有效
     hoverStopPropagation: {
       type: Boolean,
+      // false
       default: button.hoverStopPropagation
     },
-    // 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。只微信小程序有效（默认值：'en'）
+    // 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。只微信小程序有效
     lang: {
       type: String,
+      // 'en'
       default: button.lang
     },
-    // 会话来源，open-type="contact"时有效。只微信小程序有效（默认值：''）
+    // 会话来源，open-type="contact"时有效。只微信小程序有效
     sessionFrom: {
       type: String,
+      // ''
       default: button.sessionFrom
     },
-    // 会话内消息卡片标题，open-type="contact"时有效（默认值：''）
+    // 会话内消息卡片标题，open-type="contact"时有效
     // 默认当前标题，只微信小程序有效
     sendMessageTitle: {
       type: String,
+      // ''
       default: button.sendMessageTitle
     },
-    // 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效（默认值：''）
+    // 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效
     // 默认当前分享路径，只微信小程序有效
     sendMessagePath: {
       type: String,
+      // ''
       default: button.sendMessagePath
     },
-    // 会话内消息卡片图片，open-type="contact"时有效（默认值：''）
+    // 会话内消息卡片图片，open-type="contact"时有效
     // 默认当前页面截图，只微信小程序有效
     sendMessageImg: {
       type: String,
+      // ''
       default: button.sendMessageImg
     },
     // 是否显示会话内消息卡片，设置此参数为 true，用户进入客服会话会在右下角显示"可能要发送的小程序"提示，
-    // 用户点击后可以快速发送小程序消息，open-type="contact"时有效（默认值：'false'）
+    // 用户点击后可以快速发送小程序消息，open-type="contact"时有效
     showMessageCard: {
       type: Boolean,
+      // false
       default: button.showMessageCard
     },
-    /**
-     * 自定义属性扩展
-     * ---------------------------------------------------------------------------------------------
-     */
-    // 自定义样式，对象形式（默认值：{}）
+    // ------------------------- uniapp button 官方属性定义 End ---------------------------
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
+      // {}
       default() {
         return button.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类，字符串形式
     customClass: {
       type: String,
+      // {}
       default() {
         return button.customClass
       }
@@ -174,31 +188,37 @@ export default {
     // 按钮宽度，不设置默认自动撑开，如果需要占满一行，填写’100%‘
     width: {
       type: [String, Number],
+      // ''
       default: button.width
     },
     // 自定义颜色按钮（type为default，可自定义设置）
     color: {
       type: String,
-      default: ''
+      // ''
+      default: button.color
     },
     // 自定义背景色按钮（type为default，可自定义设置）
     bgColor: {
       type: String,
-      default: ''
+      // ''
+      default: button.bgColor
     },
-    // 按钮是否椭圆（默认值：false）
+    // 按钮是否椭圆
     round: {
       type: Boolean,
+      // false
       default: button.round
     },
     // 是否开启水波纹效果（默认值：true）
     ripple: {
       type: Boolean,
+      // true
       default: button.ripple
     },
     // 水波纹的背景颜色（默认值：''）
     rippleBgColor: {
       type: String,
+      // ''
       default: button.rippleBgColor
     }
   },

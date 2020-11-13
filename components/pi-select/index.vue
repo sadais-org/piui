@@ -136,6 +136,12 @@ export default {
       type: Boolean,
       default: select.isMulti
     },
+    // 单选模式下，是否可取消选中
+    singleCancel: {
+      type: Boolean,
+      // true
+      default: select.singleCancel
+    },
     // 是否显示title（默认：true）
     showTitle: {
       type: Boolean,
@@ -323,6 +329,11 @@ export default {
     handleSelectItem(item) {
       if (!this.isMulti) {
         // 单选
+        if (!this.singleCancel) {
+          this.selected = item
+          return
+        }
+        // 如果单选允许取消，需要判断是否点击了同一个选项
         const isSame =
           !this.$pi.lang.isEmpty(this.selected) &&
           this.selected[this.keyField] === item[this.keyField]

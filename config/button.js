@@ -20,6 +20,8 @@ export default {
   sendMessagePath: '', // 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效（默认值：''）
   sendMessageImg: '', // 会话内消息卡片图片，open-type="contact"时有效（默认值：''）
   showMessageCard: false, // 用户点击后可以快速发送小程序消息，open-type="contact"时有效（默认值：'false'）
+  color: '', // 自定义颜色按钮（type为default，可自定义设置）
+  bgColor: '', // 自定义背景色按钮（type为default，可自定义设置）
   round: false, // 按钮是否椭圆（默认值：false）
   ripple: true, // 是否开启水波纹效果（默认值：true）
   rippleBgColor: '' // 水波纹的背景颜色（默认值：''）

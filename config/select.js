@@ -7,6 +7,7 @@ export default {
   displayField: 'text', // 选项显示字段，默认为text
   defaultValue: null, // 默认值，单选是传Object，多选时传Array，默认null
   isMulti: false, // 是否多选，（默认：false）
+  singleCancel: true, // 单选模式下，是否可取消选中
   showTitle: false, // 是否显示title（默认：true）
   title: '弹出选择', // 标题（默认：日期选择）
   titlePadding: '32rpx', // 标题 padding（默认：32rpx）

@@ -329,16 +329,6 @@ export default {
     }
   },
   computed: {
-    // ! 使用计算属性依赖变化的特征，watch options
-    // ! 因为使用对象，在H5端watch的时候，就算没有发生改变，也会触发，这里直接监听toString后的值
-    options() {
-      const watchs = ['defaultValue', 'type', 'minYear', 'maxYear', 'minDate', 'maxDate']
-      const options = watchs
-        .filter(d => this[d])
-        .map(d => this[d].toString())
-        .join('-')
-      return options
-    },
     getTitlePadding() {
       return this.$pi.common.addUnit(this.titlePadding)
     },
@@ -440,7 +430,7 @@ export default {
     }
   },
   watch: {
-    options(val) {
+    value(val) {
       this.init()
     }
   },
