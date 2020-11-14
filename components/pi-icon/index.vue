@@ -1,7 +1,7 @@
 <template>
   <view class="icon-wrap">
     <view :style="[iconStyle, customStyle]" :class="[iconClass, customClass]" />
-    <view v-if="badge || dot" class="icon-badge" :class="{ dot: dot }">
+    <view v-if="badge || dot" class="icon-badge" :class="{ dot }" :style="[badgeStyle]">
       {{ badge }}
     </view>
     <view v-if="dot" />
@@ -41,6 +41,12 @@ export default {
       type: Boolean,
       default: icon.dot
     },
+    // 小红点的半径
+    dotRadius: {
+      type: [String, Number],
+      // 16rpx
+      default: icon.dotRadius
+    },
     // 图标右上角徽标的内容
     badge: {
       type: [String, Number],
@@ -74,10 +80,21 @@ export default {
     getSize() {
       return this.$pi.common.addUnit(this.size)
     },
+    getDotRadius() {
+      return this.$pi.common.addUnit(this.dotRadius)
+    },
     iconStyle() {
       const style = {}
       this.color && (style.color = this.color)
       this.getSize && (style.fontSize = this.getSize)
+      return style
+    },
+    badgeStyle() {
+      const style = {}
+      if (this.dot) {
+        style.width = this.getDotRadius
+        style.height = this.getDotRadius
+      }
       return style
     },
     iconClass() {
@@ -110,9 +127,7 @@ export default {
     transform: translate(50%, -50%);
     transform-origin: 100%;
     &.dot {
-      width: 8px;
       min-width: 0;
-      height: 8px;
       background-color: #ee0a24;
       border-radius: 100%;
     }
