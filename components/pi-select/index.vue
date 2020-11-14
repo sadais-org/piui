@@ -50,8 +50,8 @@
           :id="`id-${item[keyField]}`"
           :key="item[keyField]"
           :style="[itemStyle, getItemStyle]"
-          :class="{ 'pi-solid-bottom-1': showItemBottomBorder }"
-          class="pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
+          :class="{ 'pi-solid-bottom-1': showItemBottomBorder, 'disabled': item.disabled }"
+          class="select-item pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
           @tap.stop="handleSelectItem(item)"
         >
           <slot name="item" :item="item">
@@ -112,6 +112,7 @@ export default {
     // 选项列表，默认（[]）
     items: {
       type: Array,
+      // [ { id: 'partyMember', text: '党员', disabled: true }]
       default() {
         return select.items
       }
@@ -327,6 +328,7 @@ export default {
       this.handleEmitChange()
     },
     handleSelectItem(item) {
+      if (item.disabled) return
       if (!this.isMulti) {
         // 单选
         if (!this.singleCancel) {
@@ -361,5 +363,8 @@ export default {
 <style lang="scss" scoped>
 .pi-select {
   height: 50vh;
+  .select-item.disabled {
+    opacity: 0.4;
+  }
 }
 </style>
