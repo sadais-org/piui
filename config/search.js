@@ -15,8 +15,10 @@ export default {
   inputAlign: 'left', // 输入框内容对齐方式，可选值为 left|center|right
   searchLabel: '', // 搜索框左侧文本
   searchLabelStyle: {}, // 搜索框左侧文本样式
+  showSearchIcon: true, // 是否显示搜索icon
   searchIcon: 'search', // 输入框左边的图标，可以为icon名称或图片路径
   searchIconColor: '#333333', // 输入框左边的图标颜色
+  searchIconPosition: 'left', // 搜索icon的位置
   disabled: false, // 是否禁用输入框
   inputStyle: {}, // 指定 input 的样式
   height: 58, // 输入框高度，单位默认rpx

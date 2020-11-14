@@ -298,8 +298,8 @@ export default {
     closeIconPosition: {
       // tl为左上角，tr为右上角，bl为左下角，br为右下角
       type: String,
-      default: calendar.closeIconPosition,
       // -
+      default: calendar.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }

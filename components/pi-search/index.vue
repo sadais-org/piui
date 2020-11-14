@@ -5,22 +5,23 @@
     </view>
     <!-- 中间灰色包裹块 -->
     <view
-      class="pi-search-wrap pi-flex-sub pi-align-center pi-of-hidden"
+      class="pi-search-wrap pi-flex-sub pi-align-center pi-of-hidden pi-pd-lr-18"
       :class="[customClass]"
       :style="[
         customStyle,
         {
           background: background,
-          borderRadius: shape == 'round' ? '2000px' : '8rpx'
+          borderRadius: shape == 'round' ? '2000px' : '8rpx',
+          flexDirection: searchIconPosition == 'left' ? 'row' : 'row-reverse'
         }
       ]"
     >
       <!-- 搜索图标 -->
-      <view class="pi-pd-lr-18">
+      <view v-if="showSearchIcon">
         <view :class="'pi-fz-32 pi-icon-' + searchIcon" />
       </view>
       <!-- 输入框包裹 -->
-      <view class="pi-align-center pi-flex-sub">
+      <view class="pi-align-center pi-flex-sub pi-pd-left-18">
         <input
           class="pi-flex-sub pi-fz-28"
           confirm-type="search"
@@ -173,7 +174,13 @@ export default {
         return search.searchLabelStyle
       }
     },
-    // 输入框左边的图标，可以为icon名称或图片路径（默认为'search'）
+    // 是否显示搜索icon
+    showSearchIcon: {
+      type: Boolean,
+      // true
+      default: search.showSearchIcon
+    },
+    // 输入框的图标，可以为icon名称或图片路径（默认为'search'）
     searchIcon: {
       type: String,
       default: search.searchIcon
@@ -182,6 +189,15 @@ export default {
     searchIconColor: {
       type: String,
       default: search.searchIconColor
+    },
+    // 搜索icon的位置
+    searchIconPosition: {
+      type: String,
+      // 'left'
+      default: search.searchIconPosition,
+      validator: function(value) {
+        return ['left', 'right'].includes(value)
+      }
     },
     // 是否禁用输入框
     disabled: {
