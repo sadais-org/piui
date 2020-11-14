@@ -16,7 +16,7 @@
       />
       <view class="pi-abso-center">
         <!-- 加载中 -->
-        <template v-if="loading">
+        <template v-if="src && loading">
           <slot v-if="$slots.loading" name="loading" />
           <pi-loading
             v-else
@@ -27,7 +27,7 @@
           />
         </template>
         <!-- 加载失败 -->
-        <template v-if="error">
+        <template v-if="src && error">
           <slot v-if="$slots.error" name="error" />
           <view class="pi-icon-pic" />
         </template>
@@ -199,10 +199,13 @@ export default {
       this.$emit('click', e)
     }, 200),
     handleError() {
+      console.log(TAG, '图片加载失败')
       this.error = true
       this.loading = false
+      this.$emit('load')
     },
     handleLoad() {
+      console.log(TAG, '图片加载成功')
       this.error = false
       this.loading = false
       this.$emit('load')
