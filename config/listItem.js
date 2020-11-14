@@ -12,7 +12,7 @@ export default {
   border: true, // 是否显示边框
   padding: '24rpx 32rpx', // padding
   showRightIcon: true, // 是否显示右边icon，默认是箭头（可以自定义设置成其他图标）
-  rightIconName: 'right' , // 图标名称或图片链接
+  rightIconName: 'right', // 图标名称或图片链接
   rightIconDot: false, // 是否显示图标右上角小红点，默认值 false
   rightIconBadge: '', // 图标右上角徽标的内容
   rightIconColor: '#cccccc', // 图标颜色
