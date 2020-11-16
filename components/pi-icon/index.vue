@@ -1,5 +1,5 @@
 <template>
-  <view class="icon-wrap">
+  <view class="icon-wrap" @tap="handleClick">
     <view :style="[iconStyle, customStyle]" :class="[iconClass, customClass]" />
     <view v-if="badge || dot" class="icon-badge" :class="{ dot }" :style="[badgeStyle]">
       {{ badge }}
@@ -101,7 +101,11 @@ export default {
       return this.classPrefix + this.name
     }
   },
-  methods: {}
+  methods: {
+    handleClick() {
+      this.$emit('click')
+    }
+  }
 }
 </script>
 

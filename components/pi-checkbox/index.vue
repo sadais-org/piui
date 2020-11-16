@@ -96,14 +96,14 @@ export default {
     },
     // 选中时图标的颜色
     activeColor: {
-      type: [String],
+      type: String,
       // ''
       default: checkbox.activeColor
     },
     // 激活模式
     activeMode: {
       // line: 线框模式，fill: 实底模式
-      type: [String],
+      type: String,
       // 'line'
       default: checkbox.activeMode,
       validator: function(value) {

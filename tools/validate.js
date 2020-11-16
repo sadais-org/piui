@@ -39,17 +39,24 @@ export const isDate = value => {
 }
 
 /**
- * 验证数字
+ * 验证整数
  */
 export const isNumber = value => {
-  return /^\d{1,}$/.test(value)
+  return /^\d+$/.test(value)
 }
 
 /**
- * 验证整数
+ * 验证小数
  */
-export const isDigits = value => {
-  return /^\d+$/.test(value)
+export const isDecimal = value => {
+  return /^\d+\.\d+$/.test(value)
+}
+
+/**
+ * 验证数值
+ */
+export const isNumerical = value => {
+  return /^(\-|\+)?\d+(\.\d+)?$/.test(value)
 }
 
 /**
