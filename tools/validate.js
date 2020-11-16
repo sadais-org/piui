@@ -56,7 +56,7 @@ export const isDecimal = value => {
  * 验证数值
  */
 export const isNumerical = value => {
-  return /^(\-|\+)?\d+(\.\d+)?$/.test(value)
+  return isNumber(value) || isDecimal(value)
 }
 
 /**

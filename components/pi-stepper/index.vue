@@ -1,6 +1,19 @@
 <template>
-  <view class="pi-stepper" :style="[customStyle]" :class="[customClass, { disabled }, theme]">
-    <view class="pi-stepper-icon pi-icon-subtract" :style="[iconStyle]" @tap="handleChange(-1)" />
+  <view
+    class="pi-stepper"
+    :style="[customStyle]"
+    :class="[customClass, theme, shape, { disabled }]"
+  >
+    <view
+      v-if="showAdd"
+      class="pi-stepper-icon pi-icon-subtract"
+      :class="[{ disabled: disableSubtract }]"
+      hover-class="pi-hover-class"
+      :hover-start-time="10"
+      :hover-stay-time="100"
+      :style="[iconStyle]"
+      @tap="handleChange(-1)"
+    />
     <input
       :value="val"
       type="digit"
@@ -9,7 +22,16 @@
       :style="[inputStyle, { width: getInputWidth }]"
       @input="handleInputChange"
     />
-    <view class="pi-stepper-icon pi-icon-add" :style="[iconStyle]" @tap="handleChange(1)" />
+    <view
+      v-if="showSubtract"
+      class="pi-stepper-icon pi-icon-add"
+      :class="[{ disabled: disableAdd }]"
+      hover-class="pi-hover-class"
+      :hover-start-time="10"
+      :hover-stay-time="100"
+      :style="[iconStyle]"
+      @tap="handleChange(1)"
+    />
   </view>
 </template>
 
@@ -161,22 +183,6 @@ export default {
         return stepper.disabled
       }
     },
-    // 是否禁用增加按钮
-    disableAdd: {
-      type: Boolean,
-      // false
-      default() {
-        return stepper.disableAdd
-      }
-    },
-    // 是否禁用减少按钮
-    disableSubtract: {
-      type: Boolean,
-      // false
-      default() {
-        return stepper.disableSubtract
-      }
-    },
     // 是否禁用输入框
     disableInput: {
       type: Boolean,
@@ -190,6 +196,12 @@ export default {
     return {}
   },
   computed: {
+    disableAdd() {
+      return this.max !== null && this.val >= this.max
+    },
+    disableSubtract() {
+      return this.min !== null && this.val <= this.min
+    },
     getInputWidth() {
       return this.$pi.common.addUnit(this.inputWidth)
     },
@@ -200,6 +212,7 @@ export default {
       const style = {
         width: this.getButtonSize,
         height: this.getButtonSize,
+        lineHeight: this.getButtonSize,
         fontSize: this.getButtonSize
       }
       if (this.buttonColor) {
@@ -209,9 +222,6 @@ export default {
         } else {
           style.backgroundColor = this.buttonColor
         }
-      }
-      if (this.shape === 'square') {
-        style.borderRadius = '8rpx'
       }
       return style
     }
@@ -250,13 +260,34 @@ export default {
   .pi-stepper-icon {
     color: $pi-primary-color;
     border: 2rpx solid $pi-primary-color;
-    border-radius: 50000px;
     &::before {
       transform: scale(0.8);
+    }
+    &::after {
+      content: '';
+    }
+    &.disabled {
+      opacity: 0.4;
     }
   }
   &.disabled {
     opacity: 0.4;
+  }
+  &.round {
+    .pi-stepper-icon {
+      border-radius: 5000rpx;
+      &::after {
+        border-radius: 5000rpx;
+      }
+    }
+  }
+  &.square {
+    .pi-stepper-icon {
+      border-radius: 8rpx;
+      &::after {
+        border-radius: 8rpx;
+      }
+    }
   }
   &.fill {
     .pi-stepper-icon {
