@@ -110,10 +110,10 @@ export default {
       return `calc((100% - ${this.getRowGapWidth}) / ${this.getCol})`
     },
     getSquare() {
-      return this.inheritProps.square || this.square
+      return this.inheritProps.square !== undefined ? this.inheritProps.square : this.square
     },
     getBorder() {
-      return this.inheritProps.border || this.border
+      return this.inheritProps.border !== undefined ? this.inheritProps.border : this.border
     },
     itemStyle() {
       const gap = this.$pi.common.addUnit(this.getGap)
