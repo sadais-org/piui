@@ -1,7 +1,7 @@
 <template>
   <view
     class="pi-list-item pi-align-center"
-    :hover-class="hoverClass"
+    :hover-class="getHoverClass"
     :style="[customStyle, itemStyle]"
     :class="[{ border: getBorder }, customClass]"
     :hover-start-time="hoverStartTime"
@@ -39,13 +39,16 @@
 </template>
 
 <script>
+import { childInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
 const TAG = 'PiListItem'
 const { listItem } = getConfig()
+const extendPiList = childInit('List')
 
 export default {
   name: 'ListItem',
+  mixins: [extendPiList], // 注入value与val，进行双向绑定
   props: {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
@@ -210,12 +213,14 @@ export default {
   },
   computed: {
     getBorder() {
-      return this.piList ? this.piList.border : this.border
+      return this.inheritProps.border || this.border
     },
     getHeight() {
-      return this.$pi.common.addUnit(
-        this.piList && this.piList.height ? this.piList.height : this.height
-      )
+      const height = this.inheritProps.height || this.height
+      return this.$pi.common.addUnit(height)
+    },
+    getHoverClass() {
+      return this.inheritProps.hoverClass || this.hoverClass
     },
     itemStyle() {
       const style = {
@@ -224,9 +229,6 @@ export default {
       }
       return style
     }
-  },
-  inject: {
-    piList: { default: undefined }
   },
   created() {},
   methods: {

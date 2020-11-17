@@ -70,9 +70,8 @@ const _openInterceptor = (method, url, params) => {
       url,
       complete: res => {
         routing = false
-        const isSuccess = res.errMsg && res.errMsg.indexOf(':ok') !== -1
-        if (isSuccess) resolve(res)
-        else reject(res)
+        const isSuccess = res.errMsg && res.errMsg.includes(':ok')
+        isSuccess ? resolve(res) : reject(res)
       }
     })
   })

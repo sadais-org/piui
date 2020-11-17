@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { parentInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
 const TAG = 'PiList'
@@ -19,6 +20,7 @@ const { list } = getConfig()
 
 export default {
   name: 'List',
+  mixins: [parentInit(['height', 'border', 'hoverClass'])],
   props: {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
@@ -32,6 +34,13 @@ export default {
       type: String,
       default() {
         return list.customClass
+      }
+    },
+    // 列表高度
+    height: {
+      type: [String, Number],
+      default() {
+        return list.height
       }
     },
     // 列表面板标题
