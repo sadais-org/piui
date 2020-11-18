@@ -8,7 +8,7 @@ export default {
   endYear, // 结束年份（默认当前年份）
   field: 'day', // 选择器的粒度 year、month、day、hour、minute、second
   defaultValue: '', // 日期默认值
-  format: 'yyyy-mm-dd', // 返回的日期格式
+  format: 'YYYY-MM-DD', // 返回的日期格式
   toolbarPosition: 'bottom', // 操作条（确定，取消按钮）位置，可选值 'top', 'bottom'
   showTitle: false, // 是否显示title（默认：true）
   title: '日期选择', // 标题（默认：日期选择）

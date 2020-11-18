@@ -90,7 +90,7 @@ export default {
     // 自动拉起键盘延时
     autoFocusDelay: {
       required: false,
-      type: Boolean,
+      type: [String, Number],
       // 350
       default: codeInput.autoFocusDelay
     },
@@ -118,6 +118,9 @@ export default {
     getLength() {
       return parseInt(this.length, 10)
     },
+    getAutoFocusDelay() {
+      return parseInt(this.autoFocusDelay, 10)
+    },
     arrCode: function() {
       return this.val ? this.val.split('') : []
     },
@@ -129,7 +132,7 @@ export default {
     if (this.autoFocus) {
       setTimeout(() => {
         this.focus = true
-      }, this.autoFocusDelay)
+      }, this.getAutoFocusDelay)
     }
   },
   methods: {

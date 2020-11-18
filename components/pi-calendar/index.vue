@@ -246,7 +246,7 @@ export default {
     // 已选择的时间格式化显示规则
     dateFormat: {
       type: String,
-      // 'yyyy-mm-dd'
+      // 'YYYY-MM-DD'
       default: calendar.dateFormat
     },
     /**

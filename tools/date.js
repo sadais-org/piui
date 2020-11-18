@@ -29,7 +29,7 @@ export const parseDate = (value = new Date(), weekPrefix = '星期') => {
     second: date.getSeconds(), // 秒
     time: date,
     timestamp: date.getTime(), // 时间戳
-    format(fmt = 'yyyy-mm-dd HH:MM:ss') {
+    format(fmt = 'YYYY-MM-DD hh:mm:ss') {
       return formatDate(date, fmt)
     }
   }
@@ -40,15 +40,15 @@ export const parseDate = (value = new Date(), weekPrefix = '星期') => {
  * @param {*} value Date 日期
  * @param {*} fmt 格式化规则
  */
-export const formatDate = (value = new Date(), fmt = 'yyyy-mm-dd') => {
+export const formatDate = (value = new Date(), fmt = 'YYYY-MM-DD') => {
   let date = parseDate(value)
   let ret
   let opt = {
     'y+|Y+': date.year, // 年
-    'm+': date.month, // 月
+    'M+': date.month, // 月
     'd+|D+': date.date, // 日
     'h+|H+': date.hour, // 时
-    'M+': date.minute, // 分
+    'm+': date.minute, // 分
     's+': date.second // 秒
   }
   for (let k in opt) {
