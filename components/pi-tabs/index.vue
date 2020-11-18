@@ -190,7 +190,8 @@ export default {
   computed: {
     activeIndex() {
       if (!this.val) return 0
-      return this.items.findIndex(item => item[this.keyField] === this.val[this.keyField]) || 0
+      const index = this.items.findIndex(item => item[this.keyField] === this.val[this.keyField])
+      return index > 0 ? index : 0
     },
     getHeight() {
       return this.$pi.common.addUnit(this.height)
@@ -311,7 +312,7 @@ export default {
     .slider-bar-guide {
       position: absolute;
       right: 0;
-      bottom: 12rpx;
+      bottom: 6rpx;
       left: 0;
       width: 100%;
       height: 4rpx;

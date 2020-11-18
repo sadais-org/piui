@@ -19,7 +19,7 @@
       <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{ desc }}</view>
     </view>
     <!-- 中间区域 -->
-    <view class="pi-flex-sub"><slot /></view>
+    <view class="pi-flex-sub pi-w-100P"><slot /></view>
     <!-- 右侧区域 -->
     <view class="extra" :style="[extraStyle]">{{ extraText }}</view>
     <view v-if="$slots.right" class="pi-pd-left-24">

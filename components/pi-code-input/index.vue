@@ -80,11 +80,19 @@ export default {
       // 4
       default: codeInput.length
     },
+    // 自动拉起键盘
     autoFocus: {
       required: false,
       type: Boolean,
       // false
       default: codeInput.autoFocus
+    },
+    // 自动拉起键盘延时
+    autoFocusDelay: {
+      required: false,
+      type: Boolean,
+      // 350
+      default: codeInput.autoFocusDelay
     },
     // 每项验证码是否均分宽度
     stretch: {
@@ -121,7 +129,7 @@ export default {
     if (this.autoFocus) {
       setTimeout(() => {
         this.focus = true
-      }, 200)
+      }, this.autoFocusDelay)
     }
   },
   methods: {
