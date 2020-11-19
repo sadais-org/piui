@@ -300,6 +300,7 @@ export default {
   .scroll-wrap {
     position: relative;
     display: inline-block;
+    width: 100%;
     white-space: nowrap;
     .pi-tab {
       display: inline-block;
