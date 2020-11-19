@@ -30,9 +30,9 @@
         <template v-else>{{ title }}</template>
       </view>
       <!-- 内容区域 -->
-      <view class="pi-flex-column-center pi-pd-24" :style="[contentStyle]">
+      <view class="pi-flex-column-center pi-pd-24 modal-content">
         <slot v-if="$slots.default || $slots.$default" />
-        <view v-else>{{ content }}</view>
+        <view v-else :style="[contentStyle]">{{ content }}</view>
       </view>
 
       <!-- 按钮区域 -->
@@ -301,6 +301,9 @@ export default {
 
 <style lang="scss" scoped>
 .modal-footer {
+  .modal-content {
+    line-height: 1.5;
+  }
   .pi-button-wrap {
     flex: 1;
     &:nth-child(2) {
