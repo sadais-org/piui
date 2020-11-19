@@ -20,8 +20,10 @@ export default {
       const session = await uni.checkSession()
       console.log('检查微信session是否过期，结果：', session)
       const [, { errMsg }] = session
-      if (errMsg === 'checkSession:ok') return
-      await this.getWxLoginCode()
+      if (errMsg !== 'checkSession:ok') {
+        await this.getWxLoginCode()
+      }
+      return true
     }
   }
   // #endif
