@@ -6,6 +6,7 @@ export default {
   borderRadius: 8, // 当shape为square的时候，设置圆角，单位rpx
   border: 4, // 边框大小，单位rpx
   disabled: false, // 是否禁用复选框
+  readonly: false, // 是否只读模式
   size: 40, // checkbox大小，单位rpx
   iconSize: 24, // checkbox icon 大小，单位rpx
   activeColor: '', // 选中时图标的颜色

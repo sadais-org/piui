@@ -58,7 +58,7 @@
             <!-- 后备内容 -->
             {{ item[displayField] }}
           </slot>
-          <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" />
+          <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" readonly />
         </view>
       </scroll-view>
       <!-- 顶部操作条 -->

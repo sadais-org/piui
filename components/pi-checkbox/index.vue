@@ -82,6 +82,12 @@ export default {
       // false
       default: checkbox.disabled
     },
+    // 是否只读模式
+    readonly: {
+      type: Boolean,
+      // false
+      default: checkbox.readonly
+    },
     // checkbox大小，单位rpx
     size: {
       type: [String, Number],
@@ -183,6 +189,7 @@ export default {
     },
     handleCheckboxToggle() {
       if (this.getDisable) return
+      if (this.readonly) return
       // 如果父组件做了可选数量限制
       if (!this.val && this._parent && this._parent.getMax > 0) {
         const max = this._parent.getMax
