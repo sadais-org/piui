@@ -256,8 +256,8 @@ export default {
   methods: {
     handleInputChange(e) {
       const value = e.detail.value
-      this.$emit('input', value)
       this.val = value
+      this.handleEmitChange()
     },
     handleInputBlur() {
       this.focused = false
@@ -274,6 +274,7 @@ export default {
     },
     handleClearInput() {
       this.val = ''
+      this.handleEmitChange()
       uni.hideKeyboard() // 收起键盘
       this.$nextTick(() => {
         // 延后发出事件，避免在父组件监听clear事件时，value为更新前的值(不为空)
