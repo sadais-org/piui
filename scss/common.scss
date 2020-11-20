@@ -9,43 +9,43 @@
 
 // 主要颜色
 .pi-primary {
-  color: $pi-primary-color !important;
+  color: $pi-primary-color;
 }
 // 次级颜色
 .pi-secondary {
-  color: $pi-secondary-color !important;
+  color: $pi-secondary-color;
 }
 // 第三级颜色
 .pi-tertiary {
-  color: $pi-tertiary-color !important;
+  color: $pi-tertiary-color;
 }
 // 第四级颜色
 .pi-fourth {
-  color: $pi-fourth-color !important;
+  color: $pi-fourth-color;
 }
 // 第五级颜色
 .pi-fifth {
-  color: $pi-fifth-color !important;
+  color: $pi-fifth-color;
 }
 // 黑色
 .pi-black {
-  color: #000000 !important;
+  color: #000000;
 }
 // 白色
 .pi-white {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 // 灰色
 .pi-gray {
-  color: #666666 !important;
+  color: #666666;
 }
 // 灰色禁用
 .pi-gray-disable {
-  color: #cccccc !important;
+  color: #cccccc;
 }
 // 浅灰色
 .pi-light-gray {
-  color: #999999 !important;
+  color: #999999;
 }
 
 /**
@@ -151,11 +151,11 @@
   @if $i % 2 == 0 {
     // 字号
     .pi-fz-#{$i} {
-      font-size: #{$i}rpx !important;
+      font-size: #{$i}rpx;
     }
     // 行高
     .pi-lh-#{$i} {
-      line-height: #{$i}rpx !important;
+      line-height: #{$i}rpx;
     }
   }
 }
@@ -544,8 +544,8 @@ image {
 // 不显示滚动条
 ::-webkit-scrollbar {
   display: none;
-  width: 0 !important;
-  height: 0 !important;
+  width: 0;
+  height: 0;
   color: transparent;
   background: transparent;
   -webkit-appearance: none;
@@ -671,70 +671,70 @@ image {
   @if $i % 2 == 0 {
     /* padding */
     .pi-pd-#{$i} {
-      padding: #{$i}rpx !important;
+      padding: #{$i}rpx;
     }
     .pi-pd-top-#{$i} {
-      padding-top: #{$i}rpx !important;
+      padding-top: #{$i}rpx;
     }
     .pi-pd-right-#{$i} {
-      padding-right: #{$i}rpx !important;
+      padding-right: #{$i}rpx;
     }
     .pi-pd-bottom-#{$i} {
-      padding-bottom: #{$i}rpx !important;
+      padding-bottom: #{$i}rpx;
     }
     .pi-pd-left-#{$i} {
-      padding-left: #{$i}rpx !important;
+      padding-left: #{$i}rpx;
     }
     .pi-pd-tb-#{$i} {
-      padding-top: #{$i}rpx !important;
-      padding-bottom: #{$i}rpx !important;
+      padding-top: #{$i}rpx;
+      padding-bottom: #{$i}rpx;
     }
     .pi-pd-lr-#{$i} {
-      padding-right: #{$i}rpx !important;
-      padding-left: #{$i}rpx !important;
+      padding-right: #{$i}rpx;
+      padding-left: #{$i}rpx;
     }
 
     /* margin */
     .pi-mg-#{$i} {
-      margin: #{$i}rpx !important;
+      margin: #{$i}rpx;
     }
     .pi-mg-top-#{$i} {
-      margin-top: #{$i}rpx !important;
+      margin-top: #{$i}rpx;
     }
     .pi-mg-right-#{$i} {
-      margin-right: #{$i}rpx !important;
+      margin-right: #{$i}rpx;
     }
     .pi-mg-bottom-#{$i} {
-      margin-bottom: #{$i}rpx !important;
+      margin-bottom: #{$i}rpx;
     }
     .pi-mg-left-#{$i} {
-      margin-left: #{$i}rpx !important;
+      margin-left: #{$i}rpx;
     }
     .pi-mg-tb-#{$i} {
-      margin-top: #{$i}rpx !important;
-      margin-bottom: #{$i}rpx !important;
+      margin-top: #{$i}rpx;
+      margin-bottom: #{$i}rpx;
     }
     .pi-mg-lr-#{$i} {
-      margin-right: #{$i}rpx !important;
-      margin-left: #{$i}rpx !important;
+      margin-right: #{$i}rpx;
+      margin-left: #{$i}rpx;
     }
 
     // width & height
     .pi-w-#{$i} {
-      width: #{$i}rpx !important;
+      width: #{$i}rpx;
     }
     .pi-h-#{$i} {
-      height: #{$i}rpx !important;
+      height: #{$i}rpx;
     }
 
     // radius
     .pi-radius-#{$i} {
-      border-radius: #{$i}rpx !important;
+      border-radius: #{$i}rpx;
     }
 
     // line-height
     .pi-lh-#{$i} {
-      line-height: #{$i}rpx !important;
+      line-height: #{$i}rpx;
     }
   }
 }
