@@ -5,23 +5,34 @@
     </view>
     <!-- 中间灰色包裹块 -->
     <view
-      class="pi-search-wrap pi-flex-sub pi-align-center pi-of-hidden pi-pd-lr-18"
+      class="pi-search-wrap pi-flex-sub pi-align-center pi-of-hidden"
       :class="[customClass]"
       :style="[
         customStyle,
         {
           background: background,
           borderRadius: shape == 'round' ? '2000px' : '8rpx',
-          flexDirection: searchIconPosition == 'left' ? 'row' : 'row-reverse'
+          flexDirection: searchIconPosition === 'right' ? 'row-reverse' : 'row'
         }
       ]"
     >
       <!-- 搜索图标 -->
-      <view v-if="showSearchIcon">
+      <view
+        v-if="showSearchIcon"
+        :class="[
+          {
+            'pi-pd-left-18 pi-pd-right-18': searchIconPosition === 'left',
+            'pi-pd-right-18': searchIconPosition === 'right'
+          }
+        ]"
+      >
         <view :class="'pi-fz-32 pi-icon-' + searchIcon" />
       </view>
       <!-- 输入框包裹 -->
-      <view class="pi-align-center pi-flex-sub pi-pd-left-18">
+      <view
+        class="pi-align-center pi-flex-sub"
+        :class="[{ 'pi-pd-left-18': searchIconPosition === 'right' }]"
+      >
         <input
           class="pi-flex-sub pi-fz-28"
           confirm-type="search"
@@ -39,7 +50,7 @@
           @focus="handleInputFocus"
         />
         <!-- clear action -->
-        <view v-if="clearable && val" class="pi-pd-right-18" @tap="handleClearInput">
+        <view v-if="clearable && val" class="pi-pd-lr-18" @tap="handleClearInput">
           <view class="pi-icon-roundclosefill" />
         </view>
       </view>
