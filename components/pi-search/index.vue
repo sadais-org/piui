@@ -39,7 +39,7 @@
           @focus="handleInputFocus"
         />
         <!-- clear action -->
-        <view v-if="showClear" class="pi-pd-right-18" @tap.stop="handleClearInput">
+        <view v-if="clearable && val" class="pi-pd-right-18" @tap="handleClearInput">
           <view class="pi-icon-roundclosefill" />
         </view>
       </view>
@@ -112,11 +112,6 @@ export default {
     clearable: {
       type: Boolean,
       default: search.clearable
-    },
-    // 显示清除图标的时机，always 表示输入框不为空时展示，focus 表示输入框聚焦且不为空时展示，（默认'always'）
-    clearTrigger: {
-      type: String,
-      default: search.clearTrigger
     },
     // 是否自动获得焦点（默认false）
     focus: {
@@ -239,9 +234,6 @@ export default {
         height: this.getHeight,
         ...this.inputStyle
       }
-    },
-    showClear() {
-      return this.clearTrigger === 'always' ? this.val : this.focused && this.val
     }
   },
   watch: {
