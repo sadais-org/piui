@@ -13,7 +13,7 @@
               activeIndex === index && activeTextColor ? { color: activeTextColor } : {},
               activeIndex === index && activeItemStyle ? activeItemStyle : {}
             ]"
-            class="pi-tab pi-align-center pi-fz-30"
+            class="pi-tab pi-align-center"
             :class="[{ active: activeIndex === index }]"
             @tap.stop="handleSelectItem(item)"
           >
@@ -304,6 +304,7 @@ export default {
     white-space: nowrap;
     .pi-tab {
       display: inline-block;
+      font-size: 30rpx;
       text-align: center;
       transition: all $pi-animation-duration $pi-animation-timing-function;
       &.active {
