@@ -4,7 +4,7 @@
     <pi-navbar :show-home="false">{{ title }}</pi-navbar>
     <!-- #endif -->
     <!-- #ifndef APP-PLUS -->
-    <web-view :progress="true" :src="webviewURL" class="pi-scroll pi-safearea" />
+    <web-view v-if="webviewURL" :progress="true" :src="webviewURL" class="pi-scroll pi-safearea" />
     <!-- #endif -->
   </view>
 </template>
@@ -25,18 +25,24 @@ export default {
       webviewURL: ''
     }
   },
-  created() {
-    this.init()
+  watch: {
+    url: {
+      deep: true,
+      immediate: true,
+      handler(value) {
+        value && this.init()
+      }
+    }
   },
   methods: {
     init() {
       // 设置标题
-      uni.setNavigationBarTitle({
-        title: this.title
-      })
-      if (!this.url) {
-        return this.$toast('打开页面URL为空,请检查')
+      if (this.title) {
+        uni.setNavigationBarTitle({
+          title: this.title
+        })
       }
+      if (!this.url) return
       // H5 url 需要加时间戳，否则会有缓存问题
       this.webviewURL = this.urlAddParam(this.url || '', {
         sadaisTimestamp: new Date().getTime() + '-' + Math.round(Math.random(1) * 10000)
