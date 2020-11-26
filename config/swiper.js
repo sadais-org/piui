@@ -3,6 +3,7 @@ export default {
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   value: 0, // 显示第几项
   imgs: [], // 轮播图列表，默认（[]）
+  imgField: '', // 如果imgs传的是字符串数组，imgField传空，如果imgs传的是对象数组，imgField传对象中img字段
   height: 'auto', // 轮播图的高度
   imgMode: 'widthFix', // 图片的裁剪模式，详见image组件裁剪模式，默认（widthFix）
   bgColor: 'transparent', // 背景颜色

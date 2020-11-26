@@ -15,7 +15,7 @@
       :style="[swiperStyle]"
       @change="handleSwiperChange"
     >
-      <swiper-item v-for="(img, index) in imgs" :key="img" class="swiper-item">
+      <swiper-item v-for="(img, index) in imgs" :key="index" class="swiper-item">
         <view
           class="swiper-image-wrap"
           :class="[val != index ? 'list-scale' : '']"
@@ -31,7 +31,7 @@
           <image
             class="swiper-image"
             :style="[imgStyle, { borderRadius: getBorderRadius }]"
-            :src="img"
+            :src="imgField ? img[imgField] : img"
             :mode="imgMode"
           />
         </view>
@@ -98,11 +98,20 @@ export default {
         return swiper.customClass
       }
     },
-    // 选项列表，默认（[]）
+    // 选项列表
     imgs: {
       type: Array,
       default() {
+        // []
         return swiper.imgs
+      }
+    },
+    // 如果imgs传的是字符串数组，imgField传空，如果imgs传的是对象数组，imgField传对象中img字段
+    imgField: {
+      type: String,
+      default() {
+        // []
+        return swiper.imgField
       }
     },
     // 轮播图的高度
