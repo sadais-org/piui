@@ -1,7 +1,9 @@
 <template>
   <view class="pi-scroll-container">
     <!-- #ifndef MP -->
-    <pi-navbar :show-home="false">{{ title }}</pi-navbar>
+    <slot name="title">
+      <pi-navbar :show-home="false">{{ title }}</pi-navbar>
+    </slot>
     <!-- #endif -->
     <!-- #ifndef APP-PLUS -->
     <web-view v-if="webviewURL" :progress="true" :src="webviewURL" class="pi-scroll pi-safearea" />

@@ -16,25 +16,28 @@
       @change="handleSwiperChange"
     >
       <swiper-item v-for="(img, index) in imgs" :key="index" class="swiper-item">
-        <view
-          class="swiper-image-wrap"
-          :class="[val != index ? 'list-scale' : '']"
-          :style="[
-            {
-              borderRadius: `${borderRadius}rpx`,
-              transform: effect3d && val !== index ? 'scaleY(0.9)' : 'scaleY(1)',
-              padding: effect3d && val !== index ? '0 20rpx' : 0
-            }
-          ]"
-          @tap.stop="handleSwiperClick(index)"
-        >
-          <image
-            class="swiper-image"
-            :style="[imgStyle, { borderRadius: getBorderRadius }]"
-            :src="imgField ? img[imgField] : img"
-            :mode="imgMode"
-          />
-        </view>
+        <slot name="img" :img="img">
+          <!-- 后备内容 -->
+          <view
+            class="swiper-image-wrap"
+            :class="[val != index ? 'list-scale' : '']"
+            :style="[
+              {
+                borderRadius: `${borderRadius}rpx`,
+                transform: effect3d && val !== index ? 'scaleY(0.9)' : 'scaleY(1)',
+                padding: effect3d && val !== index ? '0 20rpx' : 0
+              }
+            ]"
+            @tap.stop="handleSwiperClick(index)"
+          >
+            <image
+              class="swiper-image"
+              :style="[imgStyle, { borderRadius: getBorderRadius }]"
+              :src="imgField ? img[imgField] : img"
+              :mode="imgMode"
+            />
+          </view>
+        </slot>
       </swiper-item>
     </swiper>
     <view v-if="indicatorType !== 'none'" class="swiper-indicator" :style="[swiperIndicatorStyle]">
