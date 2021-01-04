@@ -50,6 +50,8 @@
           class="pi-text-center pi-h-100P"
           :indicator-style="indicatorStyle"
           :value="pickerValue"
+          @pickstart="handlePickstart"
+          @pickend="handlePickend"
           @change="handlePickerChange"
         >
           <picker-view-column v-for="(column, index) in columns" :key="index">
@@ -283,7 +285,8 @@ export default {
   },
   data() {
     return {
-      pickerValue: []
+      pickerValue: [],
+      scrolling: false // picker是否在滚动中，小程序在scrolling中点确定，选择的项目不正确
     }
   },
   computed: {
@@ -351,6 +354,13 @@ export default {
         }
       }
     },
+    handlePickstart() {
+      this.scrolling = true
+    },
+    // 标识滑动结束
+    handlePickend() {
+      this.scrolling = false
+    },
     handlePopupClose() {
       this.val = false
       this.$emit('close')
@@ -377,6 +387,7 @@ export default {
       this.pickerValue = pickerValue
     },
     handleConfirm() {
+      if (this.scrolling) return
       this.$emit('confirm', this.pickerValue)
       this.onConfirmClose && this.handlePopupClose()
     }
