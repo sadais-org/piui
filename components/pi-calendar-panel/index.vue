@@ -1,5 +1,5 @@
 <template>
-  <view class="pi-CalendarPanel" :style="[customStyle]" :class="[customClass]">
+  <view class="pi-calendar-panel" :style="[customStyle]" :class="[customClass]">
     <!-- 操作栏 -->
     <view class="pi-align-center">
       <view class="pi-flex-sub pi-justify-center pi-align-center">
