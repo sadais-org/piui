@@ -148,6 +148,9 @@ export default {
   &.horizontal {
     flex-direction: row;
     align-items: center;
+    /deep/ .pi-check-wrap:not(:last-child) {
+      margin-right: 32rpx;
+    }
   }
   &.vertical {
     flex-direction: column;

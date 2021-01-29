@@ -3,6 +3,7 @@ export default {
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   height: undefined, // 列表项高度
   title: '', // 列表面板标题
+  desc: '', // 列表描述
   titleStyle: {}, // 标题自定义样式，对象形式（默认值：{}）
   disabled: false, // 是否禁用
   border: true, // 是否显示边框

@@ -44,10 +44,13 @@ $pi-list-extra-fontsize: 28rpx !default; // 列表项右侧字体大小
 $pi-list-extra-color: #999999 !default; // 列表项右侧字体大小
 
 // 表单
-$pi-form-font-size: 32rpx !default; // 表单文字大小
-$pi-form-font-weight: 400 !default; // 表单文字大小
+$pi-form-border-color: #f4f4f4 !default; // 列表边框颜色
+$pi-form-border-width: 4rpx !default; // 列表边框宽度
+$pi-form-size: 32rpx !default; // 表单文字大小
+$pi-form-label-size: 32rpx !default; // 表单文字大小
+$pi-form-label-weight: 400 !default; // 表单文字大小
 $pi-form-label-color: #333333 !default; // 表单label颜色
-$pi-form-item-height: 110rpx !default; // 表单高度
+$pi-form-item-height: 100rpx !default; // 表单高度
 $pi-form-input-color: #333333 !default; // 表单输入框颜色
 $pi-form-required-color: #c0282f !default; // 表单必选提示颜色
 

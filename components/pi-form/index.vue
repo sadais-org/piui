@@ -1,18 +1,39 @@
 <template>
-  <view class="pi-form" :style="[customStyle]" :class="[{ border: showBorder }, customClass]">
-    <view v-if="title" class="form-title" :style="[titleStyle]">{{ title }}</view>
+  <view class="pi-form" :style="[customStyle]" :class="[{ border }, customClass]">
+    <pi-section
+      v-if="title"
+      :title="title"
+      :desc="desc"
+      :custom-style="titleStyle"
+      padding="24rpx 32rpx"
+    />
     <slot />
   </view>
 </template>
 
 <script>
+import { parentInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
 const TAG = 'PiForm'
 const { form } = getConfig()
 
+// 仅仅作为一个容器，批量设置form-item的属性
 export default {
   name: 'Form',
+  mixins: [
+    parentInit([
+      'height',
+      'border',
+      'labelWidth',
+      'labelAlign',
+      'labelStyle',
+      'inputAlign',
+      'colon',
+      'disabled',
+      'border'
+    ])
+  ],
   props: {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
@@ -35,6 +56,13 @@ export default {
         return form.title
       }
     },
+    // 列表面板描述
+    desc: {
+      type: String,
+      default() {
+        return form.desc
+      }
+    },
     // 标题自定义样式，对象形式（默认值：{}）
     titleStyle: {
       type: Object,
@@ -42,57 +70,62 @@ export default {
         return form.titleStyle
       }
     },
+    // 高度
+    height: {
+      type: [String, Number],
+      default() {
+        return form.height
+      }
+    },
+    // 表单项 label 宽度，默认单位为rpx
+    labelWidth: {
+      type: [String, Number],
+      default() {
+        return form.labelWidth
+      }
+    },
+    // 表单label区域 label 对齐方式，可选值为 left center right
+    labelAlign: {
+      type: String,
+      default() {
+        return form.labelAlign
+      },
+      validator: function(value) {
+        return ['left', 'center', 'right'].includes(value)
+      }
+    },
+    // 表单项 label样式
+    labelStyle: {
+      type: Object,
+      default() {
+        return form.labelStyle
+      }
+    },
+    // 表单输入区域 label 对齐方式，可选值为 left center right
+    inputAlign: {
+      type: String,
+      default() {
+        return form.inputAlign
+      },
+      validator: function(value) {
+        return ['left', 'center', 'right'].includes(value)
+      }
+    },
+    // 是否在 label 后面添加冒号
+    colon: {
+      type: Boolean,
+      default: form.colon
+    },
+    // 是否禁用
+    disabled: {
+      type: Boolean,
+      default: form.disabled
+    },
     // 是否显示边框
     border: {
       type: Boolean,
-      default() {
-        return form.border
-      }
-    },
-    // 列按压时的样式类，"none"为无效果
-    hoverClass: {
-      type: String,
-      default: form.hoverClass
-    }
-  },
-  provide() {
-    return {
-      piForm: this
-    }
-  },
-  computed: {
-    showBorder() {
-      return this.border && !this.gap
+      default: form.border
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '../../scss/border.scss';
-
-.pi-form {
-  .form-title {
-    position: relative;
-    padding-left: 48rpx;
-    margin: 24rpx 0;
-    font-size: 32rpx;
-    font-weight: 500;
-    color: #6a6a77;
-
-    &::before {
-      position: absolute;
-      top: 50%;
-      left: 24rpx;
-      display: inline-block;
-      width: 6rpx;
-      height: 60%;
-      overflow: hidden;
-      content: '';
-      background-color: #6190e8;
-      border-radius: 2rpx;
-      transform: translateY(-50%);
-    }
-  }
-}
-</style>

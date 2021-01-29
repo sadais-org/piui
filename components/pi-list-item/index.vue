@@ -213,7 +213,7 @@ export default {
   },
   computed: {
     getBorder() {
-      return this.inheritProps.border || this.border
+      return this.inheritProps.border !== undefined ? this.inheritProps.border : this.border
     },
     getHeight() {
       const height = this.inheritProps.height || this.height

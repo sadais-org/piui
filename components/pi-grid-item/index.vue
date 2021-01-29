@@ -29,7 +29,8 @@ export default {
   props: {
     // 当前宫格索引
     index: {
-      type: [Number, String]
+      type: [Number, String],
+      required: true
     },
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
@@ -152,7 +153,6 @@ export default {
     },
     handleItemClick(e) {
       this.$emit('click', e)
-      this.$emit('tap', e)
     }
   }
 }
