@@ -3,8 +3,9 @@
     class="section pi-align-center"
     :style="[itemStyle, customStyle]"
     :class="[{ border }, customClass]"
+    @tap.stop="handleSectionClick"
   >
-    <view v-if="line" class="line" />
+    <view v-if="line" class="line" :style="[lineStyle]" />
     <!-- 左侧区域 -->
     <view v-if="$slots.left" class="pi-pd-right-24">
       <slot name="left" />
@@ -62,6 +63,13 @@ export default {
       type: String,
       default() {
         return section.customClass
+      }
+    },
+    // 自定义竖线样式，对象形式（默认值：{}）
+    lineStyle: {
+      type: Object,
+      default() {
+        return section.lineStyle
       }
     },
     // 标题
@@ -150,10 +158,11 @@ export default {
       return style
     }
   },
-  inject: {
-    piList: { default: undefined }
-  },
-  created() {}
+  methods: {
+    handleSectionClick(e) {
+      this.$emit('click', e)
+    }
+  }
 }
 </script>
 
