@@ -17,6 +17,7 @@ export default {
   showSearchIcon: true, // 是否显示搜索icon
   searchIcon: 'search', // 输入框左边的图标，可以为icon名称或图片路径
   searchIconColor: '#333333', // 输入框左边的图标颜色
+  searchIconStyle: {}, // 输入框左侧的图标自定义样式，对象形式（默认值：{}）
   searchIconPosition: 'left', // 搜索icon的位置
   disabled: false, // 是否禁用输入框
   inputStyle: {}, // 指定 input 的样式

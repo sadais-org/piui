@@ -26,7 +26,7 @@
           }
         ]"
       >
-        <view :class="'pi-fz-32 pi-icon-' + searchIcon" />
+        <view :class="'pi-fz-32 pi-icon-' + searchIcon" :style="[searchIconStyle]" />
       </view>
       <!-- 输入框包裹 -->
       <view
@@ -195,6 +195,13 @@ export default {
     searchIconColor: {
       type: String,
       default: search.searchIconColor
+    },
+    // 输入框左侧的图标自定义样式
+    searchIconStyle: {
+      type: Object,
+      default() {
+        return search.searchIconStyle
+      }
     },
     // 搜索icon的位置
     searchIconPosition: {
