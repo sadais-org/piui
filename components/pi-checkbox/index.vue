@@ -27,6 +27,9 @@ export default {
   name: 'Checkbox',
   // 混入自定义样式customStyle和customClass
   mixins: [ValueSync, extendCheckboxGroup], // 注入value与val，进行双向绑定
+  options: {
+    styleIsolation: 'shared'
+  },
   props: {
     // 初始值
     value: {
@@ -234,6 +237,9 @@ $disable-color: #c8c9cc;
         background: $pi-primary-color;
         border-color: $pi-primary-color;
       }
+    }
+    /deep/ pi-icon {
+      display: inline-flex;
     }
   }
   .checkbox-label {

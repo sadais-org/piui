@@ -13,14 +13,11 @@
     <!-- 中间区域 -->
     <view class="pi-flex-sub pi-align-baseline">
       <!-- 标题和描述 -->
-      <view
-        v-if="$slots.default || $slots.$default || title"
-        :style="[titleStyle]"
-        class="list-item-title"
-      >
-        <slot>{{ title }}</slot>
+      <view :style="[titleStyle]" class="list-item-title">
+        <slot v-if="$slots && ($slots.default || $slots.$default)" />
+        <template v-else-if="title">{{ title }}</template>
       </view>
-      <view v-if="$slots.desc || desc" :style="[descStyle]" class="list-item-desc">
+      <view v-if="($slots && $slots.desc) || desc" :style="[descStyle]" class="list-item-desc">
         <slot name="desc">{{ desc }}</slot>
       </view>
     </view>

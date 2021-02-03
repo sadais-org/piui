@@ -112,7 +112,7 @@ export default {
 <style lang="scss" scoped>
 .icon-wrap {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
   .icon-badge {
     position: absolute;
     top: 0;

@@ -23,6 +23,8 @@
     /> -->
     <input
       class="pi-input"
+      :style="[customStyle]"
+      :class="[customClass]"
       :type="type == 'password' ? 'text' : type"
       :value="val"
       :password="password"
@@ -105,7 +107,7 @@ export default {
     },
     placeholderStyle: {
       type: String,
-      default: 'color: #c0c4cc;'
+      default: 'color: #c0c4cc; font-weight: 400;'
     },
     confirmType: {
       type: String,

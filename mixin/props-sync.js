@@ -47,7 +47,7 @@ export function childInit(parentName) {
     },
     created() {
       this._parent = this.$pi.parent(this, parentName)
-      if (this._parent) {
+      if (this._parent && this._parent.getInheritProps) {
         this.inheritProps = this._parent.getInheritProps()
       }
     },

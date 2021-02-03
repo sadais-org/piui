@@ -111,10 +111,10 @@ export default {
       return `calc((100% - ${this.getRowGapWidth}) / ${this.getCol})`
     },
     getSquare() {
-      return this.inheritProps.square !== undefined ? this.inheritProps.square : this.square
+      return this.inheritProps.square !== null ? this.inheritProps.square : this.square
     },
     getBorder() {
-      return this.inheritProps.border !== undefined ? this.inheritProps.border : this.border
+      return this.inheritProps.border !== null ? this.inheritProps.border : this.border
     },
     itemStyle() {
       const gap = this.$pi.common.addUnit(this.getGap)
@@ -147,7 +147,7 @@ export default {
   },
   methods: {
     valid() {
-      if (this.getGap && this.index === undefined) {
+      if (this.getGap && this.index === null) {
         console.warn(TAG, '当设置gap的时候，请把当前迭代器的索引传递到index属性，否则宽度计算有误')
       }
     },

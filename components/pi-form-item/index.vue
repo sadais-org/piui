@@ -6,11 +6,14 @@
     @tap.stop="handleItemClick"
   >
     <!-- 左侧区域 -->
-    <view class="form-label" :style="[getLabelStyle, labelStyle]">
+    <view class="form-label pi-align-center pi-flex-nowrap" :style="[getLabelStyle, labelStyle]">
+      <view v-if="required" style="color: red;" class=" pi-mg-right-12" :style="[requiredStyle]">
+        *
+      </view>
       <slot name="label">
         {{ label }}
       </slot>
-      <text v-if="getColon" class="pi-pd-left-8">:</text>
+      <view v-if="getColon" class="pi-pd-left-8">:</view>
     </view>
 
     <!-- 中间区域 -->
@@ -22,7 +25,7 @@
       <slot />
     </view>
     <!-- 右侧区域 -->
-    <view v-if="$slots.right" class="pi-pd-left-24">
+    <view v-if="$slots && $slots.right" class="pi-pd-left-24">
       <slot name="right" />
     </view>
   </view>
@@ -45,6 +48,9 @@ const alignFlexMap = {
 export default {
   name: 'FormItem',
   mixins: [extendPiFrom], // 注入inheritProps
+  options: {
+    styleIsolation: 'shared'
+  },
   props: {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
@@ -58,6 +64,20 @@ export default {
       type: String,
       default() {
         return formItem.customClass
+      }
+    },
+    // 是否必填
+    required: {
+      type: Boolean,
+      default() {
+        return formItem.required
+      }
+    },
+    // 必填标志自定义样式，对象形式（默认值：{}）
+    requiredStyle: {
+      type: Object,
+      default() {
+        return formItem.requiredStyle
       }
     },
     // 高度
@@ -129,20 +149,16 @@ export default {
   },
   computed: {
     getBorder() {
-      return this.inheritProps.border !== undefined ? this.inheritProps.border : this.border
+      return this.inheritProps.border !== null ? this.inheritProps.border : this.border
     },
     getColon() {
-      return this.inheritProps.colon !== undefined ? this.inheritProps.colon : this.colon
+      return this.inheritProps.colon !== null ? this.inheritProps.colon : this.colon
     },
     getLabelAlign() {
-      return this.inheritProps.labelAlign !== undefined
-        ? this.inheritProps.labelAlign
-        : this.labelAlign
+      return this.inheritProps.labelAlign !== null ? this.inheritProps.labelAlign : this.labelAlign
     },
     getInputAlign() {
-      return this.inheritProps.inputAlign !== undefined
-        ? this.inheritProps.inputAlign
-        : this.inputAlign
+      return this.inheritProps.inputAlign !== null ? this.inheritProps.inputAlign : this.inputAlign
     },
     itemStyle() {
       const style = {
@@ -170,7 +186,7 @@ export default {
     }
   },
   inject: {
-    piForm: { default: undefined }
+    piForm: { default: null }
   },
   created() {},
   methods: {
@@ -197,26 +213,37 @@ export default {
   .form-label {
     font-weight: $pi-form-label-weight;
     color: $pi-form-label-color;
-    white-space: nowrap;
   }
   .input-wrap {
     padding-left: 24rpx;
-    /deep/ .pi-input-wrap {
+  }
+  // 解决slot宽度没有占满100%的问题
+  /deep/ .input-wrap {
+    & > pi-input {
       width: 100%;
     }
     &.left {
-      /deep/ .pi-input-wrap {
+      .pi-input-wrap {
         text-align: left;
+      }
+      .pi-checkbox-group.horizontal {
+        justify-content: flex-start;
       }
     }
     &.center {
-      /deep/ .pi-input-wrap {
+      .pi-input-wrap {
         text-align: center;
+      }
+      .pi-checkbox-group.horizontal {
+        justify-content: center;
       }
     }
     &.right {
-      /deep/ .pi-input-wrap {
+      .pi-input-wrap {
         text-align: right;
+      }
+      .pi-checkbox-group.horizontal {
+        justify-content: flex-end;
       }
     }
   }

@@ -86,12 +86,12 @@ export default {
     },
     // 表单label区域 label 对齐方式，可选值为 left center right
     labelAlign: {
-      type: String,
+      type: [Object, String],
       default() {
         return form.labelAlign
       },
       validator: function(value) {
-        return ['left', 'center', 'right'].includes(value)
+        return [null, 'left', 'center', 'right'].includes(value)
       }
     },
     // 表单项 label样式
@@ -103,12 +103,12 @@ export default {
     },
     // 表单输入区域 label 对齐方式，可选值为 left center right
     inputAlign: {
-      type: String,
+      type: [Object, String],
       default() {
         return form.inputAlign
       },
       validator: function(value) {
-        return ['left', 'center', 'right'].includes(value)
+        return [null, 'left', 'center', 'right'].includes(value)
       }
     },
     // 是否在 label 后面添加冒号

@@ -36,6 +36,9 @@ export default {
       'activeMode'
     ])
   ], // 注入value与val，进行双向绑定
+  options: {
+    styleIsolation: 'shared'
+  },
   props: {
     // 初始值
     value: {
@@ -149,6 +152,10 @@ export default {
     flex-direction: row;
     align-items: center;
     /deep/ .pi-check-wrap:not(:last-child) {
+      margin-right: 32rpx;
+    }
+    // 兼容小程序
+    /deep/ pi-checkbox:not(:last-child) {
       margin-right: 32rpx;
     }
   }
