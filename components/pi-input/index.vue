@@ -1,27 +1,25 @@
 <template>
-  <view class="pi-input-wrap" :style="[customStyle]" :class="[customClass]">
-    <!-- <textarea
+  <view class="pi-input-wrap">
+    <textarea
       v-if="type === 'textarea'"
       class="pi-input-textarea"
-      :style="[getStyle]"
+      :style="[customStyle]"
+      :class="[customClass]"
       :value="val"
+      :password="password"
       :placeholder="placeholder"
       :placeholderStyle="placeholderStyle"
-      :disabled="disabled"
-      :maxlength="inputMaxlength"
-      :fixed="fixed"
+      :disabled="disabled || type === 'select'"
+      :maxlength="maxlength"
       :focus="focus"
-      :autoHeight="autoHeight"
-      :selection-end="uSelectionEnd"
-      :selection-start="uSelectionStart"
-      :cursor-spacing="getCursorSpacing"
+      :confirmType="confirmType"
+      :cursor-spacing="cursorSpacing"
+      :selection-end="selectionEnd"
+      :selection-start="selectionStart"
       :show-confirm-bar="showConfirmbar"
-      @input="handleInput"
-      @blur="handleBlur"
-      @focus="onFocus"
-      @confirm="onConfirm"
-    /> -->
+    />
     <input
+      v-else
       class="pi-input"
       :style="[customStyle]"
       :class="[customClass]"
@@ -103,7 +101,7 @@ export default {
     },
     maxlength: {
       type: [Number, String],
-      default: 140
+      default: -1
     },
     placeholderStyle: {
       type: String,
@@ -142,3 +140,11 @@ export default {
   computed: {}
 }
 </script>
+
+<style lang="scss" scoped>
+.pi-input-wrap {
+  .pi-input-textarea {
+    width: 100%;
+  }
+}
+</style>

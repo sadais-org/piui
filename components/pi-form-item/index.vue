@@ -1,13 +1,17 @@
 <template>
   <view
-    class="pi-form-item pi-align-center"
+    class="pi-form-item"
     :style="[customStyle, itemStyle]"
-    :class="[{ border: getBorder }, customClass]"
+    :class="[{ border: getBorder }, { 'pi-align-center': !getWrap }, customClass]"
     @tap.stop="handleItemClick"
   >
-    <!-- 左侧区域 -->
-    <view class="form-label pi-align-center pi-flex-nowrap" :style="[getLabelStyle, labelStyle]">
-      <view v-if="required" style="color: red;" class=" pi-mg-right-12" :style="[requiredStyle]">
+    <!-- 表单标题 -->
+    <view
+      class="form-label pi-align-center pi-flex-nowrap"
+      :style="[getLabelStyle, labelStyle]"
+      :class="[{ border: getWrap && getLabelWrapBorder }]"
+    >
+      <view v-if="required" style="color: red;" class="pi-mg-right-12" :style="[requiredStyle]">
         *
       </view>
       <slot name="label">
@@ -16,17 +20,19 @@
       <view v-if="getColon" class="pi-pd-left-8">:</view>
     </view>
 
-    <!-- 中间区域 -->
+    <!-- 内容区域 -->
     <view
-      class="input-wrap pi-flex-sub pi-align-center"
-      :style="[inputWrapStyle]"
-      :class="[getInputAlign]"
+      class="content-wrap pi-align-center"
+      :class="[{ 'pi-flex-sub': !getWrap }]"
+      :style="[contentWrapStyle]"
     >
-      <slot />
-    </view>
-    <!-- 右侧区域 -->
-    <view v-if="$slots && $slots.right" class="pi-pd-left-24">
-      <slot name="right" />
+      <view class="input-wrap " :class="[{ wrap: getWrap, nowrap: !getWrap }, getInputAlign]">
+        <slot />
+      </view>
+      <!-- 右侧区域 -->
+      <view v-if="$slots && $slots.right" class="pi-pd-left-24">
+        <slot name="right" />
+      </view>
     </view>
   </view>
 </template>
@@ -131,6 +137,16 @@ export default {
         return ['left', 'center', 'right'].includes(value)
       }
     },
+    // 是否以换行样式显示表单
+    wrap: {
+      type: Boolean,
+      default: formItem.wrap
+    },
+    // wrap样式label是否显示边框
+    labelWrapBorder: {
+      type: Boolean,
+      default: formItem.labelWrapBorder
+    },
     // 是否在 label 后面添加冒号
     colon: {
       type: Boolean,
@@ -151,6 +167,14 @@ export default {
     getBorder() {
       return this.inheritProps.border !== null ? this.inheritProps.border : this.border
     },
+    getWrap() {
+      return this.inheritProps.wrap !== null ? this.inheritProps.wrap : this.wrap
+    },
+    getLabelWrapBorder() {
+      return this.inheritProps.labelWrapBorder !== null
+        ? this.inheritProps.labelWrapBorder
+        : this.labelWrapBorder
+    },
     getColon() {
       return this.inheritProps.colon !== null ? this.inheritProps.colon : this.colon
     },
@@ -161,26 +185,37 @@ export default {
       return this.inheritProps.inputAlign !== null ? this.inheritProps.inputAlign : this.inputAlign
     },
     itemStyle() {
-      const style = {
-        padding: this.padding
+      const style = {}
+      if (!this.getWrap) {
+        style.padding = this.padding
       }
       const height = this.height || this.inheritProps.height
-      if (height) {
+      if (!this.getWrap && height) {
         style.height = this.$pi.common.addUnit(height)
       }
       return style
     },
     getLabelStyle() {
       const style = {}
+      if (this.getWrap) {
+        style.padding = this.padding
+      }
       const labelWidth = this.labelWidth || this.inheritProps.labelWidth
       if (labelWidth) {
         style.minWidth = this.$pi.common.addUnit(labelWidth)
       }
+      const height = this.height || this.inheritProps.height
+      if (this.getWrap && height) {
+        style.height = this.$pi.common.addUnit(height)
+      }
       style.textAlign = this.getLabelAlign
       return style
     },
-    inputWrapStyle() {
+    contentWrapStyle() {
       const style = {}
+      if (this.getWrap) {
+        style.padding = this.padding
+      }
       style.justifyContent = alignFlexMap[this.getInputAlign]
       return style
     }
@@ -201,7 +236,6 @@ export default {
 @import '../../scss/border.scss';
 
 .pi-form-item {
-  height: $pi-form-item-height;
   font-size: $pi-form-size;
   &.border {
     @include pi-border;
@@ -213,13 +247,30 @@ export default {
   .form-label {
     font-weight: $pi-form-label-weight;
     color: $pi-form-label-color;
+    &.border {
+      @include pi-border;
+      &::after {
+        border: 0 solid $pi-form-border-color;
+        border-bottom-width: $pi-form-border-width;
+      }
+    }
   }
   .input-wrap {
-    padding-left: 24rpx;
+    width: 100%;
+    &.nowrap {
+      margin-left: 24rpx;
+    }
+    &.wrap {
+      margin-top: 24rpx;
+      margin-bottom: 24rpx;
+    }
   }
   // 解决slot宽度没有占满100%的问题
-  /deep/ .input-wrap {
+  /deep/ .content-wrap {
     & > pi-input {
+      width: 100%;
+    }
+    .pi-input-wrap {
       width: 100%;
     }
     &.left {

@@ -29,6 +29,8 @@ export default {
       'labelAlign',
       'labelStyle',
       'inputAlign',
+      'wrap',
+      'labelWrapBorder',
       'colon',
       'disabled',
       'border'
@@ -110,6 +112,16 @@ export default {
       validator: function(value) {
         return [null, 'left', 'center', 'right'].includes(value)
       }
+    },
+    // 是否以换行样式显示表单
+    wrap: {
+      type: Boolean,
+      default: form.wrap
+    },
+    // wrap样式label是否显示边框
+    labelWrapBorder: {
+      type: Boolean,
+      default: form.labelWrapBorder
     },
     // 是否在 label 后面添加冒号
     colon: {
