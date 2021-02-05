@@ -1,46 +1,42 @@
 <template>
   <view
-    class="pi-check-wrap"
+    class="pi-radio-wrap"
     :style="[customStyle]"
-    :class="[customClass, { disabled: getDisable }]"
-    @tap="handleCheckboxToggle"
+    :class="[getShape, getActiveMode, { disabled: getDisable }, { active: val }, customClass]"
+    @tap="handleRadioToggle"
   >
-    <view class="check-icon" :style="[checkboxStyle]" :class="[iconClass]">
-      <pi-icon name="blod-check" :size="getIconSize" />
+    <view v-if="getShape !== 'text'" class="radio-icon" :style="[radioStyle]">
+      <view v-if="getShape === 'dot'" class="dot" />
+      <pi-icon v-else name="blod-check" :size="getIconSize" />
     </view>
-    <view class="checkbox-label">
+    <view class="radio-label" :class="{ text: getShape === 'text' }" :style="[textStyle]">
       <slot />
     </view>
   </view>
 </template>
 
 <script>
-import ValueSync from '../../mixin/value-sync'
 import { childInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
-const TAG = 'PiCheckbox'
-const { checkbox } = getConfig()
-const extendCheckboxGroup = childInit('CheckboxGroup')
+const TAG = 'PiRadio'
+const { radio } = getConfig()
+const extendRadioGroup = childInit('RadioGroup')
 
 export default {
-  name: 'Checkbox',
+  name: 'Radio',
   // 混入自定义样式customStyle和customClass
-  mixins: [ValueSync, extendCheckboxGroup], // 注入value与val，进行双向绑定
+  mixins: [extendRadioGroup],
   options: {
     styleIsolation: 'shared'
   },
   props: {
-    // 初始值
-    value: {
-      required: false
-    },
     // 自定义样式，对象形式
     customStyle: {
       type: Object,
       default() {
         // {}
-        return checkbox.customStyle
+        return radio.customStyle
       }
     },
     // 自定义样式类，字符串形式
@@ -48,73 +44,73 @@ export default {
       type: String,
       // ''
       default() {
-        return checkbox.customClass
+        return radio.customClass
       }
     },
-    // checkbox组件的标示符
+    // radio组件的标示符
     name: {
       type: [String, Number],
       // -
-      default: checkbox.name
+      default: radio.name
     },
     // 形状
     shape: {
-      // round || square
+      // square || round || dot || text
       type: String,
       // round
-      default: checkbox.shape,
+      default: radio.shape,
       validator: function(value) {
-        return ['square', 'round'].includes(value)
+        return ['square', 'round', 'dot', 'text'].includes(value)
       }
     },
     // 当shape为square的时候，设置圆角，单位rpx
     borderRadius: {
       type: [String, Number],
       // 8
-      default: checkbox.borderRadius
+      default: radio.borderRadius
     },
     // 边框大小，单位rpx
     border: {
       type: [String, Number],
       // 4
-      default: checkbox.border
+      default: radio.border
     },
     // 是否禁用复选框
     disabled: {
       type: Boolean,
       // false
-      default: checkbox.disabled
+      default: radio.disabled
     },
     // 是否只读模式
     readonly: {
       type: Boolean,
       // false
-      default: checkbox.readonly
+      default: radio.readonly
     },
-    // checkbox大小，单位rpx
+    // radio大小，单位rpx
     size: {
       type: [String, Number],
       // 40
-      default: checkbox.size
+      default: radio.size
     },
-    // checkbox icon 大小，单位rpx
+    // radio icon 大小，单位rpx
     iconSize: {
       type: [String, Number],
       // 24
-      default: checkbox.iconSize
+      default: radio.iconSize
     },
     // 选中时图标的颜色
     activeColor: {
       type: String,
       // ''
-      default: checkbox.activeColor
+      default: radio.activeColor
     },
     // 激活模式
     activeMode: {
       // line: 线框模式，fill: 实底模式
       type: String,
       // 'line'
-      default: checkbox.activeMode,
+      default: radio.activeMode,
       validator: function(value) {
         return ['line', 'fill'].includes(value)
       }
@@ -124,6 +120,10 @@ export default {
     return {}
   },
   computed: {
+    val() {
+      const radioGroupValue = this.inheritProps.val
+      return radioGroupValue === this.name
+    },
     getShape() {
       return this.inheritProps.shape || this.shape
     },
@@ -156,14 +156,16 @@ export default {
         ? this.$pi.common.addUnit(this.inheritProps.iconSize)
         : this.$pi.common.addUnit(this.iconSize)
     },
-    checkboxStyle() {
+    radioStyle() {
       const style = {
         width: this.getSize,
         height: this.getSize,
         borderRadius: this.getBorderRadius,
         borderWidth: this.getBorder
       }
-      this.getShape === 'round' && (style.borderRadius = '50%')
+      if (['round', 'dot'].includes(this.getShape)) {
+        style.borderRadius = '50%'
+      }
       if (this.getActiveColor && this.val) {
         style.borderColor = this.getActiveColor
         if (this.getActiveMode === 'line') {
@@ -174,34 +176,28 @@ export default {
       }
       return style
     },
-    iconClass() {
-      const classes = [this.getActiveMode]
-      if (this.val) classes.push('active')
-      return classes.join(' ')
+    textStyle() {
+      const style = {
+        borderRadius: this.getBorderRadius,
+        borderWidth: this.getBorder
+      }
+      if (this.getActiveColor && this.val) {
+        style.borderColor = this.getActiveColor
+        if (this.getShape === 'text' && this.getActiveMode === 'line') {
+          style.color = this.getActiveColor
+        }
+        if (this.getShape === 'text' && this.getActiveMode === 'fill') {
+          style.backgroundColor = this.getActiveColor
+        }
+      }
+      return style
     }
   },
-  mounted() {
-    this.init()
-  },
   methods: {
-    init() {
-      const checkboxGroupValue = this.inheritProps.value
-      if (checkboxGroupValue && checkboxGroupValue.includes(this.name)) {
-        this.val = true
-      }
-    },
-    handleCheckboxToggle() {
+    handleRadioToggle() {
       if (this.getDisable) return
       if (this.readonly) return
-      // 如果父组件做了可选数量限制
-      if (!this.val && this._parent && this._parent.getMax > 0) {
-        const max = this._parent.getMax
-        const currentCount = this._parent._children.filter(c => c.val).length
-        if (max === currentCount) return
-      }
-      this.val = !this.val
-      this.handleEmitChange()
-      this._parent && this._parent.emitChange()
+      this._parent && this._parent.emitChange(this.name)
     }
   }
 }
@@ -209,10 +205,10 @@ export default {
 
 <style lang="scss" scoped>
 $disable-color: #c8c9cc;
-.pi-check-wrap {
+.pi-radio-wrap {
   display: inline-flex;
   align-items: center;
-  .check-icon {
+  .radio-icon {
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -221,38 +217,71 @@ $disable-color: #c8c9cc;
     color: #cccccc;
     border: 4rpx solid $disable-color;
     transition: all $pi-animation-duration $pi-animation-timing-function;
-    &.line {
-      &.active {
-        color: $pi-primary-color;
-        background-color: #ffffff;
-        border-color: $pi-primary-color;
-      }
+    .dot {
+      display: inline-flex;
+      width: 50%;
+      height: 50%;
+      border-radius: 50%;
     }
-    &.fill {
-      color: #ffffff;
-      background-color: #cccccc;
-      border-color: #cccccc;
-      &.active {
-        color: #ffffff;
-        background: $pi-primary-color;
-        border-color: $pi-primary-color;
-      }
-    }
+
     /deep/ pi-icon {
       display: inline-flex;
     }
   }
-  .checkbox-label {
+  .radio-label {
     margin-left: 16rpx;
     word-wrap: break-word;
+    &.text {
+      padding: 14rpx 24rpx;
+      margin-left: 0;
+      border-color: transparent;
+      border-style: solid;
+    }
+  }
+  &.fill {
+    .radio-icon {
+      color: #ffffff;
+      background-color: #cccccc;
+      border-color: #cccccc;
+    }
   }
   &.disabled {
     cursor: not-allowed;
-    .check-icon {
+    .radio-icon {
       opacity: 0.4;
     }
-    .checkbox-label {
+    .radio-label {
       color: #cccccc;
+    }
+  }
+  &.active {
+    &.line {
+      .radio-icon {
+        color: $pi-primary-color;
+        background-color: #ffffff;
+        border-color: $pi-primary-color;
+        .dot {
+          background-color: $pi-primary-color;
+        }
+      }
+      .radio-label.text {
+        color: $pi-primary-color;
+        border-color: $pi-primary-color;
+      }
+    }
+    &.fill {
+      .radio-icon {
+        color: #ffffff;
+        background: $pi-primary-color;
+        border-color: $pi-primary-color;
+        .dot {
+          background-color: #ffffff;
+        }
+      }
+      .radio-label.text {
+        color: #ffffff;
+        background: $pi-primary-color;
+      }
     }
   }
 }

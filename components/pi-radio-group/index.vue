@@ -1,6 +1,6 @@
 <template>
   <view
-    class="pi-checkbox-group"
+    class="pi-radio-group"
     :style="[customStyle]"
     :class="[
       { horizontal: direction === 'horizontal' },
@@ -17,16 +17,16 @@ import ValueSync from '../../mixin/value-sync'
 import { parentInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
-const TAG = 'PiCheckboxGroup'
-const { checkboxGroup } = getConfig()
+const TAG = 'PiRadioGroup'
+const { radioGroup } = getConfig()
 
 export default {
-  name: 'CheckboxGroup',
+  name: 'RadioGroup',
   // 混入自定义样式customStyle和customClass
   mixins: [
     ValueSync,
     parentInit([
-      'value',
+      'val',
       'shape',
       'border',
       'disabled',
@@ -49,7 +49,7 @@ export default {
       type: Object,
       // {}
       default() {
-        return checkboxGroup.customStyle
+        return radioGroup.customStyle
       }
     },
     // 自定义样式类
@@ -57,21 +57,21 @@ export default {
       type: String,
       // ''
       default() {
-        return checkboxGroup.customClass
+        return radioGroup.customClass
       }
     },
     // 最大可选数，0为无限制
     max: {
       type: [String, Number],
       // 0
-      default: checkboxGroup.max
+      default: radioGroup.max
     },
     // 排列方向
     direction: {
       // '', horizontal', 'vertical'
       type: String,
       // ''
-      default: checkboxGroup.direction,
+      default: radioGroup.direction,
       validator: function(value) {
         return ['horizontal', 'vertical'].includes(value)
       }
@@ -81,63 +81,54 @@ export default {
       // round || square
       type: String,
       // ''
-      default: checkboxGroup.shape,
+      default: radioGroup.shape,
       validator: function(value) {
-        return ['', 'square', 'round'].includes(value)
+        return ['', 'square', 'round', 'dot', 'text'].includes(value)
       }
     },
     // 边框大小，单位rpx
     border: {
       type: [String, Number],
       // 0
-      default: checkboxGroup.border
+      default: radioGroup.border
     },
     // 是否禁用复选框
     disabled: {
       type: Boolean,
       // false
-      default: checkboxGroup.disabled
+      default: radioGroup.disabled
     },
-    // checkbox大小，单位rpx
+    // radio大小，单位rpx
     size: {
       type: [String, Number],
       // 0
-      default: checkboxGroup.size
+      default: radioGroup.size
     },
-    // checkbox icon 大小，单位rpx
+    // radio icon 大小，单位rpx
     iconSize: {
       type: [String, Number],
       // 0
-      default: checkboxGroup.iconSize
+      default: radioGroup.iconSize
     },
     // 选中时图标的颜色
     activeColor: {
       type: [String],
       // ''
-      default: checkboxGroup.activeColor
+      default: radioGroup.activeColor
     },
     // 激活模式
     activeMode: {
       // '', 'line', 'fill'
       type: [String],
-      default: checkboxGroup.activeMode,
+      default: radioGroup.activeMode,
       validator: function(value) {
         return ['', 'line', 'fill'].includes(value)
       }
     }
   },
-  computed: {
-    getMax() {
-      return parseInt(this.max, 10)
-    }
-  },
   methods: {
-    emitChange() {
-      const vals = []
-      this._children.map(val => {
-        if (val.val && val.name) vals.push(val.name)
-      })
-      this.val = vals
+    emitChange(childName) {
+      this.val = childName
       this.handleEmitChange()
     }
   }
@@ -145,21 +136,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pi-checkbox-group {
+.pi-radio-group {
   display: inline-flex;
   flex-wrap: wrap;
-  /deep/ .pi-check-wrap,
-  pi-checkbox {
+  /deep/ .pi-radio-wrap,
+  pi-radio {
     margin-bottom: 28rpx;
   }
   &.horizontal {
     flex-direction: row;
     align-items: center;
-    /deep/ .pi-check-wrap:not(:last-child) {
+    /deep/ .pi-radio-wrap:not(:last-child) {
       margin-right: 28rpx;
     }
     // 兼容小程序
-    /deep/ pi-checkbox:not(:last-child) {
+    /deep/ pi-radio:not(:last-child) {
       margin-right: 28rpx;
     }
   }
