@@ -40,6 +40,15 @@ export const isString = value => {
 }
 
 /**
+ * 判断是否为对象
+ * @param {Object} value
+ */
+export const isObject = value => {
+  const type = typeof value
+  return value != null && (type === 'object' || type === 'function')
+}
+
+/**
  * 判断是否为数组
  * @param {Array} value 数据
  */

@@ -267,11 +267,12 @@ export default {
       // 是否开启水波纹效果
       this.waveInfo.active = false
       // 点击事件
+      console.log(TAG, '触发按钮click事件')
       this.$emit('click', e)
       this.$nextTick(function() {
         this.queryWaveInfo(e)
       })
-    }, 200),
+    }, button.debounceTimeout),
     // 查询按钮的节点信息
     queryWaveInfo(e) {
       this.getElRectQuery().then(res => {

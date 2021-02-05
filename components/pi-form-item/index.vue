@@ -23,10 +23,10 @@
     <!-- 内容区域 -->
     <view
       class="content-wrap pi-align-center"
-      :class="[{ 'pi-flex-sub': !getWrap }]"
+      :class="[{ 'pi-flex-sub': !getWrap }, getInputAlign]"
       :style="[contentWrapStyle]"
     >
-      <view class="input-wrap " :class="[{ wrap: getWrap, nowrap: !getWrap }, getInputAlign]">
+      <view class="input-wrap " :class="[{ wrap: getWrap, nowrap: !getWrap }]">
         <slot />
       </view>
       <!-- 右侧区域 -->
@@ -274,7 +274,8 @@ export default {
       width: 100%;
     }
     &.left {
-      .pi-input-wrap {
+      .pi-input-wrap,
+      pi-input {
         text-align: left;
       }
       .pi-checkbox-group.horizontal {
@@ -282,7 +283,8 @@ export default {
       }
     }
     &.center {
-      .pi-input-wrap {
+      .pi-input-wrap,
+      pi-input {
         text-align: center;
       }
       .pi-checkbox-group.horizontal {
@@ -290,7 +292,8 @@ export default {
       }
     }
     &.right {
-      .pi-input-wrap {
+      .pi-input-wrap,
+      pi-input {
         text-align: right;
       }
       .pi-checkbox-group.horizontal {

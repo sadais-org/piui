@@ -231,6 +231,8 @@ $disable-color: #c8c9cc;
   .radio-label {
     margin-left: 16rpx;
     word-wrap: break-word;
+    transition: $pi-animation-duration $pi-animation-timing-function;
+    transition-property: border, color, background-color;
     &.text {
       padding: 14rpx 24rpx;
       margin-left: 0;
@@ -243,6 +245,9 @@ $disable-color: #c8c9cc;
       color: #ffffff;
       background-color: #cccccc;
       border-color: #cccccc;
+      .dot {
+        background-color: #ffffff;
+      }
     }
   }
   &.disabled {

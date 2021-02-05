@@ -4,6 +4,7 @@ export default {
   shape: 'round', // 搜索框形状 round || square
   background: '#f5f5f5', // 背景颜色（默认#f2f2f2）
   clearable: true, // 是否启用清除控件（默认true）
+  clearIconStyle: {}, // 清除图标自定义样式
   focus: false, // 是否自动获得焦点（默认false）
   placeholder: '请输入搜索关键词', // 占位提示文字
   placeholderStyle: 'color: #cccccc;', // 指定 placeholder 的样式

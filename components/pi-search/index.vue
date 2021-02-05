@@ -51,7 +51,7 @@
         />
         <!-- clear action -->
         <view v-if="clearable && val" class="pi-pd-lr-18" @tap="handleClearInput">
-          <view class="pi-icon-roundclosefill" />
+          <view class="pi-icon-roundclosefill" :style="[clearIconStyle]" />
         </view>
       </view>
     </view>
@@ -123,6 +123,13 @@ export default {
     clearable: {
       type: Boolean,
       default: search.clearable
+    },
+    // 清除图标自定义样式
+    clearIconStyle: {
+      type: Object,
+      default() {
+        return search.searchIconStyle
+      }
     },
     // 是否自动获得焦点（默认false）
     focus: {

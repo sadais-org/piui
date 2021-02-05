@@ -1,4 +1,9 @@
 import { isNumber } from './validate'
+import lodashDebounce from './debounce'
+import lodashThrottle from './throttle'
+
+export const debounce = lodashDebounce
+export const throttle = lodashThrottle
 
 /**
  * 动态import文件
@@ -39,58 +44,6 @@ export const compareVersion = (v1, v2) => {
 // 添加单位，如果非数值类型，直接返回，否则加上rpx单位结尾
 export const addUnit = (value = 'auto', unit = 'rpx') => {
   return isNumber(value) ? `${value}${unit}` : value
-}
-
-/**
- * 频率控制 返回函数连续调用时，fn 执行频率限定为每多少时间执行一次
- * @param fn {function} 需要调用的函数
- * @param delay {number} 延迟时间，单位毫秒
- * @param immediate {bool} 给 immediate参数传递false 绑定的函数先执行，而不是delay后后执行。
- * @return { Function }实际调用函数
- */
-export const throttle = function(fn, delay, immediate, debounce) {
-  var curr = +new Date(), // 当前事件
-    last_call = 0,
-    last_exec = 0,
-    timer = null,
-    diff, // 时间差
-    context, // 上下文
-    args,
-    exec = function() {
-      last_exec = curr
-      fn.apply(context, args)
-    }
-  return function() {
-    curr = +new Date()
-    ;(context = this),
-      (args = arguments),
-      (diff = curr - (debounce ? last_call : last_exec) - delay)
-    clearTimeout(timer)
-    if (debounce) {
-      if (immediate) {
-        timer = setTimeout(exec, delay)
-      } else if (diff >= 0) {
-        exec()
-      }
-    } else {
-      if (diff >= 0) {
-        exec()
-      } else if (immediate) {
-        timer = setTimeout(exec, -diff)
-      }
-    }
-    last_call = curr
-  }
-}
-
-/** 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 delay，fn 才会执行
- * @param fn {function} 要调用的函数
- * @param delay {number} 空闲时间
- * @param immediate {bool} 给 immediate参数传递false 绑定的函数先执行，而不是delay后后执行。
- * @return { Function } 实际调用函数
- */
-export const debounce = function(fn, delay, immediate) {
-  return throttle(fn, delay, immediate, true)
 }
 
 /**

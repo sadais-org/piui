@@ -139,10 +139,13 @@ export default {
 .pi-radio-group {
   display: inline-flex;
   flex-wrap: wrap;
+  width: 100%;
+
   /deep/ .pi-radio-wrap,
   pi-radio {
     margin-bottom: 28rpx;
   }
+
   &.horizontal {
     flex-direction: row;
     align-items: center;
@@ -154,6 +157,7 @@ export default {
       margin-right: 28rpx;
     }
   }
+
   &.vertical {
     flex-direction: column;
   }
