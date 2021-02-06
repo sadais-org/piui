@@ -2,13 +2,14 @@
   <view
     class="pi-check-wrap"
     :style="[customStyle]"
-    :class="[customClass, { disabled: getDisable }]"
+    :class="[getShape, getActiveMode, { disabled: getDisable }, { active: val }, customClass]"
     @tap="handleCheckboxToggle"
   >
-    <view class="check-icon" :style="[checkboxStyle]" :class="[iconClass]">
-      <pi-icon name="blod-check" :size="getIconSize" />
+    <view v-if="getShape !== 'text'" class="check-icon" :style="[checkStyle]">
+      <view v-if="getShape === 'dot'" class="dot" />
+      <pi-icon v-else name="blod-check" :size="getIconSize" />
     </view>
-    <view class="checkbox-label">
+    <view class="check-label" :class="{ text: getShape === 'text' }" :style="[textStyle]">
       <slot />
     </view>
   </view>
@@ -59,12 +60,12 @@ export default {
     },
     // 形状
     shape: {
-      // round || square
+      // square || round || dot || text
       type: String,
       // round
       default: checkbox.shape,
       validator: function(value) {
-        return ['square', 'round'].includes(value)
+        return ['square', 'round', 'dot', 'text'].includes(value)
       }
     },
     // 当shape为square的时候，设置圆角，单位rpx
@@ -156,14 +157,16 @@ export default {
         ? this.$pi.common.addUnit(this.inheritProps.iconSize)
         : this.$pi.common.addUnit(this.iconSize)
     },
-    checkboxStyle() {
+    checkStyle() {
       const style = {
         width: this.getSize,
         height: this.getSize,
         borderRadius: this.getBorderRadius,
         borderWidth: this.getBorder
       }
-      this.getShape === 'round' && (style.borderRadius = '50%')
+      if (['round', 'dot'].includes(this.getShape)) {
+        style.borderRadius = '50%'
+      }
       if (this.getActiveColor && this.val) {
         style.borderColor = this.getActiveColor
         if (this.getActiveMode === 'line') {
@@ -174,10 +177,21 @@ export default {
       }
       return style
     },
-    iconClass() {
-      const classes = [this.getActiveMode]
-      if (this.val) classes.push('active')
-      return classes.join(' ')
+    textStyle() {
+      const style = {
+        borderRadius: this.getBorderRadius,
+        borderWidth: this.getBorder
+      }
+      if (this.getActiveColor && this.val) {
+        style.borderColor = this.getActiveColor
+        if (this.getShape === 'text' && this.getActiveMode === 'line') {
+          style.color = this.getActiveColor
+        }
+        if (this.getShape === 'text' && this.getActiveMode === 'fill') {
+          style.backgroundColor = this.getActiveColor
+        }
+      }
+      return style
     }
   },
   mounted() {
@@ -221,38 +235,76 @@ $disable-color: #c8c9cc;
     color: #cccccc;
     border: 4rpx solid $disable-color;
     transition: all $pi-animation-duration $pi-animation-timing-function;
-    &.line {
-      &.active {
-        color: $pi-primary-color;
-        background-color: #ffffff;
-        border-color: $pi-primary-color;
-      }
+    .dot {
+      display: inline-flex;
+      width: 50%;
+      height: 50%;
+      border-radius: 50%;
     }
-    &.fill {
-      color: #ffffff;
-      background-color: #cccccc;
-      border-color: #cccccc;
-      &.active {
-        color: #ffffff;
-        background: $pi-primary-color;
-        border-color: $pi-primary-color;
-      }
-    }
+
     /deep/ pi-icon {
       display: inline-flex;
     }
   }
-  .checkbox-label {
+  .check-label {
     margin-left: 16rpx;
     word-wrap: break-word;
+    transition: $pi-animation-duration $pi-animation-timing-function;
+    transition-property: border, color, background-color;
+    &.text {
+      padding: 12rpx 24rpx;
+      margin-left: 0;
+      border-color: transparent;
+      border-style: solid;
+    }
+  }
+  &.fill {
+    .check-icon {
+      color: #ffffff;
+      background-color: #cccccc;
+      border-color: #cccccc;
+      .dot {
+        background-color: #ffffff;
+      }
+    }
   }
   &.disabled {
     cursor: not-allowed;
     .check-icon {
       opacity: 0.4;
     }
-    .checkbox-label {
+    .check-label {
       color: #cccccc;
+    }
+  }
+  &.active {
+    &.line {
+      .check-icon {
+        color: $pi-primary-color;
+        background-color: #ffffff;
+        border-color: $pi-primary-color;
+        .dot {
+          background-color: $pi-primary-color;
+        }
+      }
+      .check-label.text {
+        color: $pi-primary-color;
+        border-color: $pi-primary-color;
+      }
+    }
+    &.fill {
+      .check-icon {
+        color: #ffffff;
+        background: $pi-primary-color;
+        border-color: $pi-primary-color;
+        .dot {
+          background-color: #ffffff;
+        }
+      }
+      .check-label.text {
+        color: #ffffff;
+        background: $pi-primary-color;
+      }
     }
   }
 }

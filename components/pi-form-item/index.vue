@@ -27,10 +27,10 @@
       :style="[contentWrapStyle]"
     >
       <slot />
-      <!-- 右侧区域 -->
-      <view v-if="$slots && $slots.right" class="pi-pd-left-24">
-        <slot name="right" />
-      </view>
+    </view>
+    <!-- 右侧区域 -->
+    <view v-if="$slots && $slots.right" class="pi-pd-left-24">
+      <slot name="right" />
     </view>
   </view>
 </template>

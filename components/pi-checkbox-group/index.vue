@@ -83,7 +83,7 @@ export default {
       // ''
       default: checkboxGroup.shape,
       validator: function(value) {
-        return ['', 'square', 'round'].includes(value)
+        return ['', 'square', 'round', 'dot', 'text'].includes(value)
       }
     },
     // 边框大小，单位rpx
@@ -149,6 +149,7 @@ export default {
   display: inline-flex;
   flex-wrap: wrap;
   &.vertical {
+    flex-direction: column;
     /deep/ .pi-check-wrap,
     pi-checkbox {
       margin-bottom: 28rpx;
@@ -165,9 +166,6 @@ export default {
     /deep/ pi-checkbox:not(:last-child) {
       margin-right: 28rpx;
     }
-  }
-  &.vertical {
-    flex-direction: column;
   }
 }
 </style>
