@@ -240,6 +240,11 @@ $disable-color: #c8c9cc;
       border-style: solid;
     }
   }
+  &.line {
+    .radio-label.text {
+      border-color: #cccccc;
+    }
+  }
   &.fill {
     .radio-icon {
       color: #ffffff;
@@ -248,6 +253,10 @@ $disable-color: #c8c9cc;
       .dot {
         background-color: #ffffff;
       }
+    }
+    .radio-label.text {
+      color: #ffffff;
+      background: #cccccc;
     }
   }
   &.disabled {

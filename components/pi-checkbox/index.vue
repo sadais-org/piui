@@ -258,6 +258,11 @@ $disable-color: #c8c9cc;
       border-style: solid;
     }
   }
+  &.line {
+    .check-label.text {
+      border-color: #cccccc;
+    }
+  }
   &.fill {
     .check-icon {
       color: #ffffff;
@@ -266,6 +271,10 @@ $disable-color: #c8c9cc;
       .dot {
         background-color: #ffffff;
       }
+    }
+    .check-label.text {
+      color: #ffffff;
+      background: #cccccc;
     }
   }
   &.disabled {
