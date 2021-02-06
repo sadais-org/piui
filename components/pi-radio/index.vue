@@ -234,7 +234,7 @@ $disable-color: #c8c9cc;
     transition: $pi-animation-duration $pi-animation-timing-function;
     transition-property: border, color, background-color;
     &.text {
-      padding: 14rpx 24rpx;
+      padding: 12rpx 24rpx;
       margin-left: 0;
       border-color: transparent;
       border-style: solid;

@@ -148,10 +148,13 @@ export default {
 .pi-checkbox-group {
   display: inline-flex;
   flex-wrap: wrap;
-  /deep/ .pi-check-wrap,
-  pi-checkbox {
-    margin-bottom: 28rpx;
+  &.vertical {
+    /deep/ .pi-check-wrap,
+    pi-checkbox {
+      margin-bottom: 28rpx;
+    }
   }
+
   &.horizontal {
     flex-direction: row;
     align-items: center;

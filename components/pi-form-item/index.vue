@@ -23,12 +23,10 @@
     <!-- 内容区域 -->
     <view
       class="content-wrap pi-align-center"
-      :class="[{ 'pi-flex-sub': !getWrap }, getInputAlign]"
+      :class="[{ 'pi-flex-sub': !getWrap }, getInputAlign, { wrap: getWrap, nowrap: !getWrap }]"
       :style="[contentWrapStyle]"
     >
-      <view class="input-wrap " :class="[{ wrap: getWrap, nowrap: !getWrap }]">
-        <slot />
-      </view>
+      <slot />
       <!-- 右侧区域 -->
       <view v-if="$slots && $slots.right" class="pi-pd-left-24">
         <slot name="right" />
@@ -208,7 +206,7 @@ export default {
       if (this.getWrap && height) {
         style.height = this.$pi.common.addUnit(height)
       }
-      style.textAlign = this.getLabelAlign
+      style.justifyContent = alignFlexMap[this.getLabelAlign]
       return style
     },
     contentWrapStyle() {
@@ -255,8 +253,7 @@ export default {
       }
     }
   }
-  .input-wrap {
-    width: 100%;
+  .content-wrap {
     &.nowrap {
       margin-left: 24rpx;
     }

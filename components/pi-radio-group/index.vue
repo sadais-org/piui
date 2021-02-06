@@ -141,9 +141,12 @@ export default {
   flex-wrap: wrap;
   width: 100%;
 
-  /deep/ .pi-radio-wrap,
-  pi-radio {
-    margin-bottom: 28rpx;
+  &.vertical {
+    flex-direction: column;
+    /deep/ .pi-radio-wrap,
+    pi-radio {
+      margin-bottom: 28rpx;
+    }
   }
 
   &.horizontal {
@@ -156,10 +159,6 @@ export default {
     /deep/ pi-radio:not(:last-child) {
       margin-right: 28rpx;
     }
-  }
-
-  &.vertical {
-    flex-direction: column;
   }
 }
 </style>
