@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import ValueSync from '../../mixin/value-sync'
 import { parentInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
@@ -22,6 +23,7 @@ const { form } = getConfig()
 export default {
   name: 'Form',
   mixins: [
+    ValueSync, // 混入v-model
     parentInit([
       'height',
       'border',

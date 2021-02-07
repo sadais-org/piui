@@ -55,7 +55,6 @@ export default {
   name: TAG,
   // 混入v-model
   mixins: [ValueSync],
-
   props: {
     // 初始值
     value: {

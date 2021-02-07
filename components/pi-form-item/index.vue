@@ -2,16 +2,16 @@
   <view
     class="pi-form-item"
     :style="[customStyle, itemStyle]"
-    :class="[{ border: getBorder }, { 'pi-align-center': !getWrap }, customClass]"
+    :class="[{ border: getBorder }, { 'pi-align-baseline': !getWrap }, customClass]"
     @tap.stop="handleItemClick"
   >
     <!-- 表单标题 -->
     <view
-      class="form-label pi-align-center pi-flex-nowrap"
+      class="form-label pi-align-start pi-flex-nowrap"
       :style="[getLabelStyle, labelStyle]"
       :class="[{ border: getWrap && getLabelWrapBorder }]"
     >
-      <view v-if="required" style="color: red;" class="pi-mg-right-12" :style="[requiredStyle]">
+      <view v-if="required" style="color: ed2235;" class="pi-mg-right-12" :style="[requiredStyle]">
         *
       </view>
       <slot name="label">
@@ -22,11 +22,16 @@
 
     <!-- 内容区域 -->
     <view
-      class="content-wrap pi-align-center"
+      class="content-wrap"
       :class="[{ 'pi-flex-sub': !getWrap }, getInputAlign, { wrap: getWrap, nowrap: !getWrap }]"
       :style="[contentWrapStyle]"
     >
-      <slot />
+      <view class="content-input pi-align-center" :style="[getInputAlignStyle]">
+        <slot />
+      </view>
+      <view v-if="validateMessage" class="form-valid">
+        <view class="form-valid-item">{{ validateMessage }}</view>
+      </view>
     </view>
     <!-- 右侧区域 -->
     <view v-if="$slots && $slots.right" class="pi-pd-left-24">
@@ -69,6 +74,11 @@ export default {
       default() {
         return formItem.customClass
       }
+    },
+    // 绑定字段
+    prop: {
+      type: String,
+      default: ''
     },
     // 是否必填
     required: {
@@ -161,6 +171,9 @@ export default {
       default: formItem.border
     }
   },
+  data() {
+    return { validateMessage: '' }
+  },
   computed: {
     getBorder() {
       return this.inheritProps.border !== null ? this.inheritProps.border : this.border
@@ -189,7 +202,7 @@ export default {
       }
       const height = this.height || this.inheritProps.height
       if (!this.getWrap && height) {
-        style.height = this.$pi.common.addUnit(height)
+        style.minHeight = this.$pi.common.addUnit(height)
       }
       return style
     },
@@ -204,7 +217,7 @@ export default {
       }
       const height = this.height || this.inheritProps.height
       if (this.getWrap && height) {
-        style.height = this.$pi.common.addUnit(height)
+        style.minHeight = this.$pi.common.addUnit(height)
       }
       style.justifyContent = alignFlexMap[this.getLabelAlign]
       return style
@@ -214,14 +227,14 @@ export default {
       if (this.getWrap) {
         style.padding = this.padding
       }
-      style.justifyContent = alignFlexMap[this.getInputAlign]
       return style
+    },
+    getInputAlignStyle() {
+      return {
+        justifyContent: alignFlexMap[this.getInputAlign]
+      }
     }
   },
-  inject: {
-    piForm: { default: null }
-  },
-  created() {},
   methods: {
     handleItemClick(e) {
       this.$emit('click', e)
@@ -261,6 +274,16 @@ export default {
       margin-top: 24rpx;
       margin-bottom: 24rpx;
     }
+    .form-valid {
+      font-size: 24rpx;
+      color: #ed2235;
+      .form-valid-item {
+        margin-bottom: 8rpx;
+        &:first-child {
+          margin-top: 8rpx;
+        }
+      }
+    }
   }
   // 解决slot宽度没有占满100%的问题
   /deep/ .content-wrap {
@@ -271,29 +294,35 @@ export default {
       width: 100%;
     }
     &.left {
+      .form-valid,
       .pi-input-wrap,
       pi-input {
         text-align: left;
       }
-      .pi-checkbox-group.horizontal {
+      .pi-checkbox-group.horizontal,
+      .pi-radio-group.horizontal {
         justify-content: flex-start;
       }
     }
     &.center {
+      .form-valid,
       .pi-input-wrap,
       pi-input {
         text-align: center;
       }
-      .pi-checkbox-group.horizontal {
+      .pi-checkbox-group.horizontal,
+      .pi-radio-group.horizontal {
         justify-content: center;
       }
     }
     &.right {
+      .form-valid,
       .pi-input-wrap,
       pi-input {
         text-align: right;
       }
-      .pi-checkbox-group.horizontal {
+      .pi-checkbox-group.horizontal,
+      .pi-radio-group.horizontal {
         justify-content: flex-end;
       }
     }

@@ -4,7 +4,7 @@ export default {
   required: false, // 是否必填
   requiredStyle: {}, // 必填标志自定义样式，对象形式（默认值：{}）
   height: 100, // 表单项高度
-  padding: '0 32rpx', // padding
+  padding: '32rpx', // padding
   labelWidth: null, // 表单项 label 宽度，默认单位为rpx
   labelAlign: 'left', // 表单项 label 对齐方式，可选值为 left center right
   labelStyle: {}, // 表单项 label样式
