@@ -41,8 +41,11 @@
 </template>
 
 <script>
+import Emitter from '../../mixin/emitter'
 import { childInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
+
+import Schema from '../../plugins/async-validator'
 
 const TAG = 'PiFormItem'
 const { formItem } = getConfig()
@@ -56,7 +59,7 @@ const alignFlexMap = {
 
 export default {
   name: 'FormItem',
-  mixins: [extendPiFrom], // 注入inheritProps
+  mixins: [extendPiFrom, Emitter], // 注入inheritProps
   options: {
     styleIsolation: 'shared'
   },
@@ -172,7 +175,10 @@ export default {
     }
   },
   data() {
-    return { validateMessage: '' }
+    return {
+      validateState: '', // 是否校验成功
+      validateMessage: '' // 校验失败的提示语
+    }
   },
   computed: {
     getBorder() {
@@ -235,9 +241,68 @@ export default {
       }
     }
   },
+  mounted() {
+    this.initRulesValidation()
+  },
   methods: {
     handleItemClick(e) {
       this.$emit('click', e)
+    },
+    initRulesValidation() {
+      // blur事件
+      this.$on('form-blur', () => {
+        this.validation('blur')
+      })
+      // change事件
+      this.$on('form-change', () => {
+        this.validation('change')
+      })
+    },
+    // 从u-form的rules属性中，取出当前u-form-item的校验规则
+    getRules() {
+      // 父组件的所有规则
+      let rules = this._parent.rules
+      rules = rules ? rules[this.prop] : []
+      return [].concat(rules || [])
+    },
+    // 过滤出符合要求的rule规则
+    getFilteredRule(triggerType = '') {
+      let rules = this.getRules()
+      // 整体验证表单时，triggerType为空字符串
+      if (!triggerType) return rules
+      return rules.filter(res => res.trigger && res.trigger.indexOf(triggerType) !== -1)
+    },
+
+    // 校验数据
+    validation(trigger, callback = () => {}) {
+      this.fieldValue = this._parent.model[this.prop]
+      // blur和change是否有当前方式的校验规则
+      const rules = this.getFilteredRule(trigger)
+      if (!rules || rules.length === 0) {
+        return callback('')
+      }
+      // 设置当前的装填，标识为校验中
+      this.validateState = 'validating'
+      // 调用async-validator的方法
+      const validator = new Schema({
+        [this.prop]: rules
+      })
+      validator.validate(
+        {
+          [this.prop]: this.fieldValue
+        },
+        {
+          firstFields: true
+        },
+        (errors, fields) => {
+          console.log(TAG, '表单校验信息', this.prop, errors, fields)
+          // 记录状态和报错信息
+          this.validateState = !errors ? 'success' : 'error'
+          this.validateMessage = errors ? errors[0].message : ''
+          // 调用回调方法
+          callback(this.validateMessage)
+        }
+      )
     }
   }
 }

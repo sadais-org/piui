@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import ValueSync from '../../mixin/value-sync'
 import { parentInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
@@ -23,7 +22,6 @@ const { form } = getConfig()
 export default {
   name: 'Form',
   mixins: [
-    ValueSync, // 混入v-model
     parentInit([
       'height',
       'border',
@@ -39,6 +37,10 @@ export default {
     ])
   ],
   props: {
+    // 表单项值
+    model: {
+      required: false
+    },
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
       type: Object,
@@ -139,6 +141,17 @@ export default {
     border: {
       type: Boolean,
       default: form.border
+    }
+  },
+  data() {
+    return {
+      rules: {}
+    }
+  },
+  methods: {
+    // 由于多端限制，无法通过props传递方法，通过refs方式在onReady生命周期设置校验规则
+    setRules(rules) {
+      this.rules = rules
     }
   }
 }

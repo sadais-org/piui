@@ -17,6 +17,10 @@
       :selection-end="selectionEnd"
       :selection-start="selectionStart"
       :show-confirm-bar="showConfirmbar"
+      @input="handleInput"
+      @blur="handleBlur"
+      @focus="handleFocus"
+      @confirm="handleConfirm"
     />
     <input
       v-else
@@ -30,12 +34,16 @@
       :placeholderStyle="placeholderStyle"
       :disabled="disabled || type === 'select'"
       :maxlength="maxlength"
-      :focus="focus"
+      :focus="focused"
       :confirmType="confirmType"
       :cursor-spacing="cursorSpacing"
       :selection-end="selectionEnd"
       :selection-start="selectionStart"
       :show-confirm-bar="showConfirmbar"
+      @input="handleInput"
+      @blur="handleBlur"
+      @focus="handleFocus"
+      @confirm="handleConfirm"
     />
   </view>
 </template>
@@ -45,8 +53,11 @@
  *
  * @description 输入框
  */
+import Emitter from '../../mixin/emitter'
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
+import { debounce } from '../../tools/common'
+
 const { input } = getConfig()
 
 const TAG = 'PiInput'
@@ -54,7 +65,7 @@ const TAG = 'PiInput'
 export default {
   name: TAG,
   // 混入v-model
-  mixins: [ValueSync],
+  mixins: [ValueSync, Emitter],
   props: {
     // 初始值
     value: {
@@ -136,7 +147,35 @@ export default {
       default: true
     }
   },
-  computed: {}
+  data() {
+    return {
+      focused: this.focus
+    }
+  },
+  methods: {
+    handleInput: debounce(function(e) {
+      let value = e.detail.value
+      this.$emit('input', value)
+      this.dispatch('Form', 'form-change', value)
+      this.dispatch('FormItem', 'form-change', value)
+    }, 50),
+    handleFocus() {
+      this.focused = true
+      this.$emit('focus')
+    },
+    handleBlur(e) {
+      setTimeout(() => {
+        this.focused = false
+      }, 100)
+      this.$emit('blur', e.detail.value)
+      setTimeout(() => {
+        this.dispatch('FormItem', 'form-blur', e.detail.value)
+      }, 40)
+    },
+    handleConfirm(e) {
+      this.$emit('confirm', e.detail.value)
+    }
+  }
 }
 </script>
 
