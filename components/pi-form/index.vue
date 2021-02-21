@@ -33,7 +33,8 @@ export default {
       'labelWrapBorder',
       'colon',
       'disabled',
-      'border'
+      'border',
+      'errorType'
     ])
   ],
   props: {
@@ -141,6 +142,16 @@ export default {
     border: {
       type: Boolean,
       default: form.border
+    },
+    // 表单校验两种提示，message - 输入框下方提示，toast - toast提示（只提示第一个错误），默认为message
+    errorType: {
+      type: String,
+      default() {
+        return form.errorType
+      },
+      validator: function(value) {
+        return ['message', 'toast'].includes(value)
+      }
     }
   },
   data() {
@@ -149,9 +160,28 @@ export default {
     }
   },
   methods: {
-    // 由于多端限制，无法通过props传递方法，通过refs方式在onReady生命周期设置校验规则
+    // 由于跨平台限制，无法通过props传递方法，通过refs方式在onReady生命周期设置校验规则
     setRules(rules) {
       this.rules = rules
+    },
+    // 校验数据
+    async validation() {
+      const validations = this._children.map(c => c.validation())
+      const results = await Promise.all(validations)
+      const failedResults = results.filter(result => result.validateState === 'error')
+      if (this.errorType === 'toast' && failedResults.length > 0) {
+        this.$toast(failedResults[0].validateMessage)
+      }
+      return failedResults
+    },
+    // 重置表单项，支持传入prop来重置单个或部分表单项
+    resetValidation(prop = '') {
+      if (prop) {
+        const target = this._children.find(c => c.prop === prop)
+        target && target.resetValidation()
+      } else {
+        this._children.forEach(c => c.resetValidation())
+      }
     }
   }
 }

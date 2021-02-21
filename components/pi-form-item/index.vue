@@ -7,6 +7,7 @@
   >
     <!-- 表单标题 -->
     <view
+      v-if="label || $slots.label"
       class="form-label pi-align-start pi-flex-nowrap"
       :style="[getLabelStyle, labelStyle]"
       :class="[{ border: getWrap && getLabelWrapBorder }]"
@@ -29,7 +30,10 @@
       <view class="content-input pi-align-center" :style="[getInputAlignStyle]">
         <slot />
       </view>
-      <view v-if="validateMessage" class="form-valid">
+      <view
+        v-if="getErrorType === 'message' && validateState === 'error' && validateMessage"
+        class="form-valid"
+      >
         <view class="form-valid-item">{{ validateMessage }}</view>
       </view>
     </view>
@@ -176,6 +180,7 @@ export default {
   },
   data() {
     return {
+      initialValue: '', // 初始值
       validateState: '', // 是否校验成功
       validateMessage: '' // 校验失败的提示语
     }
@@ -200,6 +205,9 @@ export default {
     },
     getInputAlign() {
       return this.inheritProps.inputAlign !== null ? this.inheritProps.inputAlign : this.inputAlign
+    },
+    getErrorType() {
+      return this.inheritProps.errorType
     },
     itemStyle() {
       const style = {}
@@ -249,6 +257,15 @@ export default {
       this.$emit('click', e)
     },
     initRulesValidation() {
+      if (
+        this.prop &&
+        this._parent &&
+        this._parent.model &&
+        this._parent.model.hasOwnProperty(this.prop)
+      ) {
+        // 初始化默认值
+        this.initialValue = this._parent.model[this.prop]
+      }
       // blur事件
       this.$on('form-blur', () => {
         this.validation('blur')
@@ -272,37 +289,65 @@ export default {
       if (!triggerType) return rules
       return rules.filter(res => res.trigger && res.trigger.indexOf(triggerType) !== -1)
     },
-
     // 校验数据
-    validation(trigger, callback = () => {}) {
-      this.fieldValue = this._parent.model[this.prop]
-      // blur和change是否有当前方式的校验规则
-      const rules = this.getFilteredRule(trigger)
-      if (!rules || rules.length === 0) {
-        return callback('')
-      }
-      // 设置当前的装填，标识为校验中
-      this.validateState = 'validating'
-      // 调用async-validator的方法
-      const validator = new Schema({
-        [this.prop]: rules
-      })
-      validator.validate(
-        {
-          [this.prop]: this.fieldValue
-        },
-        {
-          firstFields: true
-        },
-        (errors, fields) => {
-          console.log(TAG, '表单校验信息', this.prop, errors, fields)
-          // 记录状态和报错信息
-          this.validateState = !errors ? 'success' : 'error'
-          this.validateMessage = errors ? errors[0].message : ''
-          // 调用回调方法
-          callback(this.validateMessage)
+    validation(trigger) {
+      const _getResolve = () => {
+        return {
+          prop: this.prop,
+          validateState: this.validateState,
+          validateMessage: this.validateMessage
         }
-      )
+      }
+      return new Promise((resolve, reject) => {
+        const rules = this.getFilteredRule(trigger)
+        if (!this.prop || !rules || rules.length === 0) {
+          return resolve(_getResolve())
+        }
+        const fieldValue = this._parent.model[this.prop]
+        // 设置当前的装填，标识为校验中
+        this.validateState = 'validating'
+        // 调用async-validator的方法
+        const validator = new Schema({
+          [this.prop]: rules
+        })
+        validator
+          .validate(
+            {
+              [this.prop]: fieldValue
+            },
+            {
+              first: true,
+              firstFields: true
+            }
+          )
+          .then(() => {
+            console.log(TAG, '表单校验成功', this.prop)
+            this.validateState = 'success'
+            this.validateMessage = ''
+            resolve(_getResolve())
+          })
+          .catch(({ errors, fields }) => {
+            console.log(TAG, '表单校验失败', this.prop, errors, fields)
+            // 记录状态和报错信息
+            this.validateState = 'error'
+            this.validateMessage = errors ? errors[0].message : ''
+            resolve(_getResolve())
+          })
+      })
+    },
+    resetValidation() {
+      // 清除校验信息
+      this.validateState = 'success'
+      this.validateMessage = ''
+      // 还原默认值
+      if (
+        this.prop &&
+        this._parent &&
+        this._parent.model &&
+        this._parent.model.hasOwnProperty(this.prop)
+      ) {
+        this._parent.model[this.prop] = this.initialValue
+      }
     }
   }
 }

@@ -13,5 +13,6 @@ export default {
   labelWrapBorder: null, // wrap样式label是否显示边框
   colon: false, // 是否在 label 后面添加冒号
   disabled: false, // 是否禁用
-  border: false // 是否显示边框
+  border: false, // 是否显示边框
+  errorType: 'message'
 }
