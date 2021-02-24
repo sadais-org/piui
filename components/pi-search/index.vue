@@ -102,6 +102,7 @@ export default {
     // 自定义样式类，字符串形式（''）
     customClass: {
       type: String,
+       // ''
       default() {
         return search.customClass
       }
