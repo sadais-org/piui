@@ -34,25 +34,31 @@ export default {
   props: {
     // 初始值
     value: {
-      required: false
+      required: false,
+      // false
+      default: false
     },
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
       type: Object,
+      // {}
       default() {
         return switchConfig.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
+      // ''
       default() {
         return switchConfig.customClass
       }
     },
-    // 类型（line: 线框模式，fill: 实底模式）
+    // 线条类型
     type: {
-      type: [String],
+      // line: 线框模式，fill: 实底模式
+      type: String,
+      // fill
       default: switchConfig.type,
       validator: function(value) {
         return ['line', 'fill'].includes(value)
@@ -61,13 +67,16 @@ export default {
     // 是否为加载状态
     loading: {
       type: Boolean,
+      // false
       default() {
         return switchConfig.loading
       }
     },
-    // 类型： spinner 菊花 round 圆环
+    // loading类型
     loadingType: {
+      // 'spinner'-菊花 'round'-圆环
       type: String,
+      // 'round'
       default: switchConfig.loadingType,
       validator: function(value) {
         return ['spinner', 'round'].includes(value)
@@ -76,13 +85,15 @@ export default {
     // 是否为禁用状态
     disabled: {
       type: Boolean,
+      // false
       default() {
         return switchConfig.disabled
       }
     },
-    // 开关尺寸，默认单位为rpx
+    // 开关尺寸 默认单位为rpx
     size: {
       type: [String, Number],
+      // 50
       default() {
         return switchConfig.size
       }
@@ -90,6 +101,7 @@ export default {
     // 激活颜色，不设置时候，为主题色
     activeColor: {
       type: String,
+      // ''
       default() {
         return switchConfig.activeColor
       }
@@ -97,6 +109,7 @@ export default {
     // 打开开关时对应的值
     activeValue: {
       type: [String, Number, Boolean],
+      // true
       default() {
         return switchConfig.activeValue
       }
@@ -104,6 +117,7 @@ export default {
     // 关闭开关时对应的值
     inactiveValue: {
       type: [String, Number, Boolean],
+      // false
       default() {
         return switchConfig.inactiveValue
       }
@@ -111,6 +125,7 @@ export default {
     // 是否使手机发生短促震动，iOS的微信小程序有效
     vibrateShort: {
       type: Boolean,
+      // true
       default() {
         return switchConfig.vibrateShort
       }
@@ -168,7 +183,8 @@ export default {
     background: #ffffff;
     border-radius: 50%;
     /* stylelint-disable */
-    box-shadow: -2rpx 4rpx 4rpx 0 rgba(0, 0, 0, 0.1), 0 4rpx 23rpx 0 rgba(0, 0, 0, 0.08),
+    box-shadow: -2rpx 4rpx 4rpx 0 rgba(0, 0, 0, 0.1),
+ 0 4rpx 23rpx 0 rgba(0, 0, 0, 0.08),
       0 0 4rpx 0 rgba(0, 0, 0, 0.2);
     transition: all cubic-bezier(0.3, 1.05, 0.4, 1.05) $pi-animation-duration;
   }
