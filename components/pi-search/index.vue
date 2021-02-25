@@ -295,20 +295,27 @@ export default {
   methods: {
     handleInputChange(e) {
       const value = e.detail.value
+      // 输入框内容变化时触发
       this.val = value
       this.handleEmitChange()
     },
     handleInputBlur() {
       this.focused = false
+      // 输入框失去焦点时触发
+      // @arg `event: Event` 
       this.$emit('blur', this.val)
       uni.hideKeyboard() // 收起键盘
     },
     handleInputSearch(e) {
+      // 确定搜索时触发
+      // @arg `value: string` (当前输入的值)
       this.$emit('search', e.detail.value)
       uni.hideKeyboard() // 收起键盘
     },
     handleInputFocus() {
       this.focused = true
+      // 输入框获得焦点时触发
+      // @arg `event: Event` 
       this.$emit('focus', this.val)
     },
     handleClearInput() {
@@ -317,10 +324,12 @@ export default {
       uni.hideKeyboard() // 收起键盘
       this.$nextTick(() => {
         // 延后发出事件，避免在父组件监听clear事件时，value为更新前的值(不为空)
+         // @arg `event: Event` 
         this.$emit('clear', this.val)
       })
     },
     handleActionClick() {
+      // 点击按钮时触发
       this.$emit('action')
     }
   }
