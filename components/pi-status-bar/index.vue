@@ -23,24 +23,27 @@ const TAG = 'PiStatusBar'
 export default {
   name: 'StatusBar',
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
+      // `{}`
       default() {
         return statusBar.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
+       // `''`
       default() {
         return statusBar.customClass
       }
     },
-    // 背景颜色（默认透明）
+    // 背景颜色
     background: {
       required: false,
       type: String,
+       // `transparent`
       default: statusBar.background
     }
   },
