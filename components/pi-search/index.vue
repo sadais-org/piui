@@ -92,22 +92,23 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
+      // {}
       default() {
         return search.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类，字符串形式
     customClass: {
       type: String,
-       // ''
+      // ''
       default() {
         return search.customClass
       }
     },
-    // 搜索框形状 round || square（默认'round'）
+    // 搜索框形状 |`String`| square/round | 'round'
     shape: {
       type: String,
       default: search.shape,
@@ -115,75 +116,87 @@ export default {
         return ['square', 'round'].includes(value)
       }
     },
-    // 背景颜色（默认'#f2f2f2'）
+    // 背景颜色
     background: {
       type: String,
+      // '#f2f2f2'
       default: search.background
     },
-    // 是否启用清除控件（默认true）
+    // 是否启用清除控件
     clearable: {
       type: Boolean,
+      // true
       default: search.clearable
     },
     // 清除图标自定义样式
     clearIconStyle: {
       type: Object,
+      // {}
       default() {
         return search.searchIconStyle
       }
     },
-    // 是否自动获得焦点（默认false）
+    // 是否自动获得焦点
     focus: {
       type: Boolean,
+      // false
       default: search.focus
     },
-    // 占位提示文字（默认''）
+    // 占位提示文字
     placeholder: {
       type: String,
+      // '请输入搜索关键词'
       default: search.placeholder
     },
-    // 指定 placeholder 的样式（默认'请输入搜索关键词'）
+    // 指定 placeholder 的样式
     placeholderStyle: {
       type: String,
+      //  'color: #cccccc;'
       default() {
         return search.placeholderStyle
       }
     },
-    // 输入框最大能输入的长度，-1为不限制长度（默认-1）
+    // 输入框最大能输入的长度，-1为不限制长度
     maxlength: {
       type: [Number, String],
+      // -1
       default: search.maxlength
     },
-    // 是否在搜索框右侧显示文字（默认false）
+    // 是否在搜索框右侧显示文字
     showAction: {
       type: Boolean,
+      // false
       default: search.showAction
     },
-    // 右侧显示文字（默认'取消'）
+    // 右侧显示文字
     actionText: {
       type: String,
+      // 取消
       default: search.actionText
     },
-    // 指定右侧显示文字样式（默认{}）
+    // 指定右侧显示文字样式
     actionStyle: {
       type: Object,
+      // {}
       default() {
         return search.actionStyle
       }
     },
-    // 输入框内容对齐方式，可选值为 left|center|right（默认为'left'）
+    // 输入框内容对齐方式 |`String`| left/center/right | 'left'
     inputAlign: {
       type: String,
       default: search.inputAlign
     },
-    // 搜索框左侧文本（默认''）
+    // 搜索框左侧文本
     searchLabel: {
       type: String,
+      // ''
       default: search.searchLabel
     },
-    // 搜索框左侧文本样式（默认{}）
+    // 搜索框左侧文本样式
     searchLabelStyle: {
       type: Object,
+      // {}
       default() {
         return search.searchLabelStyle
       }
@@ -194,19 +207,22 @@ export default {
       // true
       default: search.showSearchIcon
     },
-    // 输入框的图标，可以为icon名称或图片路径（默认为'search'）
+    // 输入框的图标，可以为icon名称或图片路径
     searchIcon: {
       type: String,
+      // 'search'
       default: search.searchIcon
     },
-    // 输入框左边的图标颜色(当传入searchIcon为name的时候)，（默认为'#333333'）
+    // 输入框左边的图标颜色(当传入searchIcon为name的时候)
     searchIconColor: {
       type: String,
+      // '#333333'
       default: search.searchIconColor
     },
     // 输入框左侧的图标自定义样式
     searchIconStyle: {
       type: Object,
+      // {}
       default() {
         return search.searchIconStyle
       }
@@ -223,23 +239,27 @@ export default {
     // 是否禁用输入框
     disabled: {
       type: Boolean,
+      // false
       default: search.disabled
     },
-    // 指定input样式（默认{}）
+    // 指定input样式
     inputStyle: {
       type: Object,
+      // {}
       default() {
         return search.inputStyle
       }
     },
-    // 导航栏高度，单位px，（默认58）
+    // 导航栏高度，单位px
     height: {
       type: [String, Number],
+      // 58
       default: search.height
     },
-    // 输入框颜色，（默认为'#333333'）
+    // 输入框颜色
     color: {
       type: String,
+      // '#333333'
       default: search.color
     }
   },
