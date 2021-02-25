@@ -182,9 +182,10 @@ export default {
         return search.actionStyle
       }
     },
-    // 输入框内容对齐方式，可选值 `left` `center` `right` |`String`|  | `left`
+    // 输入框内容对齐方式，可选值 `left` `center` `right` |`String`|  `false`
     inputAlign: {
       type: String,
+      // `left`
       default: search.inputAlign
     },
     // 搜索框左侧文本
