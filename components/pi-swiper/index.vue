@@ -83,20 +83,23 @@ export default {
     value: {
       required: false,
       type: [String, Number],
+      // `0`
       default() {
         return swiper.value
       }
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
+      // `{}`
       default() {
         return swiper.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类，字符串形式
     customClass: {
       type: String,
+      // `''`
       default() {
         return swiper.customClass
       }
@@ -104,45 +107,50 @@ export default {
     // 选项列表
     imgs: {
       type: Array,
+      // `[]`
       default() {
-        // []
         return swiper.imgs
       }
     },
-    // 如果imgs传的是字符串数组，imgField传空，如果imgs传的是对象数组，imgField传对象中img字段
+    // 如果`imgs`传的是字符串数组，`imgField`传空，如果`imgs`传的是对象数组，`imgField`传对象中`img`字段
     imgField: {
       type: String,
+      // `''` 或 `img`
       default() {
-        // []
         return swiper.imgField
       }
     },
     // 轮播图的高度
     height: {
       type: [String, Number],
+      // `auto`
       default: swiper.height
     },
-    // 图片的裁剪模式，详见image组件裁剪模式，默认（aspectFill）
+    // 图片的裁剪模式，详见image组件裁剪模式，可选值`widthFix` `heightFix` `aspectFill` `aspectFit` `scaleToFill`
     imgMode: {
       type: String,
+      // `widthFix`
       default: swiper.imgMode
     },
     // 背景颜色
     bgColor: {
       type: String,
+      // `transparent`
       default: swiper.bgColor
     },
     // 指示器模式 rect / dot / number / none
     indicatorType: {
       type: String,
+      // `number`
       default: swiper.indicatorType,
       validator: function(value) {
         return ['rect', 'dot', 'number', 'none'].includes(value)
       }
     },
-    // 指示器的位置 tl 左上角/ tc 上中/ tr 右上角/ bl 左下角/ bc 下种 /br 右下角
+    // 指示器的位置,可用值 `tl 左上角` `tc 上中` `tr 右上角` `bl 左下角` ` bc 下种` `br 右下角`
     indicatorPosition: {
       type: String,
+      // `br`
       default: swiper.indicatorPosition,
       validator: function(value) {
         return ['tl', 'tc', 'tr', 'bl', 'bc', 'br'].includes(value)
@@ -151,53 +159,63 @@ export default {
     // 指示器激活颜色，不设置默认为主题色
     indicatorActiveColor: {
       type: String,
+      // `''`
       default: swiper.indicatorActiveColor
     },
-    // 是否开启3d效果
+    // 是否开启3d效果，可选值 `true`
     effect3d: {
       type: Boolean,
+      // `false`
       default: swiper.effect3d
     },
     // effect3d = true的情况下，激活项与前后项之间的距离，单位rpx
     effect3dPreviousMargin: {
       type: [String, Number],
+      // `50`
       default: swiper.effect3dPreviousMargin
     },
-    // 是否自动播放
+    // 是否自动播放, 可选值 `false`
     autoplay: {
       type: Boolean,
+      // true
       default: swiper.autoplay
     },
     // 自动轮播时间间隔，单位ms
     interval: {
       type: [String, Number],
+      // `3000`
       default: swiper.interval
     },
-    // 是否循环播放
+    // 是否循环播放，可选值`false`
     circular: {
       type: Boolean,
+      // `true`
       default: swiper.circular
     },
     // 切换一张轮播图所需的时间，单位ms
     duration: {
       type: [String, Number],
+      // `500`
       default: swiper.duration
     },
     // 轮播图圆角值，单位rpx
     borderRadius: {
       type: [String, Number],
+      // `8`
       default: swiper.borderRadius
     },
-    // 图片自定义样式，对象形式（默认值：{}）
+    // 图片自定义样式，对象形式
     imgStyle: {
       type: Object,
+      // `{}`
       default() {
         return swiper.imgStyle
       }
     },
-    // 标题自定义样式，对象形式（默认值：{}）
+    // 标题自定义样式，对象形式
     titleStyle: {
       type: Object,
+      // `{}`
       default() {
         return swiper.titleStyle
       }
