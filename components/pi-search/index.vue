@@ -227,7 +227,7 @@ export default {
         return search.searchIconStyle
       }
     },
-    // 搜索icon的位置
+    // 搜索icon的位置，可选值 `left` `right`
     searchIconPosition: {
       type: String,
       // `left`
