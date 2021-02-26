@@ -51,47 +51,54 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
+      // `{}`
       default() {
         return tabs.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类，字符串形式
     customClass: {
       type: String,
+      // `''`
       default() {
         return tabs.customClass
       }
     },
-    // 选项列表，默认（[]）
+    // 选项列表，默认
     items: {
       type: Array,
+      // `[]`
       default() {
         return tabs.items
       }
     },
-    // 选项id字段，默认为id
+    // 选项id字段
     keyField: {
       type: String,
+      // `id`
       default: tabs.keyField
     },
-    // 选项显示字段，默认为text
+    // 选项显示字段
     displayField: {
       type: String,
+      // `text`
       default: tabs.displayField
     },
     // 选项两边的padding，单位rpx
     itemPadding: {
       type: [String, Number],
+      // `30`
       default() {
         return tabs.itemPadding
       }
     },
-    // 标签是否自动撑开
+    // 标签是否自动撑开，可选值 `true`
     stretch: {
       type: Boolean,
+      // `false`
       default() {
         return tabs.stretch
       }
@@ -99,6 +106,7 @@ export default {
     // 动画执行时间（毫秒）
     duration: {
       type: [String, Number],
+      // `300`
       default() {
         return tabs.duration
       }
@@ -106,6 +114,7 @@ export default {
     // 激活颜色（不设置，默认主题色）
     activeColor: {
       type: String,
+      // 默认主题色
       default() {
         return tabs.activeColor
       }
@@ -113,20 +122,23 @@ export default {
     // 文字激活颜色（不设置，默认主题色）
     activeTextColor: {
       type: String,
+      // 默认主题色
       default() {
         return tabs.activeTextColor
       }
     },
-    // 是否显示底部的滑块
+    // 是否显示底部的滑块，可选值 `false`
     showSliderBar: {
       type: Boolean,
+      // `true`
       default() {
         return tabs.showSliderBar
       }
     },
-    // 是否显示底部滑块导轨
+    // 是否显示底部滑块导轨，可选值 `true`
     showSliderBarGuide: {
       type: Boolean,
+      // `false`
       default() {
         return tabs.showSliderBarGuide
       }
@@ -134,6 +146,7 @@ export default {
     // 底部的滑块的宽度，单位rpx（如果不设置，默认按照当前item文字的宽度去适配）
     sliderBarWidth: {
       type: [String, Number],
+      // `''`
       default() {
         return tabs.sliderBarWidth
       }
@@ -141,6 +154,7 @@ export default {
     // 底部的滑块的高度，单位rpx
     sliderBarHeight: {
       type: [String, Number],
+      // `4`
       default() {
         return tabs.sliderBarHeight
       }
@@ -148,6 +162,7 @@ export default {
     // 底部的滑块的圆角，单位rpx
     sliderBarRadius: {
       type: [String, Number],
+      // `4`
       default() {
         return tabs.sliderBarRadius
       }
@@ -155,27 +170,31 @@ export default {
     // 导航栏的高度，单位rpx
     height: {
       type: [String, Number],
+      // `80`
       default() {
         return tabs.height
       }
     },
-    // 选项样式（默认：'{}'）
+    // 选项样式
     itemStyle: {
       type: Object,
+      // `{}`
       default() {
         return tabs.itemStyle
       }
     },
-    // 底部滑块样式（默认：'{}'）
+    // 底部滑块样式
     sliderBarStyle: {
       type: Object,
+      // `{}`
       default() {
         return tabs.sliderBarStyle
       }
     },
-    // 激活选项样式（默认：'{}'）
+    // 激活选项样式
     activeItemStyle: {
       type: Object,
+      // `{}`
       default() {
         return tabs.activeItemStyle
       }
