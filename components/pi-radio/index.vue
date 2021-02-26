@@ -23,6 +23,7 @@ const TAG = 'PiRadio'
 const { radio } = getConfig()
 const extendRadioGroup = childInit('RadioGroup')
 
+// Radio组件
 export default {
   name: 'Radio',
   // 混入自定义样式customStyle和customClass
@@ -50,7 +51,7 @@ export default {
     // radio组件的标示符
     name: {
       type: [String, Number],
-      // -
+      // ''
       default: radio.name
     },
     // 形状
@@ -63,7 +64,7 @@ export default {
         return ['square', 'round', 'dot', 'text'].includes(value)
       }
     },
-    // 当shape为square的时候，设置圆角，单位rpx
+    // 当shape为square的时候，设置圆角，值为数字时，单位默认rpx
     borderRadius: {
       type: [String, Number],
       // 8
