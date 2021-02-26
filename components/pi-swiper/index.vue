@@ -259,7 +259,9 @@ export default {
       this.handleEmitChange()
     },
     handleSwiperClick(index) {
+      // 点击时触发 |	index, 当前页的索引
       this.$emit('click', index)
+      // 点击时触发 | index, 当前页的索引
       this.$emit('tap', index)
     }
   }
