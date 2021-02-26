@@ -10,7 +10,7 @@
         v-if="loading"
         :show="loading"
         :type="loadingType"
-        :size="size * 0.6"
+        :size="getLoadingSize"
         custom-class="pi-abso-center"
       />
     </view>
@@ -134,6 +134,21 @@ export default {
   computed: {
     getSize() {
       return this.$pi.common.addUnit(this.size)
+    },
+    getLoadingSize() {
+      let newSize = this.size
+      if (typeof newSize === 'number') {
+        newSize *= 0.6
+      } else {
+        // 正则匹配 类似10.23px 分离数字和单位
+        const reg = /(\d+(?:\.\d+)?)([\D]*)/i
+        const matches = newSize.match(reg)
+        if (matches && matches.length === 3) {
+          newSize = parseFloat(matches[1])
+          newSize = `${newSize * 0.6}${matches[2]}`
+        }
+      }
+      return newSize
     },
     switchStyle() {
       const style = {
