@@ -3,7 +3,7 @@
     class="pi-grid-item"
     :style="[customStyle, itemStyle]"
     :class="[itemClass, customClass]"
-    :hover-class="hoverClass"
+    :hover-class="getHoverClass"
     :hover-start-time="hoverStartTime"
     :hover-stay-time="hoverStayTime"
     @tap.stop="handleItemClick"
@@ -115,6 +115,9 @@ export default {
     },
     getBorder() {
       return this.inheritProps.border !== null ? this.inheritProps.border : this.border
+    },
+    getHoverClass() {
+      return this.inheritProps.hoverClass !== null ? this.inheritProps.hoverClass : this.hoverClass
     },
     itemStyle() {
       const gap = this.$pi.common.addUnit(this.getGap)
