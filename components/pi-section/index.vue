@@ -48,23 +48,26 @@ const { section } = getConfig()
 export default {
   name: 'Section',
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
+      // `{}`
       default() {
         return section.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类，字符串形式
     customClass: {
       type: String,
+      // `''`
       default() {
         return section.customClass
       }
     },
-    // 自定义竖线样式，对象形式（默认值：{}）
+    // 自定义竖线样式，对象形式
     lineStyle: {
       type: Object,
+      // `{}`
       default() {
         return section.lineStyle
       }
@@ -72,13 +75,15 @@ export default {
     // 标题
     title: {
       type: String,
+      // `''`
       default() {
         return section.title
       }
     },
-    // 标题自定义样式，对象形式（默认值：{}）
+    // 标题自定义样式，对象形式
     titleStyle: {
       type: Object,
+      // `{}`
       default() {
         return section.titleStyle
       }
@@ -86,6 +91,7 @@ export default {
     // 描述
     desc: {
       type: String,
+      // `''`
       default() {
         return section.title
       }
@@ -100,27 +106,31 @@ export default {
     // 右侧文字
     extraText: {
       type: String,
+      // `''`
       default() {
         return section.title
       }
     },
-    // 右侧文字自定义样式，对象形式（默认值：{}）
+    // 右侧文字自定义样式，对象形式
     extraStyle: {
       type: Object,
+      // `{}`
       default() {
         return section.extraStyle
       }
     },
-    // 是否显示边框
+    // 是否显示边框，可用值 `true`
     border: {
       type: Boolean,
+      // `false`
       default() {
         return section.border
       }
     },
-    // 是否显示左侧竖线
+    // 是否显示左侧竖线，可用值 `false`
     line: {
       type: Boolean,
+      // `true`
       default() {
         return section.line
       }
@@ -128,13 +138,15 @@ export default {
     // 列表项内边距
     padding: {
       type: String,
+      // `24rpx 0`
       default() {
         return section.padding
       }
     },
-    // 是否显示右边icon
+    // 是否显示右边icon。默认是箭头（可以自定义设置成其他图标），可用值 `true`
     showRightIcon: {
       type: Boolean,
+      // `false`
       default() {
         return section.showRightIcon
       }
@@ -142,6 +154,7 @@ export default {
     // 右侧icon样式
     rightIcon: {
       type: Object,
+      // `name` `dot` `badge` `color` `size` `classPrefix`
       default() {
         return section.rightIcon
       }
