@@ -34,7 +34,7 @@ export default {
     // 自定义样式类
     customClass: {
       type: String,
-       // `''`
+      // `''`
       default() {
         return statusBar.customClass
       }
@@ -43,7 +43,7 @@ export default {
     background: {
       required: false,
       type: String,
-       // `transparent`
+      // `transparent`
       default: statusBar.background
     }
   },

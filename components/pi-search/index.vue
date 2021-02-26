@@ -302,7 +302,7 @@ export default {
     handleInputBlur() {
       this.focused = false
       // 输入框失去焦点时触发
-      // @arg `event: Event` 
+      // @arg `event: Event`
       this.$emit('blur', this.val)
       uni.hideKeyboard() // 收起键盘
     },
@@ -315,7 +315,7 @@ export default {
     handleInputFocus() {
       this.focused = true
       // 输入框获得焦点时触发
-      // @arg `event: Event` 
+      // @arg `event: Event`
       this.$emit('focus', this.val)
     },
     handleClearInput() {
@@ -324,7 +324,7 @@ export default {
       uni.hideKeyboard() // 收起键盘
       this.$nextTick(() => {
         // 延后发出事件，避免在父组件监听clear事件时，value为更新前的值(不为空)
-         // @arg `event: Event` 
+        // @arg `event: Event`
         this.$emit('clear', this.val)
       })
     },

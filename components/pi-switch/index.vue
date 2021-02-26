@@ -198,8 +198,7 @@ export default {
     background: #ffffff;
     border-radius: 50%;
     /* stylelint-disable */
-    box-shadow: -2rpx 4rpx 4rpx 0 rgba(0, 0, 0, 0.1),
- 0 4rpx 23rpx 0 rgba(0, 0, 0, 0.08),
+    box-shadow: -2rpx 4rpx 4rpx 0 rgba(0, 0, 0, 0.1), 0 4rpx 23rpx 0 rgba(0, 0, 0, 0.08),
       0 0 4rpx 0 rgba(0, 0, 0, 0.2);
     transition: all cubic-bezier(0.3, 1.05, 0.4, 1.05) $pi-animation-duration;
   }
