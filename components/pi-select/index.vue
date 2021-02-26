@@ -107,7 +107,7 @@ export default {
     },
     // 工具条位置
     toolbarPosition: {
-      // 'bottom' | 'top'
+      // 'bottom', 'top'
       type: String,
       // 'bottom'
       default: select.toolbarPosition,
@@ -393,7 +393,7 @@ export default {
     handleConfirm() {
       /**
        * 点击确定按钮后触发
-       * @arg 当前选中的值 对象 || array
+       * @arg 当前选中的值 单选为对象，多选模式为数组
        */
       this.$emit('confirm', this.selected)
       this.onConfirmClose && this.handlePopupClose()
