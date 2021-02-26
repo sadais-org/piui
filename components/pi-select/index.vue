@@ -54,8 +54,9 @@
           class="select-item pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
           @tap.stop="handleSelectItem(item)"
         >
+          // 列表项目
           <slot name="item" :item="item">
-            <!-- 后备内容 -->
+            <!-- item[displayField] -->
             {{ item[displayField] }}
           </slot>
           <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" readonly />
@@ -88,53 +89,62 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
+      // {}
       default() {
         return select.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
+      // ''
       default() {
         return select.customClass
       }
     },
+    // 工具条位置
     toolbarPosition: {
+      // 'bottom' | 'top'
       type: String,
+      // 'bottom'
       default: select.toolbarPosition,
       validator: function(value) {
         return ['top', 'bottom'].includes(value)
       }
     },
-    // 选项列表，默认（[]）
+    // 选项列表
     items: {
       type: Array,
-      // [ { id: 'partyMember', text: '党员', disabled: true }]
+      // []
       default() {
         return select.items
       }
     },
-    // 选项id字段，默认为id
+    // 列表选项的唯一标识
     keyField: {
       type: String,
+      // 'id'
       default: select.keyField
     },
-    // 选项显示字段，默认为text
+    // 选项显示字段
     displayField: {
       type: String,
+      // 'text'
       default: select.displayField
     },
-    // 默认值，单选是传Object，多选时传Array，默认null
+    // 默认值，单选是传Object，多选时传Array
     defaultValue: {
       type: [Object, Array],
+      // null
       default: select.defaultValue
     },
-    // 是否多选，（默认：false）
+    // 是否多选
     isMulti: {
       type: Boolean,
+      // false
       default: select.isMulti
     },
     // 单选模式下，是否可取消选中
@@ -143,136 +153,163 @@ export default {
       // true
       default: select.singleCancel
     },
-    // 是否显示title（默认：true）
+    // 是否显示title
     showTitle: {
       type: Boolean,
+      // false
       default: select.showTitle
     },
-    // 标题（默认：日期选择）
+    // 标题
     title: {
       type: String,
+      // '弹出选择'
       default: select.title
     },
-    // 标题 padding（默认：24rpx）
+    // 标题 padding
     titlePadding: {
       type: [String, Number],
+      // '32rpx'
       default: select.titlePadding
     },
-    // 弹出选择层的高度，不可填百分比（默认：'50vh'）
+    // 弹出选择层的高度，不可填百分比
     height: {
       type: String,
+      // '50vh'
       default: select.height
     },
-    // 行高（默认：'110rpx'）
+    // 行高 值为数字，则单位默认rpx
     itemHeight: {
       type: [String, Number],
+      // 110
       default: select.itemHeight
     },
-    // 是否显示item下边框（默认：'true'）
+    // 是否显示item下边框
     showItemBottomBorder: {
       type: Boolean,
+      // true
       default: select.showItemBottomBorder
     },
-    // 行样式（默认：'{}'）
+    // 行样式
     itemStyle: {
       type: Object,
+      // {}
       default() {
         return select.itemStyle
       }
     },
-    // 是否点击确认的时候关闭弹窗（默认：'true'）
+    // 是否点击确认的时候关闭弹窗
     onConfirmClose: {
       type: Boolean,
+      // true
       default: select.onConfirmClose
     },
     /**
      * 弹窗的配置，默认选项请参照popup
      * ---------------------------------------------------------------------------------------------
      */
-    // 控制弹窗的四个角圆角效果（默认'0 0 0 0'）
+    // 控制弹窗的四个角圆角效果
     borderRadius: {
       type: [String, Number],
+      // '0 0 0 0'
       default: select.borderRadius
     },
-    // 是否显示关闭图标，默认（true）
+    // 是否显示关闭图标
     showCloseIcon: {
       type: Boolean,
+      // true
       default: select.showCloseIcon
     },
-    // 关闭图标的名称，默认（close）
+    // 关闭图标的名称
     closeIconName: {
       type: String,
+      // 'close'
       default: select.closeIconName
     },
+    // 关闭图标的padding
     closeIconPadding: {
       type: [String, Number],
+      // '32rpx 32rpx'
       default: select.closeIconPadding
     },
-    // 关闭图标的颜色，默认（'#666666'）
+    // 关闭图标的颜色
     closeIconColor: {
       type: String,
+      // '#666666'
       default: select.closeIconColor
     },
-    // 关闭图标的大小，默认（'42rpx'）
+    // 关闭图标的大小 值为数字 则单位默认rpx
     closeIconSize: {
       type: [String, Number],
+      // 42
       default: select.closeIconSize
     },
+    // 关闭图标的font-weight
     closeIconWeight: {
       type: [String, Number],
+      // 800
       default: select.closeIconWeight
     },
-    // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
+    // 关闭图标位置
     closeIconPosition: {
+      // tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
       type: String,
+      // ''
       default: select.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
-    // 顶部安全适配（状态栏高度，默认true）
+    // 顶部安全适配（主要针对iPhoneX）
     safeAreaInsetTop: {
       type: Boolean,
+      // true
       default: select.safeAreaInsetTop
     },
-    // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
+    // 底部安全适配（iPhoneX 留出底部安全距离）
     safeAreaInsetBottom: {
       type: Boolean,
+      // true
       default: select.safeAreaInsetBottom
     },
     /**
      * mask props
      * ---------------------------------------------------------------------------------------------
      */
-    // 遮罩的过渡时间，单位为ms，默认（500）
+    // 遮罩的过渡时间，单位为ms
     duration: {
       type: [Number, String],
+      // 300
       default: select.duration
     },
-    // 是否可以通过点击遮罩进行关闭，默认（true）
+    // 是否可以通过点击遮罩进行关闭
     maskClosable: {
       type: Boolean,
+      // true
       default: select.maskClosable
     },
-    // 是否隐藏TabBar，默认（false）
+    // 是否隐藏TabBar
     hideTabBar: {
       required: false,
       type: Boolean,
+      // false
       default: select.hideTabBar
     },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）,默认（false）
+    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
     appendToBody: {
       type: Boolean,
+      // false
       default: select.appendToBody
     },
-    // 层级z-index，（默认1000）
+    // 层级z-index
     zIndex: {
       type: [Number, String],
+      // 100
       default: select.zIndex
     },
-    // 背景颜色（默认'rgba(0, 0, 0, .5)'）
+    // 背景颜色
     maskBackground: {
       type: String,
+      // rgba(0, 0, 0, .5)
       default: select.maskBackground
     }
   },
@@ -324,6 +361,7 @@ export default {
     },
     handlePopupClose() {
       this.val = false
+      // 关闭弹窗
       this.$emit('close')
       this.handleEmitChange()
     },
@@ -353,6 +391,10 @@ export default {
       }
     },
     handleConfirm() {
+      /**
+       * 点击确定按钮后触发
+       * @arg 当前选中的值 对象 || array
+       */
       this.$emit('confirm', this.selected)
       this.onConfirmClose && this.handlePopupClose()
     }
