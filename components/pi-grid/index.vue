@@ -68,6 +68,11 @@ export default {
 
 .pi-grid {
   width: 100%;
+  &::before {
+    display: inline-block;
+    vertical-align: middle;
+    content: '';
+  }
   &.border {
     @include pi-border;
     &::after {

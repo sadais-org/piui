@@ -163,6 +163,7 @@ export default {
 
 .pi-grid-item {
   display: inline-block;
+  vertical-align: middle;
   &.border {
     @include pi-border;
     &::after {
