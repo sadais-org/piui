@@ -25,6 +25,7 @@
     >
       <!-- 顶部操作条 -->
       <view
+        v-if="showTitle"
         class="pi-justify-between pi-align-center pi-solid-bottom-1 pi-fz-32 pi-fw-500"
         :style="[{ padding: getTitlePadding }]"
       >
@@ -50,7 +51,7 @@
               width="100%"
               :bg-color="index < 11 ? keyBackgroundColor : 'transparent'"
               :custom-style="{ fontSize: '44rpx', height: '100rpx', lineHeight: '100rpx' }"
-              @click="handleKeyClick"
+              @click="handleKeyClick(keys[index])"
             >
               <template v-if="index < 11">{{ keys[index] }}</template>
               <pi-icon v-else name="backspace" size="64" />
@@ -230,7 +231,7 @@ export default {
   },
   computed: {
     keys() {
-      return [1, 2, 3, 4, 5, 6, 7, 8, 9, this.extraKey, 0]
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9, this.extraKey, 0, 'backspace']
     },
     getHeight() {
       return this.$pi.common.addUnit(this.height)
@@ -248,7 +249,14 @@ export default {
     handlePopupClose() {
       this.$emit('close')
     },
-    handleKeyClick() {},
+    handleKeyClick(key) {
+      if (key === 'backspace') {
+        this.val = this.val.slice(0, this.val.length - 1)
+      } else {
+        this.val = this.val.toString() + key
+      }
+      this.handleEmitChange()
+    },
     handleConfirm() {
       this.$emit('confirm', this.numberKeyboarded)
       this.onConfirmClose && this.handlePopupClose()

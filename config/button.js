@@ -25,5 +25,5 @@ export default {
   round: false, // 按钮是否椭圆（默认值：false）
   ripple: true, // 是否开启水波纹效果（默认值：true）
   rippleBgColor: '', // 水波纹的背景颜色（默认值：''）
-  debounceTimeout: 200 // 按钮防抖默认延时200
+  debounceTimeout: 50 // 按钮防抖默认延时50
 }
