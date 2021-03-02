@@ -78,7 +78,7 @@ export default {
     },
     // 形状
     shape: {
-      // round || square
+      // 'round', 'square', 'dot', 'text'
       type: String,
       // ''
       default: radioGroup.shape,
@@ -120,6 +120,7 @@ export default {
     activeMode: {
       // '', 'line', 'fill'
       type: [String],
+      // 'line'
       default: radioGroup.activeMode,
       validator: function(value) {
         return ['', 'line', 'fill'].includes(value)
@@ -127,6 +128,11 @@ export default {
     }
   },
   methods: {
+    /**
+     * @vuese
+     * 用于给子子组件pi-radio调用，从而更新value
+     * @arg pi-radio的name属性值
+     */
     emitChange(childName) {
       this.val = childName
       this.handleEmitChange()
