@@ -25,6 +25,7 @@ export default {
   // 混入自定义样式customStyle和customClass
   mixins: [
     ValueSync,
+    // parentInit 混入子组件要继承的属性
     parentInit([
       'val',
       'shape',
