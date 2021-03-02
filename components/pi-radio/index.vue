@@ -56,9 +56,9 @@ export default {
     },
     // 形状
     shape: {
-      // square || round || dot || text
+      // 'square', 'round', 'dot', 'text'
       type: String,
-      // round
+      // 'round'
       default: radio.shape,
       validator: function(value) {
         return ['square', 'round', 'dot', 'text'].includes(value)
@@ -70,7 +70,7 @@ export default {
       // 8
       default: radio.borderRadius
     },
-    // 边框大小，单位rpx
+    // 边框大小，传数字时，单位默认rpx
     border: {
       type: [String, Number],
       // 4
@@ -88,13 +88,13 @@ export default {
       // false
       default: radio.readonly
     },
-    // radio大小，单位rpx
+    // radio大小，数字时，单位默认rpx
     size: {
       type: [String, Number],
       // 40
       default: radio.size
     },
-    // radio icon 大小，单位rpx
+    // radio icon 大小，数字时，单位默认rpx
     iconSize: {
       type: [String, Number],
       // 24
