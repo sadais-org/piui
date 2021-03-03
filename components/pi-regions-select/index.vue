@@ -375,6 +375,7 @@ export default {
     },
     handlePopupClose() {
       this.val = false
+      // 点击取消
       this.$emit('close')
       this.handleEmitChange()
     },
@@ -408,6 +409,8 @@ export default {
     },
     handleConfirm() {
       this.regions.generateName()
+      // 点击确认事件
+      // @arg `regions`
       this.$emit('confirm', this.regions)
       this.onConfirmClose && this.handlePopupClose()
     }
