@@ -109,6 +109,7 @@ export default {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
       type: Object,
+      // `{}`
       default() {
         return regionsSelect.customStyle
       }
@@ -116,12 +117,15 @@ export default {
     // 自定义样式类，字符串形式（''）
     customClass: {
       type: String,
+      // `''`
       default() {
         return regionsSelect.customClass
       }
     },
+    // 操作条（确定，取消按钮）位置，可选值：`top`
     toolbarPosition: {
       type: String,
+      // `bottom`
       default: regionsSelect.toolbarPosition,
       validator: function(value) {
         return ['top', 'bottom'].includes(value)
@@ -134,151 +138,168 @@ export default {
         return regionsSelect.regionsData
       }
     },
-    // 选项id字段，默认为id
+    // 选项id字段
     keyField: {
       type: String,
+      // `code`
       default: regionsSelect.keyField
     },
-    // 选项显示字段，默认为text
+    // 选项显示字段
     displayField: {
       type: String,
+      // `name`
       default: regionsSelect.displayField
     },
     // 默认值
     defaultValue: {
       type: Object,
+      // `null`，单选是传`Object`，多选时传`Array`
       default: regionsSelect.defaultValue
     },
-    // 是否显示title（默认：true）
+    // 是否显示title，可选值：`true`
     showTitle: {
       type: Boolean,
+      // `false`
       default: regionsSelect.showTitle
     },
-    // 标题（默认：日期选择）
+    // 标题
     title: {
       type: String,
+      // `地区选择`
       default: regionsSelect.title
     },
-    // 标题 padding（默认：24rpx）
+    // 标题 padding，单位(rpx)
     titlePadding: {
       type: [String, Number],
+      // `32rpx`
       default: regionsSelect.titlePadding
     },
-    // 弹出选择层的高度，不可填百分比（默认：'50vh'）
+    // 弹出选择层的高度，不可填百分比
     height: {
       type: String,
+      // `50vh`
       default: regionsSelect.height
     },
-    // 行高（默认：'110rpx'）
+    // 行高
     itemHeight: {
       type: [String, Number],
+      // `110`
       default: regionsSelect.itemHeight
     },
-    // 是否显示item下边框（默认：'true'）
+    // 是否显示item下边框，可选值：`false`
     showItemBottomBorder: {
       type: Boolean,
+      // `true`
       default: regionsSelect.showItemBottomBorder
     },
-    // 行样式（默认：'{}'）
+    // 行样式
     itemStyle: {
       type: Object,
+      // `{}`
       default() {
         return regionsSelect.itemStyle
       }
     },
-    // 是否点击确认的时候关闭弹窗（默认：'true'）
+    // 是否点击确认的时候关闭弹窗，可选值`false`
     onConfirmClose: {
       type: Boolean,
+      // `true`
       default: regionsSelect.onConfirmClose
     },
     /**
      * 弹窗的配置，默认选项请参照popup
      * ---------------------------------------------------------------------------------------------
      */
-    // 控制弹窗的四个角圆角效果（默认'0 0 0 0'）
+    // 控制弹窗的四个角圆角效果
     borderRadius: {
       type: [String, Number],
+      // `0 0 0 0`
       default: regionsSelect.borderRadius
     },
-    // 是否显示关闭图标，默认（true）
+    // 是否显示关闭图标，可选值 `false`
     showCloseIcon: {
       type: Boolean,
+      // `true`
       default: regionsSelect.showCloseIcon
     },
-    // 关闭图标的名称，默认（close）
+    // 关闭图标的名称
     closeIconName: {
       type: String,
+      // `close`
       default: regionsSelect.closeIconName
     },
+    //  关闭图标的padding
     closeIconPadding: {
       type: [String, Number],
+      // `32rpx 32rpx`
       default: regionsSelect.closeIconPadding
     },
-    // 关闭图标的颜色，默认（'#666666'）
+    // 关闭图标的颜色
     closeIconColor: {
       type: String,
+      // `#666666`
       default: regionsSelect.closeIconColor
     },
-    // 关闭图标的大小，默认（'42rpx'）
+    // 关闭图标的大小
     closeIconSize: {
       type: [String, Number],
+      // `42`
       default: regionsSelect.closeIconSize
     },
+    // 关闭图标font-weight
     closeIconWeight: {
       type: [String, Number],
+      // `800`
       default: regionsSelect.closeIconWeight
     },
-    // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
+    // 关闭图标位置，`tl`为左上角，`tr`为右上角，`bl`为左下角，`br`为右下角，若不指定，
     closeIconPosition: {
       type: String,
+      // 若不指定，则按照弹出位置自动显示在合适的位置
       default: regionsSelect.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
-    // 顶部安全适配（状态栏高度，默认true）
-    safeRegionsInsetTop: {
-      type: Boolean,
-      default: regionsSelect.safeRegionsInsetTop
-    },
-    // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
-    safeRegionsInsetBottom: {
-      type: Boolean,
-      default: regionsSelect.safeRegionsInsetBottom
-    },
     /**
      * mask props
      * ---------------------------------------------------------------------------------------------
      */
-    // 遮罩的过渡时间，单位为ms，默认（500）
+    // 遮罩的过渡时间，单位为ms
     duration: {
       type: [Number, String],
+      // `300`
       default: regionsSelect.duration
     },
-    // 是否可以通过点击遮罩进行关闭，默认（true）
+    // 是否可以通过点击遮罩进行关闭，可选值`false`
     maskClosable: {
       type: Boolean,
+      // `true`
       default: regionsSelect.maskClosable
     },
-    // 是否隐藏TabBar，默认（false）
+    // 是否隐藏TabBar，可选值`true`
     hideTabBar: {
       required: false,
       type: Boolean,
+      // `false`
       default: regionsSelect.hideTabBar
     },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）,默认（false）
+    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效），可选值`true`
     appendToBody: {
       type: Boolean,
+      // `false`
       default: regionsSelect.appendToBody
     },
-    // 层级z-index，（默认1000）
+    // 层级z-index
     zIndex: {
       type: [Number, String],
+      // `100`
       default: regionsSelect.zIndex
     },
-    // 背景颜色（默认'rgba(0, 0, 0, .5)'）
+    // 背景颜色
     maskBackground: {
       type: String,
+      // `rgba(0, 0, 0, .5)`
       default: regionsSelect.maskBackground
     }
   },
