@@ -8,6 +8,7 @@ const install = (Vue, config = {}) => {
   setConfig(piConfig)
   Vue.prototype.$piConfig = piConfig
   Vue.prototype.$pi = tools
+  Vue.prototype.$uni = tools.uni // 统一uniapi调用入口
   Vue.prototype.$toast = tools.toast.info
   Vue.prototype.$loading = tools.toast.loading
   Vue.prototype.$hideLoading = tools.toast.hideLoading
