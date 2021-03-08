@@ -15,7 +15,7 @@
       @tap="handleChange(-1)"
     />
     <input
-      :value="val"
+      :value="value"
       type="digit"
       class="step-input"
       :disabled="disabled || disableInput"
@@ -133,7 +133,7 @@ export default {
     },
     // 形状
     shape: {
-      // round || square
+      // round, square
       type: String,
       // round
       default: stepper.shape,
@@ -236,13 +236,25 @@ export default {
       this.handleEmitChange()
     },
     handleInputChange(e) {
-      setTimeout(() => {
-        const val = e.detail.value
-        if (!this.$pi.validate.isNumerical(val)) {
-          this.val = val.replace(/[^0-9]/gi, '')
-        } else {
-          this.val = val
+      const val = e.detail.value
+      if (!this.$pi.validate.isNumerical(val)) {
+        this.val = val.replace(/[^0-9]/gi, '')
+      } else {
+        let reg = /^(\d+)(?:\.(\d+))?$/i
+        let results = val.match(reg)
+        let tmpVal = 0
+        if (results) {
+          if (this.decimal > 0 && results[2]) {
+            let min = Math.min(results[2].length, this.decimal)
+            tmpVal = parseFloat(`${results[1]}.${results[2].substr(0, min)}`)
+          } else {
+            tmpVal = parseFloat(results[1])
+          }
         }
+      }
+      setTimeout(() => {
+        this.val = tmpVal
+        this.handleEmitChange()
       }, 10)
     }
   }
