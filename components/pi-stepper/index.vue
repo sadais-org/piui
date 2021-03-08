@@ -229,33 +229,56 @@ export default {
   methods: {
     handleChange(range) {
       if (this.disabled) return
-      const val = this.val + range * this.step
-      if (range === 1 && this.max !== null && val > this.max) return
-      if (range === -1 && this.min !== null && val < this.min) return
-      this.val = val
-      this.handleEmitChange()
+      let val = this.val + range * this.step
+      if (this.max !== null && val > this.max) {
+        val = this.max
+      }
+      if (this.min !== null && val < this.min) {
+        val = this.min
+      }
+      this.handleInputChange({ detail: { value: `${val}` } })
     },
     handleInputChange(e) {
       const val = e.detail.value
-      if (!this.$pi.validate.isNumerical(val)) {
-        this.val = val.replace(/[^0-9]/gi, '')
-      } else {
-        let reg = /^(\d+)(?:\.(\d+))?$/i
-        let results = val.match(reg)
-        let tmpVal = 0
-        if (results) {
-          if (this.decimal > 0 && results[2]) {
-            let min = Math.min(results[2].length, this.decimal)
-            tmpVal = parseFloat(`${results[1]}.${results[2].substr(0, min)}`)
-          } else {
-            tmpVal = parseFloat(results[1])
-          }
-        }
-      }
-      setTimeout(() => {
-        this.val = tmpVal
+      const reg = /^(\d+)(\.)?(?:(.+)$)?/
+      const result = val.match(reg)
+      const decimal = this.decimal
+      if (!result) {
+        // 说明开头就不是数字 直接初始化为0
+        this.val = this.min != null ? this.min : 0
         this.handleEmitChange()
-      }, 10)
+      } else {
+        // 分离出 小数点、及其左右2边的数字
+        const left = result[1]
+        const dot = result[2]
+        const right = result[3]
+        let tmpVal = ''
+        if (!dot || !right) {
+          tmpVal = dot ? `${left}${dot}` : left
+        } else if (/^\d+/.test(right)) {
+          // 限制小数点位数
+          const digit = right.match(/^\d+/)[0]
+          const len = Math.min(digit.length, decimal)
+          tmpVal = `${left}${dot}${digit.substr(0, len)}`
+        } else {
+          // 若小数点右边不是以数字开头
+          tmpVal = `${left}${dot}`
+        }
+        // target.value = tmpVal
+        console.log(`tmpVal = ${tmpVal}`)
+        this.val = 0
+        this.handleEmitChange()
+        this.$nextTick(() => {
+          let tmp = parseFloat(tmpVal)
+          if (this.integer) {
+            tmp = parseInt(tmpVal)
+          }
+          tmp = tmp <= this.max ? tmp : this.max
+          tmp = tmp >= this.min ? tmp : this.min
+          this.val = tmp
+          this.handleEmitChange()
+        })
+      }
     }
   }
 }
