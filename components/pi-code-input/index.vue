@@ -144,6 +144,10 @@ export default {
         this.handleEmitChange()
       }
       if (value.length === this.getLength) {
+        /**
+         * 当输入的数字位数与length属性相等时触发
+         * @arg string 输入的数字
+         */
         this.$emit('end', this.val)
       }
     }
