@@ -185,6 +185,7 @@ export default {
     margin-right: 12rpx;
     font-size: $pi-section-title-fontsize;
     color: $pi-section-title-color;
+    white-space: nowrap;
   }
   .list-item-desc {
     font-size: $pi-section-desc-fontsize;
