@@ -24,6 +24,7 @@
  */
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
+import { parseDuration } from '../../tools/common'
 
 const TAG = 'PiMask'
 const { mask } = getConfig()
@@ -37,59 +38,69 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
+      // {}
       default() {
         return mask.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
+      // ''
       default() {
         return mask.customClass
       }
     },
-    // 显示的时候执行的动画，默认（'pi-ani-fade-show'）
+    // 显示的时候执行的动画
     animationShow: {
       type: String,
+      // 'pi-ani-fade-show'
       default: mask.animationShow
     },
-    // 隐藏的时候执行的动画，默认（'pi-ani-fade-hide'）
+    // 隐藏的时候执行的动画
     animationHide: {
       type: String,
+      // 'pi-ani-fade-hide'
       default: mask.animationHide
     },
-    // 遮罩的过渡时间，单位为ms，默认（500）
+    // 遮罩的过渡时间 i.e '0.56s' 、'560ms' 、'560'、560
     duration: {
       type: [Number, String],
+      // 300
       default: mask.duration
     },
-    // 是否可以通过点击遮罩进行关闭，默认（true）
+    // 是否可以通过点击遮罩进行关闭
     maskClosable: {
       type: Boolean,
+      // true
       default: mask.maskClosable
     },
-    // 是否隐藏TabBar，默认（false）
+    // 是否隐藏TabBar
     hideTabBar: {
       required: false,
       type: Boolean,
+      // false
       default: mask.hideTabBar
     },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）,默认（false）
+    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
     appendToBody: {
       type: Boolean,
+      // false
       default: mask.appendToBody
     },
-    // 层级z-index，（默认1000）
+    // 层级z-index
     zIndex: {
       type: [Number, String],
+      // 100
       default: mask.zIndex
     },
-    // 背景颜色（默认'rgba(0, 0, 0, .5)'）
+    // 背景颜色
     background: {
       type: String,
+      // 'rgba(0, 0, 0, .5)'
       default: mask.background
     }
   },
@@ -101,11 +112,7 @@ export default {
   },
   computed: {
     getDuration() {
-      const duration = parseInt(this.duration)
-      return {
-        js: duration,
-        css: `${duration / 1000}s`
-      }
+      return parseDuration(this.duration, mask.duration)
     }
   },
   watch: {
@@ -148,8 +155,12 @@ export default {
       console.log(TAG, '关闭遮罩层')
       this.show = false
       this.showed = false
+      // 即将关闭弹窗
       this.$emit('close')
       setTimeout(() => {
+        /**
+         * 已经关闭弹窗
+         */
         this.$emit('closed')
         this.val = false
         this.handleEmitChange()

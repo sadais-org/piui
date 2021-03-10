@@ -197,7 +197,7 @@ export default {
      * mask props
      * ---------------------------------------------------------------------------------------------
      */
-    // 遮罩的过渡时间，单位为ms，默认（500）
+    // 遮罩的过渡时间，格式：500、'500ms'、'0.5s'
     duration: {
       type: [Number, String],
       default: numberKeyboard.duration

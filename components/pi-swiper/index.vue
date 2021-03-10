@@ -8,7 +8,7 @@
       :current="val"
       :interval="interval"
       :circular="circular"
-      :duration="duration"
+      :duration="getDuration.js"
       :autoplay="autoplay"
       :previous-margin="effect3d ? effect3dPreviousMargin + 'rpx' : '0'"
       :next-margin="effect3d ? effect3dPreviousMargin + 'rpx' : '0'"
@@ -70,6 +70,7 @@ import ValueSync from '../../mixin/value-sync'
 import { systemInfo } from '../../tools/system'
 
 import { getConfig } from '../../config'
+import { parseDuration } from '@/piui/tools/common'
 const { swiper } = getConfig()
 
 const TAG = 'PiSwiper'
@@ -192,7 +193,7 @@ export default {
       // `true`
       default: swiper.circular
     },
-    // 切换一张轮播图所需的时间，单位ms
+    // 切换一张轮播图所需的时间 格式：500、'500ms', '0.5s'
     duration: {
       type: [String, Number],
       // `500`
@@ -222,6 +223,9 @@ export default {
     }
   },
   computed: {
+    getDuration() {
+      return parseDuration(this.duration, swiper.duration)
+    },
     getHeight() {
       return this.$pi.common.addUnit(this.height)
     },

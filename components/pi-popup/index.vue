@@ -43,12 +43,11 @@
 /**
  * 通过v-model控制蒙层是否显示
  * input	蒙层显示或者关闭的时候触发事件 value: boolean (蒙层是否显示)
- * closeing	蒙层关闭中事件，动画还没执行完毕
- * close 蒙层已关闭事件，动画已经执行完毕
  */
 import ValueSync from '../../mixin/value-sync'
 import { systemInfo } from '../../tools/system'
 import { getConfig } from '../../config'
+import { parseDuration } from '../../tools/common'
 
 const TAG = 'PiPopup'
 const { popup } = getConfig()
@@ -68,117 +67,140 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
+      // {}
       default() {
         return popup.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
+      // ''
       default() {
         return popup.customClass
       }
     },
-    // 弹出位置，可选值为 top bottom right left center
+    // 弹出位置
     position: {
+      // 'top' 'bottom' 'right' 'left' 'center'
       type: String,
+      // 'bottom'
       default: popup.position,
       validator: function(value) {
         return ['top', 'bottom', 'right', 'left', 'center'].includes(value)
       }
     },
-    // 背景颜色（默认'ffffff'）
+    // 背景颜色
     background: {
       type: String,
+      // '#ffffff'
       default: popup.background
     },
-    // 控制弹窗的四个角圆角效果（默认'0 0 0 0'）
+    // 控制弹窗的四个角圆角效果
     borderRadius: {
       type: [String, Number],
       default: '0 0 0 0'
     },
-    // 是否显示关闭图标，默认（true）
+    // 是否显示关闭图标
     showCloseIcon: {
       type: Boolean,
+      // true
       default: popup.showCloseIcon
     },
-    // 关闭图标的名称，默认（close）
+    // 关闭图标的名称
     closeIconName: {
       type: String,
+      // 'close'
       default: popup.closeIconName
     },
+    // 关闭图标的padding
     closeIconPadding: {
       type: [String, Number],
+      // '32rpx 32rpx'
       default: popup.closeIconPadding
     },
-    // 关闭图标的颜色，默认（'#666666'）
+    // 关闭图标的颜色
     closeIconColor: {
       type: String,
+      // '#666666'
       default: popup.closeIconColor
     },
-    // 关闭图标的大小，默认（'42rpx'）
+    // 关闭图标的大小
     closeIconSize: {
       type: [String, Number],
+      // 42
       default: popup.closeIconSize
     },
+    // 关闭图标的font-weight
     closeIconWeight: {
       type: [String, Number],
+      // 800
       default: popup.closeIconWeight
     },
-    // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
+    // 关闭图标位置，若不指定，则按照弹出位置自动显示在合适的位置
     closeIconPosition: {
+      // '' 左上角-'tl' 右上角-'tr' 左下角-'bl' 右下角-'br'
       type: String,
+      // ''
       default: popup.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
-    // 顶部安全适配（状态栏高度，默认true）
+    // 顶部安全适配
     safeAreaInsetTop: {
       type: Boolean,
+      // true
       default: popup.safeAreaInsetTop
     },
-    // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
+    // 底部安全适配（iPhoneX 留出底部安全距离）
     safeAreaInsetBottom: {
       type: Boolean,
+      // true
       default: popup.safeAreaInsetBottom
     },
     /**
      * mask props
      * -------------------------------------------------------------------------------------------------
      */
-    // 遮罩的过渡时间，单位为ms，默认（500）
+    // 遮罩的过渡时间 格式：500、'500ms'、'0.5s'
     duration: {
       type: [Number, String],
+      // 300
       default: popup.duration
     },
-    // 是否可以通过点击遮罩进行关闭，默认（true）
+    // 是否可以通过点击遮罩进行关闭
     maskClosable: {
       type: Boolean,
+      // true
       default: popup.maskClosable
     },
-    // 是否隐藏TabBar，默认（false）
+    // 是否隐藏TabBar
     hideTabBar: {
       required: false,
       type: Boolean,
+      // false
       default: popup.hideTabBar
     },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）,默认（false）
+    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
     appendToBody: {
       type: Boolean,
+      // false
       default: popup.appendToBody
     },
-    // 层级z-index，（默认1000）
+    // 层级z-index
     zIndex: {
       type: [Number, String],
+      // 100
       default: popup.zIndex
     },
-    // 背景颜色（默认'rgba(0, 0, 0, .5)'）
+    // 遮罩的背景颜色
     maskBackground: {
       type: String,
+      // rgba(0, 0, 0, .5)
       default: popup.maskBackground
     }
   },
@@ -220,11 +242,7 @@ export default {
       }
     },
     getDuration() {
-      const duration = parseInt(this.duration)
-      return {
-        js: duration,
-        css: `${duration / 1000}s`
-      }
+      return parseDuration(this.duration, popup.duration)
     },
     getClosePosition() {
       // 若不指定，则按照弹出位置自动显示在合适的位置
@@ -316,8 +334,10 @@ export default {
       console.log(TAG, '关闭弹窗层')
       this.show = false
       this.showed = false
+      // 弹窗即将关闭
       this.$emit('close')
       setTimeout(() => {
+        // 弹窗已经关闭
         this.$emit('closed')
         this.closed = true
         // 此处设置this.val是为了触发v-model双向绑定

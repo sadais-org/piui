@@ -38,6 +38,7 @@
 <script>
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
+import { parseDuration } from '../../tools/common'
 
 const TAG = 'PiTabs'
 const { tabs } = getConfig()
@@ -103,7 +104,7 @@ export default {
         return tabs.stretch
       }
     },
-    // 动画执行时间（毫秒）
+    // 动画执行时间 格式：500、'500ms'、'0.5s'
     duration: {
       type: [String, Number],
       // `300`
@@ -257,11 +258,12 @@ export default {
       return scrollLeft < 0 ? 0 : scrollLeft
     },
     getSliderBarStyle() {
+      const duration = parseDuration(this.duration)
       const style = {
         width: this.getSliderBarWidth,
         height: this.getSliderBarHeight,
         borderRadius: this.getSliderBarRadius,
-        transitionDuration: `${this.duration / 1000}s`
+        transitionDuration: duration.css
       }
       let sliderScrollLeft = this.activeRect.left
       if (style.width !== 'auto') {
