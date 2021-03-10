@@ -108,6 +108,7 @@ export function parseDuration(duration, defaultDuration = 300) {
       let unit = (results[3] || 'ms').trim()
       if (!/^m?s$/.test(unit)) {
         // 如果单位不是ms 或者 s 则默认ms
+        console.error('duration: 单位错误', duration)
         unit = 'ms'
       }
       if (unit === 'ms') {
@@ -122,6 +123,7 @@ export function parseDuration(duration, defaultDuration = 300) {
       // 如果属性duration 是非法值 则使用默认值
       cssDuration = `${defaultDuration / 1000}s`
       jsDuration = defaultDuration
+      console.error('duration: 非法', duration)
     }
   } else {
     // 属性duration为数字 则单位默认ms
