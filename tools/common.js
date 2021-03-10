@@ -1,4 +1,4 @@
-import { isNumber } from './validate'
+import { isNumerical } from './validate'
 import lodashDebounce from './debounce'
 import lodashThrottle from './throttle'
 
@@ -43,7 +43,7 @@ export const compareVersion = (v1, v2) => {
 
 // 添加单位，如果非数值类型，直接返回，否则加上rpx单位结尾
 export const addUnit = (value = 'auto', unit = 'rpx') => {
-  return isNumber(value) ? `${value}${unit}` : value
+  return isNumerical(value) ? `${value}${unit}` : value
 }
 
 /**
@@ -127,8 +127,8 @@ export function parseDuration(duration, defaultDuration = 300) {
     }
   } else {
     // 属性duration为数字 则单位默认ms
-    cssDuration = `${this.duration / 1000}s`
-    jsDuration = this.duration
+    cssDuration = `${duration / 1000}s`
+    jsDuration = duration
   }
   return {
     js: jsDuration,
