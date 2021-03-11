@@ -22,11 +22,11 @@
     :hover-stay-time="hoverStayTime"
     :loading="loading"
     @tap="handleButtonTap"
-    @getphonenumber="$emit('getphonenumber', $event)"
-    @getuserinfo="$emit('getuserinfo', $event)"
-    @error="$emit('error', $event)"
-    @opensetting="$emit('opensetting', $event)"
-    @launchapp="$emit('launchapp', $event)"
+    @getphonenumber="handleGetPhoneNumber($event)"
+    @getuserinfo="handleGetUserInfo($event)"
+    @error="handleError($event)"
+    @opensetting="handleOpenSetting($event)"
+    @launchapp="handleLaunchApp($event)"
   >
     <!-- 按钮内容 -->
     <slot />
@@ -322,6 +322,26 @@ export default {
           resolve(data)
         })
       })
+    },
+    handleGetPhoneNumber(e) {
+      // 微信小程序中获取用户手机号回调，需设置open-type="getPhoneNumber"
+      this.$emit('getphonenumber', e)
+    },
+    handleGetUserInfo(e) {
+      // 微信小程序中用户点击该按钮时，会返回获取到的用户信息，从返回参数的detail中获取到的值同uni.getUserInfo，需设置open-type="getUserInfo"
+      this.$emit('getuserinfo', e)
+    },
+    handleError(e) {
+      // 微信小程序中当使用开放能力时，发生错误的回调
+      this.$emit('error', e)
+    },
+    handleOpenSetting(e) {
+      // 微信小程序中在打开授权设置页并关闭后回调，需设置open-type="openSetting"
+      this.$emit('opensetting', e)
+    },
+    handleLaunchApp(e) {
+      // 微信小程序中从小程序打开 App 成功的回调
+      this.$emit('launchapp', e)
     }
   }
 }
