@@ -21,6 +21,7 @@
             }
           ]"
         >
+          <!-- 定制导航栏左侧内容 -->
           <slot v-if="$slots && $slots.left" name="left" />
           <template v-else>
             <view v-if="isShowBack" class="pi-align-center back-wrap" @tap.stop="handleGoBack">
@@ -44,6 +45,7 @@
         </view>
         <!-- 标题剩余空间 -->
         <view :style="[navTitleStyle]" class="pi-flex-sub ">
+          <!-- 定制导航栏标题 -->
           <slot v-if="$slots.title" name="title" />
         </view>
         <!-- 贯穿标题 -->
@@ -53,7 +55,10 @@
           <template v-else-if="title">{{ title }}</template>
         </view>
         <!-- 右侧 -->
-        <view v-if="$slots.right" class="nav-icon"><slot name="right" /></view>
+        <view v-if="$slots.right" class="nav-icon">
+          <!-- 定制导航栏右侧区域 -->
+          <slot name="right" />
+        </view>
       </view>
     </view>
   </view>
@@ -77,116 +82,137 @@ const { navbar } = getConfig()
 export default {
   name: 'Navbar',
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式 添加到组件的根节点上
     customStyle: {
       type: Object,
       default() {
+        // {}
         return navbar.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类 添加到组件的根节点上
     customClass: {
       type: String,
       default() {
+        // ''
         return navbar.customClass
       }
     },
-    // 标题（默认''）
+    // 标题
     title: {
       type: String,
+      // ''
       default: navbar.title
     },
-    // 标题样式（默认{ fontSize: '36rpx', fontWeight: 500, color: '#333333' }）
+    // 标题样式
     titleStyle: {
       type: Object,
       default() {
+        // { fontSize: '36rpx', fontWeight: 500, color: '#333333' }
         return navbar.titleStyle
       }
     },
-    // 导航栏高度，（默认44px）
+    // 导航栏高度
     height: {
       type: String,
+      // '44px'
       default: navbar.height
     },
-    // 导航栏是否固定在顶部（默认true）
+    // 导航栏是否固定在顶部
     fixed: {
       type: Boolean,
+      // true
       default: navbar.fixed
     },
-    // 固定在顶部时，是否在标签位置生成一个等高的占位元素（默认true）
+    // 固定在顶部时，是否生成一个与导航栏高度登高的占位容器
     placeholder: {
       type: Boolean,
+      // true
       default: navbar.placeholder
     },
-    // 是否显示导航栏的下边框（默认true）
+    // 是否显示导航栏的下边框
     borderBottom: {
       type: Boolean,
+      // true
       default: navbar.borderBottom
     },
     // 状态栏的背景色
     statusBarBackground: {
       type: String,
+      // 'transparent'
       default: navbar.statusBarBackground
     },
-    // 背景颜色（默认'#000000'）
+    // 背景颜色
     background: {
       type: String,
+      // '#ffffff'
       default: navbar.background
     },
     // 是否显示后退按钮，默认不设置，根据当前页面堆栈自动判断
     showBack: {
       required: false,
       type: [String, Boolean],
+      // ''
       default: navbar.showBack
     },
-    // 是否显示主页按钮（默认false）
+    // 是否显示主页按钮
     showHome: {
       required: false,
       type: Boolean,
+      // false
       default: navbar.showHome
     },
     // 在微信小程序中，当showBack和showHome同时显示的时候，以胶囊按钮样式显示
     capsuleButton: {
       required: false,
       type: Boolean,
+      // true
       default: navbar.capsuleButton
     },
     // 胶囊按钮主题， light or dark
     capsuleTheme: {
+      // 'light'、'dark'
       type: String,
+      // 'light'
       default: navbar.capsuleTheme,
       validator: function(value) {
         return ['light', 'dark'].includes(value)
       }
     },
-    // 返回箭头的颜色（默认'#333333'）
+    // 返回箭头的颜色
     backIconColor: {
       type: String,
+      // '#333333'
       default: navbar.backIconColor
     },
-    // 左边返回的图标，默认（back）
+    // 左边返回的图标，自动拼接前缀pi-icon-
     backIconName: {
       type: String,
+      // 'back'
       default: navbar.backIconName
     },
-    // 左边返回图标的大小（默认'32rpx'）
+    // 左边返回图标的大小
     backIconSize: {
       type: String,
+      // '36rpx'
       default: navbar.backIconSize
     },
-    // 左边返回图标的padding（默认'24rpx 12rpx 24rpx 24rpx'）
+    // 左边返回图标的padding
     backIconPadding: {
       type: String,
+      // '10rpx 24rpx'
       default: navbar.backIconPadding
     },
-    // 返回的文字提示（默认''）
+    // 返回的文字提示
     backText: {
       type: String,
+      // ''
       default: navbar.backText
     },
-    // 返回的文字的 样式（默认{ color: '#333333' }）
+    // 返回的文字的样式
     backTextStyle: {
       type: Object,
+      // { color: '#333333' }
       default() {
         return navbar.backTextStyle
       }
@@ -195,43 +221,51 @@ export default {
     customBackFunc: {
       type: Function
     },
-    // 主页icon的颜色（默认'#333333'）
+    // 主页icon的颜色
     homeIconColor: {
       type: String,
+      // '#333333'
       default: navbar.homeIconColor
     },
-    // 主页icon的图标，默认（back）
+    // 主页icon的图标 自动拼接前缀pi-icon-
     homeIconName: {
       type: String,
+      // 'homefill'
       default: navbar.homeIconName
     },
-    // 主页icon图标的大小（默认'32rpx'）
+    // 主页icon图标的大小
     homeIconSize: {
       type: String,
+      // '36rpx'
       default: navbar.homeIconSize
     },
     // 主页icon图标的padding
     homeIconPadding: {
       type: String,
+      // '10rpx 24rpx'
       default: navbar.homeIconPadding
     },
-    // 主页路径，默认（‘’）
+    // 主页路径
     homePage: {
       type: String,
+      // ''
       default: navbar.homePage
     },
-    // 跳转主页方法，默认（‘switchTab’）navigateTo redirectTo switchTab reLaunch
+    // 跳转主页方法
     homePageMethod: {
+      // 'navigateTo'、'redirectTo'、'switchTab'、'reLaunch'
       type: String,
+      // 'switchTab'
       default: navbar.homePageMethod
     },
     // 自定义返回函数
     customHomeFunc: {
       type: Function
     },
-    // 元素 z-index（默认999）
+    // 元素 z-index
     zIndex: {
       type: [String, Number],
+      // 99
       default: navbar.zIndex
     }
   },
