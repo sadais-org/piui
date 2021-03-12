@@ -16,39 +16,45 @@ const TAG = 'PiGap'
 export default {
   name: 'Gap',
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return gap.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return gap.customClass
       }
     },
-    // 背景颜色（默认透明）
+    // 背景颜色
     background: {
       required: false,
       type: String,
+      // #f4f4f4
       default: gap.background
     },
     // 高度
     height: {
       type: [String, Number],
+      // 24
       default: gap.height
     },
     // 与上一个组件的距离
     marginTop: {
       type: [String, Number],
+      // 0
       default: gap.marginTop
     },
     // 与下一个组件的距离
     marginBottom: {
       type: [String, Number],
+      // 0
       default: gap.marginBottom
     }
   },

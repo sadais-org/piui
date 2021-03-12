@@ -15,43 +15,50 @@ export default {
   name: 'Grid',
   mixins: [parentInit(['border', 'col', 'gap', 'square', 'hoverClass'])],
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return grid.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return grid.customClass
       }
     },
     // 分成几列
     col: {
       type: [Number, String],
+      // 5
       default: grid.col
     },
     // 宫格是否以正方形撑开
     square: {
       type: Boolean,
+      // false
       default: grid.square
     },
     // 是否显示边框
     border: {
       type: Boolean,
+      // true
       default: grid.border
     },
-    // 宫格之间间隔，（默认：0）
+    // 宫格之间间隔
     gap: {
       type: [String, Number],
+      // 0
       default: grid.gap
     },
     // 宫格按压时的样式类，"none"为无效果
     hoverClass: {
       type: String,
+      // null
       default: grid.hoverClass
     }
   },

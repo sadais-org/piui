@@ -32,49 +32,57 @@ export default {
       type: [Number, String],
       required: true
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return gridItem.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return gridItem.customClass
       }
     },
     // 分成几列
     col: {
       type: [Number, String],
+      // 5
       default: gridItem.col
     },
     // 宫格是否以正方形撑开
     square: {
       type: Boolean,
+      // false
       default: gridItem.square
     },
     // 是否显示边框
     border: {
       type: Boolean,
+      // true
       default: gridItem.border
     },
-    // 宫格之间间隔，（默认：0）
+    // 宫格之间间隔
     gap: {
       type: [String, Number],
+      // 0
       default: gridItem.gap
     },
     // 自定义背景色按钮
     bgColor: {
       type: String,
+      // ''
       default: gridItem.bgColor
     },
     // 指定按下去的样式类。当 hover-class="none" 时，没有点击态效果
     hoverClass: {
       type: String,
       default() {
+        // 'pi-hover-class'
         return gridItem.hoverClass
       }
     },
@@ -82,6 +90,7 @@ export default {
     hoverStartTime: {
       type: [String, Number],
       default() {
+        // 10
         return gridItem.hoverStartTime
       }
     },
@@ -89,6 +98,7 @@ export default {
     hoverStayTime: {
       type: [String, Number],
       default() {
+        // 100
         return gridItem.hoverStayTime
       }
     }
