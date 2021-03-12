@@ -190,7 +190,10 @@ export default {
       }
       return failedResults
     },
-    // 重置表单项，支持传入prop来重置单个或部分表单项
+    /*  @vuese
+     * 重置表单项，支持传入prop来重置单个或部分表单项
+     * @arg prop 需要重置校验的表单项prop,不传为重置全部表单项校验
+     */
     resetValidation(prop = '') {
       if (prop) {
         const target = this._children.find(c => c.prop === prop)
