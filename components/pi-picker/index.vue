@@ -29,14 +29,21 @@
         class="pi-justify-center pi-fz-32 pi-fw-500"
         :style="[{ padding: getTitlePadding }]"
       >
-        <slot name="title">{{ title }}</slot>
+        <!-- 标题 -->
+        <slot name="title">
+          <!-- 默认：prop tite -->
+          {{ title }}
+        </slot>
       </view>
       <!-- 顶部操作条 -->
       <view
         v-if="toolbarPosition === 'top'"
         class="pi-justify-between pi-align-center pi-solid-bottom-1 pi-fz-32 pi-fw-500 pi-pd-32"
       >
-        <slot v-if="$slots.toolbar" name="toolbar" />
+        <!-- 工具条 -->
+        <slot v-if="$slots.toolbar" name="toolbar">
+          <!-- 当toolbarPositon == 'top ' 默认：左边取消按钮 右边确定按钮; 否则默认: 一个宽度100%的确定按钮 -->
+        </slot>
         <template v-else>
           <view class="item-btn" @tap.stop="handlePopupClose">取消</view>
           <view class="item-btn pi-primary" @tap.stop="handleConfirm">确定</view>
@@ -93,158 +100,188 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return picker.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
+      // ''
       default() {
         return picker.customClass
       }
     },
     // 操作栏（确定/取消）位置
     toolbarPosition: {
+      // 'top', 'bottom'
       type: String,
       default: picker.toolbarPosition,
       validator: function(value) {
         return ['top', 'bottom'].includes(value)
       }
     },
-    // 选项列表，默认（[]）
+    // 选项列表
     items: {
       type: Array,
+      // []
       default() {
         return picker.items
       }
     },
-    // 选项id字段，默认为id
+    // 选项id字段
     keyField: {
       type: String,
+      // 'id'
       default: picker.keyField
     },
-    // 选项显示字段，默认为text
+    // 选项显示字段
     displayField: {
       type: String,
+      // 'text'
       default: picker.displayField
     },
     // 自定义多列联动模式的children属性名
     childField: {
       type: String,
+      // 'children'
       default: picker.childField
     },
-    // 默认值，单选是传Object，多选时传Array，默认null
+    // 默认值，单选是传Object，多选时传Array
     defaultValue: {
       type: Array,
+      // null
       default: picker.defaultValue
     },
-    // 选择器类型：single：单列，mutil 多列，mutil-auto 多列联动
+    // 选择器类型
     type: {
+      // 'single', 'multi', 'multi-auto'
       type: String,
+      // 'single'
       default: picker.type,
       validator: function(value) {
         return ['single', 'multi', 'multi-auto'].includes(value)
       }
     },
-    // 是否显示title（默认：true）
+    // 是否显示title
     showTitle: {
       type: Boolean,
+      // false
       default: picker.showTitle
     },
-    // 标题（默认：日期选择）
+    // 标题
     title: {
       type: String,
+      // '弹出选择'
       default: picker.title
     },
-    // 标题 padding（默认：24rpx）
+    // 标题 padding
     titlePadding: {
       type: [String, Number],
+      // '32rpx'
       default: picker.titlePadding
     },
-    // 弹出选择层的高度，不可填百分比（默认：'50vh'）
+    // 弹出选择层的高度，不可填百分比
     height: {
       type: String,
+      // '50vh'
       default: picker.height
     },
-    // 行高（默认：'110rpx'）
+    // 行高 单位默认rpx
     itemHeight: {
       type: [String, Number],
+      // 110
       default: picker.itemHeight
     },
-    // 是否显示item下边框（默认：'true'）
+    // 是否显示item下边框
     showItemBottomBorder: {
       type: Boolean,
+      // true
       default: picker.showItemBottomBorder
     },
-    // 行样式（默认：'{}'）
+    // 行样式
     itemStyle: {
       type: Object,
       default() {
+        // {}
         return picker.itemStyle
       }
     },
-    // 是否点击确认的时候关闭弹窗（默认：'true'）
+    // 是否点击确认的时候关闭弹窗
     onConfirmClose: {
       type: Boolean,
+      // true
       default: picker.onConfirmClose
     },
     /**
      * 弹窗的配置，默认选项请参照popup
      * ---------------------------------------------------------------------------------------------
      */
-    // 控制弹窗的四个角圆角效果（默认'0 0 0 0'）
+    // 控制弹窗的四个角圆角效果
     borderRadius: {
       type: [String, Number],
+      // '0 0 0 0'
       default: picker.borderRadius
     },
-    // 是否显示关闭图标，默认（true）
+    // 是否显示关闭图标
     showCloseIcon: {
       type: Boolean,
+      // true
       default: picker.showCloseIcon
     },
-    // 关闭图标的名称，默认（close）
+    // 关闭图标的名称 自动拼接前缀pi-icon-
     closeIconName: {
       type: String,
+      // 'close'
       default: picker.closeIconName
     },
     closeIconPadding: {
       type: [String, Number],
+      // '32rpx 32rpx'
       default: picker.closeIconPadding
     },
-    // 关闭图标的颜色，默认（'#666666'）
+    // 关闭图标的颜色
     closeIconColor: {
       type: String,
+      // '#666666'
       default: picker.closeIconColor
     },
-    // 关闭图标的大小，默认（'42rpx'）
+    // 关闭图标的大小 单位默认rpx
     closeIconSize: {
       type: [String, Number],
+      // 42
       default: picker.closeIconSize
     },
+    // 关闭图标的font-weight
     closeIconWeight: {
       type: [String, Number],
+      // 800
       default: picker.closeIconWeight
     },
-    // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
+    // 关闭图标位置
     closeIconPosition: {
+      // tl-左上角，tr-右上角，bl-左下角，br-右下角，若不指定，则按照弹出位置自动显示在合适的位置
       type: String,
+      // ''
       default: picker.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
-    // 顶部安全适配（状态栏高度，默认true）
+    // 顶部安全适配（状态栏高度）
     safeAreaInsetTop: {
       type: Boolean,
+      // true
       default: picker.safeAreaInsetTop
     },
-    // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
+    // 底部安全适配（iPhoneX 留出底部安全距离）
     safeAreaInsetBottom: {
       type: Boolean,
+      // true
       default: picker.safeAreaInsetBottom
     },
     /**
@@ -254,32 +291,38 @@ export default {
     // 遮罩的过渡时间，格式：500、'500ms'、'0.5s'
     duration: {
       type: [Number, String],
+      // 300
       default: picker.duration
     },
-    // 是否可以通过点击遮罩进行关闭，默认（true）
+    // 是否可以通过点击遮罩进行关闭
     maskClosable: {
       type: Boolean,
+      // true
       default: picker.maskClosable
     },
-    // 是否隐藏TabBar，默认（false）
+    // 是否隐藏TabBar
     hideTabBar: {
       required: false,
       type: Boolean,
+      // false
       default: picker.hideTabBar
     },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）,默认（false）
+    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
     appendToBody: {
       type: Boolean,
+      // false
       default: picker.appendToBody
     },
-    // 层级z-index，（默认1000）
+    // 层级z-index
     zIndex: {
       type: [Number, String],
+      // 100
       default: picker.zIndex
     },
-    // 背景颜色（默认'rgba(0, 0, 0, .5)'）
+    // 背景颜色
     maskBackground: {
       type: String,
+      // 'rgba(0, 0, 0, .5)'
       default: picker.maskBackground
     }
   },
@@ -363,6 +406,7 @@ export default {
     },
     handlePopupClose() {
       this.val = false
+      // 弹窗关闭
       this.$emit('close')
       this.handleEmitChange()
     },
@@ -388,6 +432,10 @@ export default {
     },
     handleConfirm() {
       if (this.scrolling) return
+      /**
+       * 点击确定按钮时触发
+       * @arg this.pickerValue
+       */
       this.$emit('confirm', this.pickerValue)
       this.onConfirmClose && this.handlePopupClose()
     }

@@ -54,7 +54,7 @@
           class="select-item pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
           @tap.stop="handleSelectItem(item)"
         >
-          // 列表项目
+          <!-- 自定义列表项 -->
           <slot name="item" :item="item">
             <!-- item[displayField] -->
             {{ item[displayField] }}
