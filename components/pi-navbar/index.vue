@@ -3,7 +3,10 @@
     <pi-status-bar v-if="fixed" :background="statusBarBackground" />
     <!-- 当导航栏为fixed时候，占位用 -->
     <view v-if="fixed && placeholder" :style="[{ height: height }]" />
-    <view :class="{ 'navbar-fixed': fixed, 'pi-solid-bottom-1': borderBottom }">
+    <view
+      :class="{ 'navbar-fixed': fixed, 'pi-solid-bottom-1': borderBottom }"
+      :style="[{ zIndex }]"
+    >
       <!-- 内部状态栏占位用 -->
       <view v-if="fixed" class="pi-w-100P" :style="[{ height: statusBarHeight }]" />
       <!-- 真正渲染的navbar -->
