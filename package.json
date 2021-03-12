@@ -4,7 +4,9 @@
   "description": "piui组件库",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "push": "git config http.proxy http://127.0.0.1:1087 && git push && git config --unset http.proxy",
+    "pull": "git config http.proxy http://127.0.0.1:1087 && git pull && git config --unset http.proxy"
   },
   "repository": {
     "type": "git",
