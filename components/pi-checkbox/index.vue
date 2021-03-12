@@ -10,6 +10,7 @@
       <pi-icon v-else name="blod-check" :size="getIconSize" />
     </view>
     <view class="check-label" :class="{ text: getShape === 'text' }" :style="[textStyle]">
+      <!-- checkbox 内容 -->
       <slot />
     </view>
   </view>
@@ -26,8 +27,7 @@ const extendCheckboxGroup = childInit('CheckboxGroup')
 
 export default {
   name: 'Checkbox',
-  // 混入自定义样式customStyle和customClass
-  mixins: [ValueSync, extendCheckboxGroup], // 注入value与val，进行双向绑定
+  mixins: [ValueSync, extendCheckboxGroup], // 注入value与val，进行双向绑定、混入自定义样式customStyle和customClass
   options: {
     styleIsolation: 'shared'
   },

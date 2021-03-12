@@ -30,6 +30,7 @@
         class="pi-justify-center pi-fz-32 pi-fw-500"
         :style="[{ padding: getTitlePadding }]"
       >
+        <!-- 标题 -->
         <slot v-if="$slots.title" name="title" />
         <template v-else>{{ title }}</template>
       </view>
@@ -38,6 +39,7 @@
         v-if="toolbarPosition === 'top'"
         class="pi-justify-between pi-align-center pi-solid-bottom-1 pi-fz-32 pi-fw-500 pi-pd-32"
       >
+        <!-- 操作条 -->
         <slot v-if="$slots.toolbar" name="toolbar" />
         <template v-else>
           <view class="item-btn" @tap="handlePopupClose">取消</view>
@@ -121,31 +123,35 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return datePicker.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return datePicker.customClass
       }
     },
-    // 开始年份（默认当前年份）
+    // 开始年份
     startYear: {
       type: [String, Number],
       default() {
+        // 当前年份 - 30
         return datePicker.startYear
       }
     },
-    // 结束年份（默认当前年份 - 80）
+    // 结束年份
     endYear: {
       type: [String, Number],
       default() {
+        // 当前年份
         return datePicker.endYear
       }
     },
@@ -157,121 +163,144 @@ export default {
         return ['year', 'month', 'day', 'hour', 'minute', 'second'].includes(value)
       },
       default() {
+        // 'day'
         return datePicker.field
       }
     },
     // 日期默认值
     defaultValue: {
       type: [Number, String, Date],
+      // ''
       default: datePicker.defaultValue
     },
     // 返回的日期格式
     format: {
       type: String,
+      // 'YYYY-MM-DD'
       default: datePicker.format
     },
     toolbarPosition: {
       type: String,
+      // 'bottom'
       default: datePicker.toolbarPosition,
       validator: function(value) {
         return ['top', 'bottom'].includes(value)
       }
     },
-    // 是否显示title（默认：true）
+    // 是否显示title
     showTitle: {
       type: Boolean,
+      // false
       default: datePicker.showTitle
     },
-    // 标题（默认：日期选择）
+    // 标题
     title: {
       type: String,
+      // 日期选择
       default: datePicker.title
     },
-    // 标题 padding（默认：24rpx）
+    // 标题 padding
     titlePadding: {
       type: [String, Number],
+      // '32rpx'
       default: datePicker.titlePadding
     },
-    // 弹出选择层的高度，不可填百分比（默认：'50vh'）
+    // 弹出选择层的高度，不可填百分比
     height: {
       type: String,
+      // '50vh'
       default: datePicker.height
     },
-    // 行高（默认：'110rpx'）
+    // 行高
     itemHeight: {
       type: [String, Number],
+      // 110
       default: datePicker.itemHeight
     },
-    // 是否显示item下边框（默认：'true'）
+    // 是否显示item下边框
     showItemBottomBorder: {
       type: Boolean,
+      // true
       default: datePicker.showItemBottomBorder
     },
-    // 行样式（默认：'{}'）
+    // 行样式
     itemStyle: {
       type: Object,
       default() {
+        // {}
         return datePicker.itemStyle
       }
     },
-    // 是否点击确认的时候关闭弹窗（默认：'true'）
+    // 是否点击确认的时候关闭弹窗
     onConfirmClose: {
       type: Boolean,
+      // true
       default: datePicker.onConfirmClose
     },
     /**
      * 弹窗的配置，默认选项请参照popup
      * ---------------------------------------------------------------------------------------------
      */
-    // 控制弹窗的四个角圆角效果（默认'0 0 0 0'）
+    // 控制弹窗的四个角圆角效果
     borderRadius: {
       type: [String, Number],
+      // '0 0 0 0'
       default: datePicker.borderRadius
     },
-    // 是否显示关闭图标，默认（true）
+    // 是否显示关闭图标
     showCloseIcon: {
       type: Boolean,
+      // true
       default: datePicker.showCloseIcon
     },
-    // 关闭图标的名称，默认（close）
+    // 关闭图标的名称
     closeIconName: {
       type: String,
+      // 'close'
       default: datePicker.closeIconName
     },
     closeIconPadding: {
       type: [String, Number],
+      // '32rpx 32rpx'
       default: datePicker.closeIconPadding
     },
-    // 关闭图标的颜色，默认（'#666666'）
+    // 关闭图标的颜色
     closeIconColor: {
       type: String,
+      // #666666
       default: datePicker.closeIconColor
     },
-    // 关闭图标的大小，默认（'42rpx'）
+    // 关闭图标的大小
     closeIconSize: {
       type: [String, Number],
+      // 42
       default: datePicker.closeIconSize
     },
+    // 关闭图标的font-weight
     closeIconWeight: {
       type: [String, Number],
+      // 800
       default: datePicker.closeIconWeight
     },
     // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
     closeIconPosition: {
       type: String,
+      // ''
       default: datePicker.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
-    // 顶部安全适配（状态栏高度，默认true）
+    // 顶部安全适配（状态栏高度）
     safeAreaInsetTop: {
       type: Boolean,
+      // true
       default: datePicker.safeAreaInsetTop
     },
-    // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
+    // 底部安全适配（iPhoneX 留出底部安全距离）
     safeAreaInsetBottom: {
       type: Boolean,
+      // true
       default: datePicker.safeAreaInsetBottom
     },
     /**
@@ -281,32 +310,38 @@ export default {
     // 遮罩的过渡时间，格式：500、'500ms'、'0.5s'
     duration: {
       type: [Number, String],
+      // 300
       default: datePicker.duration
     },
-    // 是否可以通过点击遮罩进行关闭，默认（true）
+    // 是否可以通过点击遮罩进行关闭
     maskClosable: {
       type: Boolean,
+      // true
       default: datePicker.maskClosable
     },
-    // 是否隐藏TabBar，默认（false）
+    // 是否隐藏TabBar
     hideTabBar: {
       required: false,
       type: Boolean,
+      // false
       default: datePicker.hideTabBar
     },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）,默认（false）
+    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
     appendToBody: {
       type: Boolean,
+      // false
       default: datePicker.appendToBody
     },
-    // 层级z-index，（默认1000）
+    // 层级z-index
     zIndex: {
       type: [Number, String],
+      // 100
       default: datePicker.zIndex
     },
-    // 背景颜色（默认'rgba(0, 0, 0, .5)'）
+    // 背景颜色
     maskBackground: {
       type: String,
+      // rgba(0,0,0,.5)
       default: datePicker.maskBackground
     }
   },
