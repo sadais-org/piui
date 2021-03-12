@@ -15,6 +15,7 @@
       <view v-if="required" style="color: ed2235;" class="pi-mg-right-12" :style="[requiredStyle]">
         *
       </view>
+      <!-- 表单项label -->
       <slot name="label">
         {{ label }}
       </slot>
@@ -28,6 +29,7 @@
       :style="[contentWrapStyle]"
     >
       <view class="content-input pi-align-center" :style="[getInputAlignStyle]">
+        <!-- 表单项内容 -->
         <slot />
       </view>
       <view
@@ -39,6 +41,7 @@
     </view>
     <!-- 右侧区域 -->
     <view v-if="$slots && $slots.right" class="pi-pd-left-24">
+      <!-- 右侧区域内容 -->
       <slot name="right" />
     </view>
   </view>
@@ -68,36 +71,41 @@ export default {
     styleIsolation: 'shared'
   },
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return formItem.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return formItem.customClass
       }
     },
     // 绑定字段
     prop: {
       type: String,
+      // ''
       default: ''
     },
     // 是否必填
     required: {
       type: Boolean,
       default() {
+        // false
         return formItem.required
       }
     },
-    // 必填标志自定义样式，对象形式（默认值：{}）
+    // 必填标志自定义样式
     requiredStyle: {
       type: Object,
       default() {
+        // {}
         return formItem.requiredStyle
       }
     },
@@ -105,6 +113,7 @@ export default {
     height: {
       type: [String, Number],
       default() {
+        // 100
         return formItem.height
       }
     },
@@ -112,6 +121,7 @@ export default {
     padding: {
       type: String,
       default() {
+        // '32rpx'
         return formItem.padding
       }
     },
@@ -122,6 +132,7 @@ export default {
     labelWidth: {
       type: [String, Number],
       default() {
+        // null
         return formItem.labelWidth
       }
     },
@@ -129,6 +140,7 @@ export default {
     labelStyle: {
       type: Object,
       default() {
+        // {}
         return formItem.labelStyle
       }
     },
@@ -136,6 +148,7 @@ export default {
     labelAlign: {
       type: String,
       default() {
+        // 'left'
         return formItem.labelAlign
       },
       validator: function(value) {
@@ -146,6 +159,7 @@ export default {
     inputAlign: {
       type: String,
       default() {
+        // 'right'
         return formItem.inputAlign
       },
       validator: function(value) {
@@ -155,26 +169,31 @@ export default {
     // 是否以换行样式显示表单
     wrap: {
       type: Boolean,
+      // false
       default: formItem.wrap
     },
     // wrap样式label是否显示边框
     labelWrapBorder: {
       type: Boolean,
+      // true
       default: formItem.labelWrapBorder
     },
     // 是否在 label 后面添加冒号
     colon: {
       type: Boolean,
+      // false
       default: formItem.colon
     },
     // 是否禁用
     disabled: {
       type: Boolean,
+      // false
       default: formItem.disabled
     },
     // 是否显示边框
     border: {
       type: Boolean,
+      // false
       default: formItem.border
     }
   },
