@@ -16,8 +16,8 @@ export default {
   height: '50vh', // 弹出选择层的高度，不可填百分比（默认：'50vh'）
   itemHeight: 110, // 行高（默认：'110rpx'）
   onConfirmClose: true, // 是否点击确认的时候关闭弹窗（默认：'true'）
-  showItemBottomBorder:true,
-  itemStyle:{}
+  showItemBottomBorder: true,
+  itemStyle: {},
   /**
    * 弹窗的配置，默认选项请参照popup
    * -------------------------------------------------------------------------------------------------
