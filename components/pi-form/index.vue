@@ -42,17 +42,19 @@ export default {
     model: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return form.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return form.customClass
       }
     },
@@ -60,6 +62,7 @@ export default {
     title: {
       type: String,
       default() {
+        // ''
         return form.title
       }
     },
@@ -67,13 +70,15 @@ export default {
     desc: {
       type: String,
       default() {
+        // ''
         return form.desc
       }
     },
-    // 标题自定义样式，对象形式（默认值：{}）
+    // 标题自定义样式
     titleStyle: {
       type: Object,
       default() {
+        // {}
         return form.titleStyle
       }
     },
@@ -81,6 +86,7 @@ export default {
     height: {
       type: [String, Number],
       default() {
+        // null
         return form.height
       }
     },
@@ -88,6 +94,7 @@ export default {
     labelWidth: {
       type: [String, Number],
       default() {
+        // 120
         return form.labelWidth
       }
     },
@@ -95,6 +102,7 @@ export default {
     labelAlign: {
       type: [Object, String],
       default() {
+        // null
         return form.labelAlign
       },
       validator: function(value) {
@@ -105,6 +113,7 @@ export default {
     labelStyle: {
       type: Object,
       default() {
+        // {}
         return form.labelStyle
       }
     },
@@ -112,6 +121,7 @@ export default {
     inputAlign: {
       type: [Object, String],
       default() {
+        // null
         return form.inputAlign
       },
       validator: function(value) {
@@ -121,32 +131,38 @@ export default {
     // 是否以换行样式显示表单
     wrap: {
       type: Boolean,
+      // null
       default: form.wrap
     },
     // wrap样式label是否显示边框
     labelWrapBorder: {
       type: Boolean,
+      // null
       default: form.labelWrapBorder
     },
     // 是否在 label 后面添加冒号
     colon: {
       type: Boolean,
+      // false
       default: form.colon
     },
     // 是否禁用
     disabled: {
       type: Boolean,
+      // false
       default: form.disabled
     },
     // 是否显示边框
     border: {
       type: Boolean,
+      // false
       default: form.border
     },
     // 表单校验两种提示，message - 输入框下方提示，toast - toast提示（只提示第一个错误），默认为message
     errorType: {
       type: String,
       default() {
+        // 'message'
         return form.errorType
       },
       validator: function(value) {

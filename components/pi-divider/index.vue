@@ -26,52 +26,60 @@ const { divider } = getConfig()
 export default {
   name: 'Divider',
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式，对象形式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return divider.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类，字符串形式
     customClass: {
       type: String,
       default() {
+        // ''
         return divider.customClass
       }
     },
     // 是否使用0.5px线
     halfline: {
       type: Boolean,
+      // true
       default: divider.halfline
     },
     // 线条颜色
     borderColor: {
       type: String,
+      // #d6e4ef
       default: divider.borderColor
     },
     // 分割线样式：dashed dotted double等，和style提供的borderStyle一致
     borderStyle: {
       type: String,
+      // 'solid'
       default: divider.borderStyle
     },
     // 内容位置：center left right
     contentPosition: {
       type: String,
+      // 'center'
       default: divider.contentPosition,
       validator: function(value) {
         return ['center', 'left', 'right'].includes(value)
       }
     },
-    // 内容padding，默认（'0 24rpx'）
+    // 内容padding
     contentPadding: {
       type: String,
+      // '0 24rpx'
       default: divider.contentPadding
     },
     // 内容自定义样式
     contentStyle: {
       type: Object,
       default() {
+        // {}
         return divider.customStyle
       }
     }
