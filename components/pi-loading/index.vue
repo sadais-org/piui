@@ -22,17 +22,19 @@ const { loading } = getConfig()
 export default {
   name: 'Loading',
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return loading.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return loading.customClass
       }
     },
@@ -41,38 +43,44 @@ export default {
       type: Boolean,
       default: false
     },
-    // 颜色（默认'#c1c1c1'）
+    // 颜色
     color: {
       type: String,
+      // ''
       default: loading.color
     },
     // 类型： spinner 菊花 round 圆环
     type: {
       type: String,
+      // 'spinner'
       default: loading.type,
       validator: function(value) {
         return ['spinner', 'round'].includes(value)
       }
     },
-    // 尺寸，默认38rpx
+    // 尺寸
     size: {
       type: [String, Number],
+      // 32
       default: loading.size
     },
     // 是否垂直排列
     vertical: {
       type: Boolean,
+      // false
       default: loading.vertical
     },
-    // 尺寸，默认38rpx
+    // 尺寸
     textSize: {
       type: [String, Number],
+      // '28rpx'
       default: loading.textSize
     },
     // 文字样式
     textStyle: {
       type: Object,
       default() {
+        // {}
         return loading.textStyle
       }
     }

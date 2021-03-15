@@ -22,17 +22,19 @@ export default {
   name: 'List',
   mixins: [parentInit(['height', 'border', 'hoverClass'])],
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return list.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return list.customClass
       }
     },
@@ -40,6 +42,7 @@ export default {
     height: {
       type: [String, Number],
       default() {
+        // null
         return list.height
       }
     },
@@ -47,6 +50,7 @@ export default {
     title: {
       type: String,
       default() {
+        // ''
         return list.title
       }
     },
@@ -54,6 +58,7 @@ export default {
     desc: {
       type: String,
       default() {
+        // ''
         return list.desc
       }
     },
@@ -61,6 +66,7 @@ export default {
     titleStyle: {
       type: Object,
       default() {
+        // {}
         return list.titleStyle
       }
     },
@@ -68,12 +74,14 @@ export default {
     border: {
       type: Boolean,
       default() {
+        // true
         return list.border
       }
     },
     // 列按压时的样式类，"none"为无效果
     hoverClass: {
       type: String,
+      // null
       default: list.hoverClass
     }
   },

@@ -10,6 +10,7 @@
   >
     <!-- 左侧区域 -->
     <view v-if="$slots.left" class="pi-pd-right-24">
+      <!-- 左侧区域插槽 -->
       <slot name="left" />
     </view>
 
@@ -22,6 +23,7 @@
     <view class="pi-flex-sub pi-w-100P"><slot /></view>
     <!-- 右侧区域 -->
     <view class="extra" :style="[extraStyle]">{{ extraText }}</view>
+    <!-- 右侧区域插槽 -->
     <view v-if="$slots.right" class="pi-pd-left-24">
       <slot name="right" />
     </view>
@@ -50,17 +52,19 @@ export default {
   name: 'ListItem',
   mixins: [extendPiList], // 注入value与val，进行双向绑定
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return listItem.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return listItem.customClass
       }
     },
@@ -68,6 +72,7 @@ export default {
     height: {
       type: [String, Number],
       default() {
+        // 110
         return listItem.height
       }
     },
@@ -75,13 +80,15 @@ export default {
     title: {
       type: String,
       default() {
+        // ''
         return listItem.title
       }
     },
-    // 标题自定义样式，对象形式（默认值：{}）
+    // 标题自定义样式
     titleStyle: {
       type: Object,
       default() {
+        // {}
         return listItem.titleStyle
       }
     },
@@ -89,13 +96,15 @@ export default {
     desc: {
       type: String,
       default() {
+        // ''
         return listItem.title
       }
     },
-    // 描述自定义样式，对象形式（默认值：{}）
+    // 描述自定义样式
     descStyle: {
       type: Object,
       default() {
+        // {}
         return listItem.descStyle
       }
     },
@@ -103,13 +112,15 @@ export default {
     extraText: {
       type: String,
       default() {
+        // ''
         return listItem.title
       }
     },
-    // 右侧文字自定义样式，对象形式（默认值：{}）
+    // 右侧文字自定义样式
     extraStyle: {
       type: Object,
       default() {
+        // {}
         return listItem.extraStyle
       }
     },
@@ -117,6 +128,7 @@ export default {
     disabled: {
       type: Boolean,
       default() {
+        // false
         return listItem.disabled
       }
     },
@@ -124,6 +136,7 @@ export default {
     border: {
       type: Boolean,
       default() {
+        // rue
         return listItem.border
       }
     },
@@ -131,6 +144,7 @@ export default {
     padding: {
       type: String,
       default() {
+        // '24rpx 32rpx'
         return listItem.padding
       }
     },
@@ -138,54 +152,55 @@ export default {
     showRightIcon: {
       type: Boolean,
       default() {
+        // true
         return listItem.showRightIcon
       }
     },
     // 右侧icon名称
     rightIconName: {
       type: String,
-      // 'right'
       default() {
+        // 'right'
         return listItem.rightIconName
       }
     },
     // 是否显示图标右上角小红点，默认值 false
     rightIconDot: {
       type: Boolean,
-      // false
       default() {
+        // false
         return listItem.rightIconDot
       }
     },
     // 图标右上角徽标的内容
     rightIconBadge: {
       type: String,
-      // ''
       default() {
+        // ''
         return listItem.rightIconBadge
       }
     },
     // 图标颜色
     rightIconColor: {
       type: String,
-      // #cccccc
       default() {
+        // #cccccc
         return listItem.rightIconColor
       }
     },
     // 图标字体大小，单位rpx
     rightIconSize: {
       type: [String, Number],
-      // ''
       default() {
+        // ''
         return listItem.rightIconSize
       }
     },
-    // 类名前缀，用于使用自定义图标，默认为（pi-icon-）
+    // 类名前缀，用于使用自定义图标
     rightIconClassPrefix: {
       type: String,
-      // 'pi-icon-'
       default() {
+        // 'pi-icon-'
         return listItem.rightIconClassPrefix
       }
     },
@@ -193,6 +208,7 @@ export default {
     hoverClass: {
       type: String,
       default() {
+        // 'pi-hover-class'
         return listItem.hoverClass
       }
     },
@@ -200,6 +216,7 @@ export default {
     hoverStartTime: {
       type: [String, Number],
       default() {
+        // 10
         return listItem.hoverStartTime
       }
     },
@@ -207,6 +224,7 @@ export default {
     hoverStayTime: {
       type: [String, Number],
       default() {
+        // 100
         return listItem.hoverStayTime
       }
     }
