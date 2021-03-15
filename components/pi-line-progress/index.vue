@@ -31,70 +31,82 @@ const TAG = 'PiLineProgress'
 export default {
   name: 'LineProgress',
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return lineProgress.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return lineProgress.customClass
       }
     },
-    // 两端是否半圆（默认值：false）
+    // 两端是否半圆
     round: {
       type: Boolean,
+      // true
       default: lineProgress.round
     },
     // 激活部分的颜色（不设置默认为主题色）
     activeColor: {
       type: String,
+      // ''
       default: lineProgress.activeColor
     },
     // 未激活底色
     inactiveColor: {
       type: String,
+      // '#ebeef5'
       default: lineProgress.inactiveColor
     },
     // 进度百分比，数值
     percent: {
       type: [String, Number],
+      // 0
       default: lineProgress.percent
     },
     // 是否在进度条内部显示百分比的值
     showPercent: {
       type: Boolean,
+      // true
       default: lineProgress.showPercent
     },
     // 当showPercent为true，设定百分比的样式
     percentStyle: {
       type: Object,
       default() {
+        // {}
         return lineProgress.percentStyle
       }
     },
-    // 进度条的宽度，单位rpx，不设置默认为100%
+    // 进度条的宽度，单位rpx
     width: {
       type: [String, Number],
+      // 0
       default: lineProgress.width
     },
     // 进度条的高度，单位rpx
     height: {
       type: [String, Number],
+      // 20
       default: lineProgress.height
     },
     // 是否显示条纹
     striped: {
       type: Boolean,
+      // false
       default: lineProgress.striped
     },
     // 条纹是否具有动态效果
     stripedActive: {
       type: Boolean,
+      // false
       default: lineProgress.stripedActive
     }
   },

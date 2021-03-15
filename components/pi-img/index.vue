@@ -17,6 +17,7 @@
       <view class="pi-abso-center">
         <!-- 加载中 -->
         <template v-if="src && loading">
+          <!-- 加载中样式 -->
           <slot v-if="$slots.loading" name="loading" />
           <pi-loading
             v-else
@@ -28,6 +29,7 @@
         </template>
         <!-- 加载失败 -->
         <template v-if="src && error">
+          <!-- 加载失败样式 -->
           <slot v-if="$slots.error" name="error" />
           <view class="pi-icon-pic" />
         </template>
@@ -54,110 +56,128 @@ const { img } = getConfig()
 export default {
   name: 'Img',
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return img.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return img.customClass
       }
     },
-    // 图片地址（默认值：''）
+    // 图片地址
     src: {
       type: String,
+      // ''
       default: img.src
     },
-    // 裁剪模式（默认值：'aspectFill'）
+    // 裁剪模式
     mode: {
       type: String,
+      // 'widthFix'
       default: img.mode
     },
-    // 宽度（默认值：'100%'）
+    // 宽度
     width: {
       type: [String, Number],
+      // '100%'
       default: img.width
     },
-    // 高度（默认值：'auto'）
+    // 高度
     height: {
       type: [String, Number],
+      // 'auto'
       default: img.height
     },
-    // 是否显示图标右上角小红点，默认值 false
+    // 是否显示图标右上角小红点
     dot: {
       type: Boolean,
+      // false
       default: img.dot
     },
     // 小红点的半径
     dotRadius: {
       type: [String, Number],
-      // 16rpx
+      // 16
       default: img.dotRadius
     },
     // 图标右上角徽标的内容
     badge: {
       type: [String, Number],
+      // ''
       default: img.badge
     },
-    // 图片形状，round-圆形，square-方形（默认值：'square'）
+    // 图片形状，round-圆形，square-方形
     shape: {
       type: String,
+      // 'square'
       default: img.shape,
       validator: function(value) {
         return ['square', 'round'].includes(value)
       }
     },
-    // shape为square的时候设置（默认值：'0'）
+    // shape为square的时候设置
     borderRadius: {
       type: [String, Number],
+      // 0
       default: img.borderRadius
     },
-    // 是否懒加载（默认值：'true'）
+    // 是否懒加载
     lazyLoad: {
       type: Boolean,
+      // true
       default: img.lazyLoad
     },
-    // 开启长按图片显示识别微信小程序码菜单（默认值：'true'）
+    // 开启长按图片显示识别微信小程序码菜单
     showMenuByLongpress: {
       type: Boolean,
+      // true
       default: img.showMenuByLongpress
     },
-    // 是否显示加载中的图标或者自定义的slot（默认值：'true'）
+    // 是否显示加载中的图标或者自定义的slot
     showLoading: {
       type: Boolean,
+      // true
       default: img.showLoading
     },
-    // 加载中颜色（默认值：'#c1c1c1'）
+    // 加载中颜色
     loadingColor: {
       type: String,
+      // '#c1c1c1'
       default: img.loadingColor
     },
-    // 类型： spinner 菊花 round 圆环（默认值：'spinner'）
+    // 类型： spinner 菊花 round 圆环
     loadingType: {
       type: String,
+      // 'spinner'
       default: img.loadingType,
       validator: function(value) {
         return ['spinner', 'round'].includes(value)
       }
     },
-    // 尺寸，默认38rpx
+    // 尺寸
     loadingSize: {
       type: [String, Number],
+      // 32
       default: img.loadingSize
     },
-    // 是否显示加载中的图标或者自定义的slot（默认值：true）
+    // 是否显示加载中的图标或者自定义的slot
     showError: {
       type: Boolean,
+      // true
       default: img.showError
     },
-    // 默认不解析 webP 格式，只支持网络资源（默认值：false）
+    // 默认不解析 webP 格式，只支持网络资源
     webp: {
       type: Boolean,
+      //false
       default: img.webp
     }
   },
@@ -202,6 +222,7 @@ export default {
       console.log(TAG, '图片加载失败')
       this.error = true
       this.loading = false
+      // 图片加载完成
       this.$emit('load')
     },
     handleLoad() {

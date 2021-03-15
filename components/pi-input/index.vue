@@ -63,7 +63,7 @@ const { input } = getConfig()
 const TAG = 'PiInput'
 
 export default {
-  name: TAG,
+  name: 'Input',
   // 混入v-model
   mixins: [ValueSync, Emitter],
   props: {
@@ -71,17 +71,19 @@ export default {
     value: {
       required: false
     },
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return input.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return input.customClass
       }
     },
@@ -90,6 +92,7 @@ export default {
       required: false,
       type: String,
       default() {
+        // 'text'
         return input.type
       },
       validator: function(value) {
@@ -99,10 +102,12 @@ export default {
     // 是否是密码类型
     password: {
       type: Boolean,
+      // false
       default: input.password
     },
     placeholder: {
       type: String,
+      // ''
       default: input.placeholder
     },
     disabled: {
@@ -155,24 +160,28 @@ export default {
   methods: {
     handleInput: debounce(function(e) {
       let value = e.detail.value
+      // 输入内容
       this.$emit('input', value)
       this.dispatch('Form', 'form-change', value)
       this.dispatch('FormItem', 'form-change', value)
     }, 50),
     handleFocus() {
       this.focused = true
+      // 获得焦点
       this.$emit('focus')
     },
     handleBlur(e) {
       setTimeout(() => {
         this.focused = false
       }, 100)
+      // 失去焦点
       this.$emit('blur', e.detail.value)
       setTimeout(() => {
         this.dispatch('FormItem', 'form-blur', e.detail.value)
       }, 40)
     },
     handleConfirm(e) {
+      // 输入完成事件
       this.$emit('confirm', e.detail.value)
     }
   }

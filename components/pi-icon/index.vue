@@ -17,28 +17,32 @@ const { icon } = getConfig()
 export default {
   name: 'Icon',
   props: {
-    // 自定义样式，对象形式（默认值：{}）
+    // 自定义样式
     customStyle: {
       type: Object,
       default() {
+        // {}
         return icon.customStyle
       }
     },
-    // 自定义样式类，字符串形式（''）
+    // 自定义样式类
     customClass: {
       type: String,
       default() {
+        // ''
         return icon.customClass
       }
     },
     // 图标名称或图片链接
     name: {
       type: String,
+      // ''
       default: icon.name
     },
-    // 是否显示图标右上角小红点，默认值 false
+    // 是否显示图标右上角小红点
     dot: {
       type: Boolean,
+      // false
       default: icon.dot
     },
     // 小红点的半径
@@ -50,21 +54,25 @@ export default {
     // 图标右上角徽标的内容
     badge: {
       type: [String, Number],
+      // ''
       default: icon.badge
     },
     // 图标颜色
     color: {
       type: String,
+      // ''
       default: icon.color
     },
     // 图标字体大小，单位rpx
     size: {
       type: [String, Number],
+      // ''
       default: icon.size
     },
     // 类名前缀，用于使用自定义图标
     classPrefix: {
       type: String,
+      // 'pi-icon-'
       default: icon.classPrefix
     }
   },
