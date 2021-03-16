@@ -36,7 +36,6 @@ export default {
   closeIconSize: 42, // 关闭图标的大小，默认（'42rpx'）
   closeIconWeight: 800, // 关闭图标font-weight，默认（'800'）
   closeIconPosition: '', // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
-  safeAreaInsetTop: true, // 顶部安全适配（状态栏高度，默认true）
   safeAreaInsetBottom: true, // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
   /**
    * 弹窗蒙层的配置，默认选项请参照mask

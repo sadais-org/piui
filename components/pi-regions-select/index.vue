@@ -9,7 +9,7 @@
     :close-icon-color="closeIconColor"
     :close-icon-size="closeIconSize"
     :close-icon-position="closeIconPosition"
-    :safe-regions-inset-bottom="safeRegionsInsetBottom"
+    :safe-area-inset-bottom="safeAreaInsetBottom"
     :duration="duration"
     :mask-closable="maskClosable"
     :hide-tab-bar="hideTabBar"
@@ -260,6 +260,12 @@ export default {
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
+    },
+    // 底部安全适配（iPhoneX 留出底部安全距离）
+    safeAreaInsetBottom: {
+      type: Boolean,
+      // true
+      default: regionsSelect.safeAreaInsetBottom
     },
     /**
      * mask props

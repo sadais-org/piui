@@ -256,12 +256,6 @@ export default {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
-    // 顶部安全适配（状态栏高度）
-    safeAreaInsetTop: {
-      type: Boolean,
-      // true
-      default: calendar.safeAreaInsetTop
-    },
     // 底部安全适配（iPhoneX 留出底部安全距离）
     safeAreaInsetBottom: {
       type: Boolean,
