@@ -55,6 +55,7 @@ export default {
     // 自定义样式
     customStyle: {
       type: Object,
+      // {}
       default() {
         // {}
         return listItem.customStyle
@@ -63,6 +64,7 @@ export default {
     // 自定义样式类
     customClass: {
       type: String,
+      // ''
       default() {
         // ''
         return listItem.customClass
@@ -71,6 +73,7 @@ export default {
     // 列表高度
     height: {
       type: [String, Number],
+      // 110
       default() {
         // 110
         return listItem.height
@@ -79,6 +82,7 @@ export default {
     // 标题
     title: {
       type: String,
+      // ''
       default() {
         // ''
         return listItem.title
@@ -87,6 +91,7 @@ export default {
     // 标题自定义样式
     titleStyle: {
       type: Object,
+      // {}
       default() {
         // {}
         return listItem.titleStyle
@@ -95,6 +100,7 @@ export default {
     // 描述
     desc: {
       type: String,
+      // ''
       default() {
         // ''
         return listItem.title
@@ -103,6 +109,7 @@ export default {
     // 描述自定义样式
     descStyle: {
       type: Object,
+      // {}
       default() {
         // {}
         return listItem.descStyle
@@ -111,6 +118,7 @@ export default {
     // 右侧文字
     extraText: {
       type: String,
+      // ''
       default() {
         // ''
         return listItem.title
@@ -119,6 +127,7 @@ export default {
     // 右侧文字自定义样式
     extraStyle: {
       type: Object,
+      // {}
       default() {
         // {}
         return listItem.extraStyle
@@ -127,6 +136,7 @@ export default {
     // 是否禁用
     disabled: {
       type: Boolean,
+      // false
       default() {
         // false
         return listItem.disabled
@@ -135,6 +145,7 @@ export default {
     // 是否显示边框
     border: {
       type: Boolean,
+      // true
       default() {
         // rue
         return listItem.border
@@ -143,6 +154,7 @@ export default {
     // 列表项内边距
     padding: {
       type: String,
+      // '24rpx 32rpx'
       default() {
         // '24rpx 32rpx'
         return listItem.padding
@@ -151,6 +163,7 @@ export default {
     // 是否显示右边icon
     showRightIcon: {
       type: Boolean,
+      // true
       default() {
         // true
         return listItem.showRightIcon
@@ -164,7 +177,7 @@ export default {
         return listItem.rightIconName
       }
     },
-    // 是否显示图标右上角小红点，默认值 false
+    // 是否显示图标右上角小红点
     rightIconDot: {
       type: Boolean,
       default() {
@@ -207,6 +220,7 @@ export default {
     // 指定按下去的样式类。当 hover-class="none" 时，没有点击态效果
     hoverClass: {
       type: String,
+      // 'pi-hover-class'
       default() {
         // 'pi-hover-class'
         return listItem.hoverClass
@@ -215,6 +229,7 @@ export default {
     // 按住后多久出现点击态，单位毫秒
     hoverStartTime: {
       type: [String, Number],
+      // 10
       default() {
         // 10
         return listItem.hoverStartTime
@@ -223,6 +238,7 @@ export default {
     // 手指松开后点击态保留时间，单位毫秒
     hoverStayTime: {
       type: [String, Number],
+      // 100
       default() {
         // 100
         return listItem.hoverStayTime

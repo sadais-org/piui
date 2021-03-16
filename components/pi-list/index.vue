@@ -25,6 +25,7 @@ export default {
     // 自定义样式
     customStyle: {
       type: Object,
+      // {}
       default() {
         // {}
         return list.customStyle
@@ -33,6 +34,7 @@ export default {
     // 自定义样式类
     customClass: {
       type: String,
+      // ''
       default() {
         // ''
         return list.customClass
@@ -41,6 +43,7 @@ export default {
     // 列表高度
     height: {
       type: [String, Number],
+      // null
       default() {
         // null
         return list.height
@@ -49,6 +52,7 @@ export default {
     // 列表面板标题
     title: {
       type: String,
+      // ''
       default() {
         // ''
         return list.title
@@ -57,14 +61,16 @@ export default {
     // 列表面板描述
     desc: {
       type: String,
+      // ''
       default() {
         // ''
         return list.desc
       }
     },
-    // 标题自定义样式，对象形式（默认值：{}）
+    // 标题自定义样式
     titleStyle: {
       type: Object,
+      // {}
       default() {
         // {}
         return list.titleStyle
@@ -73,6 +79,7 @@ export default {
     // 是否显示边框
     border: {
       type: Boolean,
+      // true
       default() {
         // true
         return list.border
