@@ -27,11 +27,6 @@ export default {
   // 混入自定义样式customStyle和customClass
   mixins: [extendPiGrid], // 注入value与val，进行双向绑定
   props: {
-    // 当前宫格索引
-    index: {
-      type: [Number, String],
-      required: true
-    },
     // 自定义样式
     customStyle: {
       type: Object,
@@ -136,8 +131,9 @@ export default {
         marginRight: gap,
         marginBottom: gap
       }
+      const index = this.$parent.$children.indexOf(this)
       // 如果设置了index，并且是列数的最后一行，则不设置marginRight
-      if (this.index && (this.index + 1) % this.getCol === 0) {
+      if (index && (index + 1) % this.getCol === 0) {
         style.marginRight = 0
       }
       if (this.bgColor) style.backgroundColor = this.bgColor
@@ -155,15 +151,8 @@ export default {
       return clazz.join(' ')
     }
   },
-  created() {
-    this.valid()
-  },
+  created() {},
   methods: {
-    valid() {
-      if (this.getGap && this.index === null) {
-        console.warn(TAG, '当设置gap的时候，请把当前迭代器的索引传递到index属性，否则宽度计算有误')
-      }
-    },
     handleItemClick(e) {
       this.$emit('click', e)
     }
