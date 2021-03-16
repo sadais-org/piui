@@ -177,7 +177,7 @@ export default {
     // 默认不解析 webP 格式，只支持网络资源
     webp: {
       type: Boolean,
-      //false
+      // false
       default: img.webp
     }
   },
