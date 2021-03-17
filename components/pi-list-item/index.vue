@@ -1,8 +1,12 @@
 <template>
   <view
     class="pi-list-item pi-align-center"
-    :hover-class="getHoverClass"
-    :style="[customStyle, itemStyle]"
+    :hover-class="disabled ? '' : getHoverClass"
+    :style="[
+      customStyle,
+      itemStyle,
+      { backgroundColor: disabled ? '#e5e5e5' : 'none', opacity: disabled ? 0.5 : 1 }
+    ]"
     :class="[{ border: getBorder }, customClass]"
     :hover-start-time="hoverStartTime"
     :hover-stay-time="hoverStayTime"
@@ -267,6 +271,9 @@ export default {
   created() {},
   methods: {
     handleItemClick(e) {
+      if (this.disabled) {
+        return
+      }
       this.$emit('click', e)
     }
   }
