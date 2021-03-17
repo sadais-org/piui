@@ -87,12 +87,13 @@ export default {
         return input.customClass
       }
     },
-    // 输入框类型 'textarea', 'text', 'number', 'idcard', 'digit'
+    // 输入框类型
     type: {
       required: false,
+      // `'textarea'` `'text'` `'number'` `'idcard'` `'digit'`
       type: String,
+      // `'text'`
       default() {
-        // 'text'
         return input.type
       },
       validator: function(value) {

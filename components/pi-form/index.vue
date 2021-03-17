@@ -160,11 +160,12 @@ export default {
       // false
       default: form.border
     },
-    // 表单校验两种提示，message - 输入框下方提示，toast - toast提示（只提示第一个错误），默认为message
+    // 表单校验两种提示
     errorType: {
+      // `'message'-输入框下方提示` `'toast'-提示(只提示第一个错误)`
       type: String,
+      // `'message'`
       default() {
-        // 'message'
         return form.errorType
       },
       validator: function(value) {

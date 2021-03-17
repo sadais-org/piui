@@ -114,10 +114,11 @@ export default {
       // ''
       default: img.badge
     },
-    // 图片形状，round-圆形，square-方形
+    // 图片形状
     shape: {
+      // `'round'-圆形` `'square'-方形`
       type: String,
-      // 'square'
+      // `'square'`
       default: img.shape,
       validator: function(value) {
         return ['square', 'round'].includes(value)
@@ -153,10 +154,11 @@ export default {
       // '#c1c1c1'
       default: img.loadingColor
     },
-    // 类型： spinner 菊花 round 圆环
+    // loading类型
     loadingType: {
+      // `'spinner'-菊花` `'round'-圆环`
       type: String,
-      // 'spinner'
+      // `'spinner'`
       default: img.loadingType,
       validator: function(value) {
         return ['spinner', 'round'].includes(value)

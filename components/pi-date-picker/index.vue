@@ -155,15 +155,16 @@ export default {
         return datePicker.endYear
       }
     },
-    // 选择器的粒度 year、month、day、hour、minute、second
+    // 选择器的粒度
     field: {
+      // `'year'` `'month'` `'day'` `'hour'` `'minute'` `'second'`
       type: String,
       validator: function(value) {
         // 这个值必须匹配下列字符串中的一个
         return ['year', 'month', 'day', 'hour', 'minute', 'second'].includes(value)
       },
+      // `'day'`
       default() {
-        // 'day'
         return datePicker.field
       }
     },
@@ -180,8 +181,9 @@ export default {
       default: datePicker.format
     },
     toolbarPosition: {
+      // `'top'` `'bottom'`
       type: String,
-      // 'bottom'
+      // `'bottom'`
       default: datePicker.toolbarPosition,
       validator: function(value) {
         return ['top', 'bottom'].includes(value)
@@ -282,10 +284,11 @@ export default {
       // 800
       default: datePicker.closeIconWeight
     },
-    // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
+    // 关闭图标位置
     closeIconPosition: {
+      // `''-自适应` `'tl'-左上角` `'bl'-左下角` `'br'-右下角` `'tr'-右上角`
       type: String,
-      // ''
+      // `''`
       default: datePicker.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)

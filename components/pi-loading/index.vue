@@ -49,10 +49,11 @@ export default {
       // ''
       default: loading.color
     },
-    // 类型： spinner 菊花 round 圆环
+    // loading类型
     type: {
+      // `'spinner'-菊花` `'round'-圆环`
       type: String,
-      // 'spinner'
+      // `'spinner'`
       default: loading.type,
       validator: function(value) {
         return ['spinner', 'round'].includes(value)

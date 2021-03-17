@@ -244,9 +244,9 @@ export default {
     },
     // 关闭图标位置
     closeIconPosition: {
-      // tl-左上角，tr-右上角，bl-左下角，br-右下角，若不指定，则按照弹出位置自动显示在合适的位置
+      // `''-自适应` `'tl'-左上角` `'tr'-右上角` `'bl'-左下角` `'br'-右下角`
       type: String,
-      // ''
+      // `''`
       default: modal.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)

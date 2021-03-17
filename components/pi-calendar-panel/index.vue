@@ -98,9 +98,9 @@ export default {
     },
     // 日历类型
     type: {
-      // 'date：单个日期', 'range：范围日期'
+      // `'date'-单个日期`, `'range'-范围日期`
       type: String,
-      // 'date'
+      // `'date'`
       default: calendarPanel.type,
       validator: function(value) {
         return ['date', 'range'].includes(value)

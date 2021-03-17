@@ -175,9 +175,11 @@ export default {
       type: [String, Number],
       default: numberKeyboard.closeIconWeight
     },
-    // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
+    // 关闭图标位置
     closeIconPosition: {
+      // `''-自适应` `'tl-左上角'` `'tr'-右上角` `'bl'-左下角` `'br'-右下角`
       type: String,
+      // `''`
       default: numberKeyboard.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)

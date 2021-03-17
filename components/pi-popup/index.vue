@@ -142,9 +142,9 @@ export default {
     },
     // 关闭图标位置，若不指定，则按照弹出位置自动显示在合适的位置
     closeIconPosition: {
-      // '' 左上角-'tl' 右上角-'tr' 左下角-'bl' 右下角-'br'
+      // `''` `左上角-'tl'` `右上角-'tr'` `左下角-'bl'` `右下角-'br'`
       type: String,
-      // ''
+      // `''`
       default: popup.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)

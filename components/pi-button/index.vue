@@ -52,9 +52,9 @@ export default {
   props: {
     // 按钮尺寸
     size: {
-      // 'default', 'large', 'medium', 'small', 'tiny', 'mini'
+      // `'default'` `'large'` `'medium'` `'small'` `'tiny'` `'mini'`
       type: String,
-      // default
+      // `'default'`
       default: button.size,
       validator: function(value) {
         return ['default', 'large', 'medium', 'small', 'tiny', 'mini'].includes(value)
@@ -62,9 +62,9 @@ export default {
     },
     // 按钮的预置样式
     type: {
-      // 'default', 'primary', 'warn', 'secondary', 'line'
+      // `'default'` `'primary'` `'warn'` `'secondary'` `'line'`
       type: String,
-      // default
+      // `'default'`
       default: button.type,
       validator: function(value) {
         return ['default', 'primary', 'warn', 'secondary', 'line'].includes(value)

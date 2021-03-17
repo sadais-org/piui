@@ -148,8 +148,8 @@ export default {
     labelAlign: {
       // `'left'` `'center'` `'right'`
       type: String,
+      // `'left'`
       default() {
-        // 'left'
         return formItem.labelAlign
       },
       validator: function(value) {
@@ -160,8 +160,8 @@ export default {
     inputAlign: {
       // `'left'` `'center'` `'right'`
       type: String,
+      // `'right'`
       default() {
-        // 'right'
         return formItem.inputAlign
       },
       validator: function(value) {

@@ -69,10 +69,10 @@ export default {
     },
     // 分隔符，
     separator: {
-      // 'colon'：英文冒号, 'zh'：中文
+      // `'colon'-英文冒号` `'zh'-中文`
       type: String,
       default() {
-        // colon
+        // `'colon'`
         return countDown.separator
       },
       validator: function(value) {

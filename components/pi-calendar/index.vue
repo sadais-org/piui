@@ -103,9 +103,9 @@ export default {
     },
     // 日历类型
     type: {
-      // 'date：单个日期', 'range：范围日期'
+      // `'date'-单个日期` `'range'-范围日期`
       type: String,
-      // 'date'
+      // `'date'`
       default: calendar.type,
       validator: function(value) {
         return ['date', 'range'].includes(value)
@@ -248,9 +248,9 @@ export default {
     },
     // 关闭图标位置，若不指定，则按照弹出位置自动显示在合适的位置
     closeIconPosition: {
-      // tl为左上角，tr为右上角，bl为左下角，br为右下角
+      // `''-自适应` `'tl'-左上角` `'tr'-右上角` `'bl'-为左下角` `'br'-右下角`
       type: String,
-      // -
+      // `''`
       default: calendar.closeIconPosition,
       validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)

@@ -169,11 +169,11 @@ export default {
       // true
       default: navbar.capsuleButton
     },
-    // 胶囊按钮主题， light or dark
+    // 胶囊按钮主题
     capsuleTheme: {
-      // 'light'、'dark'
+      // `'light'` `'dark'`
       type: String,
-      // 'light'
+      // `'light'`
       default: navbar.capsuleTheme,
       validator: function(value) {
         return ['light', 'dark'].includes(value)

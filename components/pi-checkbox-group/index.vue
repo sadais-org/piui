@@ -68,9 +68,9 @@ export default {
     },
     // 排列方向
     direction: {
-      // '', horizontal', 'vertical'
+      // `''` `'horizontal'` `'vertical'`
       type: String,
-      // ''
+      // `''`
       default: checkboxGroup.direction,
       validator: function(value) {
         return ['horizontal', 'vertical'].includes(value)
@@ -78,9 +78,9 @@ export default {
     },
     // 形状
     shape: {
-      // round || square
+      // `'round'` `'square'` `'dot'` `'text'`
       type: String,
-      // ''
+      // `''`
       default: checkboxGroup.shape,
       validator: function(value) {
         return ['', 'square', 'round', 'dot', 'text'].includes(value)
@@ -118,8 +118,9 @@ export default {
     },
     // 激活模式
     activeMode: {
-      // '', 'line', 'fill'
+      // `''` `'line'` `'fill'`
       type: [String],
+      // `''`
       default: checkboxGroup.activeMode,
       validator: function(value) {
         return ['', 'line', 'fill'].includes(value)
