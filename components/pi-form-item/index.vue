@@ -144,8 +144,9 @@ export default {
         return formItem.labelStyle
       }
     },
-    // 表单label区域 label 对齐方式，可选值为 left center right
+    // 表单label区域 label 对齐方式
     labelAlign: {
+      // `'left'` `'center'` `'right'`
       type: String,
       default() {
         // 'left'
@@ -155,8 +156,9 @@ export default {
         return ['left', 'center', 'right'].includes(value)
       }
     },
-    // 表单输入区域 label 对齐方式，可选值为 left center right
+    // 表单输入区域 label 对齐方式
     inputAlign: {
+      // `'left'` `'center'` `'right'`
       type: String,
       default() {
         // 'right'

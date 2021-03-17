@@ -228,10 +228,11 @@ export default {
         return search.searchIconStyle
       }
     },
-    // 搜索icon的位置，可选值 `left` `right`
+    // 搜索icon的位置
     searchIconPosition: {
+      // `'left'` `'right'`
       type: String,
-      // `left`
+      // `'left'`
       default: search.searchIconPosition,
       validator: function(value) {
         return ['left', 'right'].includes(value)

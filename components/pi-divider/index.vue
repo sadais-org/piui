@@ -60,10 +60,11 @@ export default {
       // 'solid'
       default: divider.borderStyle
     },
-    // 内容位置：center left right
+    // 内容位置
     contentPosition: {
+      // `'center'` `'left'` `'right'`
       type: String,
-      // 'center'
+      // `'center'`
       default: divider.contentPosition,
       validator: function(value) {
         return ['center', 'left', 'right'].includes(value)

@@ -98,8 +98,9 @@ export default {
         return form.labelWidth
       }
     },
-    // 表单label区域 label 对齐方式，可选值为 left center right
+    // 表单label区域 label 对齐方式
     labelAlign: {
+      // `'left'` `'center'` `'right'`
       type: [Object, String],
       default() {
         // null
@@ -117,8 +118,9 @@ export default {
         return form.labelStyle
       }
     },
-    // 表单输入区域 label 对齐方式，可选值为 left center right
+    // 表单输入区域 label 对齐方式
     inputAlign: {
+      // `'left'` `'center'` `'right'`
       type: [Object, String],
       default() {
         // null

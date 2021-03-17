@@ -85,9 +85,9 @@ export default {
     },
     // 弹出位置
     position: {
-      // 'top' 'bottom' 'right' 'left' 'center'
+      // `'top'` `'bottom'` `'right'` `'left'` `'center'`
       type: String,
-      // 'bottom'
+      // `'bottom'`
       default: popup.position,
       validator: function(value) {
         return ['top', 'bottom', 'right', 'left', 'center'].includes(value)
