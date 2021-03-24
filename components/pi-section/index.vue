@@ -22,7 +22,7 @@
       </view>
     </view>
     <!-- 右侧区域 -->
-    <view class="extra">{{ extraText }}</view>
+    <view class="extra" :style="[extraStyle]">{{ extraText }}</view>
     <view v-if="$slots.right" class="pi-pd-left-24">
       <slot name="right" />
     </view>
