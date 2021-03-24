@@ -2,8 +2,11 @@
   <!-- 蒙层禁止触摸滚动 @touchmove.stop.prevent -->
   <view
     v-if="!closed"
-    class="pi-fixed-top pi-w-100P pi-h-100P"
-    :class="[show ? 'pi-ani-fade-show' : 'pi-ani-fade-hide']"
+    class="pi-popup pi-fixed-top pi-w-100P"
+    :class="[
+      show ? 'pi-ani-fade-show' : 'pi-ani-fade-hide',
+      hideTabBar ? 'include-tabbar' : 'exclude-tabbar'
+    ]"
     :style="[
       { 'zIndex': zIndex, 'background': maskBackground, 'animation-duration': getDuration.css }
     ]"
@@ -355,6 +358,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../scss/mixin.scss';
+.pi-popup {
+  &.include-tabbar {
+    @include full-height($include-tabbar: true);
+  }
+  &.exclude-tabbar {
+    @include full-height($include-tabbar: false);
+  }
+}
+
 .ani-scale-center-up {
   animation: scale-center-up $pi-animation-duration $pi-animation-timing-function both;
 }

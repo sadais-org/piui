@@ -9,7 +9,7 @@
     <view
       v-if="label || $slots.label"
       class="form-label pi-align-start pi-flex-nowrap"
-      :style="[getLabelStyle, labelStyle]"
+      :style="[computedLabelStyle, getLabelStyle]"
       :class="[{ border: getWrap && getLabelWrapBorder }]"
     >
       <view v-if="required" style="color: ed2235;" class="pi-mg-right-12" :style="[requiredStyle]">
@@ -89,7 +89,7 @@ export default {
     },
     // 绑定字段
     prop: {
-      type: String,
+      type: [String, Number],
       // ''
       default: ''
     },
@@ -230,21 +230,32 @@ export default {
     getErrorType() {
       return this.inheritProps.errorType
     },
+    getPadding() {
+      const padding = this.inheritProps.padding !== null ? this.inheritProps.padding : this.padding
+      return this.$pi.common.addUnit(padding)
+    },
+    getHeight() {
+      const height = this.inheritProps.height !== null ? this.inheritProps.height : this.height
+      return this.$pi.common.addUnit(height)
+    },
     itemStyle() {
       const style = {}
       if (!this.getWrap) {
-        style.padding = this.padding
+        style.padding = this.getPadding
       }
-      const height = this.height || this.inheritProps.height
+      const height = this.getHeight
       if (!this.getWrap && height) {
-        style.minHeight = this.$pi.common.addUnit(height)
+        style.minHeight = height
       }
       return style
     },
     getLabelStyle() {
+      return this.inheritProps.labelStyle !== null ? this.inheritProps.labelStyle : this.labelStyle
+    },
+    computedLabelStyle() {
       const style = {}
       if (this.getWrap) {
-        style.padding = this.padding
+        style.padding = this.getPadding
       }
       const labelWidth = this.labelWidth || this.inheritProps.labelWidth
       if (labelWidth) {
@@ -260,7 +271,7 @@ export default {
     contentWrapStyle() {
       const style = {}
       if (this.getWrap) {
-        style.padding = this.padding
+        style.padding = this.getPadding
       }
       return style
     },
@@ -375,7 +386,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../scss/border.scss';
+@import '../../scss/mixin.scss';
 
 .pi-form-item {
   font-size: $pi-form-size;

@@ -1,0 +1,47 @@
+// 实现0.5px的效果
+@mixin pi-border-style {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  content: ' ';
+  border-radius: inherit;
+  transform: scale(0.5);
+  transform-origin: 0 0;
+}
+// boder
+@mixin pi-border {
+  position: relative;
+  &::after {
+    @include pi-border-style;
+  }
+}
+
+// full-height $include-tabbar: 高度是否包含tabbar
+@mixin full-height($include-tabbar: false) {
+  @if $include-tabbar {
+    height: 100vh;
+
+    /*  #ifdef  H5  */
+
+    /* 修复safari下100vh不生效的问题 */
+    height: calc(var(--vh, 1vh) * 100);
+
+    /*  #endif  */
+  }
+
+  @else {
+    height: calc(100vh - var(--window-bottom));
+
+    /*  #ifdef  H5  */
+
+    /* 修复safari下100vh不生效的问题 */
+    height: calc(var(--vh, 1vh) * 100 - var(--window-bottom));
+
+    /*  #endif  */
+  }
+}

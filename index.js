@@ -13,6 +13,16 @@ const install = (Vue, config = {}) => {
   Vue.prototype.$loading = tools.toast.loading
   Vue.prototype.$hideLoading = tools.toast.hideLoading
 
+  // #ifdef  H5
+  const setVh = () => {
+    const vh = window.innerHeight * 0.01
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+  }
+
+  window.addEventListener('load', setVh)
+  window.addEventListener('resize', setVh)
+  // #endif
+
   console.log('%c欢迎使用piui，官网地址：https://www.sadais.com', logStyle)
   console.log('%cpiui 已安装，使用配置为：', logStyle, piConfig)
   console.log('%cpiui tools 已挂载：', logStyle, tools)

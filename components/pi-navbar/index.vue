@@ -1,14 +1,17 @@
 <template>
   <view class="navbar-wrap" :style="[{ zIndex }, customStyle]" :class="[customClass]">
-    <pi-status-bar v-if="fixed" :background="statusBarBackground" />
     <!-- 当导航栏为fixed时候，占位用 -->
-    <view v-if="fixed && placeholder" :style="[{ height: height }]" />
+    <view
+      v-if="fixed && placeholder"
+      class="navbar-placeholder"
+      :style="[{ height: `calc(${height} + ${statusBarHeight})` }]"
+    />
     <view
       :class="{ 'navbar-fixed': fixed, 'pi-solid-bottom-1': borderBottom }"
       :style="[{ zIndex }]"
     >
       <!-- 内部状态栏占位用 -->
-      <view v-if="fixed" class="pi-w-100P" :style="[{ height: statusBarHeight }]" />
+      <pi-status-bar v-if="placeholder" :background="statusBarBackground" />
       <!-- 真正渲染的navbar -->
       <view class="pi-rela pi-w-100P pi-align-center" :style="[{ background, height }]">
         <!-- 左侧 -->

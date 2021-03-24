@@ -71,7 +71,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../scss/border.scss';
+@import '../../scss/mixin.scss';
 
 .pi-grid {
   width: 100%;

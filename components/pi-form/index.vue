@@ -25,6 +25,7 @@ export default {
     parentInit([
       'height',
       'border',
+      'padding',
       'labelWidth',
       'labelAlign',
       'labelStyle',
@@ -88,6 +89,14 @@ export default {
       default() {
         // null
         return form.height
+      }
+    },
+    // 列表项内边距
+    padding: {
+      type: String,
+      default() {
+        // ''
+        return form.padding
       }
     },
     // 表单项 label 宽度，默认单位为rpx

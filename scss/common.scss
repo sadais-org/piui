@@ -1,6 +1,6 @@
 // 引入piui 变量声明，可以在uni.scss中进行覆盖
 @import './variable.scss';
-@import './border.scss';
+@import './mixin.scss';
 
 /**
  * 颜色
@@ -586,7 +586,9 @@ image {
   position: relative;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--window-bottom));
+
+  @include full-height($include-tabbar: false);
+
   overflow: hidden;
 }
 

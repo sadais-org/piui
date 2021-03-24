@@ -184,9 +184,7 @@ export default {
       }
       if (this.getActiveColor && this.val) {
         style.borderColor = this.getActiveColor
-        if (this.getShape === 'text' && this.getActiveMode === 'line') {
-          style.color = this.getActiveColor
-        }
+        style.color = this.getActiveColor
         if (this.getShape === 'text' && this.getActiveMode === 'fill') {
           style.backgroundColor = this.getActiveColor
         }
@@ -247,7 +245,9 @@ $disable-color: #c8c9cc;
     }
   }
   .check-label {
+    flex: 1;
     margin-left: 16rpx;
+    line-height: 1.5;
     word-wrap: break-word;
     transition: $pi-animation-duration $pi-animation-timing-function;
     transition-property: border, color, background-color;
@@ -277,16 +277,10 @@ $disable-color: #c8c9cc;
       background: #cccccc;
     }
   }
-  &.disabled {
-    cursor: not-allowed;
-    .check-icon {
-      opacity: 0.4;
-    }
-    .check-label {
-      color: #cccccc;
-    }
-  }
   &.active {
+    .radio-label {
+      color: $pi-primary-color;
+    }
     &.line {
       .check-icon {
         color: $pi-primary-color;
@@ -314,6 +308,15 @@ $disable-color: #c8c9cc;
         color: #ffffff;
         background: $pi-primary-color;
       }
+    }
+  }
+  &.disabled {
+    cursor: not-allowed;
+    .check-icon {
+      opacity: 0.4;
+    }
+    .check-label {
+      color: #cccccc;
     }
   }
 }

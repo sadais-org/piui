@@ -2,8 +2,12 @@
   <!-- 蒙层禁止触摸滚动 @touchmove.stop.prevent -->
   <view
     v-if="val"
-    class="pi-fixed-top pi-w-100P pi-h-100P"
-    :class="[customClass, show ? animationShow : animationHide]"
+    class="pi-mask pi-fixed-top pi-w-100P"
+    :class="[
+      customClass,
+      show ? animationShow : animationHide,
+      hideTabBar ? 'include-tabbar' : 'exclude-tabbar'
+    ]"
     :style="[
       customStyle,
       { 'zIndex': zIndex, 'background': background, 'animation-duration': getDuration.css }
@@ -175,3 +179,15 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '../../scss/mixin.scss';
+.pi-mask {
+  &.include-tabbar {
+    @include full-height($include-tabbar: true);
+  }
+  &.exclude-tabbar {
+    @include full-height($include-tabbar: false);
+  }
+}
+</style>

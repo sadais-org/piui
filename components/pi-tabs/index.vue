@@ -338,7 +338,7 @@ export default {
       bottom: 6rpx;
       left: 0;
       width: 100%;
-      height: 4rpx;
+      height: 2rpx;
       .slider-bar {
         width: 80rpx;
         height: 100%;
