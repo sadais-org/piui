@@ -24,11 +24,14 @@
       <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{ desc }}</view>
     </view>
     <!-- 中间区域 -->
-    <view class="pi-flex-sub pi-w-100P"><slot /></view>
+    <view class="pi-flex-sub pi-w-100P">
+      <!-- 中间区域插槽 -->
+      <slot />
+    </view>
     <!-- 右侧区域 -->
     <view class="extra" :style="[extraStyle]">{{ extraText }}</view>
-    <!-- 右侧区域插槽 -->
     <view v-if="$slots.right" class="pi-pd-left-24">
+      <!-- 右侧区域插槽 -->
       <slot name="right" />
     </view>
     <pi-icon
@@ -176,48 +179,48 @@ export default {
     // 右侧icon名称
     rightIconName: {
       type: String,
+      // 'right'
       default() {
-        // 'right'
         return listItem.rightIconName
       }
     },
     // 是否显示图标右上角小红点
     rightIconDot: {
       type: Boolean,
+      // false
       default() {
-        // false
         return listItem.rightIconDot
       }
     },
     // 图标右上角徽标的内容
     rightIconBadge: {
       type: String,
+      // ''
       default() {
-        // ''
         return listItem.rightIconBadge
       }
     },
     // 图标颜色
     rightIconColor: {
       type: String,
+      // #cccccc
       default() {
-        // #cccccc
         return listItem.rightIconColor
       }
     },
     // 图标字体大小，单位rpx
     rightIconSize: {
       type: [String, Number],
+      // ''
       default() {
-        // ''
         return listItem.rightIconSize
       }
     },
     // 类名前缀，用于使用自定义图标
     rightIconClassPrefix: {
       type: String,
+      // 'pi-icon-'
       default() {
-        // 'pi-icon-'
         return listItem.rightIconClassPrefix
       }
     },
@@ -274,6 +277,7 @@ export default {
       if (this.disabled) {
         return
       }
+      // 点击列表项时触发
       this.$emit('click', e)
     }
   }
