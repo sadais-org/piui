@@ -5,62 +5,56 @@
     :style="[customStyle, loadingStyle]"
     :class="[customClass, vertical ? 'vertical' : '']"
   >
-    <view
-      v-if="type === 'round'"
-      class="loading-round"
-      :style="[cricleStyle]"
-    />
-    <view
-      v-if="type === 'spinner'"
-      class="loading-spinner"
-      :style="[cricleStyle]"
-    >
+    <view v-if="type === 'round'" class="loading-round" :style="[cricleStyle]" />
+    <view v-if="type === 'spinner'" class="loading-spinner" :style="[cricleStyle]">
       <view v-for="line of 12" :key="line" />
     </view>
     <view
       v-if="$slots.default || $slots.$default"
       :style="[textStyle, loadingTextSize]"
       class="slot"
-      ><slot
-    /></view>
+    >
+      <slot />
+    </view>
   </view>
 </template>
 
 <script>
-import { getConfig } from "../../config";
+import { getConfig } from '../../config'
 
-const TAG = "PiLoading";
-const { loading } = getConfig();
+const TAG = 'PiLoading'
+const { loading } = getConfig()
 
 export default {
-  name: "Loading",
+  name: 'Loading',
   props: {
     // 自定义样式
     customStyle: {
       type: Object,
+      // {}
       default() {
-        // {}
-        return loading.customStyle;
-      },
+        return loading.customStyle
+      }
     },
     // 自定义样式类
     customClass: {
       type: String,
+      // ''
       default() {
-        // ''
-        return loading.customClass;
-      },
+        return loading.customClass
+      }
     },
     // 是否显示loading
     show: {
       type: Boolean,
-      default: false,
+      // false
+      default: false
     },
     // 颜色
     color: {
       type: String,
       // ''
-      default: loading.color,
+      default: loading.color
     },
     // loading类型
     type: {
@@ -69,68 +63,67 @@ export default {
       // `'spinner'`
       default: loading.type,
       validator: function (value) {
-        return ["spinner", "round"].includes(value);
-      },
+        return ['spinner', 'round'].includes(value)
+      }
     },
-    // 尺寸
+    // 尺寸,默认单位rpx
     size: {
       type: [String, Number],
       // 32
-      default: loading.size,
+      default: loading.size
     },
     // 是否垂直排列
     vertical: {
       type: Boolean,
       // false
-      default: loading.vertical,
+      default: loading.vertical
     },
-    // 尺寸
+    // 文字尺寸,默认单位rpx
     textSize: {
       type: [String, Number],
-      // '28rpx'
-      default: loading.textSize,
+      // '28'
+      default: loading.textSize
     },
     // 文字样式
     textStyle: {
       type: Object,
+      // {}
       default() {
-        // {}
-        return loading.textStyle;
-      },
-    },
+        return loading.textStyle
+      }
+    }
   },
   computed: {
     getSize() {
-      return this.$pi.common.addUnit(this.size);
+      return this.$pi.common.addUnit(this.size)
     },
     getTextSize() {
-      return this.$pi.common.addUnit(this.textSize);
+      return this.$pi.common.addUnit(this.textSize)
     },
     loadingStyle() {
       const style = {
-        fontSize: this.getSize,
-      };
-      if (this.color) style.color = this.color;
-      return style;
+        fontSize: this.getSize
+      }
+      if (this.color) style.color = this.color
+      return style
     },
     // 加载中圆圈动画的样式
     cricleStyle() {
       const style = {
         width: this.getSize,
-        height: this.getSize,
-      };
-      return style;
+        height: this.getSize
+      }
+      return style
     },
-    // 文字尺寸
     loadingTextSize() {
       const style = {
-        fontSize: this.getTextSize,
-      };
-      if (this.textStyle.fontSize) style.fontSize = this.textStyle.fontSize;
-      return style;
-    },
-  },
-};
+        fontSize: this.getTextSize
+      }
+      if (this.textStyle.fontSize) style.fontSize = this.textStyle.fontSize
+      return style
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -180,7 +173,7 @@ export default {
       width: 2px;
       height: 25%;
       margin: 0 auto;
-      content: " ";
+      content: ' ';
       background-color: currentColor;
     }
   }
