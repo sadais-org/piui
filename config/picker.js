@@ -38,6 +38,6 @@ export default {
   maskClosable: true, // 是否可以通过点击遮罩进行关闭
   hideTabBar: false, // 是否隐藏TabBar
   appendToBody: false, // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
-  zIndex: 100, // 元素 z-index
+  zIndex: 999, // 元素 z-index
   maskBackground: 'rgba(0, 0, 0, .5)' // 背景颜色（默认'#000000'）
 }

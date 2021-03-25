@@ -316,7 +316,7 @@ export default {
     // 层级z-index
     zIndex: {
       type: [Number, String],
-      // 100
+      // 999
       default: picker.zIndex
     },
     // 背景颜色

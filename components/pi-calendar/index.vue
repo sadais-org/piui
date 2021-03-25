@@ -294,7 +294,7 @@ export default {
     // 层级z-index
     zIndex: {
       type: [Number, String],
-      // 100
+      // 999
       default: calendar.zIndex
     },
     // 背景颜色（默认'rgba(0, 0, 0, .5)'）
