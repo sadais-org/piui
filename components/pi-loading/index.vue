@@ -62,7 +62,7 @@ export default {
       type: String,
       // `'spinner'`
       default: loading.type,
-      validator: function (value) {
+      validator: function(value) {
         return ['spinner', 'round'].includes(value)
       }
     },
