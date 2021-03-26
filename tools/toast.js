@@ -4,7 +4,7 @@ export default {
    */
   success(title, duration = 1500, mask = true) {
     return uni.showToast({
-      title: title || '成功',
+      title: `${title}`,
       icon: 'success',
       duration,
       mask
@@ -15,7 +15,7 @@ export default {
    */
   info(title, duration = 1500, mask = true) {
     return uni.showToast({
-      title: title,
+      title: `${title}`,
       icon: 'none',
       duration,
       mask
@@ -26,7 +26,7 @@ export default {
    */
   load(title, duration = 1500, mask = true) {
     return uni.showToast({
-      title: title,
+      title: `${title}`,
       icon: 'loading',
       duration,
       mask
@@ -44,7 +44,7 @@ export default {
    */
   loading(title = '请稍后...', mask = true) {
     return uni.showLoading({
-      title,
+      title: `${title}`,
       mask
     })
   },

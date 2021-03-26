@@ -13,7 +13,7 @@
       <!-- 内部状态栏占位用 -->
       <pi-status-bar v-if="placeholder" :background="statusBarBackground" />
       <!-- 真正渲染的navbar -->
-      <view class="pi-rela pi-w-100P pi-align-center" :style="[{ background, height }]">
+      <view class="pi-navbar pi-rela pi-w-100P pi-align-center" :style="[{ background, height }]">
         <!-- 左侧 -->
         <view
           class="pi-align-center nav-icon"
