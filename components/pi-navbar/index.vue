@@ -110,8 +110,8 @@ export default {
     // 标题样式
     titleStyle: {
       type: Object,
+      // { fontSize: '36rpx', fontWeight: 500, color: '#333333' }
       default() {
-        // { fontSize: '36rpx', fontWeight: 500, color: '#333333' }
         return navbar.titleStyle
       }
     },
