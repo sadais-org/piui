@@ -173,9 +173,9 @@ export default {
         }
       }, 1000)
     },
-    // 停止倒计时
     stop() {
       this.clearTimer()
+      // 停止倒计时
       this.$emit('stop', {})
     },
     // 清除定时器

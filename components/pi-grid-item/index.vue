@@ -154,6 +154,7 @@ export default {
   created() {},
   methods: {
     handleItemClick(e) {
+      // 点击事件
       this.$emit('click', e)
     }
   }
