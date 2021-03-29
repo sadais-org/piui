@@ -71,9 +71,7 @@
       <!-- 顶部操作条 -->
       <pi-bottom-bar v-if="toolbarPosition === 'bottom'">
         <slot v-if="$slots.toolbar" name="toolbar" />
-        <pi-button v-else width="100%" type="primary" @tap="handleConfirm">
-          确定
-        </pi-button>
+        <pi-button v-else width="100%" type="primary" @tap="handleConfirm">确定</pi-button>
       </pi-bottom-bar>
     </view>
   </pi-popup>
@@ -103,8 +101,8 @@ export default {
     // 自定义样式
     customStyle: {
       type: Object,
+      // {}
       default() {
-        // {}
         return picker.customStyle
       }
     },
@@ -120,8 +118,9 @@ export default {
     toolbarPosition: {
       // 'top', 'bottom'
       type: String,
+      // 'bottom'
       default: picker.toolbarPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['top', 'bottom'].includes(value)
       }
     },
@@ -163,7 +162,7 @@ export default {
       type: String,
       // 'single'
       default: picker.type,
-      validator: function(value) {
+      validator: function (value) {
         return ['single', 'multi', 'multi-auto'].includes(value)
       }
     },
@@ -206,8 +205,8 @@ export default {
     // 行样式
     itemStyle: {
       type: Object,
+      // {}
       default() {
-        // {}
         return picker.itemStyle
       }
     },
@@ -268,7 +267,7 @@ export default {
       type: String,
       // ''
       default: picker.closeIconPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },

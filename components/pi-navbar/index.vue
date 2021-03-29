@@ -178,7 +178,7 @@ export default {
       type: String,
       // `'light'`
       default: navbar.capsuleTheme,
-      validator: function (value) {
+      validator: function(value) {
         return ['light', 'dark'].includes(value)
       }
     },
