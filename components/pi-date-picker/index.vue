@@ -449,6 +449,7 @@ export default {
     },
     handlePopupClose() {
       this.val = false
+      // 关闭
       this.$emit('close')
       this.handleEmitChange()
     },
@@ -467,7 +468,8 @@ export default {
       this.date = this.$pi.date.parseDate(time)
     },
     handleConfirm() {
-      this.$emit('confirm', this.date.format(this.format))
+      // 提交
+      this.$emit('confirm', this.date)
       this.onConfirmClose && this.handlePopupClose()
     }
   }
