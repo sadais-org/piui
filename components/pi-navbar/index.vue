@@ -47,7 +47,7 @@
           </template>
         </view>
         <!-- 标题剩余空间 -->
-        <view :style="[navTitleStyle]" class="pi-flex-sub ">
+        <view :style="[navTitleStyle]" class="pi-flex-sub">
           <!-- 定制导航栏标题 -->
           <slot v-if="$slots.title" name="title" />
         </view>
@@ -88,16 +88,16 @@ export default {
     // 自定义样式 添加到组件的根节点上
     customStyle: {
       type: Object,
+      // {}
       default() {
-        // {}
         return navbar.customStyle
       }
     },
     // 自定义样式类 添加到组件的根节点上
     customClass: {
       type: String,
+      // ''
       default() {
-        // ''
         return navbar.customClass
       }
     },
@@ -178,7 +178,7 @@ export default {
       type: String,
       // `'light'`
       default: navbar.capsuleTheme,
-      validator: function(value) {
+      validator: function (value) {
         return ['light', 'dark'].includes(value)
       }
     },
@@ -294,10 +294,10 @@ export default {
   methods: {
     syncPageRoute() {
       if (this.showBack === '') {
-      /* eslint-disable */
-      const pages = getCurrentPages()
-      // 如果堆栈大于1表示打开了子页面，需要显示返回按钮
-      this.isShowBack = pages.length > 1
+        /* eslint-disable */
+        const pages = getCurrentPages()
+        // 如果堆栈大于1表示打开了子页面，需要显示返回按钮
+        this.isShowBack = pages.length > 1
       } else {
         this.isShowBack = this.showBack
       }
