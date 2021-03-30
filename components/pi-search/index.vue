@@ -108,7 +108,7 @@ export default {
         return search.customClass
       }
     },
-    // 搜索框形状,可选值为 `square` `round` |`String`| `false` | `round`
+    // 搜索框形状,可选值为 `'square'` `'round'`
     shape: {
       type: String,
       // `'round'`
@@ -120,7 +120,7 @@ export default {
     // 背景颜色
     background: {
       type: String,
-      // ``#f5f5f5``
+      // `'#f5f5f5'`
       default: search.background
     },
     // 是否启用清除控件
@@ -146,13 +146,13 @@ export default {
     // 占位提示文字
     placeholder: {
       type: String,
-      // `请输入搜索关键词`
+      // `'请输入搜索关键词'`
       default: search.placeholder
     },
     // 指定 placeholder 的样式
     placeholderStyle: {
       type: String,
-      // `color: #cccccc;`
+      // `'color: #cccccc;'`
       default() {
         return search.placeholderStyle
       }
@@ -172,7 +172,7 @@ export default {
     // 右侧显示文字
     actionText: {
       type: String,
-      // `取消`
+      // `'取消'`
       default: search.actionText
     },
     // 指定右侧显示文字样式
@@ -183,10 +183,10 @@ export default {
         return search.actionStyle
       }
     },
-    // 输入框内容对齐方式，可选值 `left` `center` `right` |`String`|  `false`
+    // 输入框内容对齐方式，可选值 `'left'` `'center'` `'right'`
     inputAlign: {
       type: String,
-      // `left`
+      // `'left'`
       default: search.inputAlign
     },
     // 搜索框左侧文本
@@ -212,13 +212,13 @@ export default {
     // 输入框的图标，可以为icon名称或图片路径
     searchIcon: {
       type: String,
-      // `search`
+      // `'search'`
       default: search.searchIcon
     },
     // 输入框左边的图标颜色(当传入searchIcon为name的时候)
     searchIconColor: {
       type: String,
-      // `#333333`
+      // `'#333333'`
       default: search.searchIconColor
     },
     // 输入框左侧的图标自定义样式
@@ -229,9 +229,8 @@ export default {
         return search.searchIconStyle
       }
     },
-    // 搜索icon的位置
+    // 搜索icon的位置, 可选值为`'left'` `'right'`
     searchIconPosition: {
-      // `'left'` `'right'`
       type: String,
       // `'left'`
       default: search.searchIconPosition,
@@ -262,7 +261,7 @@ export default {
     // 输入文本颜色
     color: {
       type: String,
-      // `#333333`
+      // `'#333333'`
       default: search.color
     }
   },
