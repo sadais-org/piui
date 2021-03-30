@@ -128,7 +128,7 @@ export default {
       type: String,
       // `bottom`
       default: regionsSelect.toolbarPosition,
-      validator: function (value) {
+      validator: function(value) {
         return ['top', 'bottom'].includes(value)
       }
     },
@@ -258,7 +258,7 @@ export default {
       type: String,
       // 若不指定，则按照弹出位置自动显示在合适的位置
       default: regionsSelect.closeIconPosition,
-      validator: function (value) {
+      validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
@@ -336,7 +336,7 @@ export default {
       }
     },
     tabCurrent() {
-      return this.getTabItems.findIndex((t) => t.id === this.tabCurrentItem.id)
+      return this.getTabItems.findIndex(t => t.id === this.tabCurrentItem.id)
     },
     getRegions() {
       const regionsKey = this.tabCurrentItem.id
@@ -359,7 +359,7 @@ export default {
       return tabs
     },
     isCompleted() {
-      return this.getTabItems.findIndex((t) => t.text === PLEASE_SELECT_TIP) === -1
+      return this.getTabItems.findIndex(t => t.text === PLEASE_SELECT_TIP) === -1
     }
   },
   watch: {
@@ -408,7 +408,7 @@ export default {
       }
       setTimeout(() => {
         // 如果当前tab激活项不是最后一个，向右移动一项
-        const tabIndex = this.getTabItems.findIndex((t) => t.id === regionsKey)
+        const tabIndex = this.getTabItems.findIndex(t => t.id === regionsKey)
         if (tabIndex !== this.getTabItems.length - 1) {
           this.tabCurrentItem = this.getTabItems[tabIndex + 1]
         }

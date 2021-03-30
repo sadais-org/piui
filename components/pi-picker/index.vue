@@ -120,7 +120,7 @@ export default {
       type: String,
       // 'bottom'
       default: picker.toolbarPosition,
-      validator: function (value) {
+      validator: function(value) {
         return ['top', 'bottom'].includes(value)
       }
     },
@@ -162,7 +162,7 @@ export default {
       type: String,
       // 'single'
       default: picker.type,
-      validator: function (value) {
+      validator: function(value) {
         return ['single', 'multi', 'multi-auto'].includes(value)
       }
     },
@@ -267,7 +267,7 @@ export default {
       type: String,
       // ''
       default: picker.closeIconPosition,
-      validator: function (value) {
+      validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },

@@ -26,7 +26,7 @@
           }
         ]"
       >
-        <view :class="'pi-fz-32 pi-icon-' + searchIcon" :style="[searchIconStyle]" />
+        <view :class="'pi-fz-32 pi-icon-' + searchIcon" :style="[IconStyle]" />
       </view>
       <!-- 输入框包裹 -->
       <view
@@ -111,15 +111,16 @@ export default {
     // 搜索框形状,可选值为 `square` `round` |`String`| `false` | `round`
     shape: {
       type: String,
+      // `'round'`
       default: search.shape,
-      validator: function(value) {
+      validator: function (value) {
         return ['square', 'round'].includes(value)
       }
     },
     // 背景颜色
     background: {
       type: String,
-      // `#f2f2f2`
+      // ``#f5f5f5``
       default: search.background
     },
     // 是否启用清除控件
@@ -234,7 +235,7 @@ export default {
       type: String,
       // `'left'`
       default: search.searchIconPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['left', 'right'].includes(value)
       }
     },
@@ -258,7 +259,7 @@ export default {
       // `58`
       default: search.height
     },
-    // 输入框颜色
+    // 输入文本颜色
     color: {
       type: String,
       // `#333333`
@@ -281,6 +282,12 @@ export default {
         background: this.background,
         height: this.getHeight,
         ...this.inputStyle
+      }
+    },
+    IconStyle() {
+      return {
+        color: this.searchIconColor,
+        ...this.searchIconStyle
       }
     }
   },
