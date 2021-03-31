@@ -148,7 +148,7 @@ export default {
     labelAlign: {
       // `'left'` `'center'` `'right'`
       type: String,
-      // `'left'`
+      // 'left'
       default() {
         return formItem.labelAlign
       },
@@ -160,7 +160,7 @@ export default {
     inputAlign: {
       // `'left'` `'center'` `'right'`
       type: String,
-      // `'right'`
+      // 'right'
       default() {
         return formItem.inputAlign
       },
