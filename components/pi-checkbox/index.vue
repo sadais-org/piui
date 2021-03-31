@@ -62,7 +62,7 @@ export default {
     shape: {
       // `'square'` `'round'` `'dot'` `'text'`
       type: String,
-      // `'round'`
+      // 'round'
       default: checkbox.shape,
       validator: function(value) {
         return ['square', 'round', 'dot', 'text'].includes(value)
@@ -114,7 +114,7 @@ export default {
     activeMode: {
       // `'line'-线框模式` `'fill'-实底模式`
       type: String,
-      // `'line'`
+      // 'line'
       default: checkbox.activeMode,
       validator: function(value) {
         return ['line', 'fill'].includes(value)

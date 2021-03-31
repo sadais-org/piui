@@ -64,7 +64,7 @@ export default {
     contentPosition: {
       // `'center'` `'left'` `'right'`
       type: String,
-      // `'center'`
+      // 'center'
       default: divider.contentPosition,
       validator: function(value) {
         return ['center', 'left', 'right'].includes(value)

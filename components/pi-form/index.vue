@@ -173,7 +173,7 @@ export default {
     errorType: {
       // `'message'-输入框下方提示` `'toast'-提示(只提示第一个错误)`
       type: String,
-      // `'message'`
+      // 'message'
       default() {
         return form.errorType
       },

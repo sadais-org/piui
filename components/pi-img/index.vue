@@ -118,7 +118,7 @@ export default {
     shape: {
       // `'round'-圆形` `'square'-方形`
       type: String,
-      // `'square'`
+      // 'square'
       default: img.shape,
       validator: function(value) {
         return ['square', 'round'].includes(value)
@@ -158,7 +158,7 @@ export default {
     loadingType: {
       // `'spinner'-菊花` `'round'-圆环`
       type: String,
-      // `'spinner'`
+      // 'spinner'
       default: img.loadingType,
       validator: function(value) {
         return ['spinner', 'round'].includes(value)

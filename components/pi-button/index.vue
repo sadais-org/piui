@@ -54,7 +54,7 @@ export default {
     size: {
       // `'default'` `'large'` `'medium'` `'small'` `'tiny'` `'mini'`
       type: String,
-      // `'default'`
+      // 'default'
       default: button.size,
       validator: function(value) {
         return ['default', 'large', 'medium', 'small', 'tiny', 'mini'].includes(value)
@@ -64,7 +64,7 @@ export default {
     type: {
       // `'default'` `'primary'` `'warn'` `'secondary'` `'line'`
       type: String,
-      // `'default'`
+      // 'default'
       default: button.type,
       validator: function(value) {
         return ['default', 'primary', 'warn', 'secondary', 'line'].includes(value)
