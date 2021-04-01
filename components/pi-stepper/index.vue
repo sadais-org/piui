@@ -227,9 +227,69 @@ export default {
     }
   },
   methods: {
+    // 点击减少按钮时触发
+    minus() {
+      this.computeVal('minus')
+    },
+    // 点击增加按钮时触发
+    plus() {
+      this.computeVal('plus')
+    },
+    // 为了保证小数相加出现精度溢出的问题
+    numAdd(num1, num2) {
+      let baseNum, baseNum1, baseNum2
+      try {
+        baseNum1 = num1.toString().split('.')[1].length
+      } catch (e) {
+        baseNum1 = 0
+      }
+      try {
+        baseNum2 = num2.toString().split('.')[1].length
+      } catch (e) {
+        baseNum2 = 0
+      }
+      baseNum = Math.pow(10, Math.max(baseNum1, baseNum2))
+      let precision = baseNum1 >= baseNum2 ? baseNum1 : baseNum2 // 精度
+      return ((num1 * baseNum + num2 * baseNum) / baseNum).toFixed(precision)
+    },
+    // 为了保证小数相减出现精度溢出的问题
+    numSub(num1, num2) {
+      let baseNum, baseNum1, baseNum2
+      try {
+        baseNum1 = num1.toString().split('.')[1].length
+      } catch (e) {
+        baseNum1 = 0
+      }
+      try {
+        baseNum2 = num2.toString().split('.')[1].length
+      } catch (e) {
+        baseNum2 = 0
+      }
+      baseNum = Math.pow(10, Math.max(baseNum1, baseNum2))
+      let precision = baseNum1 >= baseNum2 ? baseNum1 : baseNum2
+      return ((num1 * baseNum - num2 * baseNum) / baseNum).toFixed(precision)
+    },
+    computeVal(type) {
+      if (this.disabled) return
+      let value = 0
+      // 减
+      if (type === 'minus') {
+        // this.value 当前值  this.step 增加步长后的值
+        value = this.numSub(this.value, this.step)
+      } else if (type === 'plus') {
+        value = this.numAdd(this.value, this.step)
+      }
+      // 判断是否小于最小值和大于最大值
+      if (value < this.min || value > this.max) {
+        return
+      }
+      // this.inputVal = value
+    },
     handleChange(range) {
       if (this.disabled) return
-      let val = this.val + range * this.step
+      // 增加/减少步长后的值
+      // let val = this.val + range * this.step
+      let val = range === 1 ? this.numAdd(this.val, this.step) : this.numSub(this.val, this.step)
       if (this.max !== null && val > this.max) {
         val = this.max
       }
