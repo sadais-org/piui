@@ -78,7 +78,8 @@ export default {
   props: {
     // 初始值
     value: {
-      required: false
+      required: false,
+      type: Boolean
     },
     // 自定义样式
     customStyle: {

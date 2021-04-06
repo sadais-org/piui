@@ -19,7 +19,7 @@ export const isEmail = value => {
  * 验证手机格式
  */
 export const isMobile = value => {
-  return /^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value)
+  return /^(?:(?:\+|00)86)?1\d{10}$/.test(value)
 }
 
 /**
