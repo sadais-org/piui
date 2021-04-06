@@ -75,7 +75,7 @@ export default {
         // `'colon'`
         return countDown.separator
       },
-      validator: function (value) {
+      validator: function(value) {
         return ['colon', 'zh'].includes(value)
       }
     },

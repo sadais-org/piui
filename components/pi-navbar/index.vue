@@ -1,9 +1,5 @@
 <template>
-  <view
-    class="navbar-wrap"
-    :style="[{ zIndex }, customStyle]"
-    :class="[customClass]"
-  >
+  <view class="navbar-wrap" :style="[{ zIndex }, customStyle]" :class="[customClass]">
     <!-- 当导航栏为fixed时候，占位用 -->
     <view
       v-if="fixed && placeholder"
@@ -17,10 +13,7 @@
       <!-- 内部状态栏占位用 -->
       <pi-status-bar v-if="placeholder" :background="statusBarBackground" />
       <!-- 真正渲染的navbar -->
-      <view
-        class="pi-navbar pi-rela pi-w-100P pi-align-center"
-        :style="[{ background, height }]"
-      >
+      <view class="pi-navbar pi-rela pi-w-100P pi-align-center" :style="[{ background, height }]">
         <!-- 左侧 -->
         <view
           class="pi-align-center nav-icon"
@@ -34,11 +27,7 @@
           <!-- 定制导航栏左侧内容 -->
           <slot v-if="$slots && $slots.left" name="left" />
           <template v-else>
-            <view
-              v-if="isShowBack"
-              class="pi-align-center back-wrap"
-              @tap.stop="handleGoBack"
-            >
+            <view v-if="isShowBack" class="pi-align-center back-wrap" @tap.stop="handleGoBack">
               <view
                 :class="'pi-icon-' + backIconName"
                 :style="[
@@ -49,15 +38,9 @@
                   }
                 ]"
               />
-              <view v-if="backText" :style="[backTextStyle]">{{
-                backText
-              }}</view>
+              <view v-if="backText" :style="[backTextStyle]">{{ backText }}</view>
             </view>
-            <view
-              v-if="showHome"
-              class="pi-align-center home-wrap"
-              @tap.stop="handleGoHome"
-            >
+            <view v-if="showHome" class="pi-align-center home-wrap" @tap.stop="handleGoHome">
               <view
                 :class="'pi-icon-' + homeIconName"
                 :style="[
@@ -203,7 +186,7 @@ export default {
       type: String,
       // `'light'`
       default: navbar.capsuleTheme,
-      validator: function (value) {
+      validator: function(value) {
         return ['light', 'dark'].includes(value)
       }
     },
@@ -306,9 +289,7 @@ export default {
     // 状态栏高度
     statusBarHeight() {
       const statusBarHeight =
-        systemInfo && systemInfo.statusBarHeight
-          ? systemInfo.statusBarHeight
-          : 0
+        systemInfo && systemInfo.statusBarHeight ? systemInfo.statusBarHeight : 0
       return `${statusBarHeight}px`
     },
     navTitleStyle() {

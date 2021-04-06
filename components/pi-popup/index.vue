@@ -9,8 +9,8 @@
     ]"
     :style="[
       {
-        zIndex: zIndex,
-        background: maskBackground,
+        'zIndex': zIndex,
+        'background': maskBackground,
         'animation-duration': getDuration.css
       }
     ]"
@@ -22,7 +22,7 @@
       :class="[customClass, aniClass]"
       :style="[
         {
-          borderRadius: getBorderRadius,
+          'borderRadius': getBorderRadius,
           'animation-duration': getDuration.css
         },
         positionStyle,
@@ -33,8 +33,7 @@
       <view
         class="pi-rela pi-w-100P pi-h-100P"
         :class="{
-          'pi-safearea':
-            !['top', 'center'].includes(position) && safeAreaInsetBottom
+          'pi-safearea': !['top', 'center'].includes(position) && safeAreaInsetBottom
         }"
         :style="[contentStyle]"
       >
@@ -103,7 +102,7 @@ export default {
       type: String,
       // `'bottom'`
       default: popup.position,
-      validator: function (value) {
+      validator: function(value) {
         return ['top', 'bottom', 'right', 'left', 'center'].includes(value)
       }
     },
@@ -160,7 +159,7 @@ export default {
       type: String,
       // `''`
       default: popup.closeIconPosition,
-      validator: function (value) {
+      validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
@@ -267,8 +266,7 @@ export default {
         right: 'tl', // 左上角
         center: 'tr' // 右上角
       }
-      const closePosition =
-        this.closeIconPosition || closePositionMap[this.position]
+      const closePosition = this.closeIconPosition || closePositionMap[this.position]
       return closePosition
     },
     closeIconStyle() {
@@ -381,13 +379,11 @@ export default {
 }
 
 .ani-scale-center-up {
-  animation: scale-center-up $pi-animation-duration
-    $pi-animation-timing-function both;
+  animation: scale-center-up $pi-animation-duration $pi-animation-timing-function both;
 }
 
 .ani-scale-center-down {
-  animation: scale-center-down $pi-animation-duration
-    $pi-animation-timing-function both;
+  animation: scale-center-down $pi-animation-duration $pi-animation-timing-function both;
 }
 
 @keyframes scale-center-up {

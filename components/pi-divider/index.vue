@@ -1,19 +1,12 @@
 <template>
-  <view
-    class="pi-rela pi-w-100P pi-align-center"
-    :style="[customStyle]"
-    :class="[customClass]"
-  >
+  <view class="pi-rela pi-w-100P pi-align-center" :style="[customStyle]" :class="[customClass]">
     <view
       v-if="['center', 'right'].includes(contentPosition)"
       class="pi-divider"
       :style="[dividerStyle]"
     />
     <!-- $slots.$default 是为了支持支付宝小程序 -->
-    <view
-      v-if="$slots.default || $slots.$default"
-      :style="[{ padding: contentPadding }]"
-    >
+    <view v-if="$slots.default || $slots.$default" :style="[{ padding: contentPadding }]">
       <slot />
     </view>
     <view
@@ -73,7 +66,7 @@ export default {
       type: String,
       // 'center'
       default: divider.contentPosition,
-      validator: function (value) {
+      validator: function(value) {
         return ['center', 'left', 'right'].includes(value)
       }
     },

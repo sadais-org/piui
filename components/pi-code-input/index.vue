@@ -124,10 +124,10 @@ export default {
     getAutoFocusDelay() {
       return parseInt(this.autoFocusDelay, 10)
     },
-    arrCode: function () {
+    arrCode: function() {
       return this.val ? this.val.split('') : []
     },
-    currentIndex: function () {
+    currentIndex: function() {
       return this.val ? this.val.length - 1 : 0
     }
   },

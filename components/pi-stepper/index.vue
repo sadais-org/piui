@@ -137,7 +137,7 @@ export default {
       type: String,
       // round
       default: stepper.shape,
-      validator: function (value) {
+      validator: function(value) {
         return ['square', 'round'].includes(value)
       }
     },
@@ -147,7 +147,7 @@ export default {
       type: String,
       // 'line'
       default: stepper.theme,
-      validator: function (value) {
+      validator: function(value) {
         return ['line', 'fill'].includes(value)
       }
     },
@@ -289,10 +289,7 @@ export default {
       if (this.disabled) return
       // 增加/减少步长后的值
       // let val = this.val + range * this.step
-      let val =
-        range === 1
-          ? this.numAdd(this.val, this.step)
-          : this.numSub(this.val, this.step)
+      let val = range === 1 ? this.numAdd(this.val, this.step) : this.numSub(this.val, this.step)
       if (this.max !== null && val > this.max) {
         val = this.max
       }

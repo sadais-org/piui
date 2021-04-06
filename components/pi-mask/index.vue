@@ -11,8 +11,8 @@
     :style="[
       customStyle,
       {
-        zIndex: zIndex,
-        background: background,
+        'zIndex': zIndex,
+        'background': background,
         'animation-duration': getDuration.css
       }
     ]"

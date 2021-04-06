@@ -1,10 +1,7 @@
 <template>
   <view
     class="pi-width-100P"
-    :style="[
-      customStyle,
-      { height: `${statusBarHeight}px`, background: background }
-    ]"
+    :style="[customStyle, { height: `${statusBarHeight}px`, background: background }]"
     :class="[customClass]"
   />
 </template>

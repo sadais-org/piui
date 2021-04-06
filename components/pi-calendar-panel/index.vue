@@ -14,9 +14,7 @@
           <view class="pi-icon-right pi-pd-24" @tap="handleChangeMonth(1)" />
         </view>
       </view>
-      <view v-if="showBackToday" class="back-today" @tap="handleBackToday"
-        >回到今日</view
-      >
+      <view v-if="showBackToday" class="back-today" @tap="handleBackToday">回到今日</view>
     </view>
 
     <!-- 星期 -->
@@ -37,11 +35,7 @@
       <view class="pi-rela">
         <view class="pi-rela pi-align-center pi-flex-wrap pi-pd-24">
           <!-- 前置空项目 -->
-          <view
-            v-for="emptyDay in firstDay"
-            :key="emptyDay"
-            class="date-item"
-          />
+          <view v-for="emptyDay in firstDay" :key="emptyDay" class="date-item" />
           <!-- 天 -->
           <view
             v-for="day in days"
@@ -113,7 +107,7 @@ export default {
       type: String,
       // 'date'
       default: calendarPanel.type,
-      validator: function (value) {
+      validator: function(value) {
         return ['date', 'range'].includes(value)
       }
     },
@@ -269,10 +263,7 @@ export default {
           const isBegin = this.isSameDay(start, day)
           const isEnd = this.isSameDay(end, day)
           const inRange =
-            start &&
-            end &&
-            day.timestamp > start.timestamp &&
-            day.timestamp < end.timestamp
+            start && end && day.timestamp > start.timestamp && day.timestamp < end.timestamp
           const activeStyle = {}
           // 处理两端
           if (isBegin || isEnd) {

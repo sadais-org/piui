@@ -1,9 +1,5 @@
 <template>
-  <view
-    class="pi-form"
-    :style="[customStyle]"
-    :class="[{ border }, customClass]"
-  >
+  <view class="pi-form" :style="[customStyle]" :class="[{ border }, customClass]">
     <pi-section
       v-if="title"
       :title="title"
@@ -119,7 +115,7 @@ export default {
         // null
         return form.labelAlign
       },
-      validator: function (value) {
+      validator: function(value) {
         return [null, 'left', 'center', 'right'].includes(value)
       }
     },
@@ -139,7 +135,7 @@ export default {
         // null
         return form.inputAlign
       },
-      validator: function (value) {
+      validator: function(value) {
         return [null, 'left', 'center', 'right'].includes(value)
       }
     },
@@ -181,7 +177,7 @@ export default {
       default() {
         return form.errorType
       },
-      validator: function (value) {
+      validator: function(value) {
         return ['message', 'toast'].includes(value)
       }
     }
@@ -198,11 +194,9 @@ export default {
     },
     // 校验数据
     async validation() {
-      const validations = this._children.map((c) => c.validation())
+      const validations = this._children.map(c => c.validation())
       const results = await Promise.all(validations)
-      const failedResults = results.filter(
-        (result) => result.validateState === 'error'
-      )
+      const failedResults = results.filter(result => result.validateState === 'error')
       if (this.errorType === 'toast' && failedResults.length > 0) {
         this.$toast(failedResults[0].validateMessage)
       }
@@ -214,10 +208,10 @@ export default {
      */
     resetValidation(prop = '') {
       if (prop) {
-        const target = this._children.find((c) => c.prop === prop)
+        const target = this._children.find(c => c.prop === prop)
         target && target.resetValidation()
       } else {
-        this._children.forEach((c) => c.resetValidation())
+        this._children.forEach(c => c.resetValidation())
       }
     }
   }

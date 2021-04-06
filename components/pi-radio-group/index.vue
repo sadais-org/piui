@@ -73,7 +73,7 @@ export default {
       type: String,
       // ''
       default: radioGroup.direction,
-      validator: function (value) {
+      validator: function(value) {
         return ['horizontal', 'vertical'].includes(value)
       }
     },
@@ -83,7 +83,7 @@ export default {
       type: String,
       // ''
       default: radioGroup.shape,
-      validator: function (value) {
+      validator: function(value) {
         return ['', 'square', 'round', 'dot', 'text'].includes(value)
       }
     },
@@ -123,7 +123,7 @@ export default {
       type: [String],
       // 'line'
       default: radioGroup.activeMode,
-      validator: function (value) {
+      validator: function(value) {
         return ['', 'line', 'fill'].includes(value)
       }
     }

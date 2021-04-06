@@ -2,24 +2,14 @@
   <view
     class="pi-check-wrap"
     :style="[customStyle]"
-    :class="[
-      getShape,
-      getActiveMode,
-      { disabled: getDisable },
-      { active: val },
-      customClass
-    ]"
+    :class="[getShape, getActiveMode, { disabled: getDisable }, { active: val }, customClass]"
     @tap="handleCheckboxToggle"
   >
     <view v-if="getShape !== 'text'" class="check-icon" :style="[checkStyle]">
       <view v-if="getShape === 'dot'" class="dot" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />
     </view>
-    <view
-      class="check-label"
-      :class="{ text: getShape === 'text' }"
-      :style="[textStyle]"
-    >
+    <view class="check-label" :class="{ text: getShape === 'text' }" :style="[textStyle]">
       <!-- checkbox 内容 -->
       <slot />
     </view>
@@ -74,7 +64,7 @@ export default {
       type: String,
       // 'round'
       default: checkbox.shape,
-      validator: function (value) {
+      validator: function(value) {
         return ['square', 'round', 'dot', 'text'].includes(value)
       }
     },
@@ -126,7 +116,7 @@ export default {
       type: String,
       // 'line'
       default: checkbox.activeMode,
-      validator: function (value) {
+      validator: function(value) {
         return ['line', 'fill'].includes(value)
       }
     }
@@ -218,7 +208,7 @@ export default {
       // 如果父组件做了可选数量限制
       if (!this.val && this._parent && this._parent.getMax > 0) {
         const max = this._parent.getMax
-        const currentCount = this._parent._children.filter((c) => c.val).length
+        const currentCount = this._parent._children.filter(c => c.val).length
         if (max === currentCount) return
       }
       this.val = !this.val

@@ -35,19 +35,11 @@
           <slot name="title">
             {{ title }}
           </slot>
-          <view class="item-btn pi-primary" @tap.stop="handleConfirm"
-            >确定</view
-          >
+          <view class="item-btn pi-primary" @tap.stop="handleConfirm">确定</view>
         </template>
       </view>
       <!-- 选择区域 -->
-      <pi-grid
-        col="3"
-        gap="24"
-        :border="false"
-        hover-class="none"
-        custom-class="pi-pd-lr-24"
-      >
+      <pi-grid col="3" gap="24" :border="false" hover-class="none" custom-class="pi-pd-lr-24">
         <!-- 固定生成12个坑位 -->
         <pi-grid-item
           v-for="(key, index) in $pi.common.generateArray(0, 11)"
@@ -193,7 +185,7 @@ export default {
       type: String,
       // `''`
       default: numberKeyboard.closeIconPosition,
-      validator: function (value) {
+      validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },

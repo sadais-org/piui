@@ -23,12 +23,8 @@
 
     <!-- 标题和描述 -->
     <view v-if="title || desc">
-      <view v-if="title" :style="[titleStyle]" class="list-item-title">{{
-        title
-      }}</view>
-      <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{
-        desc
-      }}</view>
+      <view v-if="title" :style="[titleStyle]" class="list-item-title">{{ title }}</view>
+      <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{ desc }}</view>
     </view>
     <!-- 中间区域 -->
     <view class="pi-flex-sub pi-w-100P">
@@ -261,9 +257,7 @@ export default {
   },
   computed: {
     getBorder() {
-      return this.inheritProps.border !== null
-        ? this.inheritProps.border
-        : this.border
+      return this.inheritProps.border !== null ? this.inheritProps.border : this.border
     },
     getHeight() {
       const height = this.inheritProps.height || this.height

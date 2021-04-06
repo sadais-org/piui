@@ -5,16 +5,8 @@
     :style="[customStyle, loadingStyle]"
     :class="[customClass, vertical ? 'vertical' : '']"
   >
-    <view
-      v-if="type === 'round'"
-      class="loading-round"
-      :style="[cricleStyle]"
-    />
-    <view
-      v-if="type === 'spinner'"
-      class="loading-spinner"
-      :style="[cricleStyle]"
-    >
+    <view v-if="type === 'round'" class="loading-round" :style="[cricleStyle]" />
+    <view v-if="type === 'spinner'" class="loading-spinner" :style="[cricleStyle]">
       <view v-for="line of 12" :key="line" />
     </view>
     <view
@@ -70,7 +62,7 @@ export default {
       type: String,
       // `'spinner'`
       default: loading.type,
-      validator: function (value) {
+      validator: function(value) {
         return ['spinner', 'round'].includes(value)
       }
     },

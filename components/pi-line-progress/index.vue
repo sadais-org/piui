@@ -6,17 +6,10 @@
   >
     <view
       class="active-bar"
-      :class="[
-        { round: round },
-        { striped: striped },
-        { active: stripedActive }
-      ]"
+      :class="[{ round: round }, { striped: striped }, { active: stripedActive }]"
       :style="[activeBarStyle]"
     >
-      <view
-        class="percent"
-        :style="[{ height: getHeight, lineHeight: getHeight }, percentStyle]"
-      >
+      <view class="percent" :style="[{ height: getHeight, lineHeight: getHeight }, percentStyle]">
         <slot v-if="$slots.default || $slots.$default" />
         <template v-else-if="showPercent">
           {{ percent + '%' }}

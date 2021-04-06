@@ -116,19 +116,13 @@ export default {
       return `calc((100% - ${this.getRowGapWidth}) / ${this.getCol})`
     },
     getSquare() {
-      return this.inheritProps.square !== null
-        ? this.inheritProps.square
-        : this.square
+      return this.inheritProps.square !== null ? this.inheritProps.square : this.square
     },
     getBorder() {
-      return this.inheritProps.border !== null
-        ? this.inheritProps.border
-        : this.border
+      return this.inheritProps.border !== null ? this.inheritProps.border : this.border
     },
     getHoverClass() {
-      return this.inheritProps.hoverClass !== null
-        ? this.inheritProps.hoverClass
-        : this.hoverClass
+      return this.inheritProps.hoverClass !== null ? this.inheritProps.hoverClass : this.hoverClass
     },
     itemStyle() {
       const gap = this.$pi.common.addUnit(this.getGap)

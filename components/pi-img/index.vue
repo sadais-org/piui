@@ -35,12 +35,7 @@
         </template>
       </view>
     </view>
-    <view
-      v-if="badge || dot"
-      class="img-badge"
-      :class="{ dot }"
-      :style="[badgeStyle]"
-    >
+    <view v-if="badge || dot" class="img-badge" :class="{ dot }" :style="[badgeStyle]">
       {{ badge }}
     </view>
     <view v-if="dot" />
@@ -125,7 +120,7 @@ export default {
       type: String,
       // 'square'
       default: img.shape,
-      validator: function (value) {
+      validator: function(value) {
         return ['square', 'round'].includes(value)
       }
     },
@@ -165,7 +160,7 @@ export default {
       type: String,
       // 'spinner'
       default: img.loadingType,
-      validator: function (value) {
+      validator: function(value) {
         return ['spinner', 'round'].includes(value)
       }
     },
@@ -217,15 +212,12 @@ export default {
     imageStyle() {
       return {
         overflow: 'hidden',
-        borderRadius:
-          this.shape === 'round'
-            ? '50%'
-            : this.$pi.common.addUnit(this.borderRadius)
+        borderRadius: this.shape === 'round' ? '50%' : this.$pi.common.addUnit(this.borderRadius)
       }
     }
   },
   methods: {
-    handleButtonTap: debounce(function (e) {
+    handleButtonTap: debounce(function(e) {
       this.$emit('click', e)
     }, 200),
     handleError() {

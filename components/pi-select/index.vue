@@ -40,9 +40,7 @@
         <slot v-if="$slots.toolbar" name="toolbar" />
         <template v-else>
           <view class="item-btn" @tap.stop="handlePopupClose">取消</view>
-          <view class="item-btn pi-primary" @tap.stop="handleConfirm"
-            >确定</view
-          >
+          <view class="item-btn pi-primary" @tap.stop="handleConfirm">确定</view>
         </template>
       </view>
       <!-- 选择区域 -->
@@ -54,7 +52,7 @@
           :style="[itemStyle, getItemStyle]"
           :class="{
             'pi-solid-bottom-1': showItemBottomBorder,
-            disabled: item.disabled
+            'disabled': item.disabled
           }"
           class="select-item pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
           @tap.stop="handleSelectItem(item)"
@@ -64,12 +62,7 @@
             <!-- item[displayField] -->
             {{ item[displayField] }}
           </slot>
-          <pi-checkbox
-            :value="item.isSelected"
-            active-mode="fill"
-            shape="round"
-            readonly
-          />
+          <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" readonly />
         </view>
       </scroll-view>
       <!-- 顶部操作条 -->
@@ -121,7 +114,7 @@ export default {
       type: String,
       // 'bottom'
       default: select.toolbarPosition,
-      validator: function (value) {
+      validator: function(value) {
         return ['top', 'bottom'].includes(value)
       }
     },
@@ -265,7 +258,7 @@ export default {
       type: String,
       // ''
       default: select.closeIconPosition,
-      validator: function (value) {
+      validator: function(value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
@@ -343,13 +336,10 @@ export default {
       }
     },
     getItems() {
-      return this.items.map((item) => {
+      return this.items.map(item => {
         let isSelected = false
         if (this.isMulti) {
-          isSelected =
-            this.selected.findIndex(
-              (s) => s[this.keyField] === item[this.keyField]
-            ) !== -1
+          isSelected = this.selected.findIndex(s => s[this.keyField] === item[this.keyField]) !== -1
         } else {
           isSelected = this.selected[this.keyField] === item[this.keyField]
         }
@@ -396,13 +386,9 @@ export default {
       }
       // 多选
       const hasSelected =
-        this.selected.findIndex(
-          (s) => s[this.keyField] === item[this.keyField]
-        ) !== -1
+        this.selected.findIndex(s => s[this.keyField] === item[this.keyField]) !== -1
       if (hasSelected) {
-        this.selected = this.selected.filter(
-          (s) => s[this.keyField] !== item[this.keyField]
-        )
+        this.selected = this.selected.filter(s => s[this.keyField] !== item[this.keyField])
       } else {
         this.selected.push(item)
       }

@@ -31,11 +31,7 @@
     <!-- 按钮内容 -->
     <slot />
     <view v-if="ripple" class="pi-abso-full pi-of-hidden" :class="[{ round }]">
-      <view
-        class="wave-ripple"
-        :class="[{ active: waveInfo.active }]"
-        :style="[waveStyle]"
-      />
+      <view class="wave-ripple" :class="[{ active: waveInfo.active }]" :style="[waveStyle]" />
     </view>
   </button>
 </template>
@@ -60,10 +56,8 @@ export default {
       type: String,
       // 'default'
       default: button.size,
-      validator: function (value) {
-        return ['default', 'large', 'medium', 'small', 'tiny', 'mini'].includes(
-          value
-        )
+      validator: function(value) {
+        return ['default', 'large', 'medium', 'small', 'tiny', 'mini'].includes(value)
       }
     },
     // 按钮的预置样式
@@ -72,10 +66,8 @@ export default {
       type: String,
       // 'default'
       default: button.type,
-      validator: function (value) {
-        return ['default', 'primary', 'warn', 'secondary', 'line'].includes(
-          value
-        )
+      validator: function(value) {
+        return ['default', 'primary', 'warn', 'secondary', 'line'].includes(value)
       }
     },
     // 按钮是否镂空
@@ -261,29 +253,29 @@ export default {
     },
     waveStyle() {
       return {
-        top: this.waveInfo.top + 'px',
-        left: this.waveInfo.left + 'px',
-        width: this.waveInfo.fields.targetWidth + 'px',
-        height: this.waveInfo.fields.targetWidth + 'px',
+        'top': this.waveInfo.top + 'px',
+        'left': this.waveInfo.left + 'px',
+        'width': this.waveInfo.fields.targetWidth + 'px',
+        'height': this.waveInfo.fields.targetWidth + 'px',
         'background-color': this.rippleBgColor || 'rgba(0, 0, 0, 0.05)'
       }
     }
   },
   methods: {
-    handleButtonTap: debounce(function (e) {
+    handleButtonTap: debounce(function(e) {
       if (this.loading || this.disabled || !this.ripple) return
       // 是否开启水波纹效果
       this.waveInfo.active = false
       // 点击事件
       console.log(TAG, '触发按钮click事件')
       this.$emit('click', e)
-      this.$nextTick(function () {
+      this.$nextTick(function() {
         this.queryWaveInfo(e)
       })
     }, button.debounceTimeout),
     // 查询按钮的节点信息
     queryWaveInfo(e) {
-      this.getElRectQuery().then((res) => {
+      this.getElRectQuery().then(res => {
         // 查询返回的是一个数组节点
         let data = res[0]
         // 查询不到节点信息，不操作
@@ -319,14 +311,14 @@ export default {
     },
     // 获取节点区域信息
     getElRectQuery() {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         let queryInfo = ''
         queryInfo = uni.createSelectorQuery().in(this)
         // #ifdef MP-ALIPAY
         queryInfo = uni.createSelectorQuery()
         // #endif
         queryInfo.select('.pi-button').boundingClientRect()
-        queryInfo.exec((data) => {
+        queryInfo.exec(data => {
           resolve(data)
         })
       })
