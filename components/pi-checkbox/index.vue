@@ -23,7 +23,7 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiCheckbox'
 const { checkbox } = getConfig()
-const extendCheckboxGroup = childInit('CheckboxGroup')
+const extendCheckboxGroup = childInit('PiCheckboxGroup')
 
 export default {
   name: TAG,

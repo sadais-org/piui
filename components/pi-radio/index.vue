@@ -21,7 +21,7 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiRadio'
 const { radio } = getConfig()
-const extendRadioGroup = childInit('RadioGroup')
+const extendRadioGroup = childInit('PiRadioGroup')
 
 // Radio组件
 export default {

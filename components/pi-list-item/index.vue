@@ -56,7 +56,7 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiListItem'
 const { listItem } = getConfig()
-const extendPiList = childInit('List')
+const extendPiList = childInit('PiList')
 
 export default {
   name: TAG,

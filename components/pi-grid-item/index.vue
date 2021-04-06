@@ -20,7 +20,7 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiGridItem'
 const { gridItem } = getConfig()
-const extendPiGrid = childInit('Grid')
+const extendPiGrid = childInit('PiGrid')
 
 export default {
   name: TAG,
