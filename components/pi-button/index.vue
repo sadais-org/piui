@@ -21,7 +21,7 @@
     :hover-start-time="hoverStartTime"
     :hover-stay-time="hoverStayTime"
     :loading="loading"
-    @tap="handleButtonTap"
+    @tap.stop="handleButtonTap"
     @getphonenumber="handleGetPhoneNumber($event)"
     @getuserinfo="handleGetUserInfo($event)"
     @error="handleError($event)"
