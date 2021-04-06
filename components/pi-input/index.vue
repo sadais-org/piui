@@ -163,8 +163,8 @@ export default {
       let value = e.detail.value
       // 输入内容
       this.$emit('input', value)
-      this.dispatch('Form', 'form-change', value)
-      this.dispatch('FormItem', 'form-change', value)
+      this.dispatch('PiForm', 'form-change', value)
+      this.dispatch('PiFormItem', 'form-change', value)
     }, 50),
     handleFocus() {
       this.focused = true
@@ -178,7 +178,7 @@ export default {
       // 失去焦点
       this.$emit('blur', e.detail.value)
       setTimeout(() => {
-        this.dispatch('FormItem', 'form-blur', e.detail.value)
+        this.dispatch('PiFormItem', 'form-blur', e.detail.value)
       }, 40)
     },
     handleConfirm(e) {
