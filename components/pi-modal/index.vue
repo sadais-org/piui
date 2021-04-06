@@ -19,7 +19,11 @@
     :mask-background="maskBackground"
     @close="handlePopupClose"
   >
-    <view class="pi-modal" :style="[customStyle, modalStyle]" :class="[customClass]">
+    <view
+      class="pi-modal"
+      :style="[customStyle, modalStyle]"
+      :class="[customClass]"
+    >
       <!-- 标题栏 -->
       <view
         v-if="showTitle"
@@ -81,7 +85,7 @@ const { modal } = getConfig()
 
 // 模态弹窗
 export default {
-  name: 'Modal',
+  name: TAG,
   // 混入v-model
   mixins: [ValueSync],
   props: {
@@ -248,7 +252,7 @@ export default {
       type: String,
       // `''`
       default: modal.closeIconPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },

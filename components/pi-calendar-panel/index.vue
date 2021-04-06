@@ -14,13 +14,15 @@
           <view class="pi-icon-right pi-pd-24" @tap="handleChangeMonth(1)" />
         </view>
       </view>
-      <view v-if="showBackToday" class="back-today" @tap="handleBackToday">回到今日</view>
+      <view v-if="showBackToday" class="back-today" @tap="handleBackToday"
+        >回到今日</view
+      >
     </view>
 
     <!-- 星期 -->
     <view
       class="pi-align-center pi-pd-24"
-      style="box-shadow: 0 15px 10px -15px rgba(125, 126, 128, 0.16);"
+      style="box-shadow: 0 15px 10px -15px rgba(125, 126, 128, 0.16)"
     >
       <view
         v-for="(week, index) in weekDayZh"
@@ -35,13 +37,17 @@
       <view class="pi-rela">
         <view class="pi-rela pi-align-center pi-flex-wrap pi-pd-24">
           <!-- 前置空项目 -->
-          <view v-for="emptyDay in firstDay" :key="emptyDay" class="date-item" />
+          <view
+            v-for="emptyDay in firstDay"
+            :key="emptyDay"
+            class="date-item"
+          />
           <!-- 天 -->
           <view
             v-for="day in days"
             :key="day.key"
             class="date-item"
-            style="cursor: pointer;"
+            style="cursor: pointer"
             :style="[day.nowStyle, day.activeStyle, day.disabledStyle]"
             @tap.stop="handleSelectDate(day)"
           >
@@ -60,7 +66,12 @@
           <!-- 日历背后蒙层 -->
           <view
             class="pi-abso-center pi-fw-500 pi-light-gray"
-            style="z-index: 1; font-size: 300rpx; pointer-events: none; opacity: 0.1;"
+            style="
+              z-index: 1;
+              font-size: 300rpx;
+              pointer-events: none;
+              opacity: 0.1;
+            "
           >
             {{ month }}
           </view>
@@ -78,7 +89,7 @@ const TAG = 'PiCalendarPanel'
 const { calendarPanel } = getConfig()
 
 export default {
-  name: 'CalendarPanel',
+  name: TAG,
   props: {
     // 自定义样式，对象形式
     customStyle: {
@@ -102,7 +113,7 @@ export default {
       type: String,
       // 'date'
       default: calendarPanel.type,
-      validator: function(value) {
+      validator: function (value) {
         return ['date', 'range'].includes(value)
       }
     },
@@ -258,7 +269,10 @@ export default {
           const isBegin = this.isSameDay(start, day)
           const isEnd = this.isSameDay(end, day)
           const inRange =
-            start && end && day.timestamp > start.timestamp && day.timestamp < end.timestamp
+            start &&
+            end &&
+            day.timestamp > start.timestamp &&
+            day.timestamp < end.timestamp
           const activeStyle = {}
           // 处理两端
           if (isBegin || isEnd) {

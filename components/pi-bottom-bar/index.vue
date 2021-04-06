@@ -7,11 +7,17 @@
     >
       <!-- 默认插槽 -->
       <slot />
-      <view class="pi-safearea" :style="[{ backgroundColor: safeAreaBgColor }]" />
+      <view
+        class="pi-safearea"
+        :style="[{ backgroundColor: safeAreaBgColor }]"
+      />
     </view>
     <!-- fixed时候的占位空间 -->
     <template v-if="fixed">
-      <view class="pi-bottom-bar-placeholder" :style="[{ height: barHeight }]" />
+      <view
+        class="pi-bottom-bar-placeholder"
+        :style="[{ height: barHeight }]"
+      />
       <view v-if="height" class="pi-safearea" />
     </template>
   </view>
@@ -22,11 +28,12 @@
  * bottom-bar 底部栏
  */
 import { getConfig } from '../../config'
+const TAG = 'PiBottomBar'
 const { bottomBar } = getConfig()
 
 // 底部栏
 export default {
-  name: 'BottomBar',
+  name: TAG,
   props: {
     // 自定义样式，对象形式
     customStyle: {
@@ -99,7 +106,11 @@ export default {
   methods: {
     async init() {
       if (!this.fixed || this.height) return // fixed并且未设定height，才需要计算高度
-      const barRect = await this.$pi.common.queryRect(this, '.pi-bottom-bar', false)
+      const barRect = await this.$pi.common.queryRect(
+        this,
+        '.pi-bottom-bar',
+        false
+      )
       this.barHeight = `${barRect.height}px`
     }
   }

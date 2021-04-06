@@ -17,7 +17,10 @@
         :key="index"
         :style="[itemStyle, currentIndex >= index ? fillStyle : {}]"
         class="label pi-flex-row-center"
-        :class="{ fill: currentIndex >= index, active: focus === true && index === currentIndex }"
+        :class="{
+          fill: currentIndex >= index,
+          active: focus === true && index === currentIndex
+        }"
         @tap="focus = true"
       >
         {{ arrCode[index] || '' }}
@@ -33,7 +36,7 @@ const { codeInput } = getConfig()
 const TAG = 'PiCodeInput'
 
 export default {
-  name: 'CodeInput',
+  name: TAG,
   mixins: [ValueSync],
   props: {
     // 初始值，接收一个长度为length的内容
@@ -121,10 +124,10 @@ export default {
     getAutoFocusDelay() {
       return parseInt(this.autoFocusDelay, 10)
     },
-    arrCode: function() {
+    arrCode: function () {
       return this.val ? this.val.split('') : []
     },
-    currentIndex: function() {
+    currentIndex: function () {
       return this.val ? this.val.length - 1 : 0
     }
   },

@@ -17,7 +17,11 @@
         <slot v-if="$slots && ($slots.default || $slots.$default)" />
         <template v-else-if="title">{{ title }}</template>
       </view>
-      <view v-if="($slots && $slots.desc) || desc" :style="[descStyle]" class="list-item-desc">
+      <view
+        v-if="($slots && $slots.desc) || desc"
+        :style="[descStyle]"
+        class="list-item-desc"
+      >
         <slot name="desc">{{ desc }}</slot>
       </view>
     </view>
@@ -46,7 +50,7 @@ const TAG = 'PiListItem'
 const { section } = getConfig()
 
 export default {
-  name: 'Section',
+  name: TAG,
   props: {
     // 自定义样式，对象形式
     customStyle: {

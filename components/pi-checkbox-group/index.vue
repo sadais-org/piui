@@ -21,7 +21,7 @@ const TAG = 'PiCheckboxGroup'
 const { checkboxGroup } = getConfig()
 
 export default {
-  name: 'CheckboxGroup',
+  name: TAG,
   // 混入自定义样式customStyle和customClass
   mixins: [
     ValueSync,
@@ -72,7 +72,7 @@ export default {
       type: String,
       // `''`
       default: checkboxGroup.direction,
-      validator: function(value) {
+      validator: function (value) {
         return ['horizontal', 'vertical'].includes(value)
       }
     },
@@ -82,7 +82,7 @@ export default {
       type: String,
       // `''`
       default: checkboxGroup.shape,
-      validator: function(value) {
+      validator: function (value) {
         return ['', 'square', 'round', 'dot', 'text'].includes(value)
       }
     },
@@ -122,7 +122,7 @@ export default {
       type: [String],
       // `''`
       default: checkboxGroup.activeMode,
-      validator: function(value) {
+      validator: function (value) {
         return ['', 'line', 'fill'].includes(value)
       }
     }
@@ -135,7 +135,7 @@ export default {
   methods: {
     emitChange() {
       const vals = []
-      this._children.map(val => {
+      this._children.map((val) => {
         if (val.val && val.name) vals.push(val.name)
       })
       this.val = vals

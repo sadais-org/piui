@@ -1,7 +1,10 @@
 <template>
   <view
     class="pi-width-100P"
-    :style="[customStyle, { height: `${statusBarHeight}px`, background: background }]"
+    :style="[
+      customStyle,
+      { height: `${statusBarHeight}px`, background: background }
+    ]"
     :class="[customClass]"
   />
 </template>
@@ -21,7 +24,7 @@ const { statusBar } = getConfig()
 const TAG = 'PiStatusBar'
 
 export default {
-  name: 'StatusBar',
+  name: TAG,
   props: {
     // 自定义样式，对象形式
     customStyle: {

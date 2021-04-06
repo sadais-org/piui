@@ -37,7 +37,7 @@ const { skeleton } = getConfig()
 const TAG = 'PiSkeleton'
 
 export default {
-  name: 'Skeleton',
+  name: TAG,
   props: {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
@@ -158,7 +158,7 @@ export default {
       query
         .selectAll(this.containerSkeletonSelector)
         .boundingClientRect()
-        .exec(res => {
+        .exec((res) => {
           console.log(TAG, '骨架屏节点信息查询：', res)
           if (!res || !res[0] || !res[0][0]) {
             console.warn(
@@ -194,7 +194,7 @@ export default {
       query
         .selectAll(selectorMap[selector])
         .boundingClientRect()
-        .exec(res => {
+        .exec((res) => {
           let borderRadius = 0
           if (selector === 'round') {
             borderRadius = this.borderRadius
@@ -203,7 +203,7 @@ export default {
             borderRadius = '50%'
           }
           this.skeletonNodes = this.skeletonNodes.concat(
-            res[0].map(r => ({ ...r, borderRadius, type: selector }))
+            res[0].map((r) => ({ ...r, borderRadius, type: selector }))
           )
         })
     }

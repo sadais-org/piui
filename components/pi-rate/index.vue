@@ -1,5 +1,8 @@
 <template>
-  <view class="pi-rate pi-align-center" @touchmove.stop.prevent="handleTouchMove">
+  <view
+    class="pi-rate pi-align-center"
+    @touchmove.stop.prevent="handleTouchMove"
+  >
     <view v-for="(item, index) in count" :key="index" class="rate-icon">
       <pi-icon
         :name="val > index ? selectedIcon : unselectedIcon"
@@ -31,7 +34,7 @@ const { rate } = getConfig()
 const TAG = 'PiRate'
 
 export default {
-  name: 'Rate',
+  name: TAG,
   // 混入v-model
   mixins: [ValueSync],
   props: {
@@ -161,7 +164,11 @@ export default {
   },
   methods: {
     async init() {
-      const srollWrapRect = await this.$pi.common.queryRect(this, '.pi-rate', false)
+      const srollWrapRect = await this.$pi.common.queryRect(
+        this,
+        '.pi-rate',
+        false
+      )
       if (srollWrapRect) {
         this.containerLeft = srollWrapRect.left
       }

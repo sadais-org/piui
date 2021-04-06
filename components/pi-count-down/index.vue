@@ -20,7 +20,7 @@ const { countDown } = getConfig()
 const TAG = 'PiCountDown'
 
 export default {
-  name: 'CountDown',
+  name: TAG,
   // 混入v-model
   mixins: [ValueSync],
   props: {
@@ -75,7 +75,7 @@ export default {
         // `'colon'`
         return countDown.separator
       },
-      validator: function(value) {
+      validator: function (value) {
         return ['colon', 'zh'].includes(value)
       }
     },
@@ -127,23 +127,51 @@ export default {
       if (this.showDay) {
         const separator = this.separator === 'colon' ? ':' : '天'
         times.push({ key: 'day-value', name: 'time', value: this.showTime.day })
-        times.push({ key: 'day-separator', name: 'separator', value: separator })
+        times.push({
+          key: 'day-separator',
+          name: 'separator',
+          value: separator
+        })
       }
       if (this.showHour) {
         const separator = this.separator === 'colon' ? ':' : '时'
-        times.push({ key: 'hour-value', name: 'time', value: this.showTime.hour })
-        times.push({ key: 'hour-separator', name: 'separator', value: separator })
+        times.push({
+          key: 'hour-value',
+          name: 'time',
+          value: this.showTime.hour
+        })
+        times.push({
+          key: 'hour-separator',
+          name: 'separator',
+          value: separator
+        })
       }
       if (this.showMinute) {
         const separator = this.separator === 'colon' ? ':' : '分'
-        times.push({ key: 'minute-value', name: 'time', value: this.showTime.minute })
-        times.push({ key: 'minute-separator', name: 'separator', value: separator })
+        times.push({
+          key: 'minute-value',
+          name: 'time',
+          value: this.showTime.minute
+        })
+        times.push({
+          key: 'minute-separator',
+          name: 'separator',
+          value: separator
+        })
       }
       if (this.showSecond) {
         const separator = this.separator === 'colon' ? ':' : '秒'
-        times.push({ key: 'second-value', name: 'time', value: this.showTime.second })
+        times.push({
+          key: 'second-value',
+          name: 'time',
+          value: this.showTime.second
+        })
         this.separator === 'zh' &&
-          times.push({ key: 'second-separator', name: 'separator', value: separator })
+          times.push({
+            key: 'second-separator',
+            name: 'separator',
+            value: separator
+          })
       }
       return times
     }

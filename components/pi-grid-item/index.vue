@@ -23,7 +23,7 @@ const { gridItem } = getConfig()
 const extendPiGrid = childInit('Grid')
 
 export default {
-  name: 'GridItem',
+  name: TAG,
   // 混入自定义样式customStyle和customClass
   mixins: [extendPiGrid], // 注入value与val，进行双向绑定
   props: {
@@ -116,13 +116,19 @@ export default {
       return `calc((100% - ${this.getRowGapWidth}) / ${this.getCol})`
     },
     getSquare() {
-      return this.inheritProps.square !== null ? this.inheritProps.square : this.square
+      return this.inheritProps.square !== null
+        ? this.inheritProps.square
+        : this.square
     },
     getBorder() {
-      return this.inheritProps.border !== null ? this.inheritProps.border : this.border
+      return this.inheritProps.border !== null
+        ? this.inheritProps.border
+        : this.border
     },
     getHoverClass() {
-      return this.inheritProps.hoverClass !== null ? this.inheritProps.hoverClass : this.hoverClass
+      return this.inheritProps.hoverClass !== null
+        ? this.inheritProps.hoverClass
+        : this.hoverClass
     },
     itemStyle() {
       const gap = this.$pi.common.addUnit(this.getGap)

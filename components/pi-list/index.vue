@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-list" :style="[customStyle]" :class="[{ border: showBorder }, customClass]">
+  <view
+    class="pi-list"
+    :style="[customStyle]"
+    :class="[{ border: showBorder }, customClass]"
+  >
     <pi-section
       v-if="title"
       :title="title"
@@ -19,7 +23,7 @@ const TAG = 'PiList'
 const { list } = getConfig()
 
 export default {
-  name: 'List',
+  name: TAG,
   mixins: [parentInit(['height', 'border', 'hoverClass'])],
   props: {
     // 自定义样式

@@ -63,7 +63,7 @@ const { input } = getConfig()
 const TAG = 'PiInput'
 
 export default {
-  name: 'Input',
+  name: TAG,
   // 混入v-model
   mixins: [ValueSync, Emitter],
   props: {
@@ -96,7 +96,7 @@ export default {
       default() {
         return input.type
       },
-      validator: function(value) {
+      validator: function (value) {
         return ['textarea', 'text', 'number', 'idcard', 'digit'].includes(value)
       }
     },
@@ -159,7 +159,7 @@ export default {
     }
   },
   methods: {
-    handleInput: debounce(function(e) {
+    handleInput: debounce(function (e) {
       let value = e.detail.value
       // 输入内容
       this.$emit('input', value)

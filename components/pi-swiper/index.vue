@@ -15,14 +15,19 @@
       :style="[swiperStyle]"
       @change="handleSwiperChange"
     >
-      <swiper-item v-for="(img, index) in imgs" :key="index" class="swiper-item">
+      <swiper-item
+        v-for="(img, index) in imgs"
+        :key="index"
+        class="swiper-item"
+      >
         <view
           class="swiper-image-wrap"
           :class="[val != index ? 'list-scale' : '']"
           :style="[
             {
               borderRadius: `${borderRadius}rpx`,
-              transform: effect3d && val !== index ? 'scaleY(0.9)' : 'scaleY(1)',
+              transform:
+                effect3d && val !== index ? 'scaleY(0.9)' : 'scaleY(1)',
               padding: effect3d && val !== index ? '0 20rpx' : 0
             }
           ]"
@@ -40,10 +45,16 @@
         </view>
       </swiper-item>
     </swiper>
-    <view v-if="indicatorType !== 'none'" class="swiper-indicator" :style="[swiperIndicatorStyle]">
+    <view
+      v-if="indicatorType !== 'none'"
+      class="swiper-indicator"
+      :style="[swiperIndicatorStyle]"
+    >
       <!-- 数字形式展示 -->
       <template v-if="indicatorType === 'number'">
-        <view class="indicator-item number">{{ val + 1 }}/{{ imgs.length }}</view>
+        <view class="indicator-item number"
+          >{{ val + 1 }}/{{ imgs.length }}</view
+        >
       </template>
       <!-- 点，矩形 -->
       <template v-else>
@@ -76,7 +87,7 @@ const { swiper } = getConfig()
 const TAG = 'PiSwiper'
 
 export default {
-  name: 'Swiper',
+  name: TAG,
   // 混入v-model
   mixins: [ValueSync],
   props: {
@@ -144,7 +155,7 @@ export default {
       type: String,
       // `number`
       default: swiper.indicatorType,
-      validator: function(value) {
+      validator: function (value) {
         return ['rect', 'dot', 'number', 'none'].includes(value)
       }
     },
@@ -153,7 +164,7 @@ export default {
       type: String,
       // `br`
       default: swiper.indicatorPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['tl', 'tc', 'tr', 'bl', 'bc', 'br'].includes(value)
       }
     },

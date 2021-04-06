@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-grid" :style="[customStyle]" :class="[{ border: showBorder }, customClass]">
+  <view
+    class="pi-grid"
+    :style="[customStyle]"
+    :class="[{ border: showBorder }, customClass]"
+  >
     <slot />
   </view>
 </template>
@@ -12,7 +16,7 @@ const TAG = 'PiGrid'
 const { grid } = getConfig()
 
 export default {
-  name: 'Grid',
+  name: TAG,
   mixins: [parentInit(['border', 'col', 'gap', 'square', 'hoverClass'])],
   props: {
     // 自定义样式

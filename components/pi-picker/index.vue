@@ -46,7 +46,9 @@
         </slot>
         <template v-else>
           <view class="item-btn" @tap.stop="handlePopupClose">取消</view>
-          <view class="item-btn pi-primary" @tap.stop="handleConfirm">确定</view>
+          <view class="item-btn pi-primary" @tap.stop="handleConfirm"
+            >确定</view
+          >
         </template>
       </view>
       <!-- 选择区域 -->
@@ -62,7 +64,11 @@
           @change="handlePickerChange"
         >
           <picker-view-column v-for="(column, index) in columns" :key="index">
-            <view v-for="item in column" :key="item[keyField]" :style="indicatorStyle">
+            <view
+              v-for="item in column"
+              :key="item[keyField]"
+              :style="indicatorStyle"
+            >
               {{ item[displayField] }}
             </view>
           </picker-view-column>
@@ -71,7 +77,9 @@
       <!-- 顶部操作条 -->
       <pi-bottom-bar v-if="toolbarPosition === 'bottom'">
         <slot v-if="$slots.toolbar" name="toolbar" />
-        <pi-button v-else width="100%" type="primary" @tap="handleConfirm">确定</pi-button>
+        <pi-button v-else width="100%" type="primary" @tap="handleConfirm"
+          >确定</pi-button
+        >
       </pi-bottom-bar>
     </view>
   </pi-popup>
@@ -90,7 +98,7 @@ const { picker } = getConfig()
  * 多列模式 如设置default-value为[1, 3]表示第一列默认选中第2个，第二列默认选中第4个。
  */
 export default {
-  name: 'Picker',
+  name: TAG,
   // 混入v-model
   mixins: [ValueSync],
   props: {
@@ -120,7 +128,7 @@ export default {
       type: String,
       // 'bottom'
       default: picker.toolbarPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['top', 'bottom'].includes(value)
       }
     },
@@ -162,7 +170,7 @@ export default {
       type: String,
       // 'single'
       default: picker.type,
-      validator: function(value) {
+      validator: function (value) {
         return ['single', 'multi', 'multi-auto'].includes(value)
       }
     },
@@ -267,7 +275,7 @@ export default {
       type: String,
       // ''
       default: picker.closeIconPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
@@ -415,7 +423,9 @@ export default {
       if (this.type === 'multi-auto') {
         // 如果是多列联动，pickerValue的值需要重新生成
         // 第几列发生变化
-        let columnIndex = this.pickerValue.findIndex((p, i) => pickerValue[i] !== p)
+        let columnIndex = this.pickerValue.findIndex(
+          (p, i) => pickerValue[i] !== p
+        )
         pickerValue = pickerValue.slice(0, columnIndex + 1)
         let columnValue = pickerValue[columnIndex]
         let columns = this.columns[columnIndex]

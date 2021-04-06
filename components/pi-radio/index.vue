@@ -2,14 +2,24 @@
   <view
     class="pi-radio-wrap"
     :style="[customStyle]"
-    :class="[getShape, getActiveMode, { disabled: getDisable }, { active: val }, customClass]"
+    :class="[
+      getShape,
+      getActiveMode,
+      { disabled: getDisable },
+      { active: val },
+      customClass
+    ]"
     @tap="handleRadioToggle"
   >
     <view v-if="getShape !== 'text'" class="radio-icon" :style="[radioStyle]">
       <view v-if="getShape === 'dot'" class="dot" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />
     </view>
-    <view class="radio-label" :class="{ text: getShape === 'text' }" :style="[textStyle]">
+    <view
+      class="radio-label"
+      :class="{ text: getShape === 'text' }"
+      :style="[textStyle]"
+    >
       <slot />
     </view>
   </view>
@@ -25,7 +35,7 @@ const extendRadioGroup = childInit('RadioGroup')
 
 // Radio组件
 export default {
-  name: 'Radio',
+  name: TAG,
   // 混入自定义样式customStyle和customClass
   mixins: [extendRadioGroup],
   options: {
@@ -60,7 +70,7 @@ export default {
       type: String,
       // 'round'
       default: radio.shape,
-      validator: function(value) {
+      validator: function (value) {
         return ['square', 'round', 'dot', 'text'].includes(value)
       }
     },
@@ -112,7 +122,7 @@ export default {
       type: String,
       // 'line'
       default: radio.activeMode,
-      validator: function(value) {
+      validator: function (value) {
         return ['line', 'fill'].includes(value)
       }
     }

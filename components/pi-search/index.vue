@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-align-center pi-w-100P" :style="[customStyle]" :class="[customClass]">
+  <view
+    class="pi-align-center pi-w-100P"
+    :style="[customStyle]"
+    :class="[customClass]"
+  >
     <view v-if="searchLabel" class="pi-pd-right-18" :style="[searchLabelStyle]">
       {{ searchLabel }}
     </view>
@@ -50,7 +54,11 @@
           @focus="handleInputFocus"
         />
         <!-- clear action -->
-        <view v-if="clearable && val" class="pi-pd-lr-18" @tap="handleClearInput">
+        <view
+          v-if="clearable && val"
+          class="pi-pd-lr-18"
+          @tap="handleClearInput"
+        >
           <view class="pi-icon-roundclosefill" :style="[clearIconStyle]" />
         </view>
       </view>
@@ -84,7 +92,7 @@ const TAG = 'PiSearch'
 const { search } = getConfig()
 
 export default {
-  name: 'Search',
+  name: TAG,
   // 混入自定义样式customStyle和customClass
   mixins: [ValueSync], // 注入value与val，进行双向绑定
   props: {

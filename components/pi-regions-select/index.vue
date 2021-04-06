@@ -39,7 +39,11 @@
       >
         <slot v-if="$slots.toolbar" name="toolbar" />
         <template v-else>
-          <view class="item-btn pi-fz-28 pi-mg-left-100" @tap.stop="handlePopupClose">取消</view>
+          <view
+            class="item-btn pi-fz-28 pi-mg-left-100"
+            @tap.stop="handlePopupClose"
+            >取消</view
+          >
           <pi-button
             type="secondary"
             size="small"
@@ -53,7 +57,11 @@
         </template>
       </view>
       <pi-tabs v-if="val" v-model="tabCurrentItem" :items="getTabItems" />
-      <swiper class="pi-scroll" :current="tabCurrent" @change="handleSwiperChange">
+      <swiper
+        class="pi-scroll"
+        :current="tabCurrent"
+        @change="handleSwiperChange"
+      >
         <swiper-item v-for="item in getTabItems" :key="item.id">
           <!-- 选择区域 -->
           <scroll-view class="pi-h-100P" scroll-y scroll-with-animation>
@@ -82,7 +90,13 @@
       <!-- 顶部操作条 -->
       <pi-bottom-bar v-if="toolbarPosition === 'bottom'">
         <slot v-if="$slots.toolbar" name="toolbar" />
-        <pi-button v-else :disabled="!isCompleted" width="100%" type="primary" @tap="handleConfirm">
+        <pi-button
+          v-else
+          :disabled="!isCompleted"
+          width="100%"
+          type="primary"
+          @tap="handleConfirm"
+        >
           确定
         </pi-button>
       </pi-bottom-bar>
@@ -99,7 +113,7 @@ const { regionsSelect } = getConfig()
 const PLEASE_SELECT_TIP = '请选择'
 
 export default {
-  name: 'RegionsSelect',
+  name: TAG,
   // 混入v-model
   mixins: [ValueSync],
   props: {
@@ -128,7 +142,7 @@ export default {
       type: String,
       // `bottom`
       default: regionsSelect.toolbarPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['top', 'bottom'].includes(value)
       }
     },
@@ -258,7 +272,7 @@ export default {
       type: String,
       // 若不指定，则按照弹出位置自动显示在合适的位置
       default: regionsSelect.closeIconPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
@@ -336,7 +350,7 @@ export default {
       }
     },
     tabCurrent() {
-      return this.getTabItems.findIndex(t => t.id === this.tabCurrentItem.id)
+      return this.getTabItems.findIndex((t) => t.id === this.tabCurrentItem.id)
     },
     getRegions() {
       const regionsKey = this.tabCurrentItem.id
@@ -349,7 +363,9 @@ export default {
     },
     getTabItems() {
       const { province, city, county } = this.regions
-      const tabs = [{ id: 'province', text: province.name || PLEASE_SELECT_TIP }]
+      const tabs = [
+        { id: 'province', text: province.name || PLEASE_SELECT_TIP }
+      ]
       if (province.name) {
         tabs.push({ id: 'city', text: city.name || PLEASE_SELECT_TIP })
       }
@@ -359,7 +375,9 @@ export default {
       return tabs
     },
     isCompleted() {
-      return this.getTabItems.findIndex(t => t.text === PLEASE_SELECT_TIP) === -1
+      return (
+        this.getTabItems.findIndex((t) => t.text === PLEASE_SELECT_TIP) === -1
+      )
     }
   },
   watch: {
@@ -374,7 +392,10 @@ export default {
   methods: {
     init() {
       if (this.defaultValue) {
-        const regions = this.$pi.regions.parseRegions(this.defaultValue.code, this.regionsData)
+        const regions = this.$pi.regions.parseRegions(
+          this.defaultValue.code,
+          this.regionsData
+        )
         this.regions = regions
       }
       // 默认都是展示tab最后一个列表
@@ -396,11 +417,15 @@ export default {
       const regionsKey = this.tabCurrentItem.id
 
       const isChange =
-        (regionsKey === 'province' && this.regions.province.code !== item.code) ||
+        (regionsKey === 'province' &&
+          this.regions.province.code !== item.code) ||
         (regionsKey === 'city' && this.regions.city.code !== item.code)
       if (isChange) {
         // 判断是否切换了省份和城市，如果切换了需要重新生成新的数据
-        this.regions = this.$pi.regions.parseRegions(item.code, this.regionsData)
+        this.regions = this.$pi.regions.parseRegions(
+          item.code,
+          this.regionsData
+        )
       } else {
         this.regions[regionsKey].code = item.code
         this.regions[regionsKey].name = item.name
@@ -408,7 +433,7 @@ export default {
       }
       setTimeout(() => {
         // 如果当前tab激活项不是最后一个，向右移动一项
-        const tabIndex = this.getTabItems.findIndex(t => t.id === regionsKey)
+        const tabIndex = this.getTabItems.findIndex((t) => t.id === regionsKey)
         if (tabIndex !== this.getTabItems.length - 1) {
           this.tabCurrentItem = this.getTabItems[tabIndex + 1]
         }

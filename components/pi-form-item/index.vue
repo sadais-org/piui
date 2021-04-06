@@ -2,7 +2,11 @@
   <view
     class="pi-form-item"
     :style="[customStyle, itemStyle]"
-    :class="[{ border: getBorder }, { 'pi-align-baseline': !getWrap }, customClass]"
+    :class="[
+      { border: getBorder },
+      { 'pi-align-baseline': !getWrap },
+      customClass
+    ]"
     @tap.stop="handleItemClick"
   >
     <!-- 表单标题 -->
@@ -12,7 +16,12 @@
       :style="[computedLabelStyle, getLabelStyle]"
       :class="[{ border: getWrap && getLabelWrapBorder }]"
     >
-      <view v-if="required" style="color: ed2235;" class="pi-mg-right-12" :style="[requiredStyle]">
+      <view
+        v-if="required"
+        style="color: ed2235"
+        class="pi-mg-right-12"
+        :style="[requiredStyle]"
+      >
         *
       </view>
       <!-- 表单项label -->
@@ -25,7 +34,11 @@
     <!-- 内容区域 -->
     <view
       class="content-wrap"
-      :class="[{ 'pi-flex-sub': !getWrap }, getInputAlign, { wrap: getWrap, nowrap: !getWrap }]"
+      :class="[
+        { 'pi-flex-sub': !getWrap },
+        getInputAlign,
+        { wrap: getWrap, nowrap: !getWrap }
+      ]"
       :style="[contentWrapStyle]"
     >
       <view class="content-input pi-align-center" :style="[getInputAlignStyle]">
@@ -33,7 +46,11 @@
         <slot />
       </view>
       <view
-        v-if="getErrorType === 'message' && validateState === 'error' && validateMessage"
+        v-if="
+          getErrorType === 'message' &&
+          validateState === 'error' &&
+          validateMessage
+        "
         class="form-valid"
       >
         <view class="form-valid-item">{{ validateMessage }}</view>
@@ -65,7 +82,7 @@ const alignFlexMap = {
 }
 
 export default {
-  name: 'FormItem',
+  name: TAG,
   mixins: [extendPiFrom, Emitter], // 注入inheritProps
   options: {
     styleIsolation: 'shared'
@@ -152,7 +169,7 @@ export default {
       default() {
         return formItem.labelAlign
       },
-      validator: function(value) {
+      validator: function (value) {
         return ['left', 'center', 'right'].includes(value)
       }
     },
@@ -164,7 +181,7 @@ export default {
       default() {
         return formItem.inputAlign
       },
-      validator: function(value) {
+      validator: function (value) {
         return ['left', 'center', 'right'].includes(value)
       }
     },
@@ -208,10 +225,14 @@ export default {
   },
   computed: {
     getBorder() {
-      return this.inheritProps.border !== null ? this.inheritProps.border : this.border
+      return this.inheritProps.border !== null
+        ? this.inheritProps.border
+        : this.border
     },
     getWrap() {
-      return this.inheritProps.wrap !== null ? this.inheritProps.wrap : this.wrap
+      return this.inheritProps.wrap !== null
+        ? this.inheritProps.wrap
+        : this.wrap
     },
     getLabelWrapBorder() {
       return this.inheritProps.labelWrapBorder !== null
@@ -219,23 +240,35 @@ export default {
         : this.labelWrapBorder
     },
     getColon() {
-      return this.inheritProps.colon !== null ? this.inheritProps.colon : this.colon
+      return this.inheritProps.colon !== null
+        ? this.inheritProps.colon
+        : this.colon
     },
     getLabelAlign() {
-      return this.inheritProps.labelAlign !== null ? this.inheritProps.labelAlign : this.labelAlign
+      return this.inheritProps.labelAlign !== null
+        ? this.inheritProps.labelAlign
+        : this.labelAlign
     },
     getInputAlign() {
-      return this.inheritProps.inputAlign !== null ? this.inheritProps.inputAlign : this.inputAlign
+      return this.inheritProps.inputAlign !== null
+        ? this.inheritProps.inputAlign
+        : this.inputAlign
     },
     getErrorType() {
       return this.inheritProps.errorType
     },
     getPadding() {
-      const padding = this.inheritProps.padding !== null ? this.inheritProps.padding : this.padding
+      const padding =
+        this.inheritProps.padding !== null
+          ? this.inheritProps.padding
+          : this.padding
       return this.$pi.common.addUnit(padding)
     },
     getHeight() {
-      const height = this.inheritProps.height !== null ? this.inheritProps.height : this.height
+      const height =
+        this.inheritProps.height !== null
+          ? this.inheritProps.height
+          : this.height
       return this.$pi.common.addUnit(height)
     },
     itemStyle() {
@@ -250,7 +283,9 @@ export default {
       return style
     },
     getLabelStyle() {
-      return this.inheritProps.labelStyle !== null ? this.inheritProps.labelStyle : this.labelStyle
+      return this.inheritProps.labelStyle !== null
+        ? this.inheritProps.labelStyle
+        : this.labelStyle
     },
     computedLabelStyle() {
       const style = {}
@@ -319,7 +354,9 @@ export default {
       let rules = this.getRules()
       // 整体验证表单时，triggerType为空字符串
       if (!triggerType) return rules
-      return rules.filter(res => res.trigger && res.trigger.indexOf(triggerType) !== -1)
+      return rules.filter(
+        (res) => res.trigger && res.trigger.indexOf(triggerType) !== -1
+      )
     },
     // 校验数据
     validation(trigger) {

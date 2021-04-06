@@ -26,7 +26,7 @@
       <!-- 标题栏 -->
       <view
         v-if="showTitle"
-        style="z-index: 1;"
+        style="z-index: 1"
         class="pi-justify-center pi-fz-32 pi-fw-500"
         :style="[{ padding: getTitlePadding }]"
       >
@@ -57,32 +57,56 @@
           @change="handleDateChange"
         >
           <picker-view-column>
-            <view v-for="(item, index) in years" :key="index" :style="indicatorStyle">
+            <view
+              v-for="(item, index) in years"
+              :key="index"
+              :style="indicatorStyle"
+            >
               {{ item }}年
             </view>
           </picker-view-column>
           <picker-view-column v-if="showMonth">
-            <view v-for="(item, index) in months" :key="index" :style="indicatorStyle">
+            <view
+              v-for="(item, index) in months"
+              :key="index"
+              :style="indicatorStyle"
+            >
               {{ item + 1 }}月
             </view>
           </picker-view-column>
           <picker-view-column v-if="showDay">
-            <view v-for="(item, index) in days" :key="index" :style="indicatorStyle">
+            <view
+              v-for="(item, index) in days"
+              :key="index"
+              :style="indicatorStyle"
+            >
               {{ item }}日
             </view>
           </picker-view-column>
           <picker-view-column v-if="showHour">
-            <view v-for="(item, index) in hours" :key="index" :style="indicatorStyle">
+            <view
+              v-for="(item, index) in hours"
+              :key="index"
+              :style="indicatorStyle"
+            >
               {{ item }}时
             </view>
           </picker-view-column>
           <picker-view-column v-if="showMinute">
-            <view v-for="(item, index) in minutes" :key="index" :style="indicatorStyle">
+            <view
+              v-for="(item, index) in minutes"
+              :key="index"
+              :style="indicatorStyle"
+            >
               {{ item }}分
             </view>
           </picker-view-column>
           <picker-view-column v-if="showSecond">
-            <view v-for="(item, index) in seconds" :key="index" :style="indicatorStyle">
+            <view
+              v-for="(item, index) in seconds"
+              :key="index"
+              :style="indicatorStyle"
+            >
               {{ item }}秒
             </view>
           </picker-view-column>
@@ -115,7 +139,7 @@ const FIELD_MAPS = [
 ]
 
 export default {
-  name: 'DatePicker',
+  name: TAG,
   // 混入v-model
   mixins: [ValueSync],
   props: {
@@ -159,9 +183,11 @@ export default {
     field: {
       // `'year'` `'month'` `'day'` `'hour'` `'minute'` `'second'`
       type: String,
-      validator: function(value) {
+      validator: function (value) {
         // 这个值必须匹配下列字符串中的一个
-        return ['year', 'month', 'day', 'hour', 'minute', 'second'].includes(value)
+        return ['year', 'month', 'day', 'hour', 'minute', 'second'].includes(
+          value
+        )
       },
       // 'day'
       default() {
@@ -185,7 +211,7 @@ export default {
       type: String,
       // 'bottom'
       default: datePicker.toolbarPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['top', 'bottom'].includes(value)
       }
     },
@@ -290,7 +316,7 @@ export default {
       type: String,
       // ''
       default: datePicker.closeIconPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },
@@ -358,8 +384,8 @@ export default {
     options() {
       const watchs = ['startYear', 'endYear', 'field', 'defaultValue']
       const options = watchs
-        .filter(d => this[d])
-        .map(d => this[d].toString())
+        .filter((d) => this[d])
+        .map((d) => this[d].toString())
         .join('-')
       return options
     },
@@ -374,7 +400,9 @@ export default {
       return `height: ${itemHeight}px;line-height: ${itemHeight}px;`
     },
     showYear() {
-      return ['year', 'month', 'day', 'hour', 'minute', 'second'].includes(this.field)
+      return ['year', 'month', 'day', 'hour', 'minute', 'second'].includes(
+        this.field
+      )
     },
     showMonth() {
       return ['month', 'day', 'hour', 'minute', 'second'].includes(this.field)
@@ -420,14 +448,14 @@ export default {
         { key: 'second', dataKey: 'seconds', showKey: 'showSecond' }
       ]
       const pickerValue = []
-      dateFieldMaps.forEach(map => {
+      dateFieldMaps.forEach((map) => {
         // 当前日期字段
         let value = this.date[map.key]
         if (this[map.showKey] && value) {
           if (map.key === 'month') value--
           // 查找当前picker中索引对应的真实值
           const intValue = parseInt(value, 10)
-          const val = this[map.dataKey].findIndex(m => m === intValue)
+          const val = this[map.dataKey].findIndex((m) => m === intValue)
           pickerValue.push(val)
         }
       })

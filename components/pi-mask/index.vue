@@ -10,7 +10,11 @@
     ]"
     :style="[
       customStyle,
-      { 'zIndex': zIndex, 'background': background, 'animation-duration': getDuration.css }
+      {
+        zIndex: zIndex,
+        background: background,
+        'animation-duration': getDuration.css
+      }
     ]"
     @touchmove.stop.prevent
     @tap.stop.prevent="handleCloseMask"
@@ -35,7 +39,7 @@ const TAG = 'PiMask'
 const { mask } = getConfig()
 
 export default {
-  name: 'Mask',
+  name: TAG,
   // 混入v-model
   mixins: [ValueSync],
   props: {

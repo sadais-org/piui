@@ -19,7 +19,10 @@
   >
     <view class="pi-calendar" :style="[customStyle]" :class="[customClass]">
       <!-- 标题栏 -->
-      <view class="pi-justify-center pi-fz-32 pi-fw-500" :style="[{ padding: getTitlePadding }]">
+      <view
+        class="pi-justify-center pi-fz-32 pi-fw-500"
+        :style="[{ padding: getTitlePadding }]"
+      >
         <slot v-if="$slots.title" name="title" />
         <template v-else>{{ title }}</template>
       </view>
@@ -45,7 +48,9 @@
       <!-- footer -->
       <view class="pi-abso-bl pi-w-100P pi-align-center pi-pd-24">
         <view class="pi-flex-sub pi-fz-30 pi-fw-500">{{ displayValue }}</view>
-        <pi-button type="primary" size="medium" @tap="handleConfirm">确定</pi-button>
+        <pi-button type="primary" size="medium" @tap="handleConfirm"
+          >确定</pi-button
+        >
       </view>
     </view>
   </pi-popup>
@@ -59,7 +64,7 @@ const TAG = 'PiCalendar'
 const { calendar } = getConfig()
 
 export default {
-  name: 'Calendar',
+  name: TAG,
   // 混入v-model
   mixins: [ValueSync],
   props: {
@@ -107,7 +112,7 @@ export default {
       type: String,
       // 'date'
       default: calendar.type,
-      validator: function(value) {
+      validator: function (value) {
         return ['date', 'range'].includes(value)
       }
     },
@@ -252,7 +257,7 @@ export default {
       type: String,
       // ''
       default: calendar.closeIconPosition,
-      validator: function(value) {
+      validator: function (value) {
         return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
       }
     },

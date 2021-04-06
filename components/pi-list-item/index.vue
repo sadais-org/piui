@@ -5,7 +5,10 @@
     :style="[
       customStyle,
       itemStyle,
-      { backgroundColor: disabled ? '#e5e5e5' : 'none', opacity: disabled ? 0.5 : 1 }
+      {
+        backgroundColor: disabled ? '#e5e5e5' : 'none',
+        opacity: disabled ? 0.5 : 1
+      }
     ]"
     :class="[{ border: getBorder }, customClass]"
     :hover-start-time="hoverStartTime"
@@ -20,8 +23,12 @@
 
     <!-- 标题和描述 -->
     <view v-if="title || desc">
-      <view v-if="title" :style="[titleStyle]" class="list-item-title">{{ title }}</view>
-      <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{ desc }}</view>
+      <view v-if="title" :style="[titleStyle]" class="list-item-title">{{
+        title
+      }}</view>
+      <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{
+        desc
+      }}</view>
     </view>
     <!-- 中间区域 -->
     <view class="pi-flex-sub pi-w-100P">
@@ -56,7 +63,7 @@ const { listItem } = getConfig()
 const extendPiList = childInit('List')
 
 export default {
-  name: 'ListItem',
+  name: TAG,
   mixins: [extendPiList], // 注入value与val，进行双向绑定
   props: {
     // 自定义样式
@@ -254,7 +261,9 @@ export default {
   },
   computed: {
     getBorder() {
-      return this.inheritProps.border !== null ? this.inheritProps.border : this.border
+      return this.inheritProps.border !== null
+        ? this.inheritProps.border
+        : this.border
     },
     getHeight() {
       const height = this.inheritProps.height || this.height

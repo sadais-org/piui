@@ -13,7 +13,7 @@ const TAG = 'PiWaterfall'
 const { waterfall } = getConfig()
 
 export default {
-  name: 'Waterfall',
+  name: TAG,
   // 混入v-model
   mixins: [ValueSync],
   props: {
@@ -21,7 +21,7 @@ export default {
       // 瀑布流数据
       type: Array,
       required: true,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -68,7 +68,8 @@ export default {
       immediate: false,
       handler(nVal, oVal) {
         // 取差值，即这一次数组变化新增的部分
-        const startIndex = Array.isArray(oVal) && oVal.length > 0 ? oVal.length : 0
+        const startIndex =
+          Array.isArray(oVal) && oVal.length > 0 ? oVal.length : 0
         // 拼接上原有数据
         this.totalItems = this.totalItems.concat(nVal.slice(startIndex))
         this.handleAppendItem()
@@ -82,8 +83,16 @@ export default {
   methods: {
     async handleAppendItem() {
       if (!this.totalItems.length) return
-      const leftRect = await this.$pi.common.queryRect(this, '.left-column', false)
-      const rightRect = await this.$pi.common.queryRect(this, '.right-column', false)
+      const leftRect = await this.$pi.common.queryRect(
+        this,
+        '.left-column',
+        false
+      )
+      const rightRect = await this.$pi.common.queryRect(
+        this,
+        '.right-column',
+        false
+      )
       console.log(TAG, leftRect, rightRect)
       // 如果左边小于或等于右边，就添加到左边，否则添加到右边
       const item = this.totalItems[0]
