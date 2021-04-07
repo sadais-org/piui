@@ -67,10 +67,8 @@
 
 <script>
 import ValueSync from '../../mixin/value-sync'
-import { systemInfo } from '../../tools/system'
-
 import { getConfig } from '../../config'
-import { parseDuration } from '../tools/common'
+import { parseDuration } from '../../tools/common'
 const { swiper } = getConfig()
 
 const TAG = 'PiSwiper'
