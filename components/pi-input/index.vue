@@ -40,6 +40,7 @@
       :selection-end="selectionEnd"
       :selection-start="selectionStart"
       :show-confirm-bar="showConfirmbar"
+      :auto-height="autoHeight"
       @input="handleInput"
       @blur="handleBlur"
       @focus="handleFocus"
@@ -149,6 +150,11 @@ export default {
     },
     // 是否显示键盘上方带有”完成“按钮那一栏
     showConfirmbar: {
+      type: Boolean,
+      default: true
+    },
+    // textArea是否自动增高
+    autoHeight: {
       type: Boolean,
       default: true
     }

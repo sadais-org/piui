@@ -7,12 +7,12 @@
     >
       <!-- 默认插槽 -->
       <slot />
-      <view class="pi-safearea" :style="[{ backgroundColor: safeAreaBgColor }]" />
+      <view v-if="safeArea" class="pi-safearea" :style="[{ backgroundColor: safeAreaBgColor }]" />
     </view>
     <!-- fixed时候的占位空间 -->
     <template v-if="fixed">
       <view class="pi-bottom-bar-placeholder" :style="[{ height: barHeight }]" />
-      <view v-if="height" class="pi-safearea" />
+      <view v-if="height && safeArea" class="pi-safearea" />
     </template>
   </view>
 </template>
@@ -51,6 +51,14 @@ export default {
       // '1px solid #e6e6e6'
       default() {
         return bottomBar.borderTop
+      }
+    },
+    // 是否开启安全区域
+    safeArea: {
+      type: Boolean,
+      // false
+      default() {
+        return bottomBar.safeArea
       }
     },
     // 安全区域背景颜色

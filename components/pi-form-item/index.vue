@@ -12,7 +12,7 @@
       :style="[computedLabelStyle, getLabelStyle]"
       :class="[{ border: getWrap && getLabelWrapBorder }]"
     >
-      <view v-if="required" style="color: ed2235;" class="pi-mg-right-12" :style="[requiredStyle]">
+      <view v-if="required" style="color: #ed2235;" class="pi-mg-right-12" :style="[requiredStyle]">
         *
       </view>
       <!-- 表单项label -->

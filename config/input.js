@@ -3,5 +3,6 @@ export default {
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   type: 'text', // 输入框类型，默认为text
   placeholder: '请输入',
-  password: false
+  password: false,
+  autoHeight: false // textArea是否自动增高
 }

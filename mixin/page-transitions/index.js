@@ -27,7 +27,7 @@ export function create(setting) {
       this.$router.beforeEach((toPage, fromPage, next) => {
         let toDepth = toPage.path.split('/').filter(v => !!v).length
         let fromDepth = fromPage.path.split('/').filter(v => !!v).length
-        let type = toDepth > fromDepth ? 'forward' : 'back'
+        let type = toDepth >= fromDepth ? 'forward' : 'back'
         // 如果配置tab的优先级，使用设置判断是前进还是后退
         if (toPage.meta.pageIndex && fromPage.meta.pageIndex) {
           type = toPage.meta.pageIndex >= fromPage.meta.pageIndex ? 'forward' : 'back'
