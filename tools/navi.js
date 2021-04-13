@@ -1,7 +1,9 @@
+import uni from './native'
+
 /*
  * @Author: zhengyifan
  * @Date: 2021-04-13 11:46:23
- * @LastEditTime: 2021-04-13 16:01:07
+ * @LastEditTime: 2021-04-13 16:36:20
  * @LastEditors: zhengyifan
  * @Description:
  * @FilePath: \piui-awesome\src\piui\tools\navi.js
@@ -192,7 +194,14 @@ class PiuiRouter {
     }
     this.beforeBackFnc(toPage, fromPage, (nextUrl = toPage) => {
       if (!nextUrl) return false
-      res = uni.navigateBack.apply(this, args)
+      if (nextUrl !== toPage) {
+        if (nextUrl.indexOf('/') !== 0) {
+          nextUrl = '/' + nextUrl
+        }
+        res = uni.reLaunch.apply(this, [{ url: nextUrl }])
+      } else {
+        res = uni.navigateBack.apply(this, args)
+      }
     })
     return res
   }
