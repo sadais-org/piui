@@ -56,25 +56,53 @@ const routingMethods = ['navigateTo', 'redirectTo', 'reLaunch', 'switchTab'] // 
  * @param {Object} params 页面参数
  */
 const _openInterceptor = (method, url, params) => {
-  if (routing && routingMethods.includes(method)) return
-  if (url.indexOf('/') !== 0) {
-    url = '/' + url
-  }
-  const stringParams = objToUrl(params)
-  url = url + (url.indexOf('?') !== -1 ? stringParams.replace('?', '&') : stringParams)
-  uni.hideKeyboard()
-  console.log('使用导航：', method, url, params)
-  return new Promise((resolve, reject) => {
-    if (routingMethods.includes(method)) routing = true
-    uni[method]({
-      url,
-      complete: res => {
-        routing = false
-        const isSuccess = res.errMsg && res.errMsg.includes(':ok')
-        isSuccess ? resolve(res) : reject(res)
-      }
+  return routerFilter(method, url, params, (method, url, params) => {
+    if (routing && routingMethods.includes(method)) return
+    if (url.indexOf('/') !== 0) {
+      url = '/' + url
+    }
+    const stringParams = objToUrl(params)
+    url = url + (url.indexOf('?') !== -1 ? stringParams.replace('?', '&') : stringParams)
+    uni.hideKeyboard()
+    console.log('使用导航：', method, url, params)
+    return new Promise((resolve, reject) => {
+      if (routingMethods.includes(method)) routing = true
+      uni[method]({
+        url,
+        complete: res => {
+          routing = false
+          const isSuccess = res.errMsg && res.errMsg.includes(':ok')
+          isSuccess ? resolve(res) : reject(res)
+        }
+      })
     })
   })
+}
+export let beforeEach = fnc => {
+  beforeEachFnc = fnc
+}
+let beforeEachFnc = (to, from, next) => {
+  console.log('路由守卫beforeEach', to, from)
+  next()
+}
+const routerFilter = (method, url, params, nextFnc) => {
+  if (typeof beforeEach !== 'function') {
+    console.error('beforeEach is not a function')
+    return
+  }
+  const pages = getCurrentPages()
+  const fromPage = pages[pages.length - 1].route
+  const toPage = url
+  let res
+  beforeEachFnc.apply(pages[pages.length - 1], [
+    toPage,
+    fromPage,
+    (nextUrl = toPage) => {
+      if (!nextUrl) return false
+      res = nextFnc(method, nextUrl, params)
+    }
+  ])
+  return res
 }
 
 /**
