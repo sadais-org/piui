@@ -84,7 +84,7 @@
  * slot 整个标题栏的插槽
  */
 import { systemInfo } from '../../tools/system'
-import * as navi from '../../tools/navi'
+import navi from '../../tools/navi'
 import { getConfig } from '../../config'
 
 const TAG = 'PiNavbar'
@@ -315,7 +315,7 @@ export default {
       if (this.customBackFunc && typeof this.customBackFunc === 'function') {
         this.customBackFunc()
       } else {
-        uni.navigateBack()
+        navi.navigateBack()
       }
     },
     handleGoHome() {

@@ -1,10 +1,10 @@
 /*
  * @Author: zhengyifan
  * @Date: 2021-04-13 11:46:23
- * @LastEditTime: 2021-04-13 14:30:55
+ * @LastEditTime: 2021-04-13 16:01:07
  * @LastEditors: zhengyifan
  * @Description:
- * @FilePath: \piui-awesome\src\piui\tools\navi-rebuild.js
+ * @FilePath: \piui-awesome\src\piui\tools\navi.js
  */
 const routingMethods = ['navigateTo', 'redirectTo', 'reLaunch', 'switchTab'] // 需要路由控制的方法
 class PiuiRouter {
@@ -14,10 +14,17 @@ class PiuiRouter {
     console.log('路由守卫beforeEach', to, from)
     next()
   }
+  beforeBackFnc = (to, from, next) => {
+    console.log('路由守卫beforeBack', to, from)
+    next()
+  }
 
   constructor(options = {}) {
     if (options.beforeEach) {
       this.beforeEach(options.beforeEach)
+    }
+    if (options.beforeBack) {
+      this.beforeBackFnc(options.beforeBack)
     }
   }
   /**
@@ -105,7 +112,13 @@ class PiuiRouter {
     }
     this.beforeEachFnc = fnc
   }
-
+  beforeBack = fnc => {
+    if (typeof fnc !== 'function') {
+      console.error('beforeBack is not a function')
+      return
+    }
+    this.beforeBackFnc = fnc
+  }
   routerFilter(method, url, params, nextFnc) {
     const pages = getCurrentPages()
     const fromPage = pages[pages.length - 1].route
@@ -164,7 +177,24 @@ class PiuiRouter {
    * @param {Object} params 页面参数
    */
   navigateBack(...args) {
-    return uni.navigateBack.apply(this, args)
+    const delta = args.delta || 1
+    const pages = getCurrentPages()
+    let res
+    if (delta < 1) {
+      return
+    }
+    let toPage = ''
+    const fromPage = pages[pages.length - 1].route
+    if (delta > pages.length) {
+      toPage = pages[0].route
+    } else {
+      toPage = pages[pages.length - delta - 1].route
+    }
+    this.beforeBackFnc(toPage, fromPage, (nextUrl = toPage) => {
+      if (!nextUrl) return false
+      res = uni.navigateBack.apply(this, args)
+    })
+    return res
   }
 }
 export default new PiuiRouter()
