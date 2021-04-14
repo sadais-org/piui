@@ -20,7 +20,7 @@
     @tap.stop.prevent="handleCloseMask"
   >
     <!-- 遮罩层内区域插槽 -->
-    <slot />
+    <view @tap.stop.prevent><slot /></view>
   </view>
 </template>
 
