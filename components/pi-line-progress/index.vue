@@ -117,7 +117,7 @@ export default {
     progressStyle() {
       const style = {
         height: this.getHeight,
-        backgroundColor: this.inactiveColor
+        background: this.inactiveColor
       }
       if (this.width) style.width = this.$pi.common.addUnit(this.width)
       return style
@@ -128,7 +128,7 @@ export default {
         lineHeight: this.getHeight,
         width: this.percent + '%'
       }
-      if (this.activeColor) style.backgroundColor = this.activeColor
+      if (this.activeColor) style.background = this.activeColor
       return style
     }
   }
