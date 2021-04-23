@@ -112,31 +112,51 @@ export default {
       // ''
       default: input.placeholder
     },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    maxlength: {
-      type: [Number, String],
-      default: -1
-    },
     placeholderStyle: {
       type: String,
-      default: 'color: #c0c4cc; font-weight: 400;'
+      // color: #c0c4cc; font-weight: 400;
+      default: input.placeholderStyle
     },
-    confirmType: {
+    placeholderClass: {
       type: String,
-      default: 'done'
+      // input-placeholder
+      default: input.placeholderClass
+    },
+    // 是否禁用
+    disabled: {
+      type: Boolean,
+      // false
+      default: input.disabled
+    },
+    // 最大输入长度，设置为 -1 的时候不限制最大长度
+    maxlength: {
+      type: [Number, String],
+      default: input.maxlength
+    },
+    // 指定光标与键盘的距离，单位 px
+    cursorSpacing: {
+      type: [Number, String],
+      default: 0
     },
     // 是否自动获得焦点
     focus: {
       type: Boolean,
       default: false
     },
-    // 指定光标与键盘的距离，单位 px
-    cursorSpacing: {
-      type: [Number, String],
-      default: 0
+    // 设置键盘右下角按钮的文字，仅在 type="text" 时生效。
+    confirmType: {
+      type: String,
+      default: 'done'
+    },
+    // 点击键盘右下角按钮时是否保持键盘不收起
+    confirmHold: {
+      type: Boolean,
+      default: false
+    },
+    // 指定focus时的光标位置
+    cursor: {
+      type: [Object, Number],
+      default: null
     },
     // 光标起始位置，自动聚焦时有效，需与selection-end搭配使用
     selectionStart: {
@@ -147,6 +167,21 @@ export default {
     selectionEnd: {
       type: [Number, String],
       default: -1
+    },
+    // 键盘弹起时，是否自动上推页面
+    adjustPosition: {
+      type: Boolean,
+      default: true
+    },
+    // focus时，点击页面的时候不收起键盘
+    holdKeyboard: {
+      type: Boolean,
+      default: false
+    },
+    // 键盘收起时，是否自动失去焦点
+    autoBlur: {
+      type: Boolean,
+      default: true
     },
     // 是否显示键盘上方带有”完成“按钮那一栏
     showConfirmbar: {

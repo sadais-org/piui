@@ -132,13 +132,48 @@ export default {
       return parseInt(this.max, 10)
     }
   },
+  watch: {
+    val: {
+      handler(value) {
+        this.handleValChange()
+      }
+    }
+  },
   methods: {
+    handleValChange() {
+      // 同步checkbox子组件
+      this._children.forEach(child => {
+        // 对设置了name属性的checkbox才做同步
+        if (child.name) {
+          child.val = this.val.includes(child.name)
+        }
+      })
+    },
+    /**
+     * @vuese
+     * 切换选择值
+     * @selected 是否勾选
+     * @nodes 需要勾选的节点，不填默认全部
+     */
+    toggleSelect(selected = true, nodes = []) {
+      if (nodes.length) {
+        this._children.forEach(child => {
+          if (child.name && nodes.includes(child.name)) {
+            child.val = selected
+          }
+        })
+      } else {
+        this._children.forEach(child => (child.val = selected))
+      }
+    },
     emitChange() {
       const vals = []
-      this._children.map(val => {
-        if (val.val && val.name) vals.push(val.name)
+      this._children.forEach(child => {
+        if (child.val && child.name) vals.push(child.name)
       })
-      this.val = vals
+      if (vals.length) {
+        this.val = vals
+      }
       this.handleEmitChange()
     }
   }

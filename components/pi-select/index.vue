@@ -339,7 +339,9 @@ export default {
       return this.items.map(item => {
         let isSelected = false
         if (this.isMulti) {
-          isSelected = this.selected.findIndex(s => s[this.keyField] === item[this.keyField]) !== -1
+          isSelected =
+            this.$pi.lang.isArray(this.selected) &&
+            this.selected.findIndex(s => s[this.keyField] === item[this.keyField]) !== -1
         } else {
           isSelected = this.selected[this.keyField] === item[this.keyField]
         }

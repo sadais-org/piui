@@ -576,7 +576,9 @@ image {
 // 用于没有scroll-view时候的容器，默认铺满整个视窗，y轴内容溢出滚动
 .pi-container {
   position: relative;
-  min-height: 100vh;
+
+  @include full-height($include-tabbar: false);
+
   overflow-x: hidden;
   overflow-y: auto;
 }

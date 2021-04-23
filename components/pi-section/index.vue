@@ -42,7 +42,7 @@
 <script>
 import { getConfig } from '../../config'
 
-const TAG = 'PiListItem'
+const TAG = 'PiSection'
 const { section } = getConfig()
 
 export default {
@@ -163,7 +163,7 @@ export default {
   computed: {
     itemStyle() {
       const style = {
-        padding: this.padding
+        padding: this.$pi.common.addUnit(this.padding)
       }
       return style
     }

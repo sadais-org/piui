@@ -43,6 +43,11 @@ export default {
         return gridItem.customClass
       }
     },
+    // 当前宫格索引
+    index: {
+      type: [Number, String],
+      required: true
+    },
     // 分成几列
     col: {
       type: [Number, String],
@@ -131,9 +136,8 @@ export default {
         marginRight: gap,
         marginBottom: gap
       }
-      const index = this.$parent.$children.indexOf(this)
       // 如果设置了index，并且是列数的最后一行，则不设置marginRight
-      if (index && (index + 1) % this.getCol === 0) {
+      if (this.index && (this.index + 1) % this.getCol === 0) {
         style.marginRight = 0
       }
       if (this.bgColor) style.backgroundColor = this.bgColor
@@ -151,10 +155,16 @@ export default {
       return clazz.join(' ')
     }
   },
-  created() {},
+  created() {
+    this.valid()
+  },
   methods: {
+    valid() {
+      if (this.getGap && this.index === null) {
+        console.warn(TAG, '当设置gap的时候，请把当前迭代器的索引传递到index属性，否则宽度计算有误')
+      }
+    },
     handleItemClick(e) {
-      // 点击事件
       this.$emit('click', e)
     }
   }
