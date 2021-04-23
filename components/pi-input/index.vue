@@ -8,20 +8,29 @@
       :value="val"
       :password="password"
       :placeholder="placeholder"
-      :placeholderStyle="placeholderStyle"
-      :disabled="disabled || type === 'select'"
+      :placeholder-style="placeholderStyle"
+      :placeholder-class="placeholderClass"
+      :disabled="disabled"
       :maxlength="maxlength"
+      :cursor-spacing="cursorSpacing"
       :focus="focus"
       :confirmType="confirmType"
-      :cursor-spacing="cursorSpacing"
-      :selection-end="selectionEnd"
+      :confirm-hold="confirmHold"
+      :cursor="cursor"
       :selection-start="selectionStart"
+      :selection-end="selectionEnd"
+      :adjust-position="adjustPosition"
+      :hold-keyboard="holdKeyboard"
+      :auto-blur="autoBlur"
       :show-confirm-bar="showConfirmbar"
       :auto-height="autoHeight"
+      :disable-default-padding="disableDefaultPadding"
       @input="handleInput"
-      @blur="handleBlur"
       @focus="handleFocus"
+      @blur="handleBlur"
       @confirm="handleConfirm"
+      @keyboardheightchange="handlekeyboardHeightChange"
+      @linechange="$emit('linechange', $event)"
     />
     <input
       v-else
@@ -32,19 +41,25 @@
       :value="val"
       :password="password"
       :placeholder="placeholder"
-      :placeholderStyle="placeholderStyle"
-      :disabled="disabled || type === 'select'"
+      :placeholder-style="placeholderStyle"
+      :placeholder-class="placeholderClass"
+      :disabled="disabled"
       :maxlength="maxlength"
-      :focus="focused"
-      :confirmType="confirmType"
       :cursor-spacing="cursorSpacing"
-      :selection-end="selectionEnd"
+      :focus="focus"
+      :confirmType="confirmType"
+      :confirm-hold="confirmHold"
+      :cursor="cursor"
       :selection-start="selectionStart"
-      :show-confirm-bar="showConfirmbar"
+      :selection-end="selectionEnd"
+      :adjust-position="adjustPosition"
+      :hold-keyboard="holdKeyboard"
+      :auto-blur="autoBlur"
       @input="handleInput"
-      @blur="handleBlur"
       @focus="handleFocus"
+      @blur="handleBlur"
       @confirm="handleConfirm"
+      @keyboardheightchange="$emit('keyboardheightchange', $event)"
     />
   </view>
 </template>
@@ -131,67 +146,93 @@ export default {
     // 最大输入长度，设置为 -1 的时候不限制最大长度
     maxlength: {
       type: [Number, String],
+      // 140
       default: input.maxlength
     },
     // 指定光标与键盘的距离，单位 px
     cursorSpacing: {
       type: [Number, String],
-      default: 0
+      // 0
+      default: input.cursorSpacing
     },
     // 是否自动获得焦点
     focus: {
       type: Boolean,
-      default: false
+      // false
+      default: input.focus
     },
     // 设置键盘右下角按钮的文字，仅在 type="text" 时生效。
     confirmType: {
       type: String,
+      // 'done'
       default: 'done'
     },
     // 点击键盘右下角按钮时是否保持键盘不收起
     confirmHold: {
       type: Boolean,
+      // false
       default: false
     },
     // 指定focus时的光标位置
     cursor: {
       type: [Object, Number],
+      // null
       default: null
     },
     // 光标起始位置，自动聚焦时有效，需与selection-end搭配使用
     selectionStart: {
       type: [Number, String],
+      // -1
       default: -1
     },
     // 光标结束位置，自动聚焦时有效，需与selection-start搭配使用
     selectionEnd: {
       type: [Number, String],
+      // -1
       default: -1
     },
     // 键盘弹起时，是否自动上推页面
     adjustPosition: {
       type: Boolean,
+      // true
       default: true
     },
     // focus时，点击页面的时候不收起键盘
     holdKeyboard: {
       type: Boolean,
+      // false
       default: false
     },
     // 键盘收起时，是否自动失去焦点
     autoBlur: {
       type: Boolean,
+      // true
       default: true
     },
+    // 以下是textarea组件的属性
     // 是否显示键盘上方带有”完成“按钮那一栏
     showConfirmbar: {
       type: Boolean,
+      // true
       default: true
     },
-    // textArea是否自动增高
+    // 是否自动增高
     autoHeight: {
       type: Boolean,
-      default: true
+      // false
+      default: false
+    },
+    // 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true
+    fixed: {
+      type: Boolean,
+      // false
+      default: false
+    },
+    // 是否去掉 iOS 下的默认内边距
+    disableDefaultPadding: {
+      type: Boolean,
+      // false
+      default: false
     }
   },
   data() {
@@ -203,7 +244,8 @@ export default {
     handleInput: debounce(function(e) {
       let value = e.detail.value
       // 输入内容
-      this.$emit('input', value)
+      this.val = value
+      this.handleEmitChange()
       this.dispatch('PiForm', 'form-change', value)
       this.dispatch('PiFormItem', 'form-change', value)
     }, 50),
