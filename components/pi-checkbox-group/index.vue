@@ -186,6 +186,7 @@ export default {
   flex-wrap: wrap;
   &.vertical {
     flex-direction: column;
+    align-items: flex-start;
     /deep/ .pi-check-wrap,
     pi-checkbox {
       margin-bottom: 28rpx;

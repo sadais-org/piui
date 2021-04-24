@@ -1,7 +1,7 @@
 import tools from './tools'
 import { getConfig, setConfig } from './config'
 
-const logStyle = 'color:#ff6a00;font-size:20px;font-weight:500;'
+const logStyle = 'color:#ff6a00;'
 
 const install = function(Vue, config = {}) {
   const piConfig = this.lang.mergeDeep(getConfig(), config)
@@ -23,11 +23,13 @@ const install = function(Vue, config = {}) {
   window.addEventListener('resize', setVh)
   // #endif
 
-  console.log('%c欢迎使用piui，官网地址：https://www.sadais.com', logStyle)
-  console.log('%cpiui 已安装，使用配置为：', logStyle, piConfig)
+  console.group('piui')
+
+  console.log('%cpiui 已安装，教程：https://github.com/sadais-org/piui', logStyle)
+  console.log('%cpiui 组件全局配置：', logStyle, piConfig)
   console.log('%cpiui tools 已挂载：', logStyle, this)
-  console.log('%cpiui tools 模板使用方法 {{ $pi.xxx }}', logStyle)
-  console.log('%cpiui tools js使用方法：this.$pi.xxx', logStyle)
+
+  console.groupEnd('piui')
 }
 
 export default {

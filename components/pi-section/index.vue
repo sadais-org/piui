@@ -28,12 +28,12 @@
     </view>
     <pi-icon
       v-else-if="showRightIcon"
-      :name="rightIcon.name"
-      :dot="rightIcon.dot"
-      :badge="rightIcon.badge"
-      :color="rightIcon.color"
-      :size="rightIcon.size"
-      :class-prefix="rightIcon.classPrefix"
+      :name="getRightIcon.name"
+      :dot="getRightIcon.dot"
+      :badge="getRightIcon.badge"
+      :color="getRightIcon.color"
+      :size="getRightIcon.size"
+      :class-prefix="getRightIcon.classPrefix"
       custom-class="pi-pd-left-4"
     />
   </view>
@@ -161,6 +161,9 @@ export default {
     }
   },
   computed: {
+    getRightIcon() {
+      return this.$pi.lang.mergeDeep(section.rightIcon, this.rightIcon)
+    },
     itemStyle() {
       const style = {
         padding: this.$pi.common.addUnit(this.padding)

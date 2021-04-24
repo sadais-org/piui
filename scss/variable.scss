@@ -19,10 +19,14 @@ $pi-tertiary-color: #00a8a4 !default; // 第三级颜色
 $pi-fourth-color: #12bc83 !default; // 第四级颜色
 $pi-fifth-color: #fcf2f4 !default; // 第五级颜色
 
+// card
+$pi-card-title-fontsize: 30rpx !default; // 章节标题字体大小
+$pi-card-title-color: #333333 !default; // 章节标题字体大小
+
 // section 章节
 $pi-section-border-color: #f4f4f4 !default; // 章节边框颜色
 $pi-section-border-width: 4rpx !default; // 章节边框宽度
-$pi-section-title-fontsize: 32rpx !default; // 章节标题字体大小
+$pi-section-title-fontsize: 30rpx !default; // 章节标题字体大小
 $pi-section-title-color: #333333 !default; // 章节标题字体大小
 $pi-section-desc-fontsize: 28rpx !default; // 章节描述字体大小
 $pi-section-desc-color: #999999 !default; // 章节描述字体大小
