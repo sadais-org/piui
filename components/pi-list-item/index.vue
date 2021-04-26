@@ -257,14 +257,21 @@ export default {
   },
   computed: {
     getBorder() {
-      return this.inheritProps.border !== null ? this.inheritProps.border : this.border
+      return !this.isEmptyInheritProps && this.inheritProps.border !== null
+        ? this.inheritProps.border
+        : this.border
     },
     getHeight() {
-      const height = this.inheritProps.height || this.height
+      const height =
+        !this.isEmptyInheritProps && this.inheritProps.height !== null
+          ? this.inheritProps.height
+          : this.height
       return this.$pi.common.addUnit(height)
     },
     getHoverClass() {
-      return this.inheritProps.hoverClass || this.hoverClass
+      return !this.isEmptyInheritProps && this.inheritProps.hoverClass !== null
+        ? this.inheritProps.hoverClass
+        : this.hoverClass
     },
     itemStyle() {
       const style = {

@@ -371,7 +371,7 @@ export default {
     border: none;
   }
   &[disabled] {
-    opacity: 0.4;
+    opacity: $pi-disabled-opacity;
   }
   &[loading]::before {
     margin-right: 12rpx;

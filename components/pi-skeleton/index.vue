@@ -228,7 +228,7 @@ export default {
   }
 
   50% {
-    opacity: 0.4;
+    opacity: $pi-disabled-opacity;
   }
 
   100% {

@@ -397,6 +397,7 @@ export default {
     },
     handleConfirm() {
       /**
+       * @vuese
        * 点击确定按钮后触发
        * @arg 当前选中的值 单选为对象，多选模式为数组
        */
@@ -411,7 +412,7 @@ export default {
 .pi-select {
   height: 50vh;
   .select-item.disabled {
-    opacity: 0.4;
+    opacity: $pi-disabled-opacity;
   }
 }
 </style>

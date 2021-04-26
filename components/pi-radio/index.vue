@@ -296,7 +296,7 @@ $disable-color: #c8c9cc;
   &.disabled {
     cursor: not-allowed;
     .radio-icon {
-      opacity: 0.4;
+      opacity: $pi-disabled-opacity;
     }
     .radio-label {
       color: #cccccc;

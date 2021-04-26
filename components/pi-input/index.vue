@@ -165,74 +165,74 @@ export default {
     confirmType: {
       type: String,
       // 'done'
-      default: 'done'
+      default: input.confirmType
     },
     // 点击键盘右下角按钮时是否保持键盘不收起
     confirmHold: {
       type: Boolean,
       // false
-      default: false
+      default: input.confirmHold
     },
     // 指定focus时的光标位置
     cursor: {
       type: [Object, Number],
       // null
-      default: null
+      default: input.cursor
     },
     // 光标起始位置，自动聚焦时有效，需与selection-end搭配使用
     selectionStart: {
       type: [Number, String],
       // -1
-      default: -1
+      default: input.selectionStart
     },
     // 光标结束位置，自动聚焦时有效，需与selection-start搭配使用
     selectionEnd: {
       type: [Number, String],
       // -1
-      default: -1
+      default: input.selectionEnd
     },
     // 键盘弹起时，是否自动上推页面
     adjustPosition: {
       type: Boolean,
       // true
-      default: true
+      default: input.adjustPosition
     },
     // focus时，点击页面的时候不收起键盘
     holdKeyboard: {
       type: Boolean,
       // false
-      default: false
+      default: input.holdKeyboard
     },
     // 键盘收起时，是否自动失去焦点
     autoBlur: {
       type: Boolean,
       // true
-      default: true
+      default: input.autoBlur
     },
     // 以下是textarea组件的属性
     // 是否显示键盘上方带有”完成“按钮那一栏
     showConfirmbar: {
       type: Boolean,
       // true
-      default: true
+      default: input.showConfirmbar
     },
     // 是否自动增高
     autoHeight: {
       type: Boolean,
       // false
-      default: false
+      default: input.autoHeight
     },
     // 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true
     fixed: {
       type: Boolean,
       // false
-      default: false
+      default: input.fixed
     },
     // 是否去掉 iOS 下的默认内边距
     disableDefaultPadding: {
       type: Boolean,
       // false
-      default: false
+      default: input.disableDefaultPadding
     }
   },
   data() {

@@ -6,7 +6,7 @@
     @tap="handleCheckboxToggle"
   >
     <view v-if="getShape !== 'text'" class="check-icon" :style="[checkStyle]">
-      <view v-if="getShape === 'dot'" class="dot" />
+      <view v-if="getShape === 'dot'" class="dot" :style="[dotStyle]" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />
     </view>
     <view class="check-label" :class="{ text: getShape === 'text' }" :style="[textStyle]">
@@ -184,10 +184,20 @@ export default {
       }
       if (this.getActiveColor && this.val) {
         style.borderColor = this.getActiveColor
-        style.color = this.getActiveColor
-        if (this.getShape === 'text' && this.getActiveMode === 'fill') {
-          style.backgroundColor = this.getActiveColor
+        if (this.getShape === 'text') {
+          if (this.getActiveMode === 'line') {
+            style.color = this.getActiveColor
+          } else {
+            style.backgroundColor = this.getActiveColor
+          }
         }
+      }
+      return style
+    },
+    dotStyle() {
+      const style = {}
+      if (this.getActiveColor && this.val && this.getActiveMode === 'line') {
+        style.backgroundColor = this.getActiveColor
       }
       return style
     }
@@ -277,6 +287,10 @@ $disable-color: #c8c9cc;
       background: #cccccc;
     }
   }
+  &.disabled {
+    cursor: not-allowed;
+    opacity: $pi-disabled-opacity;
+  }
   &.active {
     .radio-label {
       color: $pi-primary-color;
@@ -308,15 +322,6 @@ $disable-color: #c8c9cc;
         color: #ffffff;
         background: $pi-primary-color;
       }
-    }
-  }
-  &.disabled {
-    cursor: not-allowed;
-    .check-icon {
-      opacity: 0.4;
-    }
-    .check-label {
-      color: #cccccc;
     }
   }
 }

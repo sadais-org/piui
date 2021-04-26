@@ -45,6 +45,11 @@ export function childInit(parentName) {
         inheritProps: {}
       }
     },
+    computed: {
+      isEmptyInheritProps() {
+        return this.$pi.lang.isEmpty(this.inheritProps)
+      }
+    },
     created() {
       this._parent = this.$pi.parent(this, parentName)
       if (this._parent && this._parent.getInheritProps) {

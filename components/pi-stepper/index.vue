@@ -362,11 +362,11 @@ export default {
       content: '';
     }
     &.disabled {
-      opacity: 0.4;
+      opacity: $pi-disabled-opacity;
     }
   }
   &.disabled {
-    opacity: 0.4;
+    opacity: $pi-disabled-opacity;
   }
   &.round {
     .pi-stepper-icon {

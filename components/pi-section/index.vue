@@ -183,6 +183,7 @@ export default {
 @import '../../scss/mixin.scss';
 .section {
   position: relative;
+  width: 100%;
   line-height: 1;
   .list-item-title {
     margin-right: 12rpx;
