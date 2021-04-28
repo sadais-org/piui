@@ -27,12 +27,10 @@
 
 <script>
 import { getConfig } from '../../config'
-
-const TAG = 'PiCard'
 const { card } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiCard',
   props: {
     // 自定义样式，对象形式
     customStyle: {

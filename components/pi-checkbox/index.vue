@@ -21,12 +21,12 @@ import ValueSync from '../../mixin/value-sync'
 import { childInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 
-const TAG = 'PiCheckbox'
 const { checkbox } = getConfig()
 const extendCheckboxGroup = childInit('PiCheckboxGroup')
 
+// 用于在选中和非选中状态之间进行切换。
 export default {
-  name: TAG,
+  name: 'PiCheckbox',
   mixins: [ValueSync, extendCheckboxGroup], // 注入value与val，进行双向绑定、混入自定义样式customStyle和customClass
   options: {
     styleIsolation: 'shared'
