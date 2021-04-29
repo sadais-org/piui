@@ -4,7 +4,7 @@
     v-if="!closed"
     class="pi-popup pi-fixed-top pi-w-100P"
     :class="[
-      show ? 'pi-ani-fade-show' : 'pi-ani-fade-hide',
+      show ? getMask.animationShow : getMask.animationHide,
       getMask.hideTabBar ? 'include-tabbar' : 'exclude-tabbar'
     ]"
     :style="[
@@ -178,10 +178,10 @@ export default {
       return this.$pi.common.addUnit(this.borderRadius)
     },
     getCloseIcon() {
-      return this.$pi.lang.mergeDeep(this.closeIcon, popup.closeIcon)
+      return this.$pi.lang.mergeDeep(popup.closeIcon, this.closeIcon)
     },
     getMask() {
-      return this.$pi.lang.mergeDeep(this.mask, popup.mask)
+      return this.$pi.lang.mergeDeep(popup.mask, this.mask)
     },
     positionStyle() {
       const positionStyleMap = {

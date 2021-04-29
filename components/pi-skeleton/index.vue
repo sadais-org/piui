@@ -218,7 +218,6 @@ export default {
   background: rgb(194, 207, 214);
   animation-name: blink;
   animation-duration: 2s;
-  animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
 
