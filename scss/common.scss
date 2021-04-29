@@ -568,6 +568,8 @@ image {
     right: 0;
     bottom: 0;
     left: 0;
+    // 增加鼠标穿透，否则会影响作用该样式的点击事件
+    pointer-events: none;
     content: '';
     background: rgba(0, 0, 0, 0.05);
   }
