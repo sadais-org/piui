@@ -5,12 +5,12 @@
     class="pi-popup pi-fixed-top pi-w-100P"
     :class="[
       show ? 'pi-ani-fade-show' : 'pi-ani-fade-hide',
-      hideTabBar ? 'include-tabbar' : 'exclude-tabbar'
+      getMask.hideTabBar ? 'include-tabbar' : 'exclude-tabbar'
     ]"
     :style="[
       {
-        'zIndex': zIndex,
-        'background': maskBackground,
+        'zIndex': getMask.zIndex,
+        'background': getMask.background,
         'animation-duration': getDuration.css
       }
     ]"
@@ -40,8 +40,8 @@
         <view
           v-if="showCloseIcon"
           class="pi-abso"
-          :class="'pi-icon-' + closeIconName"
-          :style="[closeIconStyle, { fontWeight: closeIconWeight }]"
+          :class="'pi-icon-' + getCloseIcon.name"
+          :style="[closeIconStyle, { fontWeight: getCloseIcon.weight }]"
           @tap.stop="closeMask"
         />
         <!-- default slot -->
@@ -71,7 +71,7 @@ const {
 
 // 弹出窗
 export default {
-  name: TAG,
+  name: 'PiPopup',
   // 混入v-model
   mixins: [ValueSync],
   props: {
@@ -123,46 +123,6 @@ export default {
       // true
       default: popup.showCloseIcon
     },
-    // 关闭图标的名称
-    closeIconName: {
-      type: String,
-      // 'close'
-      default: popup.closeIconName
-    },
-    // 关闭图标的padding
-    closeIconPadding: {
-      type: [String, Number],
-      // '32rpx 32rpx'
-      default: popup.closeIconPadding
-    },
-    // 关闭图标的颜色
-    closeIconColor: {
-      type: String,
-      // '#666666'
-      default: popup.closeIconColor
-    },
-    // 关闭图标的大小
-    closeIconSize: {
-      type: [String, Number],
-      // 42
-      default: popup.closeIconSize
-    },
-    // 关闭图标的font-weight
-    closeIconWeight: {
-      type: [String, Number],
-      // 800
-      default: popup.closeIconWeight
-    },
-    // 关闭图标位置，若不指定，则按照弹出位置自动显示在合适的位置
-    closeIconPosition: {
-      // `''` `左上角-'tl'` `右上角-'tr'` `左下角-'bl'` `右下角-'br'`
-      type: String,
-      // `''`
-      default: popup.closeIconPosition,
-      validator: function(value) {
-        return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
-      }
-    },
     // 顶部安全适配
     safeAreaInsetTop: {
       type: Boolean,
@@ -175,46 +135,28 @@ export default {
       // true
       default: popup.safeAreaInsetBottom
     },
-    /**
-     * mask props
-     * -------------------------------------------------------------------------------------------------
-     */
-    // 遮罩的过渡时间 格式：500、'500ms'、'0.5s'
-    duration: {
-      type: [Number, String],
-      // 300
-      default: popup.duration
+    // 关闭按钮参数设置
+    closeIcon: {
+      type: Object,
+      default() {
+        // {
+        //   name: 'close', // 关闭图标的名称，默认（close）
+        //   padding: '32rpx 32rpx', // 关闭图标的padding
+        //   color: '#666666', // 关闭图标的颜色，默认（'#666666'）
+        //   size: 42, // 关闭图标的大小，默认（'42rpx'）
+        //   weight: 800, // 关闭图标font-weight，默认（'800'）
+        //   position: '' // 关闭图标位置，tl为左上角，tr为右上角，bl为左下角，br为右下角，若不指定，则按照弹出位置自动显示在合适的位置
+        // }
+        return popup.closeIcon
+      }
     },
-    // 是否可以通过点击遮罩进行关闭
-    maskClosable: {
-      type: Boolean,
-      // true
-      default: popup.maskClosable
-    },
-    // 是否隐藏TabBar
-    hideTabBar: {
-      required: false,
-      type: Boolean,
-      // false
-      default: popup.hideTabBar
-    },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
-    appendToBody: {
-      type: Boolean,
-      // false
-      default: popup.appendToBody
-    },
-    // 层级z-index
-    zIndex: {
-      type: [Number, String],
-      // 999
-      default: popup.zIndex
-    },
-    // 遮罩的背景颜色
-    maskBackground: {
-      type: String,
-      // rgba(0, 0, 0, .5)
-      default: popup.maskBackground
+    // 蒙层参数设置
+    mask: {
+      type: Object,
+      default() {
+        // 参照mask
+        return popup.mask
+      }
     }
   },
   data() {
@@ -234,6 +176,12 @@ export default {
     },
     getBorderRadius() {
       return this.$pi.common.addUnit(this.borderRadius)
+    },
+    getCloseIcon() {
+      return this.$pi.lang.mergeDeep(this.closeIcon, popup.closeIcon)
+    },
+    getMask() {
+      return this.$pi.lang.mergeDeep(this.mask, popup.mask)
     },
     positionStyle() {
       const positionStyleMap = {
@@ -255,7 +203,7 @@ export default {
       }
     },
     getDuration() {
-      return parseDuration(this.duration, popup.duration)
+      return parseDuration(this.getMask.duration, popup.mask.duration)
     },
     getClosePosition() {
       // 若不指定，则按照弹出位置自动显示在合适的位置
@@ -266,7 +214,7 @@ export default {
         right: 'tl', // 左上角
         center: 'tr' // 右上角
       }
-      const closePosition = this.closeIconPosition || closePositionMap[this.position]
+      const closePosition = this.getCloseIcon.position || closePositionMap[this.position]
       return closePosition
     },
     closeIconStyle() {
@@ -290,9 +238,9 @@ export default {
         br: { bottom, right: 0 } // 右下角
       }
       const style = {
-        color: this.closeIconColor,
-        padding: this.$pi.common.addUnit(this.closeIconPadding),
-        fontSize: this.$pi.common.addUnit(this.closeIconSize),
+        color: this.getCloseIcon.color,
+        padding: this.$pi.common.addUnit(this.getCloseIcon.padding),
+        fontSize: this.$pi.common.addUnit(this.getCloseIcon.size),
         ...positionStyleMap[closePosition]
       }
       return style
@@ -318,7 +266,7 @@ export default {
   },
   destroyed() {
     // #ifdef H5
-    if (this.appendToBody && this.$el && this.$el.parentNode) {
+    if (this.getMask.appendToBody && this.$el && this.$el.parentNode) {
       this.$el.parentNode.removeChild(this.$el)
     }
     // #endif
@@ -332,12 +280,12 @@ export default {
       this.showed = false
       this.handleEmitChange()
       uni.hideKeyboard()
-      this.hideTabBar && uni.hideTabBar()
+      this.getMask.hideTabBar && uni.hideTabBar()
       setTimeout(() => {
         this.showed = true
       }, this.getDuration.js)
       // #ifdef H5
-      if (this.appendToBody) {
+      if (this.getMask.appendToBody) {
         document.body.appendChild(this.$el)
       }
       // #endif
@@ -356,11 +304,11 @@ export default {
         // 此处设置this.val是为了触发v-model双向绑定
         this.val = false
         this.handleEmitChange()
-        this.hideTabBar && uni.showTabBar()
+        this.getMask.hideTabBar && uni.showTabBar()
       }, this.getDuration.js)
     },
     handleCloseMask() {
-      if (!this.maskClosable) return
+      if (!this.getMask.maskClosable) return
       this.closeMask()
     }
   }
