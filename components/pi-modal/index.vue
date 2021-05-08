@@ -3,20 +3,16 @@
     ref="popup"
     :value="val"
     position="center"
-    :border-radius="borderRadius"
-    :show-close-icon="showTitle && showCloseIcon"
-    :close-icon-name="closeIconName"
-    :close-icon-padding="closeIconPadding"
-    :close-icon-color="closeIconColor"
-    :close-icon-size="closeIconSize"
-    :close-icon-position="closeIconPosition"
-    :safe-area-inset-bottom="safeAreaInsetBottom"
-    :duration="duration"
-    :mask-closable="maskClosable"
-    :hide-tab-bar="hideTabBar"
-    :append-to-body="appendToBody"
-    :z-index="zIndex"
-    :mask-background="maskBackground"
+    :border-radius="getPopup.borderRadius"
+    :show-close-icon="showTitle && getPopup.showCloseIcon"
+    :close-icon="getPopup.closeIcon"
+    :safe-area-inset-bottom="getPopup.safeAreaInsetBottom"
+    :duration="getPopup.duration"
+    :mask-closable="getPopup.maskClosable"
+    :hide-tab-bar="getPopup.hideTabBar"
+    :append-to-body="getPopup.appendToBody"
+    :z-index="getPopup.zIndex"
+    :background="getPopup.background"
     @close="handlePopupClose"
   >
     <view class="pi-modal" :style="[customStyle, modalStyle]" :class="[customClass]">
@@ -201,109 +197,13 @@ export default {
      * 弹窗的配置，默认选项请参照popup
      * ---------------------------------------------------------------------------------------------
      */
-    // 控制弹窗的四个角圆角效果
-    borderRadius: {
-      type: [String, Number],
-      // '8rpx'
-      default: modal.borderRadius
-    },
-    // 是否显示关闭图标
-    showCloseIcon: {
-      type: Boolean,
-      // true
-      default: modal.showCloseIcon
-    },
-    // 关闭图标的名称
-    closeIconName: {
-      type: String,
-      // 'close' 内部会自动加上前缀pi-icon-
-      default: modal.closeIconName
-    },
-    closeIconPadding: {
-      type: [String, Number],
-      // '32rpx 32rpx'
-      default: modal.closeIconPadding
-    },
-    // 关闭图标的颜色
-    closeIconColor: {
-      type: String,
-      // '#666666'
-      default: modal.closeIconColor
-    },
-    // 关闭图标的大小 不传单位默认rpx 格式：42、'42'、'42px'、'42em'
-    closeIconSize: {
-      type: [String, Number],
-      // 42
-      default: modal.closeIconSize
-    },
-    // 关闭按钮的font-weight
-    closeIconWeight: {
-      type: [String, Number],
-      // 800
-      default: modal.closeIconWeight
-    },
-    // 关闭图标位置
-    closeIconPosition: {
-      // `''-自适应` `'tl'-左上角` `'tr'-右上角` `'bl'-左下角` `'br'-右下角`
-      type: String,
-      // `''`
-      default: modal.closeIconPosition,
-      validator: function(value) {
-        return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
+    // 弹窗参数设置
+    popup: {
+      type: Object,
+      default() {
+        // 参照popup
+        return modal.popup
       }
-    },
-    // 顶部安全适配（状态栏高度）
-    safeAreaInsetTop: {
-      type: Boolean,
-      // true
-      default: modal.safeAreaInsetTop
-    },
-    // 底部安全适配（iPhoneX 留出底部安全距离）
-    safeAreaInsetBottom: {
-      type: Boolean,
-      // true
-      default: modal.safeAreaInsetBottom
-    },
-    /**
-     * mask props
-     * ---------------------------------------------------------------------------------------------
-     */
-    // 遮罩的过渡时间，默认单位ms 格式：500、'500ms'、'0.5s'
-    duration: {
-      type: [Number, String],
-      // 300
-      default: modal.duration
-    },
-    // 是否可以通过点击遮罩进行关闭
-    maskClosable: {
-      type: Boolean,
-      // true
-      default: modal.maskClosable
-    },
-    // 是否隐藏TabBar
-    hideTabBar: {
-      required: false,
-      type: Boolean,
-      // false
-      default: modal.hideTabBar
-    },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
-    appendToBody: {
-      type: Boolean,
-      // false
-      default: modal.appendToBody
-    },
-    // 层级z-index
-    zIndex: {
-      type: [Number, String],
-      // 999
-      default: modal.zIndex
-    },
-    // 背景颜色
-    maskBackground: {
-      type: String,
-      // 'rgba(0, 0, 0, .5)'
-      default: modal.maskBackground
     }
   },
   data() {
@@ -312,6 +212,9 @@ export default {
     }
   },
   computed: {
+    getPopup() {
+      return this.$pi.lang.mergeDeep(modal.popup, this.popup)
+    },
     getTitlePadding() {
       return this.$pi.common.addUnit(this.titlePadding)
     },

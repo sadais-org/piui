@@ -153,27 +153,29 @@ export default {
      * @vuese
      * 切换选择值
      * @selected 是否勾选
-     * @nodes 需要勾选的节点，不填默认全部
+     * @nodes 需要改变的节点，不填默认全部
      */
     toggleSelect(selected = true, nodes = []) {
-      if (nodes.length) {
-        this._children.forEach(child => {
-          if (child.name && nodes.includes(child.name)) {
-            child.val = selected
-          }
-        })
-      } else {
-        this._children.forEach(child => (child.val = selected))
-      }
+      const toggleSelect = this._children.filter(child => {
+        let toggleNode = true
+        if (nodes.length) {
+          toggleNode = child.name && nodes.includes(child.name)
+        }
+        return toggleNode && !child.disabled
+      })
+      if (!toggleSelect.length) return
+      toggleSelect.forEach(child => {
+        child.val = selected
+        child.handleEmitChange()
+      })
+      this.emitChange()
     },
     emitChange() {
       const vals = []
       this._children.forEach(child => {
         if (child.val && child.name) vals.push(child.name)
       })
-      if (vals.length) {
-        this.val = vals
-      }
+      this.val = vals
       this.handleEmitChange()
     }
   }

@@ -395,6 +395,29 @@ export default {
         this.selected.push(item)
       }
     },
+    /**
+     * @vuese
+     * 全选或全清选择值
+     * @selected 是否勾选
+     * @nodes 需要改变的节点，不填默认全部
+     */
+    toggleSelect(selected = true, nodes = []) {
+      if (!this.isMulti) return
+      if (!selected) {
+        // 全清
+        this.selected = []
+        return
+      }
+      const toggleSelect = this.items.filter(item => {
+        let toggleNode = true
+        if (nodes.length) {
+          toggleNode = nodes.findIndex(node[this.keyField] === item[this.keyField]) !== -1
+        }
+        return toggleNode && !item.disabled
+      })
+      if (!toggleSelect.length) return
+      this.selected = toggleSelect
+    },
     handleConfirm() {
       /**
        * @vuese

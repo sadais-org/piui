@@ -305,7 +305,7 @@ export default {
     color: $pi-list-title-color;
   }
   .list-item-desc {
-    padding-top: 12rpx;
+    padding-top: 24rpx;
     font-size: $pi-list-desc-fontsize;
     color: $pi-list-desc-color;
   }
