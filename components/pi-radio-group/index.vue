@@ -150,7 +150,7 @@ export default {
 
   &.vertical {
     flex-direction: column;
-    /deep/ .pi-radio-wrap,
+    ::v-deep .pi-radio-wrap,
     pi-radio {
       margin-bottom: 28rpx;
     }
@@ -159,11 +159,11 @@ export default {
   &.horizontal {
     flex-direction: row;
     align-items: center;
-    /deep/ .pi-radio-wrap:not(:last-child) {
+    ::v-deep .pi-radio-wrap:not(:last-child) {
       margin-right: 28rpx;
     }
     // 兼容小程序
-    /deep/ pi-radio:not(:last-child) {
+    ::v-deep pi-radio:not(:last-child) {
       margin-right: 28rpx;
     }
   }

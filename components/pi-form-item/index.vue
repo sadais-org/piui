@@ -428,7 +428,7 @@ export default {
     }
   }
   // 解决slot宽度没有占满100%的问题
-  /deep/ .content-wrap {
+  ::v-deep .content-wrap {
     & > pi-input {
       width: 100%;
     }

@@ -25,34 +25,32 @@
           ]"
         >
           <!-- 定制导航栏左侧内容 -->
-          <slot v-if="$slots && $slots.left" name="left" />
-          <template v-else>
-            <view v-if="isShowBack" class="pi-align-center back-wrap" @tap.stop="handleGoBack">
-              <view
-                :class="'pi-icon-' + backIconName"
-                :style="[
-                  {
-                    color: backIconColor,
-                    padding: backIconPadding,
-                    fontSize: backIconSize
-                  }
-                ]"
-              />
-              <view v-if="backText" :style="[backTextStyle]">{{ backText }}</view>
-            </view>
-            <view v-if="showHome" class="pi-align-center home-wrap" @tap.stop="handleGoHome">
-              <view
-                :class="'pi-icon-' + homeIconName"
-                :style="[
-                  {
-                    color: homeIconColor,
-                    padding: homeIconPadding,
-                    fontSize: homeIconSize
-                  }
-                ]"
-              />
-            </view>
-          </template>
+          <slot name="left" />
+          <view v-if="isShowBack" class="pi-align-center back-wrap" @tap.stop="handleGoBack">
+            <view
+              :class="'pi-icon-' + backIconName"
+              :style="[
+                {
+                  color: backIconColor,
+                  padding: backIconPadding,
+                  fontSize: backIconSize
+                }
+              ]"
+            />
+            <view v-if="backText" :style="[backTextStyle]">{{ backText }}</view>
+          </view>
+          <view v-if="showHome" class="pi-align-center home-wrap" @tap.stop="handleGoHome">
+            <view
+              :class="'pi-icon-' + homeIconName"
+              :style="[
+                {
+                  color: homeIconColor,
+                  padding: homeIconPadding,
+                  fontSize: homeIconSize
+                }
+              ]"
+            />
+          </view>
         </view>
         <!-- 标题剩余空间 -->
         <view :style="[navTitleStyle]" class="pi-flex-sub">
@@ -228,9 +226,10 @@ export default {
         return navbar.backTextStyle
       }
     },
-    // 自定义返回函数
+    // 是否自定义返回函数
     customBackFunc: {
-      type: Function
+      type: Boolean,
+      default: navbar.customBackFunc
     },
     // 主页icon的颜色
     homeIconColor: {
@@ -269,9 +268,10 @@ export default {
       // 'switchTab'
       default: navbar.homePageMethod
     },
-    // 自定义返回函数
+    // 是否自定义返回函数
     customHomeFunc: {
-      type: Function
+      type: Boolean,
+      default: navbar.customHomeFunc
     },
     // 元素 z-index
     zIndex: {
@@ -301,7 +301,7 @@ export default {
   },
   methods: {
     syncPageRoute() {
-      if (this.showBack === '') {
+      if (this.showBack === null) {
         /* eslint-disable */
         const pages = getCurrentPages()
         // 如果堆栈大于1表示打开了子页面，需要显示返回按钮
@@ -311,20 +311,12 @@ export default {
       }
     },
     handleGoBack() {
-      // 如果自定义了点击返回按钮的函数，则执行，否则执行返回逻辑
-      if (this.customBackFunc && typeof this.customBackFunc === 'function') {
-        this.customBackFunc()
-      } else {
-        navi.navigateBack()
-      }
+      !this.customBackFunc && navi.navigateBack()
+      this.$emit('navigateToBack')
     },
     handleGoHome() {
-      // 如果自定义了点击主页按钮的函数，则执行，否则执行返回逻辑
-      if (this.customHomeFunc && typeof this.customHomeFunc === 'function') {
-        this.customHomeFunc()
-      } else if (this.homePage) {
-        navi[this.homePageMethod](this.homePage)
-      }
+      !this.customHomeFunc && navi[this.homePageMethod](this.homePage)
+      this.$emit('navigateToHome')
     }
   }
 }

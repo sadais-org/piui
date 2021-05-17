@@ -250,7 +250,7 @@ $disable-color: #c8c9cc;
       border-radius: 50%;
     }
 
-    /deep/ pi-icon {
+    ::v-deep pi-icon {
       display: inline-flex;
     }
   }

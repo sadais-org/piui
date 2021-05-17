@@ -27,7 +27,7 @@
       <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{ desc }}</view>
     </view>
     <!-- 中间区域 -->
-    <view class="pi-flex-sub pi-w-100P">
+    <view class="pi-flex-sub pi-w-100P pi-of-hidden">
       <!-- 中间区域插槽 -->
       <slot />
     </view>

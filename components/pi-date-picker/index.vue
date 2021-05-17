@@ -26,7 +26,7 @@
       <!-- 标题栏 -->
       <view
         v-if="showTitle"
-        style="z-index: 1"
+        style="z-index: 1;"
         class="pi-justify-center pi-fz-32 pi-fw-500"
         :style="[{ padding: getTitlePadding }]"
       >
@@ -89,7 +89,8 @@
         </picker-view>
       </view>
       <!-- 顶部操作条 -->
-      <pi-bottom-bar v-if="toolbarPosition === 'bottom'">
+      <!-- 顶部操作条, 底部安全区域由popup控制 -->
+      <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="false">
         <slot v-if="$slots.toolbar" name="toolbar" />
         <pi-button v-else width="100%" type="primary" @tap="handleConfirm">
           确定

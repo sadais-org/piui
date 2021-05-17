@@ -189,7 +189,7 @@ export default {
   &.vertical {
     flex-direction: column;
     align-items: flex-start;
-    /deep/ .pi-check-wrap,
+    ::v-deep .pi-check-wrap,
     pi-checkbox {
       margin-bottom: 28rpx;
     }
@@ -198,11 +198,11 @@ export default {
   &.horizontal {
     flex-direction: row;
     align-items: center;
-    /deep/ .pi-check-wrap:not(:last-child) {
+    ::v-deep .pi-check-wrap:not(:last-child) {
       margin-right: 28rpx;
     }
     // 兼容小程序
-    /deep/ pi-checkbox:not(:last-child) {
+    ::v-deep pi-checkbox:not(:last-child) {
       margin-right: 28rpx;
     }
   }

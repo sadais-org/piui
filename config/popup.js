@@ -6,9 +6,9 @@ export default {
   position: 'bottom', // 弹出位置，可选值为 top bottom right left
   background: '#ffffff', // 背景颜色（默认'#ffffff'）
   borderRadius: '0 0 0 0', // 控制弹窗的四个角圆角效果
-  showCloseIcon: true, // 是否显示关闭图标，默认（true）
   safeAreaInsetTop: true, // 顶部安全适配（状态栏高度，默认true）
   safeAreaInsetBottom: true, // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
+  showCloseIcon: true, // 是否显示关闭图标，默认（true）
   // 关闭按钮配置
   closeIcon: {
     name: 'close', // 关闭图标的名称，默认（close）
