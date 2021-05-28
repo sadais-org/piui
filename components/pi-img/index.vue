@@ -185,8 +185,7 @@ export default {
   },
   data() {
     return {
-      // 初始化组件时，默认为加载中状态
-      loading: true,
+      loading: this.showLoading,
       // 图片是否加载错误，如果是，则显示错误占位图
       error: false
     }

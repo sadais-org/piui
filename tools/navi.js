@@ -3,10 +3,10 @@ import uni from './native'
 /*
  * @Author: zhengyifan
  * @Date: 2021-04-13 11:46:23
- * @LastEditTime: 2021-04-13 16:36:20
- * @LastEditors: zhengyifan
+ * @LastEditTime: 2021-05-27 15:10:55
+ * @LastEditors: zhangzhenfei
  * @Description:
- * @FilePath: \piui-awesome\src\piui\tools\navi.js
+ * @FilePath: /piui-awesome/src/piui/tools/navi.js
  */
 const routingMethods = ['navigateTo', 'redirectTo', 'reLaunch', 'switchTab'] // 需要路由控制的方法
 class PiuiRouter {
@@ -54,14 +54,22 @@ class PiuiRouter {
     const strSplits = str.split('?')
     const query = strSplits.length === 2 ? strSplits[1] : str
     const params = query.split('&')
-    const result = params.map(param => {
-      const paramObj = param.split('=')
-      const name = paramObj[0]
-      const value = paramObj[1] || ''
-      return {
-        [name]: decodeURI ? decodeURIComponent(value) : value
-      }
-    })
+    const result = params
+      .map(param => {
+        const paramObj = param.split('=')
+        const name = paramObj[0]
+        const value = paramObj[1] || ''
+        return {
+          [name]: decodeURI ? decodeURIComponent(value) : value
+        }
+      })
+      .reduce((prevObj, currentObj) => {
+        prevObj = {
+          ...prevObj,
+          ...currentObj
+        }
+        return prevObj
+      }, {})
     return result || {}
   }
 

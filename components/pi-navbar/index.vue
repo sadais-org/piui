@@ -293,7 +293,7 @@ export default {
       return `${statusBarHeight}px`
     },
     navTitleStyle() {
-      return this.titleStyle
+      return this.$pi.lang.mergeDeep(navbar.titleStyle, this.titleStyle)
     }
   },
   created() {

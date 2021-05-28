@@ -238,6 +238,7 @@ export default {
         br: { bottom, right: 0 } // 右下角
       }
       const style = {
+        zIndex: 2,
         color: this.getCloseIcon.color,
         padding: this.$pi.common.addUnit(this.getCloseIcon.padding),
         fontSize: this.$pi.common.addUnit(this.getCloseIcon.size),
