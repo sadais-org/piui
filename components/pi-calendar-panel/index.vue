@@ -20,7 +20,7 @@
     <!-- 星期 -->
     <view
       class="pi-align-center pi-pd-24"
-      style="box-shadow: 0 15px 10px -15px rgba(125, 126, 128, 0.16)"
+      style="box-shadow: 0 15px 10px -15px rgba(125, 126, 128, 0.16);"
     >
       <view
         v-for="(week, index) in weekDayZh"
@@ -41,31 +41,28 @@
             v-for="day in days"
             :key="day.key"
             class="date-item"
-            style="cursor: pointer"
+            style="cursor: pointer;"
             :style="[day.nowStyle, day.activeStyle, day.disabledStyle]"
             @tap.stop="handleSelectDate(day)"
           >
             <view class="pi-square">
-              <view class="pi-rela pi-flex-column-center">
+              <view class="pi-rela pi-flex-column-center pi-lh-28">
                 <text>{{ day.date }}</text>
-                <text
-                  v-if="day.tip"
-                  class="pi-abso-bottom-center pi-text-nowrap pi-fz-20 pi-pd-bottom-6"
-                >
+                <text v-if="day.tip" class=" pi-text-nowrap pi-fz-18 pi-mg-top-6">
                   {{ day.tip }}
                 </text>
               </view>
             </view>
           </view>
-          <!-- 日历背后蒙层 -->
+          <!-- 日历蒙层 -->
           <view
             class="pi-abso-center pi-fw-500 pi-light-gray"
             style="
+
               z-index: 1;
               font-size: 300rpx;
               pointer-events: none;
-              opacity: 0.1;
-            "
+              opacity: 0.1;"
           >
             {{ month }}
           </view>
@@ -84,6 +81,7 @@ const { calendarPanel } = getConfig()
 
 export default {
   name: TAG,
+  mixins: [ValueSync],
   props: {
     // 自定义样式，对象形式
     customStyle: {
@@ -112,10 +110,9 @@ export default {
       }
     },
     // 日期默认值，单选时候，传入Date(时间戳，时间字符串，Date类型)，日历范围，传入Date[]
-    defaultValue: {
-      type: [Number, String, Date, Array],
+    value: {
+      type: [Number, String, Date, Array]
       // -
-      default: calendarPanel.defaultValue
     },
     // 可切换的最小年份
     minYear: {
@@ -208,8 +205,7 @@ export default {
       now: now, // 当前时间
       year: '', // 年份
       month: '', // 月份
-      date: now, // type 为 date 当前选中日期
-      ranges: [] // type 为 range 的开始和结束日期
+      calendarValue: ''
     }
   },
   computed: {
@@ -248,7 +244,7 @@ export default {
           }
         }
         // 单选选中样式
-        if (this.type === 'date' && this.isSameDay(this.date, day)) {
+        if (this.type === 'date' && this.isSameDay(this.calendarValue, day)) {
           const activeStyle = {
             color: this.activeColor,
             borderRadius: this.getActiveBorderRadius
@@ -258,8 +254,8 @@ export default {
         }
         // 范围选中样式
         if (this.type === 'range') {
-          const start = this.ranges[0]
-          const end = this.ranges[1]
+          const start = this.calendarValue[0]
+          const end = this.calendarValue[1]
           const isBegin = this.isSameDay(start, day)
           const isEnd = this.isSameDay(end, day)
           const inRange =
@@ -298,6 +294,7 @@ export default {
   },
   watch: {
     value(val) {
+      console.log(val)
       this.init()
     }
   },
@@ -307,26 +304,26 @@ export default {
   methods: {
     valid() {
       if (this.type === 'date') return true
-      if (
-        this.type === 'range' &&
-        this.$pi.lang.isArray(this.defaultValue) &&
-        this.defaultValue.length === 2
-      )
+      if (this.type === 'range' && this.$pi.lang.isArray(this.value) && this.value.length === 2)
         return true
-      console.error(TAG, 'defaultValue 参数不合法，请检查')
+      console.error(TAG, 'value 参数不合法，请检查')
       return false
     },
     init() {
       console.log(TAG, '组件初始化')
       if (!this.valid()) return
-      const nowDate = this.$pi.date.parseDate(
-        this.type === 'date' ? this.defaultValue : this.defaultValue[0]
-      )
-      this.year = nowDate.year
-      this.month = nowDate.month
-      this.date = nowDate
+      const nowDate = this.$pi.date.parseDate(this.type === 'date' ? this.value : this.value[0])
       if (this.type === 'range') {
-        this.ranges = [nowDate, this.$pi.date.parseDate(this.defaultValue[1])]
+        const endDate = this.$pi.date.parseDate(this.value[1])
+        if (this.year !== endDate.year && this.month !== endDate.month) {
+          this.year = nowDate.year
+          this.month = nowDate.month
+        }
+        this.calendarValue = [nowDate, endDate]
+      } else {
+        this.year = nowDate.year
+        this.month = nowDate.month
+        this.calendarValue = nowDate
       }
     },
     isSameDay(day1, day2) {
@@ -349,22 +346,22 @@ export default {
       if (isDisabled) return
       if (this.type === 'date') {
         // 单选方式
-        this.date = date
+        this.handleChange(date)
         return
       }
       // 处理范围选择方式
-      if (this.ranges.length === 2) {
+      if (this.calendarValue.length === 2) {
         // 如果选了两项，则重新开始选择范围
-        this.ranges = [date]
+        this.calendarValue = [date]
       } else {
         // 如果第二项选择的和第一项一样，不做处理
-        const isSameDay = this.isSameDay(this.ranges[0], date)
+        const isSameDay = this.isSameDay(this.calendarValue[0], date)
         if (isSameDay) return
-        // 和第一项判断一下大小，小的放前面
-        if (date.timestamp > this.ranges[0].timestamp) {
-          this.ranges = [this.ranges[0], date]
+        // 和第一项判断大小，小的放前面
+        if (date.timestamp > this.calendarValue[0].timestamp) {
+          this.handleChange([this.calendarValue[0], date])
         } else {
-          this.ranges = [date, this.ranges[0]]
+          this.handleChange([date, this.calendarValue[0]])
         }
       }
     },
@@ -390,19 +387,15 @@ export default {
     handleBackToday() {
       this.year = this.now.year
       this.month = this.now.month
-      this.date = this.now
+      this.calendarValue = this.now
     },
-    handlePopupClose() {
-      this.val = false
-      // 关闭
-      this.$emit('close')
+    handleChange(calendarValue) {
+      this.calendarValue = calendarValue
+      this.val =
+        this.type === 'range'
+          ? this.calendarValue.map(cv => cv.format(this.dateFormat))
+          : this.calendarValue.format(this.dateFormat)
       this.handleEmitChange()
-    },
-    handleConfirm() {
-      const value = this.type === 'date' ? this.date : this.ranges
-      // 确认
-      this.$emit('confirm', value)
-      this.handlePopupClose()
     }
   }
 }
@@ -413,6 +406,7 @@ export default {
   position: relative;
   z-index: 2;
   width: calc(100% / 7);
+  margin-bottom: 12rpx;
   overflow: hidden;
 }
 .back-today {

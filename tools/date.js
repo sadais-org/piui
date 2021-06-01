@@ -17,7 +17,7 @@ export const getWeekDayZh = () => {
 export const parseDate = (value = new Date(), weekPrefix = '星期') => {
   // ! 如果传入的日期格式是xxxx-xx-xx，在ios会报错，使用/进行替换
   const val = isString(value) ? value.replace(/-/g, '/') : value
-  const date = new Date(val)
+  const date = val ? new Date(val) : new Date()
   return {
     year: date.getFullYear(), // 年份
     month: date.getMonth() + 1, // 月份

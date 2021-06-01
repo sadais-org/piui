@@ -243,10 +243,6 @@ export default {
       if (!this.getWrap) {
         style.padding = this.getPadding
       }
-      const height = this.getHeight
-      if (!this.getWrap && height) {
-        style.minHeight = height
-      }
       return style
     },
     getLabelStyle() {
