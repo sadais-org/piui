@@ -45,7 +45,7 @@
       <!-- footer -->
       <view class="pi-abso-bl pi-w-100P pi-align-center pi-pd-24">
         <view class="pi-flex-sub pi-fz-30 pi-fw-500">{{ displayValue }}</view>
-        <pi-button type="primary" size="medium" @tap="handleConfirm">确定</pi-button>
+        <pi-button type="primary" size="medium" @click="handleConfirm">确定</pi-button>
       </view>
     </view>
   </pi-popup>
