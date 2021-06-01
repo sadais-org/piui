@@ -274,6 +274,8 @@ export default {
 
 <style lang="scss" scoped>
 .pi-input-wrap {
+  width: 100%;
+  .pi-input,
   .pi-input-textarea {
     width: 100%;
   }
