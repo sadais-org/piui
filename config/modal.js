@@ -10,6 +10,20 @@ export default {
   width: 600, // 弹窗宽度，可以是数值(rpx)，百分比，auto等
   content: '内容', // 弹窗内容
   contentStyle: {}, // 内容样式
+  // 确认按钮配置
+  confirmBtn: {
+    show: true, // 是否显示
+    text: '确认', // 确认文案
+    color: '#ffffff', // 文字颜色
+    bgColor: '' // 背景颜色
+  },
+  // 取消按钮配置
+  cancelBtn: {
+    show: true, // 是否显示
+    text: '取消', // 确认文案
+    color: '#666666', // 文字颜色
+    bgColor: '' // 背景颜色
+  },
   showConfirmButton: true, // 是否显示确认按钮
   confirmText: '确认', // 确认文案
   confirmColor: '#ffffff', // 确认文字颜色
@@ -20,7 +34,6 @@ export default {
   cancelBgColor: '', // 取消按钮背景颜色
   /**
    * 弹窗的配置，默认选项请参照popup
-   * -------------------------------------------------------------------------------------------------
    */
   popup
 }

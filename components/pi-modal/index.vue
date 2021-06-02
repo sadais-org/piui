@@ -34,31 +34,31 @@
 
       <!-- 按钮区域 -->
       <view
-        v-if="$slots.footer || showCancelButton || showConfirmButton"
+        v-if="$slots.footer || getCancelBtn.show || getConfirmBtn.show"
         class="modal-footer pi-align-center pi-justify-center pi-pd-24"
       >
         <!-- 按钮区域 -->
         <slot v-if="$slots.footer" name="footer" />
         <template v-else>
-          <view v-if="showCancelButton" class="pi-button-wrap">
+          <view v-if="getCancelBtn.show" class="pi-button-wrap">
             <pi-button
-              :color="cancelColor"
-              :bg-color="cancelBgColor"
+              :color="getCancelBtn.color"
+              :bg-color="getCancelBtn.bgColor"
               custom-class="pi-w-100P"
               @click="handleCancel"
             >
-              {{ cancelText }}
+              {{ getCancelBtn.text }}
             </pi-button>
           </view>
-          <view v-if="showConfirmButton" class="pi-button-wrap">
+          <view v-if="getConfirmBtn.show" class="pi-button-wrap">
             <pi-button
-              :type="confirmBgColor ? 'default' : 'primary'"
-              :color="confirmColor"
-              :bg-color="confirmBgColor"
+              :type="getConfirmBtn.bgColor ? 'default' : 'primary'"
+              :color="getConfirmBtn.color"
+              :bg-color="getConfirmBtn.bgColor"
               custom-class="pi-w-100P"
               @click="handleConfirm"
             >
-              {{ confirmText }}
+              {{ getConfirmBtn.text }}
             </pi-button>
           </view>
         </template>
@@ -144,53 +144,15 @@ export default {
         return modal.contentStyle
       }
     },
-    // 是否显示确认按钮
-    showConfirmButton: {
+    // 确认按钮配置
+    confirmBtn: {
       type: Boolean,
-      // true
-      default: modal.showConfirmButton
+      default: modal.confirmBtn
     },
-    // 确认文案
-    confirmText: {
-      type: String,
-      // '确认'
-      default: modal.confirmText
-    },
-    // 确认按钮文字颜色
-    confirmColor: {
-      type: String,
-      // '#ffffff'
-      default: modal.confirmColor
-    },
-    // 确认按钮背景色
-    confirmBgColor: {
-      type: String,
-      // ''
-      default: modal.confirmBgColor
-    },
-    // 是否显示取消按钮
-    showCancelButton: {
+    // 取消按钮配置
+    cancelBtn: {
       type: Boolean,
-      // true
-      default: modal.showCancelButton
-    },
-    // 取消文案
-    cancelText: {
-      type: String,
-      // '取消'
-      default: modal.cancelText
-    },
-    // 取消文字颜色
-    cancelColor: {
-      type: String,
-      // '#666666'
-      default: modal.cancelColor
-    },
-    // 取消按钮背景色
-    cancelBgColor: {
-      type: String,
-      // ''
-      default: modal.cancelBgColor
+      default: modal.cancelBtn
     },
     // 弹窗参数设置
     popup: {
@@ -209,6 +171,12 @@ export default {
   computed: {
     getPopup() {
       return this.$pi.lang.mergeDeep(modal.popup, this.popup)
+    },
+    getConfirmBtn() {
+      return this.$pi.lang.mergeDeep(modal.confirmBtn, this.confirmBtn)
+    },
+    getCancelBtn() {
+      return this.$pi.lang.mergeDeep(modal.cancelBtn, this.cancelBtn)
     },
     getTitlePadding() {
       return this.$pi.common.addUnit(this.titlePadding)

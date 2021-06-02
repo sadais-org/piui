@@ -2,20 +2,16 @@
   <pi-popup
     ref="popup"
     :value="val"
-    :border-radius="borderRadius"
-    :show-close-icon="showTitle && showCloseIcon"
-    :close-icon-name="closeIconName"
-    :close-icon-padding="closeIconPadding"
-    :close-icon-color="closeIconColor"
-    :close-icon-size="closeIconSize"
-    :close-icon-position="closeIconPosition"
-    :safe-area-inset-bottom="safeAreaInsetBottom"
-    :duration="duration"
-    :mask-closable="maskClosable"
-    :hide-tab-bar="hideTabBar"
-    :append-to-body="appendToBody"
-    :z-index="zIndex"
-    :mask-background="maskBackground"
+    :position="getPopup.position"
+    :border-radius="getPopup.borderRadius"
+    :show-close-icon="showTitle && getPopup.showCloseIcon"
+    :close-icon="getPopup.closeIcon"
+    :safe-area-inset-bottom="getPopup.safeAreaInsetBottom"
+    :mask="getPopup.mask"
+    :hide-tab-bar="getPopup.hideTabBar"
+    :append-to-body="getPopup.appendToBody"
+    :z-index="getPopup.zIndex"
+    :background="getPopup.background"
     @close="handlePopupClose"
   >
     <view
@@ -43,9 +39,13 @@
           <pi-button
             type="secondary"
             size="small"
-            class="pi-mg-lr-100"
             :disabled="!isCompleted"
-            :custom-style="{ padding: 0, backgroundColor: 'transparent' }"
+            :custom-style="{
+              padding: 0,
+              marginLeft: '100rpx',
+              marginRight: '100rpx',
+              backgroundColor: 'transparent'
+            }"
             @click="handleConfirm"
           >
             确定
@@ -213,107 +213,13 @@ export default {
       // `true`
       default: regionsSelect.onConfirmClose
     },
-    /**
-     * 弹窗的配置，默认选项请参照popup
-     * ---------------------------------------------------------------------------------------------
-     */
-    // 控制弹窗的四个角圆角效果
-    borderRadius: {
-      type: [String, Number],
-      // `0 0 0 0`
-      default: regionsSelect.borderRadius
-    },
-    // 是否显示关闭图标，可选值 `false`
-    showCloseIcon: {
-      type: Boolean,
-      // `true`
-      default: regionsSelect.showCloseIcon
-    },
-    // 关闭图标的名称
-    closeIconName: {
-      type: String,
-      // `close`
-      default: regionsSelect.closeIconName
-    },
-    //  关闭图标的padding
-    closeIconPadding: {
-      type: [String, Number],
-      // `32rpx 32rpx`
-      default: regionsSelect.closeIconPadding
-    },
-    // 关闭图标的颜色
-    closeIconColor: {
-      type: String,
-      // `#666666`
-      default: regionsSelect.closeIconColor
-    },
-    // 关闭图标的大小
-    closeIconSize: {
-      type: [String, Number],
-      // `42`
-      default: regionsSelect.closeIconSize
-    },
-    // 关闭图标font-weight
-    closeIconWeight: {
-      type: [String, Number],
-      // `800`
-      default: regionsSelect.closeIconWeight
-    },
-    // 关闭图标位置，`tl`为左上角，`tr`为右上角，`bl`为左下角，`br`为右下角，若不指定，
-    closeIconPosition: {
-      type: String,
-      // 若不指定，则按照弹出位置自动显示在合适的位置
-      default: regionsSelect.closeIconPosition,
-      validator: function(value) {
-        return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
+    // 弹窗参数设置
+    popup: {
+      type: Object,
+      default() {
+        // 参照popup
+        return regionsSelect.popup
       }
-    },
-    // 底部安全适配（iPhoneX 留出底部安全距离）
-    safeAreaInsetBottom: {
-      type: Boolean,
-      // true
-      default: regionsSelect.safeAreaInsetBottom
-    },
-    /**
-     * mask props
-     * ---------------------------------------------------------------------------------------------
-     */
-    // 遮罩的过渡时间，格式：500、'500ms'、'0.5s'
-    duration: {
-      type: [Number, String],
-      // `300`
-      default: regionsSelect.duration
-    },
-    // 是否可以通过点击遮罩进行关闭，可选值`false`
-    maskClosable: {
-      type: Boolean,
-      // `true`
-      default: regionsSelect.maskClosable
-    },
-    // 是否隐藏TabBar，可选值`true`
-    hideTabBar: {
-      required: false,
-      type: Boolean,
-      // `false`
-      default: regionsSelect.hideTabBar
-    },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效），可选值`true`
-    appendToBody: {
-      type: Boolean,
-      // `false`
-      default: regionsSelect.appendToBody
-    },
-    // 层级z-index
-    zIndex: {
-      type: [Number, String],
-      // `100`
-      default: regionsSelect.zIndex
-    },
-    // 背景颜色
-    maskBackground: {
-      type: String,
-      // `rgba(0, 0, 0, .5)`
-      default: regionsSelect.maskBackground
     }
   },
   data() {
@@ -328,6 +234,9 @@ export default {
     }
   },
   computed: {
+    getPopup() {
+      return this.$pi.lang.mergeDeep(regionsSelect.popup, this.popup)
+    },
     getHeight() {
       return this.$pi.common.addUnit(this.height)
     },
