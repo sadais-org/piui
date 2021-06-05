@@ -2,7 +2,7 @@
   <view
     class="pi-form-item"
     :style="[customStyle, itemStyle]"
-    :class="[{ border: getBorder }, { 'pi-align-baseline': !getWrap }, customClass]"
+    :class="[{ border: getBorder }, { 'pi-align-center': !getWrap }, customClass]"
     @tap.stop="handleItemClick"
   >
     <!-- 表单标题 -->

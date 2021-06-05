@@ -1,6 +1,6 @@
 {
   "name": "sadais-piui",
-  "version": "1.0.100",
+  "version": "1.0.105",
   "description": "piui组件库",
   "main": "index.js",
   "scripts": {

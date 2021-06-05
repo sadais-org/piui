@@ -12,7 +12,7 @@
     <!-- fixed时候的占位空间 -->
     <template v-if="fixed">
       <view class="pi-bottom-bar-placeholder" :style="[{ height: barHeight }]" />
-      <view v-if="height && safeArea" class="pi-safearea" />
+      <view v-if="safeArea" class="pi-safearea" />
     </template>
   </view>
 </template>
@@ -118,11 +118,13 @@ export default {
 <style lang="scss" scoped>
 .pi-bottom-bar {
   width: 100%;
+  background: #ffffff;
   &.fixed {
     position: fixed;
     right: 0;
     bottom: 0;
     left: 0;
+    z-index: 99;
   }
 }
 </style>

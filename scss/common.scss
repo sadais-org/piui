@@ -541,6 +541,11 @@ image {
   }
 }
 
+// 修复input type=textarea时候，宽度没有占满的问题
+pi-input {
+  width: 100%;
+}
+
 // 不显示滚动条
 ::-webkit-scrollbar {
   display: none;

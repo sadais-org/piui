@@ -2,20 +2,16 @@
   <pi-popup
     ref="popup"
     :value="val"
-    :border-radius="borderRadius"
-    :show-close-icon="showTitle && showCloseIcon"
-    :close-icon-name="closeIconName"
-    :close-icon-padding="closeIconPadding"
-    :close-icon-color="closeIconColor"
-    :close-icon-size="closeIconSize"
-    :close-icon-position="closeIconPosition"
-    :safe-area-inset-bottom="safeAreaInsetBottom"
-    :duration="duration"
-    :mask-closable="maskClosable"
-    :hide-tab-bar="hideTabBar"
-    :append-to-body="appendToBody"
-    :z-index="zIndex"
-    :mask-background="maskBackground"
+    :position="getPopup.position"
+    :border-radius="getPopup.borderRadius"
+    :show-close-icon="showTitle && getPopup.showCloseIcon"
+    :close-icon="getPopup.closeIcon"
+    :safe-area-inset-bottom="getPopup.safeAreaInsetBottom"
+    :mask="getPopup.mask"
+    :hide-tab-bar="getPopup.hideTabBar"
+    :append-to-body="getPopup.appendToBody"
+    :z-index="getPopup.zIndex"
+    :background="getPopup.background"
     @close="handlePopupClose"
   >
     <view
@@ -69,7 +65,7 @@
         </picker-view>
       </view>
       <!-- 顶部操作条, 底部安全区域由popup控制 -->
-      <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="false">
+      <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="safeAreaInsetBottom">
         <slot v-if="$slots.toolbar" name="toolbar" />
         <pi-button v-else width="100%" type="primary" @click="handleConfirm">确定</pi-button>
       </pi-bottom-bar>
@@ -216,113 +212,13 @@ export default {
       // true
       default: picker.onConfirmClose
     },
-    /**
-     * 弹窗的配置，默认选项请参照popup
-     * ---------------------------------------------------------------------------------------------
-     */
-    // 控制弹窗的四个角圆角效果
-    borderRadius: {
-      type: [String, Number],
-      // '0 0 0 0'
-      default: picker.borderRadius
-    },
-    // 是否显示关闭图标
-    showCloseIcon: {
-      type: Boolean,
-      // true
-      default: picker.showCloseIcon
-    },
-    // 关闭图标的名称 自动拼接前缀pi-icon-
-    closeIconName: {
-      type: String,
-      // 'close'
-      default: picker.closeIconName
-    },
-    closeIconPadding: {
-      type: [String, Number],
-      // '32rpx 32rpx'
-      default: picker.closeIconPadding
-    },
-    // 关闭图标的颜色
-    closeIconColor: {
-      type: String,
-      // '#666666'
-      default: picker.closeIconColor
-    },
-    // 关闭图标的大小 单位默认rpx
-    closeIconSize: {
-      type: [String, Number],
-      // 42
-      default: picker.closeIconSize
-    },
-    // 关闭图标的font-weight
-    closeIconWeight: {
-      type: [String, Number],
-      // 800
-      default: picker.closeIconWeight
-    },
-    // 关闭图标位置
-    closeIconPosition: {
-      // tl-左上角，tr-右上角，bl-左下角，br-右下角，若不指定，则按照弹出位置自动显示在合适的位置
-      type: String,
-      // ''
-      default: picker.closeIconPosition,
-      validator: function(value) {
-        return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
+    // 弹窗参数设置
+    popup: {
+      type: Object,
+      default() {
+        // 参照popup
+        return picker.popup
       }
-    },
-    // 顶部安全适配（状态栏高度）
-    safeAreaInsetTop: {
-      type: Boolean,
-      // true
-      default: picker.safeAreaInsetTop
-    },
-    // 底部安全适配（iPhoneX 留出底部安全距离）
-    safeAreaInsetBottom: {
-      type: Boolean,
-      // true
-      default: picker.safeAreaInsetBottom
-    },
-    /**
-     * mask props
-     * ---------------------------------------------------------------------------------------------
-     */
-    // 遮罩的过渡时间，格式：500、'500ms'、'0.5s'
-    duration: {
-      type: [Number, String],
-      // 300
-      default: picker.duration
-    },
-    // 是否可以通过点击遮罩进行关闭
-    maskClosable: {
-      type: Boolean,
-      // true
-      default: picker.maskClosable
-    },
-    // 是否隐藏TabBar
-    hideTabBar: {
-      required: false,
-      type: Boolean,
-      // false
-      default: picker.hideTabBar
-    },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
-    appendToBody: {
-      type: Boolean,
-      // false
-      default: picker.appendToBody
-    },
-    // 层级z-index
-    zIndex: {
-      type: [Number, String],
-      // 999
-      default: picker.zIndex
-    },
-    // 背景颜色
-    maskBackground: {
-      type: String,
-      // 'rgba(0, 0, 0, .5)'
-      default: picker.maskBackground
     }
   },
   data() {
@@ -332,6 +228,9 @@ export default {
     }
   },
   computed: {
+    getPopup() {
+      return this.$pi.lang.mergeDeep(picker.popup, this.popup)
+    },
     getHeight() {
       return this.$pi.common.addUnit(this.height)
     },
