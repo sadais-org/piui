@@ -146,13 +146,17 @@ export default {
     },
     // 确认按钮配置
     confirmBtn: {
-      type: Boolean,
-      default: modal.confirmBtn
+      type: Object,
+      default() {
+        return modal.confirmBtn
+      }
     },
     // 取消按钮配置
     cancelBtn: {
-      type: Boolean,
-      default: modal.cancelBtn
+      type: Object,
+      default() {
+        return modal.cancelBtn
+      }
     },
     // 弹窗参数设置
     popup: {

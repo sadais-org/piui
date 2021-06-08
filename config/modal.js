@@ -24,14 +24,6 @@ export default {
     color: '#666666', // 文字颜色
     bgColor: '' // 背景颜色
   },
-  showConfirmButton: true, // 是否显示确认按钮
-  confirmText: '确认', // 确认文案
-  confirmColor: '#ffffff', // 确认文字颜色
-  confirmBgColor: '', // 确认按钮背景颜色
-  showCancelButton: true, // 是否显示取消按钮
-  cancelText: '取消', // 取消文案
-  cancelColor: '#666666', // 取消文字颜色
-  cancelBgColor: '', // 取消按钮背景颜色
   /**
    * 弹窗的配置，默认选项请参照popup
    */
