@@ -86,7 +86,7 @@
       </view>
       <!-- 顶部操作条 -->
       <!-- 顶部操作条, 底部安全区域由popup控制 -->
-      <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="safeAreaInsetBottom">
+      <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="getPopup.safeAreaInsetBottom">
         <slot v-if="$slots.toolbar" name="toolbar" />
         <pi-button v-else width="100%" type="primary" @click="handleConfirm">
           确定
