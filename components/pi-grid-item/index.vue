@@ -176,6 +176,7 @@ export default {
 
 .pi-grid-item {
   display: inline-block;
+  font-size: 0;
   vertical-align: middle;
   &.border {
     @include pi-border;
