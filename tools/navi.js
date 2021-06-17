@@ -3,7 +3,7 @@ import uni from './native'
 /*
  * @Author: zhengyifan
  * @Date: 2021-04-13 11:46:23
- * @LastEditTime: 2021-05-27 15:10:55
+ * @LastEditTime: 2021-06-16 15:08:49
  * @LastEditors: zhangzhenfei
  * @Description:
  * @FilePath: /piui-awesome/src/piui/tools/navi.js
@@ -54,22 +54,13 @@ class PiuiRouter {
     const strSplits = str.split('?')
     const query = strSplits.length === 2 ? strSplits[1] : str
     const params = query.split('&')
-    const result = params
-      .map(param => {
-        const paramObj = param.split('=')
-        const name = paramObj[0]
-        const value = paramObj[1] || ''
-        return {
-          [name]: decodeURI ? decodeURIComponent(value) : value
-        }
-      })
-      .reduce((prevObj, currentObj) => {
-        prevObj = {
-          ...prevObj,
-          ...currentObj
-        }
-        return prevObj
-      }, {})
+    const result = params.reduce((obj, param) => {
+      const paramObj = param.split('=')
+      const name = paramObj[0]
+      const value = paramObj[1] || ''
+      obj[name] = decodeURI ? decodeURIComponent(value) : value
+      return obj
+    }, {})
     return result || {}
   }
 
