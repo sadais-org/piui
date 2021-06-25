@@ -18,6 +18,22 @@ export default {
   showItemBottomBorder: true, // 是否显示item下边框（默认：'true'）
   itemStyle: {}, // 行样式（默认：'{}'）
   onConfirmClose: true, // 是否点击确认的时候关闭弹窗（默认：'true'）
+  // 确认按钮配置
+  confirmBtn: {
+    show: true, // 是否显示
+    text: '确认', // 确认文案
+    color: '#ffffff', // 文字颜色
+    bgColor: '', // 背景颜色
+    customStyle: {} // 自定义样式，对象形式（默认值：{}）
+  },
+  // 取消按钮配置
+  cancelBtn: {
+    show: false, // 是否显示
+    text: '取消', // 确认文案
+    color: '#0b65d1', // 文字颜色
+    bgColor: '#e1edf9', // 背景颜色
+    customStyle: {} // 自定义样式，对象形式（默认值：{}）
+  },
   /**
    * 弹窗的配置，默认选项请参照popup
    */

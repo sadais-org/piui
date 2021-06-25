@@ -54,7 +54,7 @@
           @tap.stop="handleSelectItem(item)"
         >
           <!-- 自定义列表项 -->
-          <slot name="item" :item="item">
+          <slot name="item" :item="item" class="pi-w-100P">
             <!-- item[displayField] -->
             {{ item[displayField] }}
           </slot>
@@ -62,11 +62,33 @@
         </view>
       </scroll-view>
       <!-- 顶部操作条, 底部安全区域由popup控制 -->
-      <pi-bottom-bar :safe-area="false">
+      <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="false">
         <slot v-if="$slots.toolbar" name="toolbar" />
-        <pi-button v-else width="100%" type="primary" @click="handleConfirm">
-          确定
-        </pi-button>
+        <view v-else class="pi-align-center">
+          <view v-if="getCancelBtn.show" class="pi-button-wrap">
+            <pi-button
+              :color="getCancelBtn.color"
+              :bg-color="getCancelBtn.bgColor"
+              custom-class="pi-w-100P"
+              :custom-style="getCancelBtn.customStyle"
+              @click="handlePopupClose"
+            >
+              {{ getCancelBtn.text }}
+            </pi-button>
+          </view>
+          <view v-if="getConfirmBtn.show" class="pi-button-wrap">
+            <pi-button
+              :type="getConfirmBtn.bgColor ? 'default' : 'primary'"
+              :color="getConfirmBtn.color"
+              :bg-color="getConfirmBtn.bgColor"
+              custom-class="pi-w-100P"
+              :custom-style="getConfirmBtn.customStyle"
+              @click="handleConfirm"
+            >
+              {{ getConfirmBtn.text }}
+            </pi-button>
+          </view>
+        </view>
       </pi-bottom-bar>
     </view>
   </pi-popup>
@@ -202,6 +224,20 @@ export default {
       // true
       default: select.onConfirmClose
     },
+    // 确认按钮配置
+    confirmBtn: {
+      type: Object,
+      default() {
+        return select.confirmBtn
+      }
+    },
+    // 取消按钮配置
+    cancelBtn: {
+      type: Object,
+      default() {
+        return select.cancelBtn
+      }
+    },
     // 弹窗参数设置
     popup: {
       type: Object,
@@ -217,6 +253,12 @@ export default {
     }
   },
   computed: {
+    getConfirmBtn() {
+      return this.$pi.lang.mergeDeep(select.confirmBtn, this.confirmBtn)
+    },
+    getCancelBtn() {
+      return this.$pi.lang.mergeDeep(select.cancelBtn, this.cancelBtn)
+    },
     getPopup() {
       return this.$pi.lang.mergeDeep(select.popup, this.popup)
     },
@@ -334,6 +376,12 @@ export default {
   height: 50vh;
   .select-item.disabled {
     opacity: $pi-disabled-opacity;
+  }
+  .pi-button-wrap {
+    flex: 1;
+    &:nth-child(2) {
+      margin-left: 24rpx;
+    }
   }
 }
 </style>

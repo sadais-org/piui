@@ -3,7 +3,7 @@ import uni from './native'
 /*
  * @Author: zhengyifan
  * @Date: 2021-04-13 11:46:23
- * @LastEditTime: 2021-06-16 15:08:49
+ * @LastEditTime: 2021-06-18 09:47:21
  * @LastEditors: zhangzhenfei
  * @Description:
  * @FilePath: /piui-awesome/src/piui/tools/navi.js
@@ -32,7 +32,7 @@ class PiuiRouter {
   /**
    * 将对象序列化成url字符串
    * @param  {Object} obj 参数对象
-   * @param  {Boolean} encodeURI 对象值使用编码
+   * @param  {Boolean} encodeURI 对象值使用编码，默认为true
    * @param  {String} preConnectChat url前连接字符串，默认为？
    * @return {String} 转换之后的url参数
    */
@@ -47,10 +47,10 @@ class PiuiRouter {
   /**
    * 将url字符串解析成对象
    * @param  {String} str 带url参数的地址
-   * @param  {Boolean} decodeURI 使用解码
+   * @param  {Boolean} decodeURI 使用解码，默认为true
    * @return {Object} 转换之后的url参数
    */
-  urlToObj(str = '', decodeURI) {
+  urlToObj(str = '', decodeURI = true) {
     const strSplits = str.split('?')
     const query = strSplits.length === 2 ? strSplits[1] : str
     const params = query.split('&')

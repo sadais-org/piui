@@ -177,7 +177,7 @@ export default {
     // wrap样式label是否显示边框
     labelWrapBorder: {
       type: Boolean,
-      // true
+      // false
       default: formItem.labelWrapBorder
     },
     // 是否在 label 后面添加冒号
@@ -268,6 +268,7 @@ export default {
       const style = {}
       if (this.getWrap) {
         style.padding = this.getPadding
+        style.paddingTop = 0
       }
       return style
     },
@@ -385,6 +386,7 @@ export default {
 @import '../../scss/mixin.scss';
 
 .pi-form-item {
+  overflow: hidden;
   font-size: $pi-form-size;
   &.border {
     @include pi-border;
@@ -409,7 +411,6 @@ export default {
       margin-left: 24rpx;
     }
     &.wrap {
-      margin-top: 24rpx;
       margin-bottom: 24rpx;
     }
     .form-valid {
