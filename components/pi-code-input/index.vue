@@ -15,7 +15,7 @@
       <view
         v-for="(item, index) in getLength"
         :key="index"
-        :style="[itemStyle, currentIndex >= index ? fillStyle : {}]"
+        :style="[itemStyle, arrCode[index] ? fillStyle : {}]"
         class="label pi-flex-row-center"
         :class="{
           fill: currentIndex >= index,

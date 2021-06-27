@@ -48,14 +48,6 @@ export default {
         return card.customClass
       }
     },
-    // 自定义竖线样式，对象形式
-    lineStyle: {
-      type: Object,
-      // `{}`
-      default() {
-        return card.lineStyle
-      }
-    },
     // 标题
     title: {
       type: String,
@@ -72,45 +64,6 @@ export default {
         return card.titleStyle
       }
     },
-    // 描述
-    desc: {
-      type: String,
-      // `''`
-      default() {
-        return card.title
-      }
-    },
-    // 描述自定义样式，对象形式（默认值：{}）
-    descStyle: {
-      type: Object,
-      default() {
-        return card.descStyle
-      }
-    },
-    // 右侧文字
-    extraText: {
-      type: String,
-      // `''`
-      default() {
-        return card.title
-      }
-    },
-    // 右侧文字自定义样式，对象形式
-    extraStyle: {
-      type: Object,
-      // `{}`
-      default() {
-        return card.extraStyle
-      }
-    },
-    // 是否显示左侧竖线，可用值 `false`
-    line: {
-      type: Boolean,
-      // `true`
-      default() {
-        return card.line
-      }
-    },
     // 卡片外边距
     margin: {
       type: String,
@@ -125,22 +78,6 @@ export default {
       // `24rpx 0`
       default() {
         return card.padding
-      }
-    },
-    // 是否显示右边icon。默认是箭头（可以自定义设置成其他图标），可用值 `true`
-    showRightIcon: {
-      type: Boolean,
-      // `false`
-      default() {
-        return card.showRightIcon
-      }
-    },
-    // 右侧icon样式
-    rightIcon: {
-      type: Object,
-      // `name` `dot` `badge` `color` `size` `classPrefix`
-      default() {
-        return card.rightIcon
       }
     }
   },
@@ -172,14 +109,6 @@ export default {
     font-size: $pi-card-title-fontsize;
     color: $pi-card-title-color;
     white-space: nowrap;
-  }
-  .line {
-    width: 6rpx;
-    height: 32rpx;
-    margin-right: 12rpx;
-    overflow: hidden;
-    background-color: $pi-primary-color;
-    border-radius: 4rpx;
   }
 }
 </style>
