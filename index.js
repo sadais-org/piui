@@ -23,6 +23,8 @@ const install = function(Vue, config = {}) {
   window.addEventListener('resize', setVh)
   // #endif
 
+  // app 防止日志输出过多，禁用日志
+  // #ifndef APP-PLUS
   console.group && console.group('piui')
 
   console.log('%cpiui 已安装，教程：https://github.com/sadais-org/piui', logStyle)
@@ -30,6 +32,7 @@ const install = function(Vue, config = {}) {
   console.log('%cpiui tools 已挂载：', logStyle, this)
 
   console.groupEnd && console.groupEnd('piui')
+  // #endif
 }
 
 export default {
