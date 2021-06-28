@@ -1,12 +1,14 @@
 <template>
   <view>
-    <view
-      class="pi-bottom-bar"
-      :style="[customStyle, barStyle]"
-      :class="[customClass, { fixed: fixed }]"
-    >
+    <view class="pi-bottom-bar" :style="[{ borderTop: borderTop }]" :class="[fixed]">
       <!-- 默认插槽 -->
-      <slot />
+      <view
+        class="pi-w-100P pi-align-center"
+        :style="[{ padding: getPadding }, customStyle]"
+        :class="[customClass]"
+      >
+        <slot />
+      </view>
       <view v-if="safeArea" class="pi-safearea" :style="[{ backgroundColor: safeAreaBgColor }]" />
     </view>
     <!-- fixed时候的占位空间 -->
@@ -94,12 +96,6 @@ export default {
   computed: {
     getPadding() {
       return this.$pi.common.addUnit(this.padding)
-    },
-    barStyle() {
-      return {
-        padding: this.getPadding,
-        borderTop: this.borderTop
-      }
     }
   },
   mounted() {
