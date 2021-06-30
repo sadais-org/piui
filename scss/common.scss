@@ -609,6 +609,10 @@ image {
   overflow: hidden;
 }
 
+.uni-scroll-view {
+  -webkit-overflow-scrolling: touch;
+}
+
 // 内容区域
 .pi-content {
   padding: $pi-content-padding;

@@ -6,9 +6,14 @@
     @tap.stop="handleCardClick"
   >
     <!-- title -->
-    <view class="card-title pi-align-center" :style="[{ padding: getPadding }, titleStyle]">
-      <slot v-if="$slots && $slots.title" name="title" />
-      <template v-else-if="title">{{ title }}</template>
+    <view
+      v-if="($slots && $slots.title) || title"
+      class="card-title pi-align-center"
+      :style="[{ padding: getPadding }, titleStyle]"
+    >
+      <slot name="title">
+        {{ title }}
+      </slot>
     </view>
     <!-- body -->
     <view v-if="$slots.body" class="pi-pd-tb-24 pi-solid-top-1" :style="[{ padding: getPadding }]">
