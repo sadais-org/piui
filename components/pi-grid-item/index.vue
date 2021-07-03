@@ -147,6 +147,13 @@ export default {
       const clazz = []
       this.getBorder && clazz.push('border')
       this.getGap && clazz.push('gap')
+      // 如果没设置间隔，并且设置了边框
+      if (!this.gap && this.getBorder) {
+        // 第一行的item需要设置上边框
+        if (this.index < this.getCol) clazz.push('first-row')
+        // 第一列元素需要设置左边框
+        if ((this.index + 1) % this.getCol === 1) clazz.push('first-col')
+      }
       return clazz.join(' ')
     },
     itemBoxClass() {
@@ -189,6 +196,14 @@ export default {
     &.gap::after {
       // 如果有间隔的情况下（边框全部生成）
       border-width: $pi-grid-border-width;
+    }
+    &.first-row::after {
+      // 首行生成上边框
+      border-top-width: $pi-grid-border-width;
+    }
+    &.first-col::after {
+      // 首列生成左边框
+      border-left-width: $pi-grid-border-width;
     }
   }
   .grid-item-box {

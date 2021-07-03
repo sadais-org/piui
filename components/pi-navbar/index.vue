@@ -27,16 +27,7 @@
           <!-- 定制导航栏左侧内容 -->
           <slot name="left" />
           <view v-if="isShowBack" class="pi-align-center back-wrap" @tap.stop="handleGoBack">
-            <view
-              :class="'pi-icon-' + backIconName"
-              :style="[
-                {
-                  color: backIconColor,
-                  padding: backIconPadding,
-                  fontSize: backIconSize
-                }
-              ]"
-            />
+            <view :class="'pi-icon-' + backIconName" :style="[backIconStyle]" />
             <view v-if="backText" :style="[backTextStyle]">{{ backText }}</view>
           </view>
           <view v-if="showHome" class="pi-align-center home-wrap" @tap.stop="handleGoHome">
@@ -294,6 +285,17 @@ export default {
     },
     navTitleStyle() {
       return this.$pi.lang.mergeDeep(navbar.titleStyle, this.titleStyle)
+    },
+    backIconStyle() {
+      const style = {
+        color: this.backIconColor,
+        padding: this.backIconPadding,
+        fontSize: this.backIconSize
+      }
+      if (this.backText) {
+        style.paddingRight = '6rpx'
+      }
+      return style
     }
   },
   created() {
