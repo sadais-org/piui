@@ -4,6 +4,7 @@ export default {
   title: '', // 标题
   titleStyle: { fontSize: '36rpx', fontWeight: 500, color: '#333333' }, // 标题样式
   height: '44px', // 导航栏高度
+  throughTitleWidth: 'auto', // 贯穿布局title宽度，auto：自动撑开
   fixed: true, // 导航栏是否固定在顶部
   placeholder: true, // 固定在顶部时，是否在标签位置生成一个等高的占位元素
   borderBottom: true, // 是否显示导航栏的下边框

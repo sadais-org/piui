@@ -49,7 +49,7 @@
           <slot v-if="$slots.title" name="title" />
         </view>
         <!-- 贯穿标题 -->
-        <view :style="[navTitleStyle]" class="through-space">
+        <view :style="[navTitleStyle, throughTitleStyle]" class="through-space">
           <!-- slot default -->
           <slot v-if="$slots.default || $slots.$default" />
           <template v-else-if="title">{{ title }}</template>
@@ -117,6 +117,12 @@ export default {
       type: String,
       // '44px'
       default: navbar.height
+    },
+    // 贯穿布局title宽度，auto：自动撑开
+    throughTitleWidth: {
+      type: String,
+      // 'auto'
+      default: navbar.throughTitleWidth
     },
     // 导航栏是否固定在顶部
     fixed: {
@@ -286,6 +292,16 @@ export default {
     navTitleStyle() {
       return this.$pi.lang.mergeDeep(navbar.titleStyle, this.titleStyle)
     },
+    getThroughTitleWidth() {
+      return this.$pi.common.addUnit(this.throughTitleWidth)
+    },
+    throughTitleStyle() {
+      const style = {}
+      if (this.getThroughTitleWidth !== 'auto') {
+        style.width = this.getThroughTitleWidth
+      }
+      return style
+    },
     backIconStyle() {
       const style = {
         color: this.backIconColor,
@@ -326,6 +342,7 @@ export default {
 
 <style lang="scss" scoped>
 .navbar-wrap {
+  position: relative;
   .navbar-fixed {
     position: fixed;
     top: 0;
@@ -373,14 +390,14 @@ export default {
   .through-space {
     position: absolute;
     top: 50%;
-    right: 0;
-    left: 0;
+    left: 50%;
     z-index: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    transform: translateY(-50%);
+    overflow: hidden;
+    line-height: initial;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
   }
 }
 </style>
