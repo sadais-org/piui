@@ -309,7 +309,7 @@ export default {
         fontSize: this.backIconSize
       }
       if (this.backText) {
-        style.paddingRight = '6rpx'
+        style.paddingRight = '10rpx'
       }
       return style
     }
