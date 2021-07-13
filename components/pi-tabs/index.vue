@@ -270,13 +270,13 @@ export default {
         // 如果width设置了固定的宽度，将滑块移动到对应激活下的中心
         const sliderBarWidth = uni.upx2px(parseInt(this.sliderBarWidth))
         sliderScrollLeft = sliderScrollLeft + (this.activeRect.width - sliderBarWidth) / 2
-        style.transform = `translateX(${sliderScrollLeft}px)`
+        style.transform = `translate(${sliderScrollLeft}px, -25%)`
       }
       if (style.width === 'auto') {
         // 如果width设定了auto，根据当前激活项文字动态计算宽度
         const itemPadding = uni.upx2px(parseInt(this.itemPadding))
         style.width = `${this.activeRect.width - itemPadding * 2}px`
-        style.transform = `translateX(${sliderScrollLeft + itemPadding}px)`
+        style.transform = `translate(${sliderScrollLeft + itemPadding}px, -25%)`
       }
       if (this.activeColor) style.backgroundColor = this.activeColor
       return style
@@ -289,6 +289,14 @@ export default {
   },
   watch: {
     items: {
+      deep: true,
+      immediate: false,
+      handler(value) {
+        this.init()
+      }
+    },
+    // 监听activeIndex的原因：用户设置activeItemStyle样式，可能会导致了布局变化
+    activeIndex: {
       deep: true,
       immediate: false,
       handler(value) {

@@ -357,8 +357,6 @@ export default {
   position: relative;
   display: inline-block;
   padding: $pi-button-default-padding;
-  margin-right: 0;
-  margin-left: 0;
   border: none;
   border-radius: $pi-button-default-radius;
   // 默认样式
