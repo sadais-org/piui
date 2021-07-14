@@ -44,6 +44,16 @@
       <!-- 右侧区域内容 -->
       <slot name="right" />
     </view>
+    <pi-icon
+      v-else-if="showRightIcon"
+      :name="rightIconName"
+      :dot="rightIconDot"
+      :badge="rightIconBadge"
+      :color="rightIconColor"
+      :size="rightIconSize"
+      :class-prefix="rightIconClassPrefix"
+      custom-class="pi-pd-left-4"
+    />
   </view>
 </template>
 

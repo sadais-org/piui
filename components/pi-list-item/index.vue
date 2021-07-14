@@ -39,13 +39,15 @@
     </view>
     <pi-icon
       v-else-if="showRightIcon"
-      :name="rightIconName"
-      :dot="rightIconDot"
-      :badge="rightIconBadge"
-      :color="rightIconColor"
-      :size="rightIconSize"
-      :class-prefix="rightIconClassPrefix"
-      custom-class="pi-pd-left-4"
+      :custom-style="getRightIcon.customStyle"
+      :custom-class="`pi-pd-left-4 ${getRightIcon.customClass}`"
+      :name="getRightIcon.name"
+      :dot="getRightIcon.dot"
+      :dot-radius="getRightIcon.dotRadius"
+      :badge="getRightIcon.badge"
+      :color="getRightIcon.color"
+      :size="getRightIcon.size"
+      :class-prefix="getRightIcon.classPrefix"
     />
   </view>
 </template>
@@ -179,52 +181,11 @@ export default {
         return listItem.showRightIcon
       }
     },
-    // 右侧icon名称
-    rightIconName: {
-      type: String,
-      // 'right'
+    // 右侧icon配置
+    rightIcon: {
+      type: Object,
       default() {
-        return listItem.rightIconName
-      }
-    },
-    // 是否显示图标右上角小红点
-    rightIconDot: {
-      type: Boolean,
-      // false
-      default() {
-        return listItem.rightIconDot
-      }
-    },
-    // 图标右上角徽标的内容
-    rightIconBadge: {
-      type: String,
-      // ''
-      default() {
-        return listItem.rightIconBadge
-      }
-    },
-    // 图标颜色
-    rightIconColor: {
-      type: String,
-      // #cccccc
-      default() {
-        return listItem.rightIconColor
-      }
-    },
-    // 图标字体大小，单位rpx
-    rightIconSize: {
-      type: [String, Number],
-      // ''
-      default() {
-        return listItem.rightIconSize
-      }
-    },
-    // 类名前缀，用于使用自定义图标
-    rightIconClassPrefix: {
-      type: String,
-      // 'pi-icon-'
-      default() {
-        return listItem.rightIconClassPrefix
+        return listItem.rightIcon
       }
     },
     // 指定按下去的样式类。当 hover-class="none" 时，没有点击态效果
@@ -256,6 +217,9 @@ export default {
     }
   },
   computed: {
+    getRightIcon() {
+      return this.$pi.lang.mergeDeep(listItem.rightIcon, this.rightIcon)
+    },
     getBorder() {
       return !this.isEmptyInheritProps && this.inheritProps.border !== null
         ? this.inheritProps.border
