@@ -1,99 +1,51 @@
 <template>
-  <pi-popup
-    ref="popup"
+  <pi-popup-select
     :value="val"
-    :position="getPopup.position"
-    :border-radius="getPopup.borderRadius"
-    :show-close-icon="showTitle && getPopup.showCloseIcon"
-    :close-icon="getPopup.closeIcon"
-    :safe-area-inset-bottom="getPopup.safeAreaInsetBottom"
-    :mask="getPopup.mask"
-    :hide-tab-bar="getPopup.hideTabBar"
-    :append-to-body="getPopup.appendToBody"
-    :z-index="getPopup.zIndex"
-    :background="getPopup.background"
+    :popup-select="getPopupSelect"
+    :confirm-btn="getConfirmBtn"
+    :cancel-btn="getCancelBtn"
+    :popup="getPopup"
     @close="handlePopupClose"
+    @cancel="handleCancel"
+    @confirm="handleConfirm"
   >
-    <view
-      class="pi-datePicker pi-flex-column"
-      :style="[customStyle, { height: getHeight }]"
-      :class="[customClass]"
+    <picker-view
+      v-if="val"
+      class="pi-text-center pi-h-100P"
+      :indicator-style="indicatorStyle"
+      :value="pickerValue"
+      @change="handleDateChange"
     >
-      <!-- 标题栏 -->
-      <view
-        v-if="showTitle"
-        style="z-index: 1;"
-        class="pi-justify-center pi-fz-32 pi-fw-500"
-        :style="[{ padding: getTitlePadding }]"
-      >
-        <!-- 标题 -->
-        <slot v-if="$slots.title" name="title" />
-        <template v-else>{{ title }}</template>
-      </view>
-      <!-- 顶部操作条 -->
-      <view
-        v-if="toolbarPosition === 'top'"
-        class="pi-justify-between pi-align-center pi-solid-bottom-1 pi-fz-32 pi-fw-500 pi-pd-32"
-      >
-        <!-- 操作条 -->
-        <slot v-if="$slots.toolbar" name="toolbar" />
-        <template v-else>
-          <view class="item-btn" @tap="handlePopupClose">取消</view>
-          <view class="item-btn pi-primary" @tap="handleConfirm">确定</view>
-        </template>
-      </view>
-      <!-- 选择区域 -->
-      <view class="pi-w-100P pi-scroll">
-        <!-- uniapp 底层bug picker-view 如果不加v-if会导致小程序和app端初始化不正常 -->
-        <picker-view
-          v-if="val"
-          class="pi-text-center pi-h-100P"
-          :indicator-style="indicatorStyle"
-          :value="pickerValue"
-          @change="handleDateChange"
-        >
-          <picker-view-column>
-            <view v-for="(item, index) in years" :key="index" :style="indicatorStyle">
-              {{ item }}年
-            </view>
-          </picker-view-column>
-          <picker-view-column v-if="showMonth">
-            <view v-for="(item, index) in months" :key="index" :style="indicatorStyle">
-              {{ item + 1 }}月
-            </view>
-          </picker-view-column>
-          <picker-view-column v-if="showDay">
-            <view v-for="(item, index) in days" :key="index" :style="indicatorStyle">
-              {{ item }}日
-            </view>
-          </picker-view-column>
-          <picker-view-column v-if="showHour">
-            <view v-for="(item, index) in hours" :key="index" :style="indicatorStyle">
-              {{ item }}时
-            </view>
-          </picker-view-column>
-          <picker-view-column v-if="showMinute">
-            <view v-for="(item, index) in minutes" :key="index" :style="indicatorStyle">
-              {{ item }}分
-            </view>
-          </picker-view-column>
-          <picker-view-column v-if="showSecond">
-            <view v-for="(item, index) in seconds" :key="index" :style="indicatorStyle">
-              {{ item }}秒
-            </view>
-          </picker-view-column>
-        </picker-view>
-      </view>
-      <!-- 顶部操作条 -->
-      <!-- 顶部操作条, 底部安全区域由popup控制 -->
-      <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="getPopup.safeAreaInsetBottom">
-        <slot v-if="$slots.toolbar" name="toolbar" />
-        <pi-button v-else width="100%" type="primary" @click="handleConfirm">
-          确定
-        </pi-button>
-      </pi-bottom-bar>
-    </view>
-  </pi-popup>
+      <picker-view-column>
+        <view v-for="(item, index) in years" :key="index" :style="indicatorStyle">
+          {{ item }}年
+        </view>
+      </picker-view-column>
+      <picker-view-column v-if="showMonth">
+        <view v-for="(item, index) in months" :key="index" :style="indicatorStyle">
+          {{ item + 1 }}月
+        </view>
+      </picker-view-column>
+      <picker-view-column v-if="showDay">
+        <view v-for="(item, index) in days" :key="index" :style="indicatorStyle">{{ item }}日</view>
+      </picker-view-column>
+      <picker-view-column v-if="showHour">
+        <view v-for="(item, index) in hours" :key="index" :style="indicatorStyle">
+          {{ item }}时
+        </view>
+      </picker-view-column>
+      <picker-view-column v-if="showMinute">
+        <view v-for="(item, index) in minutes" :key="index" :style="indicatorStyle">
+          {{ item }}分
+        </view>
+      </picker-view-column>
+      <picker-view-column v-if="showSecond">
+        <view v-for="(item, index) in seconds" :key="index" :style="indicatorStyle">
+          {{ item }}秒
+        </view>
+      </picker-view-column>
+    </picker-view>
+  </pi-popup-select>
 </template>
 
 <script>
@@ -177,50 +129,11 @@ export default {
       // 'YYYY-MM-DD'
       default: datePicker.format
     },
-    toolbarPosition: {
-      // `'top'` `'bottom'`
-      type: String,
-      // 'bottom'
-      default: datePicker.toolbarPosition,
-      validator: function(value) {
-        return ['top', 'bottom'].includes(value)
-      }
-    },
-    // 是否显示title
-    showTitle: {
-      type: Boolean,
-      // false
-      default: datePicker.showTitle
-    },
-    // 标题
-    title: {
-      type: String,
-      // 日期选择
-      default: datePicker.title
-    },
-    // 标题 padding
-    titlePadding: {
-      type: [String, Number],
-      // '32rpx'
-      default: datePicker.titlePadding
-    },
-    // 弹出选择层的高度，不可填百分比
-    height: {
-      type: String,
-      // '50vh'
-      default: datePicker.height
-    },
     // 行高
     itemHeight: {
       type: [String, Number],
       // 110
       default: datePicker.itemHeight
-    },
-    // 是否显示item下边框
-    showItemBottomBorder: {
-      type: Boolean,
-      // true
-      default: datePicker.showItemBottomBorder
     },
     // 行样式
     itemStyle: {
@@ -230,11 +143,33 @@ export default {
         return datePicker.itemStyle
       }
     },
-    // 是否点击确认的时候关闭弹窗
-    onConfirmClose: {
+    // 是否显示item下边框
+    showItemBottomBorder: {
       type: Boolean,
       // true
-      default: datePicker.onConfirmClose
+      default: datePicker.showItemBottomBorder
+    },
+    // 弹窗选择参数设置
+    popupSelect: {
+      type: Object,
+      default() {
+        // 参照popup
+        return datePicker.popupSelect
+      }
+    },
+    // 确认按钮配置
+    confirmBtn: {
+      type: Object,
+      default() {
+        return datePicker.confirmBtn
+      }
+    },
+    // 取消按钮配置
+    cancelBtn: {
+      type: Object,
+      default() {
+        return datePicker.cancelBtn
+      }
     },
     // 弹窗参数设置
     popup: {
@@ -252,8 +187,26 @@ export default {
     }
   },
   computed: {
+    getPopupSelect() {
+      return this.$pi.lang.mergeDeep(datePicker.popupSelect, this.popupSelect)
+    },
+    getConfirmBtn() {
+      const datePickerConfirmBtn = this.$pi.lang.mergeDeep(
+        datePicker.confirmBtn,
+        this.popupSelect.confirmBtn
+      )
+      return this.$pi.lang.mergeDeep(datePickerConfirmBtn, this.confirmBtn)
+    },
+    getCancelBtn() {
+      const datePickerCancelBtn = this.$pi.lang.mergeDeep(
+        datePicker.cancelBtn,
+        this.popupSelect.cancelBtn
+      )
+      return this.$pi.lang.mergeDeep(datePickerCancelBtn, this.cancelBtn)
+    },
     getPopup() {
-      return this.$pi.lang.mergeDeep(datePicker.popup, this.popup)
+      const datePickerPopup = this.$pi.lang.mergeDeep(datePicker.popup, this.popupSelect.popup)
+      return this.$pi.lang.mergeDeep(datePickerPopup, this.popup)
     },
     options() {
       const watchs = ['startYear', 'endYear', 'field', 'defaultValue']
@@ -367,9 +320,19 @@ export default {
       // 重新解析
       this.date = this.$pi.date.parseDate(time)
     },
+    handleCancel() {
+      /**
+       * @vuese
+       * 点击取消按钮时触发
+       * @arg 当前选中的值 单选为对象，多选模式为数组
+       */
+      this.$emit('cancel')
+      this.onCancelClose && this.handlePopupClose()
+    },
     handleConfirm() {
       // 提交
-      this.$emit('confirm', this.date)
+      const value = this.format ? this.date.format(this.format) : this.date
+      this.$emit('confirm', value)
       this.onConfirmClose && this.handlePopupClose()
     }
   }

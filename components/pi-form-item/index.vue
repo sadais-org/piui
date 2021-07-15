@@ -28,7 +28,11 @@
       :class="[{ 'pi-flex-sub': !getWrap }, getInputAlign, { wrap: getWrap, nowrap: !getWrap }]"
       :style="[contentWrapStyle]"
     >
-      <view class="content-input pi-align-center" :style="[getInputAlignStyle]">
+      <view
+        class="content-input pi-align-center"
+        :style="[getInputAlignStyle]"
+        :class="[getInputAlign]"
+      >
         <!-- 表单项内容 -->
         <slot />
       </view>
@@ -44,15 +48,18 @@
       <!-- 右侧区域内容 -->
       <slot name="right" />
     </view>
+    <!-- 右侧箭头 -->
     <pi-icon
       v-else-if="showRightIcon"
-      :name="rightIconName"
-      :dot="rightIconDot"
-      :badge="rightIconBadge"
-      :color="rightIconColor"
-      :size="rightIconSize"
-      :class-prefix="rightIconClassPrefix"
-      custom-class="pi-pd-left-4"
+      :custom-style="getRightIcon.customStyle"
+      :custom-class="`pi-pd-left-4 ${getRightIcon.customClass}`"
+      :name="getRightIcon.name"
+      :dot="getRightIcon.dot"
+      :dot-radius="getRightIcon.dotRadius"
+      :badge="getRightIcon.badge"
+      :color="getRightIcon.color"
+      :size="getRightIcon.size"
+      :class-prefix="getRightIcon.classPrefix"
     />
   </view>
 </template>
@@ -207,6 +214,22 @@ export default {
       type: Boolean,
       // false
       default: formItem.border
+    },
+    // 是否显示右边icon
+    showRightIcon: {
+      type: Boolean,
+      // true
+      default() {
+        // true
+        return formItem.showRightIcon
+      }
+    },
+    // 右侧icon配置
+    rightIcon: {
+      type: Object,
+      default() {
+        return formItem.rightIcon
+      }
     }
   },
   data() {
@@ -217,6 +240,9 @@ export default {
     }
   },
   computed: {
+    getRightIcon() {
+      return this.$pi.lang.mergeDeep(formItem.rightIcon, this.rightIcon)
+    },
     getBorder() {
       return this.inheritProps.border !== null ? this.inheritProps.border : this.border
     },
@@ -474,6 +500,18 @@ export default {
       .pi-radio-group.horizontal {
         justify-content: flex-end;
       }
+    }
+  }
+  // 处理表单项input的字体对齐方式
+  ::v-deep .content-input {
+    &.left .input {
+      text-align: left;
+    }
+    &.center .input {
+      text-align: center;
+    }
+    &.right .input {
+      text-align: right;
     }
   }
 }

@@ -3,7 +3,7 @@
     <view class="pi-bottom-bar" :style="[{ borderTop: borderTop }]" :class="[fixed]">
       <!-- 默认插槽 -->
       <view
-        class="pi-w-100P pi-align-center"
+        class="pi-w-100P"
         :style="[{ padding: getPadding }, customStyle]"
         :class="[customClass]"
       >

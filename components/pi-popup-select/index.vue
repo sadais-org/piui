@@ -2,7 +2,7 @@
   <pi-popup
     ref="popup"
     :value="val"
-    position="center"
+    :position="getPopup.position"
     :border-radius="getPopup.borderRadius"
     :show-close-icon="showTitle && getPopup.showCloseIcon"
     :close-icon="getPopup.closeIcon"
@@ -14,32 +14,39 @@
     :background="getPopup.background"
     @close="handlePopupClose"
   >
-    <view class="pi-modal" :style="[customStyle, modalStyle]" :class="[customClass]">
+    <view
+      class="pi-popup-select pi-flex-column"
+      :style="[customStyle, { height: getHeight }]"
+      :class="[customClass]"
+    >
       <!-- 标题栏 -->
       <view
         v-if="showTitle"
         class="pi-justify-center pi-fz-32 pi-fw-500"
         :style="[{ padding: getTitlePadding }]"
       >
-        <!-- title -->
         <slot v-if="$slots.title" name="title" />
         <template v-else>{{ title }}</template>
       </view>
-      <!-- 内容区域 -->
-      <view class="pi-flex-column-center pi-pd-24 modal-content">
-        <!-- 内容插槽 -->
-        <slot v-if="$slots.default || $slots.$default" />
-        <view v-else :style="[contentStyle]">{{ content }}</view>
-      </view>
-
-      <!-- 按钮区域 -->
+      <!-- 顶部操作条 -->
       <view
-        v-if="$slots.footer || getCancelBtn.show || getConfirmBtn.show"
-        class="modal-footer pi-align-center pi-justify-center pi-pd-24"
+        v-if="toolbarPosition === 'top'"
+        class="pi-justify-between pi-align-center pi-solid-bottom-1 pi-fz-32 pi-fw-500 pi-pd-32"
       >
-        <!-- 按钮区域 -->
-        <slot v-if="$slots.footer" name="footer" />
+        <slot v-if="$slots.toolbar" name="toolbar" />
         <template v-else>
+          <view class="item-btn" @tap.stop="handlePopupClose">取消</view>
+          <view class="item-btn pi-primary" @tap.stop="handleConfirm">确定</view>
+        </template>
+      </view>
+      <!-- 选择区域 -->
+      <scroll-view class="pi-scroll" scroll-y scroll-with-animation>
+        <slot />
+      </scroll-view>
+      <!-- 顶部操作条, 底部安全区域由popup控制 -->
+      <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="false">
+        <slot v-if="$slots.toolbar" name="toolbar" />
+        <view v-else class="pi-align-center">
           <view v-if="getCancelBtn.show" class="pi-button-wrap">
             <pi-button
               :custom-class="getCancelBtn.customClass"
@@ -108,8 +115,8 @@
               {{ getConfirmBtn.text }}
             </pi-button>
           </view>
-        </template>
-      </view>
+        </view>
+      </pi-bottom-bar>
     </view>
   </pi-popup>
 </template>
@@ -118,10 +125,9 @@
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
 
-const TAG = 'PiModal'
-const { modal } = getConfig()
+const TAG = 'PiPopupSelect'
+const { popupSelect } = getConfig()
 
-// 模态弹窗
 export default {
   name: TAG,
   // 混入v-model
@@ -136,7 +142,7 @@ export default {
       type: Object,
       // {}
       default() {
-        return modal.customStyle
+        return popupSelect.customStyle
       }
     },
     // 自定义样式类
@@ -144,71 +150,67 @@ export default {
       type: String,
       // ''
       default() {
-        return modal.customClass
+        return popupSelect.customClass
+      }
+    },
+    // 工具条位置
+    toolbarPosition: {
+      // 'bottom', 'top'
+      type: String,
+      // 'bottom'
+      default: popupSelect.toolbarPosition,
+      validator: function(value) {
+        return ['top', 'bottom'].includes(value)
       }
     },
     // 是否显示title
     showTitle: {
       type: Boolean,
-      // true
-      default: modal.showTitle
+      // false
+      default: popupSelect.showTitle
     },
     // 标题
     title: {
       type: String,
       // '弹出选择'
-      default: modal.title
+      default: popupSelect.title
     },
     // 标题 padding
     titlePadding: {
       type: [String, Number],
       // '32rpx'
-      default: modal.titlePadding
+      default: popupSelect.titlePadding
     },
-    // 弹窗宽度 不带单位 则默认rpx
-    width: {
-      type: [Number, String],
-      // 600
-      default: modal.width
-    },
-    // 弹窗内容
-    content: {
+    // 弹出选择层的高度，不可填百分比
+    height: {
       type: String,
-      // '内容'
-      default: modal.content
-    },
-    // 内容的样式
-    contentStyle: {
-      type: Object,
-      // {}
-      default() {
-        return modal.contentStyle
-      }
+      // '50vh'
+      default: popupSelect.height
     },
     // 是否点击取消的时候关闭弹窗
     onCancelClose: {
       type: Boolean,
       // true
-      default: modal.onCancelClose
+      default: popupSelect.onCancelClose
     },
     // 是否点击确认的时候关闭弹窗
     onConfirmClose: {
       type: Boolean,
       // true
-      default: modal.onConfirmClose
+      default: popupSelect.onConfirmClose
     },
     // 确认按钮配置
     confirmBtn: {
       type: Object,
       default() {
-        return modal.confirmBtn
+        return popupSelect.confirmBtn
       }
     },
     // 取消按钮配置
     cancelBtn: {
       type: Object,
       default() {
-        return modal.cancelBtn
+        return popupSelect.cancelBtn
       }
     },
     // 弹窗参数设置
@@ -216,49 +218,53 @@ export default {
       type: Object,
       default() {
         // 参照popup
-        return modal.popup
+        return popupSelect.popup
       }
     }
   },
   data() {
-    return {
-      selected: {}
-    }
+    return {}
   },
   computed: {
-    getPopup() {
-      return this.$pi.lang.mergeDeep(modal.popup, this.popup)
-    },
     getConfirmBtn() {
-      return this.$pi.lang.mergeDeep(modal.confirmBtn, this.confirmBtn)
+      return this.$pi.lang.mergeDeep(popupSelect.confirmBtn, this.confirmBtn)
     },
     getCancelBtn() {
-      return this.$pi.lang.mergeDeep(modal.cancelBtn, this.cancelBtn)
+      return this.$pi.lang.mergeDeep(popupSelect.cancelBtn, this.cancelBtn)
+    },
+    getPopup() {
+      return this.$pi.lang.mergeDeep(popupSelect.popup, this.popup)
+    },
+    getHeight() {
+      return this.$pi.common.addUnit(this.height)
     },
     getTitlePadding() {
       return this.$pi.common.addUnit(this.titlePadding)
-    },
-    modalStyle() {
-      return {
-        width: this.$pi.common.addUnit(this.width)
-      }
     }
   },
   methods: {
     handlePopupClose() {
       this.val = false
-      // 点击关闭按钮时触发
+      // 关闭弹窗
       this.$emit('close')
       this.handleEmitChange()
     },
     handleCancel() {
-      // 点击取消按钮时触发
+      /**
+       * @vuese
+       * 点击取消按钮时触发
+       * @arg 当前选中的值 单选为对象，多选模式为数组
+       */
       this.$emit('cancel')
       this.onCancelClose && this.handlePopupClose()
     },
     handleConfirm() {
-      // 点击确定按钮时触发
-      this.$emit('confirm')
+      /**
+       * @vuese
+       * 点击确定按钮后触发
+       * @arg 当前选中的值 单选为对象，多选模式为数组
+       */
+      this.$emit('confirm', this.popupSelected)
       this.onConfirmClose && this.handlePopupClose()
     }
   }
@@ -266,10 +272,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.modal-footer {
-  .modal-content {
-    line-height: 1.5;
-  }
+.pi-popup-select {
+  height: 50vh;
   .pi-button-wrap {
     flex: 1;
     &:nth-child(2) {

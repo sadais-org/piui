@@ -37,6 +37,7 @@
       <!-- 右侧区域插槽 -->
       <slot name="right" />
     </view>
+    <!-- 右侧箭头 -->
     <pi-icon
       v-else-if="showRightIcon"
       :custom-style="getRightIcon.customStyle"
@@ -172,22 +173,6 @@ export default {
         return listItem.padding
       }
     },
-    // 是否显示右边icon
-    showRightIcon: {
-      type: Boolean,
-      // true
-      default() {
-        // true
-        return listItem.showRightIcon
-      }
-    },
-    // 右侧icon配置
-    rightIcon: {
-      type: Object,
-      default() {
-        return listItem.rightIcon
-      }
-    },
     // 指定按下去的样式类。当 hover-class="none" 时，没有点击态效果
     hoverClass: {
       type: String,
@@ -213,6 +198,22 @@ export default {
       default() {
         // 100
         return listItem.hoverStayTime
+      }
+    },
+    // 是否显示右边icon
+    showRightIcon: {
+      type: Boolean,
+      // true
+      default() {
+        // true
+        return listItem.showRightIcon
+      }
+    },
+    // 右侧icon配置
+    rightIcon: {
+      type: Object,
+      default() {
+        return listItem.rightIcon
       }
     }
   },
@@ -253,6 +254,43 @@ export default {
       }
       // 点击列表项时触发
       this.$emit('click', e)
+    },
+    handleItemMouseenter(e) {
+      // 鼠标进入列表项时触发
+      this.$emit('mouseenter', e)
+    },
+    handleItemMouseleave(e) {
+      // 鼠标离开列表项时触发
+      this.$emit('mouseleave', e)
+    },
+    handleItemClickRight(e) {
+      if (this.disabled) {
+        return
+      }
+      // 点击右侧列表项时触发
+      this.$emit('click-right', e)
+    },
+    handleItemClickLeft(e) {
+      if (this.disabled) {
+        return
+      }
+      // 点击左侧列表项时触发
+      this.$emit('click-left', e)
+    },
+    handleItemMouseDown(e) {
+      // 鼠标按下列表项时触发
+      this.$emit('mousedown', e)
+    },
+    handleItemMouseUp(e) {
+      // 鼠标松开列表项时触发
+      this.$emit('mouseup', e)
+    },
+    handleItemMouseMove(e) {
+      // 鼠标移动列表项时触发
+      this.$emit('mousemove', e)
+    },
+    handleItemMouseOver(e) {
+      // 鼠标进
     }
   }
 }

@@ -64,25 +64,70 @@
       <!-- 顶部操作条, 底部安全区域由popup控制 -->
       <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="false">
         <slot v-if="$slots.toolbar" name="toolbar" />
-        <view v-else class="pi-w-100P pi-align-center">
+        <view v-else class="pi-align-center">
           <view v-if="getCancelBtn.show" class="pi-button-wrap">
             <pi-button
+              :custom-class="getCancelBtn.customClass"
+              :custom-style="getCancelBtn.customStyle"
+              :width="getCancelBtn.width"
+              :size="getCancelBtn.size"
+              :type="getCancelBtn.type"
+              :plain="getCancelBtn.plain"
+              :disabled="getCancelBtn.disabled"
+              :loading="getCancelBtn.loading"
+              :form-type="getCancelBtn.formType"
+              :open-type="getCancelBtn.openType"
+              :hover-class="getCancelBtn.hoverClass"
+              :hover-start-time="getCancelBtn.hoverStartTime"
+              :hover-stay-time="getCancelBtn.hoverStayTime"
+              :app-parameter="getCancelBtn.appParameter"
+              :hover-stop-propagation="getCancelBtn.hoverStopPropagation"
+              :lang="getCancelBtn.lang"
+              :session-from="getCancelBtn.sessionFrom"
+              :send-message-title="getCancelBtn.sendMessageTitle"
+              :send-message-path="getCancelBtn.sendMessagePath"
+              :send-message-img="getCancelBtn.sendMessageImg"
+              :show-message-card="getCancelBtn.showMessageCard"
               :color="getCancelBtn.color"
               :bg-color="getCancelBtn.bgColor"
-              custom-class="pi-w-100P"
-              :custom-style="getCancelBtn.customStyle"
-              @click="handlePopupClose"
+              :round="getCancelBtn.round"
+              :ripple="getCancelBtn.ripple"
+              :ripple-bg-color="getCancelBtn.rippleBgColor"
+              :debounce-timeout="getCancelBtn.debounceTimeout"
+              @click="handleCancel"
             >
               {{ getCancelBtn.text }}
             </pi-button>
           </view>
           <view v-if="getConfirmBtn.show" class="pi-button-wrap">
             <pi-button
-              :type="getConfirmBtn.bgColor ? 'default' : 'primary'"
+              :custom-class="getConfirmBtn.customClass"
+              :custom-style="getConfirmBtn.customStyle"
+              :width="getConfirmBtn.width"
+              :size="getConfirmBtn.size"
+              :type="getConfirmBtn.type"
+              :plain="getConfirmBtn.plain"
+              :disabled="getConfirmBtn.disabled"
+              :loading="getConfirmBtn.loading"
+              :form-type="getConfirmBtn.formType"
+              :open-type="getConfirmBtn.openType"
+              :hover-class="getConfirmBtn.hoverClass"
+              :hover-start-time="getConfirmBtn.hoverStartTime"
+              :hover-stay-time="getConfirmBtn.hoverStayTime"
+              :app-parameter="getConfirmBtn.appParameter"
+              :hover-stop-propagation="getConfirmBtn.hoverStopPropagation"
+              :lang="getConfirmBtn.lang"
+              :session-from="getConfirmBtn.sessionFrom"
+              :send-message-title="getConfirmBtn.sendMessageTitle"
+              :send-message-path="getConfirmBtn.sendMessagePath"
+              :send-message-img="getConfirmBtn.sendMessageImg"
+              :show-message-card="getConfirmBtn.showMessageCard"
               :color="getConfirmBtn.color"
               :bg-color="getConfirmBtn.bgColor"
-              custom-class="pi-w-100P"
-              :custom-style="getConfirmBtn.customStyle"
+              :round="getConfirmBtn.round"
+              :ripple="getConfirmBtn.ripple"
+              :ripple-bg-color="getConfirmBtn.rippleBgColor"
+              :debounce-timeout="getConfirmBtn.debounceTimeout"
               @click="handleConfirm"
             >
               {{ getConfirmBtn.text }}
@@ -357,6 +402,15 @@ export default {
       })
       if (!toggleSelect.length) return
       this.selected = toggleSelect
+    },
+    handleCancel() {
+      /**
+       * @vuese
+       * 点击取消按钮时触发
+       * @arg 当前选中的值 单选为对象，多选模式为数组
+       */
+      this.$emit('cancel')
+      this.onCancelClose && this.handlePopupClose()
     },
     handleConfirm() {
       /**
