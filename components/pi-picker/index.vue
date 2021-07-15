@@ -1,76 +1,30 @@
 <template>
-  <pi-popup
-    ref="popup"
+  <pi-popup-select
     :value="val"
-    :position="getPopup.position"
-    :border-radius="getPopup.borderRadius"
-    :show-close-icon="showTitle && getPopup.showCloseIcon"
-    :close-icon="getPopup.closeIcon"
-    :safe-area-inset-bottom="getPopup.safeAreaInsetBottom"
-    :mask="getPopup.mask"
-    :hide-tab-bar="getPopup.hideTabBar"
-    :append-to-body="getPopup.appendToBody"
-    :z-index="getPopup.zIndex"
-    :background="getPopup.background"
+    :popup-select="getPopupSelect"
+    :confirm-btn="getConfirmBtn"
+    :cancel-btn="getCancelBtn"
+    :popup="getPopup"
     @close="handlePopupClose"
+    @cancel="handleCancel"
+    @confirm="handleConfirm"
   >
-    <view
-      class="pi-picker pi-flex-column"
-      :style="[customStyle, { height: getHeight }]"
-      :class="[customClass]"
+    <picker-view
+      v-if="val"
+      class="pi-text-center pi-h-100P"
+      :indicator-style="indicatorStyle"
+      :value="pickerValue"
+      @pickstart="handlePickstart"
+      @pickend="handlePickend"
+      @change="handlePickerChange"
     >
-      <!-- 标题栏 -->
-      <view
-        v-if="showTitle"
-        class="pi-justify-center pi-fz-32 pi-fw-500"
-        :style="[{ padding: getTitlePadding }]"
-      >
-        <!-- 标题 -->
-        <slot name="title">
-          <!-- 默认：prop tite -->
-          {{ title }}
-        </slot>
-      </view>
-      <!-- 顶部操作条 -->
-      <view
-        v-if="toolbarPosition === 'top'"
-        class="pi-justify-between pi-align-center pi-solid-bottom-1 pi-fz-32 pi-fw-500 pi-pd-32"
-      >
-        <!-- 工具条 -->
-        <slot v-if="$slots.toolbar" name="toolbar">
-          <!-- 当toolbarPositon == 'top ' 默认：左边取消按钮 右边确定按钮; 否则默认: 一个宽度100%的确定按钮 -->
-        </slot>
-        <template v-else>
-          <view class="item-btn" @tap.stop="handlePopupClose">取消</view>
-          <view class="item-btn pi-primary" @tap.stop="handleConfirm">确定</view>
-        </template>
-      </view>
-      <!-- 选择区域 -->
-      <view class="pi-w-100P pi-scroll">
-        <!-- uniapp 底层bug picker-view 如果不加v-if会导致小程序和app端初始化不正常 -->
-        <picker-view
-          v-if="val"
-          class="pi-text-center pi-h-100P"
-          :indicator-style="indicatorStyle"
-          :value="pickerValue"
-          @pickstart="handlePickstart"
-          @pickend="handlePickend"
-          @change="handlePickerChange"
-        >
-          <picker-view-column v-for="(column, index) in columns" :key="index">
-            <view v-for="item in column" :key="item[keyField]" :style="indicatorStyle">
-              {{ item[displayField] }}
-            </view>
-          </picker-view-column>
-        </picker-view>
-      </view>
-      <!-- 顶部操作条, 底部安全区域由popup控制 -->
-      <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="safeAreaInsetBottom">
-        <slot v-if="$slots.toolbar" name="toolbar" />
-        <pi-button v-else width="100%" type="primary" @click="handleConfirm">确定</pi-button>
-      </pi-bottom-bar>
-    </view>
-  </pi-popup>
+      <picker-view-column v-for="(column, index) in columns" :key="index">
+        <view v-for="item in column" :key="item[keyField]" :style="indicatorStyle">
+          {{ item[displayField] }}
+        </view>
+      </picker-view-column>
+    </picker-view>
+  </pi-popup-select>
 </template>
 
 <script>
@@ -108,16 +62,6 @@ export default {
       // ''
       default() {
         return picker.customClass
-      }
-    },
-    // 操作栏（确定/取消）位置
-    toolbarPosition: {
-      // 'top', 'bottom'
-      type: String,
-      // 'bottom'
-      default: picker.toolbarPosition,
-      validator: function(value) {
-        return ['top', 'bottom'].includes(value)
       }
     },
     // 选项列表
@@ -162,30 +106,6 @@ export default {
         return ['single', 'multi', 'multi-auto'].includes(value)
       }
     },
-    // 是否显示title
-    showTitle: {
-      type: Boolean,
-      // false
-      default: picker.showTitle
-    },
-    // 标题
-    title: {
-      type: String,
-      // '弹出选择'
-      default: picker.title
-    },
-    // 标题 padding
-    titlePadding: {
-      type: [String, Number],
-      // '32rpx'
-      default: picker.titlePadding
-    },
-    // 弹出选择层的高度，不可填百分比
-    height: {
-      type: String,
-      // '50vh'
-      default: picker.height
-    },
     // 行高 单位默认rpx
     itemHeight: {
       type: [String, Number],
@@ -206,11 +126,27 @@ export default {
         return picker.itemStyle
       }
     },
-    // 是否点击确认的时候关闭弹窗
-    onConfirmClose: {
-      type: Boolean,
-      // true
-      default: picker.onConfirmClose
+    // 弹窗选择参数设置
+    popupSelect: {
+      type: Object,
+      default() {
+        // 参照popup
+        return picker.popupSelect
+      }
+    },
+    // 确认按钮配置
+    confirmBtn: {
+      type: Object,
+      default() {
+        return picker.confirmBtn
+      }
+    },
+    // 取消按钮配置
+    cancelBtn: {
+      type: Object,
+      default() {
+        return picker.cancelBtn
+      }
     },
     // 弹窗参数设置
     popup: {
@@ -228,14 +164,23 @@ export default {
     }
   },
   computed: {
+    getPopupSelect() {
+      return this.$pi.lang.mergeDeep(picker.popupSelect, this.popupSelect)
+    },
+    getConfirmBtn() {
+      const pickerConfirmBtn = this.$pi.lang.mergeDeep(
+        picker.confirmBtn,
+        this.popupSelect.confirmBtn
+      )
+      return this.$pi.lang.mergeDeep(pickerConfirmBtn, this.confirmBtn)
+    },
+    getCancelBtn() {
+      const pickerCancelBtn = this.$pi.lang.mergeDeep(picker.cancelBtn, this.popupSelect.cancelBtn)
+      return this.$pi.lang.mergeDeep(pickerCancelBtn, this.cancelBtn)
+    },
     getPopup() {
-      return this.$pi.lang.mergeDeep(picker.popup, this.popup)
-    },
-    getHeight() {
-      return this.$pi.common.addUnit(this.height)
-    },
-    getTitlePadding() {
-      return this.$pi.common.addUnit(this.titlePadding)
+      const pickerPopup = this.$pi.lang.mergeDeep(picker.popup, this.popupSelect.popup)
+      return this.$pi.lang.mergeDeep(pickerPopup, this.popup)
     },
     getItemStyle() {
       const itemHeight = this.$pi.common.addUnit(this.itemHeight)
@@ -327,6 +272,15 @@ export default {
         }
       }
       this.pickerValue = pickerValue
+    },
+    handleCancel() {
+      /**
+       * @vuese
+       * 点击取消按钮时触发
+       * @arg 当前选中的值 单选为对象，多选模式为数组
+       */
+      this.$emit('cancel')
+      this.onCancelClose && this.handlePopupClose()
     },
     handleConfirm() {
       if (this.scrolling) return
