@@ -1,142 +1,34 @@
 <template>
-  <pi-popup
-    ref="popup"
+  <pi-popup-select
     :value="val"
-    :position="getPopup.position"
-    :border-radius="getPopup.borderRadius"
-    :show-close-icon="showTitle && getPopup.showCloseIcon"
-    :close-icon="getPopup.closeIcon"
-    :safe-area-inset-bottom="getPopup.safeAreaInsetBottom"
-    :mask="getPopup.mask"
-    :hide-tab-bar="getPopup.hideTabBar"
-    :append-to-body="getPopup.appendToBody"
-    :z-index="getPopup.zIndex"
-    :background="getPopup.background"
+    :popup-select="getPopupSelect"
+    :confirm-btn="getConfirmBtn"
+    :cancel-btn="getCancelBtn"
+    :popup="getPopup"
     @close="handlePopupClose"
+    @cancel="handleCancel"
+    @confirm="handleConfirm"
   >
     <view
-      class="pi-select pi-flex-column"
-      :style="[customStyle, { height: getHeight }]"
-      :class="[customClass]"
+      v-for="item in getItems"
+      :id="`id-${item[keyField]}`"
+      :key="item[keyField]"
+      :style="[itemStyle, getItemStyle]"
+      :class="{
+        'pi-solid-bottom-1': showItemBottomBorder,
+        'disabled': item.disabled
+      }"
+      class="select-item pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
+      @tap.stop="handleSelectItem(item)"
     >
-      <!-- 标题栏 -->
-      <view
-        v-if="showTitle"
-        class="pi-justify-center pi-fz-32 pi-fw-500"
-        :style="[{ padding: getTitlePadding }]"
-      >
-        <slot v-if="$slots.title" name="title" />
-        <template v-else>{{ title }}</template>
-      </view>
-      <!-- 顶部操作条 -->
-      <view
-        v-if="toolbarPosition === 'top'"
-        class="pi-justify-between pi-align-center pi-solid-bottom-1 pi-fz-32 pi-fw-500 pi-pd-32"
-      >
-        <slot v-if="$slots.toolbar" name="toolbar" />
-        <template v-else>
-          <view class="item-btn" @tap.stop="handlePopupClose">取消</view>
-          <view class="item-btn pi-primary" @tap.stop="handleConfirm">确定</view>
-        </template>
-      </view>
-      <!-- 选择区域 -->
-      <scroll-view class="pi-scroll" scroll-y scroll-with-animation>
-        <view
-          v-for="item in getItems"
-          :id="`id-${item[keyField]}`"
-          :key="item[keyField]"
-          :style="[itemStyle, getItemStyle]"
-          :class="{
-            'pi-solid-bottom-1': showItemBottomBorder,
-            'disabled': item.disabled
-          }"
-          class="select-item pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
-          @tap.stop="handleSelectItem(item)"
-        >
-          <!-- 自定义列表项 -->
-          <slot name="item" :item="item" class="pi-w-100P">
-            <!-- item[displayField] -->
-            {{ item[displayField] }}
-          </slot>
-          <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" readonly />
-        </view>
-      </scroll-view>
-      <!-- 顶部操作条, 底部安全区域由popup控制 -->
-      <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="false">
-        <slot v-if="$slots.toolbar" name="toolbar" />
-        <view v-else class="pi-align-center">
-          <view v-if="getCancelBtn.show" class="pi-button-wrap">
-            <pi-button
-              :custom-class="getCancelBtn.customClass"
-              :custom-style="getCancelBtn.customStyle"
-              :width="getCancelBtn.width"
-              :size="getCancelBtn.size"
-              :type="getCancelBtn.type"
-              :plain="getCancelBtn.plain"
-              :disabled="getCancelBtn.disabled"
-              :loading="getCancelBtn.loading"
-              :form-type="getCancelBtn.formType"
-              :open-type="getCancelBtn.openType"
-              :hover-class="getCancelBtn.hoverClass"
-              :hover-start-time="getCancelBtn.hoverStartTime"
-              :hover-stay-time="getCancelBtn.hoverStayTime"
-              :app-parameter="getCancelBtn.appParameter"
-              :hover-stop-propagation="getCancelBtn.hoverStopPropagation"
-              :lang="getCancelBtn.lang"
-              :session-from="getCancelBtn.sessionFrom"
-              :send-message-title="getCancelBtn.sendMessageTitle"
-              :send-message-path="getCancelBtn.sendMessagePath"
-              :send-message-img="getCancelBtn.sendMessageImg"
-              :show-message-card="getCancelBtn.showMessageCard"
-              :color="getCancelBtn.color"
-              :bg-color="getCancelBtn.bgColor"
-              :round="getCancelBtn.round"
-              :ripple="getCancelBtn.ripple"
-              :ripple-bg-color="getCancelBtn.rippleBgColor"
-              :debounce-timeout="getCancelBtn.debounceTimeout"
-              @click="handleCancel"
-            >
-              {{ getCancelBtn.text }}
-            </pi-button>
-          </view>
-          <view v-if="getConfirmBtn.show" class="pi-button-wrap">
-            <pi-button
-              :custom-class="getConfirmBtn.customClass"
-              :custom-style="getConfirmBtn.customStyle"
-              :width="getConfirmBtn.width"
-              :size="getConfirmBtn.size"
-              :type="getConfirmBtn.type"
-              :plain="getConfirmBtn.plain"
-              :disabled="getConfirmBtn.disabled"
-              :loading="getConfirmBtn.loading"
-              :form-type="getConfirmBtn.formType"
-              :open-type="getConfirmBtn.openType"
-              :hover-class="getConfirmBtn.hoverClass"
-              :hover-start-time="getConfirmBtn.hoverStartTime"
-              :hover-stay-time="getConfirmBtn.hoverStayTime"
-              :app-parameter="getConfirmBtn.appParameter"
-              :hover-stop-propagation="getConfirmBtn.hoverStopPropagation"
-              :lang="getConfirmBtn.lang"
-              :session-from="getConfirmBtn.sessionFrom"
-              :send-message-title="getConfirmBtn.sendMessageTitle"
-              :send-message-path="getConfirmBtn.sendMessagePath"
-              :send-message-img="getConfirmBtn.sendMessageImg"
-              :show-message-card="getConfirmBtn.showMessageCard"
-              :color="getConfirmBtn.color"
-              :bg-color="getConfirmBtn.bgColor"
-              :round="getConfirmBtn.round"
-              :ripple="getConfirmBtn.ripple"
-              :ripple-bg-color="getConfirmBtn.rippleBgColor"
-              :debounce-timeout="getConfirmBtn.debounceTimeout"
-              @click="handleConfirm"
-            >
-              {{ getConfirmBtn.text }}
-            </pi-button>
-          </view>
-        </view>
-      </pi-bottom-bar>
+      <!-- 自定义列表项 -->
+      <slot name="item" :item="item" class="pi-w-100P">
+        <!-- item[displayField] -->
+        {{ item[displayField] }}
+      </slot>
+      <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" readonly />
     </view>
-  </pi-popup>
+  </pi-popup-select>
 </template>
 
 <script>
@@ -169,16 +61,6 @@ export default {
       // ''
       default() {
         return select.customClass
-      }
-    },
-    // 工具条位置
-    toolbarPosition: {
-      // 'bottom', 'top'
-      type: String,
-      // 'bottom'
-      default: select.toolbarPosition,
-      validator: function(value) {
-        return ['top', 'bottom'].includes(value)
       }
     },
     // 选项列表
@@ -219,30 +101,6 @@ export default {
       // true
       default: select.singleCancel
     },
-    // 是否显示title
-    showTitle: {
-      type: Boolean,
-      // false
-      default: select.showTitle
-    },
-    // 标题
-    title: {
-      type: String,
-      // '弹出选择'
-      default: select.title
-    },
-    // 标题 padding
-    titlePadding: {
-      type: [String, Number],
-      // '32rpx'
-      default: select.titlePadding
-    },
-    // 弹出选择层的高度，不可填百分比
-    height: {
-      type: String,
-      // '50vh'
-      default: select.height
-    },
     // 行高 值为数字，则单位默认rpx
     itemHeight: {
       type: [String, Number],
@@ -263,11 +121,13 @@ export default {
         return select.itemStyle
       }
     },
-    // 是否点击确认的时候关闭弹窗
-    onConfirmClose: {
-      type: Boolean,
-      // true
-      default: select.onConfirmClose
+    // 弹窗选择参数设置
+    popupSelect: {
+      type: Object,
+      default() {
+        // 参照popup
+        return select.popupSelect
+      }
     },
     // 确认按钮配置
     confirmBtn: {
@@ -298,20 +158,23 @@ export default {
     }
   },
   computed: {
+    getPopupSelect() {
+      return this.$pi.lang.mergeDeep(select.popupSelect, this.popupSelect)
+    },
     getConfirmBtn() {
-      return this.$pi.lang.mergeDeep(select.confirmBtn, this.confirmBtn)
+      const selectConfirmBtn = this.$pi.lang.mergeDeep(
+        select.confirmBtn,
+        this.popupSelect.confirmBtn
+      )
+      return this.$pi.lang.mergeDeep(selectConfirmBtn, this.confirmBtn)
     },
     getCancelBtn() {
-      return this.$pi.lang.mergeDeep(select.cancelBtn, this.cancelBtn)
+      const selectCancelBtn = this.$pi.lang.mergeDeep(select.cancelBtn, this.popupSelect.cancelBtn)
+      return this.$pi.lang.mergeDeep(selectCancelBtn, this.cancelBtn)
     },
     getPopup() {
-      return this.$pi.lang.mergeDeep(select.popup, this.popup)
-    },
-    getHeight() {
-      return this.$pi.common.addUnit(this.height)
-    },
-    getTitlePadding() {
-      return this.$pi.common.addUnit(this.titlePadding)
+      const selectPopup = this.$pi.lang.mergeDeep(select.popup, this.popupSelect.popup)
+      return this.$pi.lang.mergeDeep(selectPopup, this.popup)
     },
     getItemStyle() {
       const itemHeight = this.$pi.common.addUnit(this.itemHeight)
