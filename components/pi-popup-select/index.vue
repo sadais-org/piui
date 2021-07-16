@@ -36,13 +36,15 @@
         <slot v-if="$slots.toolbar" name="toolbar" />
         <template v-else>
           <view class="item-btn" @tap.stop="handlePopupClose">取消</view>
-          <view class="item-btn pi-primary" @tap.stop="handleConfirm">确定</view>
+          <view class="item-btn pi-primary" @tap.stop="handleConfirm">
+            确定
+          </view>
         </template>
       </view>
       <!-- 选择区域 -->
-      <scroll-view class="pi-scroll" scroll-y scroll-with-animation>
+      <view class="pi-flex-sub pi-of-hidden">
         <slot />
-      </scroll-view>
+      </view>
       <!-- 顶部操作条, 底部安全区域由popup控制 -->
       <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="false">
         <slot v-if="$slots.toolbar" name="toolbar" />

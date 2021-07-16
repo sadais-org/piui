@@ -9,24 +9,28 @@
     @cancel="handleCancel"
     @confirm="handleConfirm"
   >
-    <view
-      v-for="item in getItems"
-      :id="`id-${item[keyField]}`"
-      :key="item[keyField]"
-      :style="[itemStyle, getItemStyle]"
-      :class="{
-        'pi-solid-bottom-1': showItemBottomBorder,
-        'disabled': item.disabled
-      }"
-      class="select-item pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
-      @tap.stop="handleSelectItem(item)"
-    >
-      <!-- 自定义列表项 -->
-      <slot name="item" :item="item" class="pi-w-100P">
-        <!-- item[displayField] -->
-        {{ item[displayField] }}
-      </slot>
-      <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" readonly />
+    <view class="pi-h-100P pi-flex-column">
+      <scroll-view scroll-y class="pi-scroll">
+        <view
+          v-for="item in getItems"
+          :id="`id-${item[keyField]}`"
+          :key="item[keyField]"
+          :style="[itemStyle, getItemStyle]"
+          :class="{
+            'pi-solid-bottom-1': showItemBottomBorder,
+            'disabled': item.disabled
+          }"
+          class="select-item pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
+          @tap.stop="handleSelectItem(item)"
+        >
+          <!-- 自定义列表项 -->
+          <slot name="item" :item="item" class="pi-w-100P">
+            <!-- item[displayField] -->
+            {{ item[displayField] }}
+          </slot>
+          <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" readonly />
+        </view>
+      </scroll-view>
     </view>
   </pi-popup-select>
 </template>

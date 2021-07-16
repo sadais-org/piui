@@ -1,57 +1,15 @@
 <template>
-  <pi-popup
-    ref="popup"
+  <pi-popup-select
     :value="val"
-    :position="getPopup.position"
-    :border-radius="getPopup.borderRadius"
-    :show-close-icon="showTitle && getPopup.showCloseIcon"
-    :close-icon="getPopup.closeIcon"
-    :safe-area-inset-bottom="getPopup.safeAreaInsetBottom"
-    :mask="getPopup.mask"
-    :hide-tab-bar="getPopup.hideTabBar"
-    :append-to-body="getPopup.appendToBody"
-    :z-index="getPopup.zIndex"
-    :background="getPopup.background"
+    :popup-select="getPopupSelect"
+    :confirm-btn="getConfirmBtn"
+    :cancel-btn="getCancelBtn"
+    :popup="getPopup"
     @close="handlePopupClose"
+    @cancel="handleCancel"
+    @confirm="handleConfirm"
   >
-    <view
-      class="pi-regions-select pi-flex-column"
-      :style="[customStyle, { height: getHeight }]"
-      :class="[customClass]"
-    >
-      <!-- 标题栏 -->
-      <view
-        v-if="showTitle"
-        class="pi-justify-center pi-fz-32 pi-fw-500"
-        :style="[{ padding: getTitlePadding }]"
-      >
-        <slot v-if="$slots.title" name="title" />
-        <template v-else>{{ title }}</template>
-      </view>
-      <!-- 顶部操作条 -->
-      <view
-        v-if="toolbarPosition === 'top'"
-        class="pi-justify-between pi-align-center pi-solid-bottom-1 pi-fz-32 pi-fw-500 pi-pd-32"
-      >
-        <slot v-if="$slots.toolbar" name="toolbar" />
-        <template v-else>
-          <view class="item-btn pi-fz-28 pi-mg-left-100" @tap.stop="handlePopupClose">取消</view>
-          <pi-button
-            type="secondary"
-            size="small"
-            :disabled="!isCompleted"
-            :custom-style="{
-              padding: 0,
-              marginLeft: '100rpx',
-              marginRight: '100rpx',
-              backgroundColor: 'transparent'
-            }"
-            @click="handleConfirm"
-          >
-            确定
-          </pi-button>
-        </template>
-      </view>
+    <view class="pi-h-100P pi-flex-column">
       <pi-tabs v-if="val" v-model="tabCurrentItem" :items="getTabItems" />
       <swiper class="pi-scroll" :current="tabCurrent" @change="handleSwiperChange">
         <swiper-item v-for="item in getTabItems" :key="item.id">
@@ -59,7 +17,7 @@
           <scroll-view class="pi-h-100P" scroll-y scroll-with-animation>
             <view
               v-for="region in getRegions"
-              :key="region.code"
+              :key="region[keyField]"
               :style="[itemStyle, getItemStyle]"
               :class="{ 'pi-solid-bottom-1': showItemBottomBorder }"
               class="pi-justify-between pi-align-center pi-fz-30 pi-pd-lr-32"
@@ -67,10 +25,10 @@
             >
               <slot name="item" :item="region">
                 <!-- 后备内容 -->
-                {{ region.name }}
+                {{ region[displayField] }}
               </slot>
               <pi-checkbox
-                v-if="region.code === getSelectCode"
+                v-if="region[keyField] === getSelectCode"
                 :value="true"
                 active-mode="fill"
                 shape="round"
@@ -79,21 +37,8 @@
           </scroll-view>
         </swiper-item>
       </swiper>
-      <!-- 顶部操作条, 底部安全区域由popup控制 -->
-      <pi-bottom-bar v-if="toolbarPosition === 'bottom'" :safe-area="false">
-        <slot v-if="$slots.toolbar" name="toolbar" />
-        <pi-button
-          v-else
-          :disabled="!isCompleted"
-          width="100%"
-          type="primary"
-          @click="handleConfirm"
-        >
-          确定
-        </pi-button>
-      </pi-bottom-bar>
     </view>
-  </pi-popup>
+  </pi-popup-select>
 </template>
 
 <script>
@@ -129,15 +74,6 @@ export default {
         return regionsSelect.customClass
       }
     },
-    // 操作条（确定，取消按钮）位置，可选值：`top`
-    toolbarPosition: {
-      type: String,
-      // `bottom`
-      default: regionsSelect.toolbarPosition,
-      validator: function(value) {
-        return ['top', 'bottom'].includes(value)
-      }
-    },
     // 区域数据（数据不全）
     regionsData: {
       type: Array,
@@ -163,30 +99,6 @@ export default {
       // `null`，单选是传`Object`，多选时传`Array`
       default: regionsSelect.defaultValue
     },
-    // 是否显示title，可选值：`true`
-    showTitle: {
-      type: Boolean,
-      // `false`
-      default: regionsSelect.showTitle
-    },
-    // 标题
-    title: {
-      type: String,
-      // `地区选择`
-      default: regionsSelect.title
-    },
-    // 标题 padding，单位(rpx)
-    titlePadding: {
-      type: [String, Number],
-      // `32rpx`
-      default: regionsSelect.titlePadding
-    },
-    // 弹出选择层的高度，不可填百分比
-    height: {
-      type: String,
-      // `50vh`
-      default: regionsSelect.height
-    },
     // 行高
     itemHeight: {
       type: [String, Number],
@@ -207,11 +119,27 @@ export default {
         return regionsSelect.itemStyle
       }
     },
-    // 是否点击确认的时候关闭弹窗，可选值`false`
-    onConfirmClose: {
-      type: Boolean,
-      // `true`
-      default: regionsSelect.onConfirmClose
+    // 弹窗选择参数设置
+    popupSelect: {
+      type: Object,
+      default() {
+        // 参照popup
+        return regionsSelect.popupSelect
+      }
+    },
+    // 确认按钮配置
+    confirmBtn: {
+      type: Object,
+      default() {
+        return regionsSelect.confirmBtn
+      }
+    },
+    // 取消按钮配置
+    cancelBtn: {
+      type: Object,
+      default() {
+        return regionsSelect.cancelBtn
+      }
     },
     // 弹窗参数设置
     popup: {
@@ -234,14 +162,29 @@ export default {
     }
   },
   computed: {
+    getPopupSelect() {
+      return this.$pi.lang.mergeDeep(regionsSelect.popupSelect, this.popupSelect)
+    },
+    getConfirmBtn() {
+      const regionsSelectConfirmBtn = this.$pi.lang.mergeDeep(
+        regionsSelect.confirmBtn,
+        this.popupSelect.confirmBtn
+      )
+      return this.$pi.lang.mergeDeep(regionsSelectConfirmBtn, this.confirmBtn)
+    },
+    getCancelBtn() {
+      const regionsSelectCancelBtn = this.$pi.lang.mergeDeep(
+        regionsSelect.cancelBtn,
+        this.popupSelect.cancelBtn
+      )
+      return this.$pi.lang.mergeDeep(regionsSelectCancelBtn, this.cancelBtn)
+    },
     getPopup() {
-      return this.$pi.lang.mergeDeep(regionsSelect.popup, this.popup)
-    },
-    getHeight() {
-      return this.$pi.common.addUnit(this.height)
-    },
-    getTitlePadding() {
-      return this.$pi.common.addUnit(this.titlePadding)
+      const regionsSelectPopup = this.$pi.lang.mergeDeep(
+        regionsSelect.popup,
+        this.popupSelect.popup
+      )
+      return this.$pi.lang.mergeDeep(regionsSelectPopup, this.popup)
     },
     getItemStyle() {
       const itemHeight = this.$pi.common.addUnit(this.itemHeight)
@@ -307,19 +250,20 @@ export default {
         this.tabCurrentItem = this.getTabItems[detail.current]
       }
     },
-    handleSelectItem(item, index) {
+    handleSelectItem(region) {
       const regionsKey = this.tabCurrentItem.id
 
       const isChange =
-        (regionsKey === 'province' && this.regions.province.code !== item.code) ||
-        (regionsKey === 'city' && this.regions.city.code !== item.code)
+        (regionsKey === 'province' && this.regions.province.code !== region.code) ||
+        (regionsKey === 'city' && this.regions.city.code !== region.code)
+
       if (isChange) {
         // 判断是否切换了省份和城市，如果切换了需要重新生成新的数据
-        this.regions = this.$pi.regions.parseRegions(item.code, this.regionsData)
+        this.regions = this.$pi.regions.parseRegions(region.code, this.regionsData)
       } else {
-        this.regions[regionsKey].code = item.code
-        this.regions[regionsKey].name = item.name
-        this.regions.code = item.code
+        this.regions[regionsKey].code = region.code
+        this.regions[regionsKey].name = region.name
+        this.regions.code = region.code
       }
       setTimeout(() => {
         // 如果当前tab激活项不是最后一个，向右移动一项
@@ -329,10 +273,23 @@ export default {
         }
       }, 200)
     },
+    handleCancel() {
+      /**
+       * @vuese
+       * 点击取消按钮时触发
+       * @arg 当前选中的值 单选为对象，多选模式为数组
+       */
+      this.$emit('cancel')
+      this.onCancelClose && this.handlePopupClose()
+    },
     handleConfirm() {
       this.regions.generateName()
       // 点击确认事件
-      // @arg `regions`
+      /**
+       * @vuese
+       * 点击取消按钮时触发
+       * @arg 当前选中的值 regions
+       */
       this.$emit('confirm', this.regions)
       this.onConfirmClose && this.handlePopupClose()
     }
