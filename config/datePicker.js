@@ -16,7 +16,7 @@ export default {
   itemStyle: {}, // 行样式（默认：{}）
   showItemBottomBorder: true, // 是否显示底部边线
   popupSelect: popupSelect, // popupSelect配置
+  popup: popupSelect.popup, // 弹窗的配置，默认选项请参照popup
   confirmBtn: popupSelect.confirmBtn, // 确认按钮配置
-  cancelBtn: popupSelect.cancelBtn, // 取消按钮配置
-  popup: popupSelect.popup // 弹窗的配置，默认选项请参照popup
+  cancelBtn: popupSelect.cancelBtn // 取消按钮配置
 }

@@ -1,43 +1,23 @@
 <template>
-  <pi-popup
-    ref="popup"
+  <pi-popup-select
     :value="show"
-    :border-radius="borderRadius"
-    :show-close-icon="showTitle && showCloseIcon"
-    :close-icon-name="closeIconName"
-    :close-icon-padding="closeIconPadding"
-    :close-icon-color="closeIconColor"
-    :close-icon-size="closeIconSize"
-    :close-icon-position="closeIconPosition"
-    :safe-area-inset-bottom="safeAreaInsetBottom"
-    :duration="duration"
-    :mask-closable="maskClosable"
-    :hide-tab-bar="hideTabBar"
-    :append-to-body="appendToBody"
-    :z-index="zIndex"
-    :mask-background="maskBackground"
+    :custom-style="getPopupSelect.customStyle"
+    :custom-class="getPopupSelect.customClass"
+    :height="getPopupSelect.height"
+    :show-title="getPopupSelect.showTitle"
+    :title="getPopupSelect.title"
+    :title-padding="getPopupSelect.titlePadding"
+    :toolbar-position="getPopupSelect.toolbarPosition"
+    :popup="getPopup"
     @close="handlePopupClose"
+    @cancel="handleCancel"
+    @confirm="handleConfirm"
   >
     <view
-      class="pi-numberKeyboard pi-flex-column"
-      :style="[customStyle, { height: getHeight }]"
-      :class="[customClass]"
+      class="pi-pd-bottom-32"
+      :style="[{ backgroundColor: backgroundColor }, customStyle]"
+      :class="[getPopupSelect.showTitle ? 'pi-pd-top-12' : 'pi-pd-top-60', customClass]"
     >
-      <!-- 顶部操作条 -->
-      <view
-        v-if="showTitle"
-        class="pi-justify-between pi-align-center pi-solid-bottom-1 pi-fz-32 pi-fw-500"
-        :style="[{ padding: getTitlePadding }]"
-      >
-        <slot v-if="$slots.toolbar" name="toolbar" />
-        <template v-else>
-          <view class="item-btn" @tap.stop="handlePopupClose">取消</view>
-          <slot name="title">
-            {{ title }}
-          </slot>
-          <view class="item-btn pi-primary" @tap.stop="handleConfirm">确定</view>
-        </template>
-      </view>
       <!-- 选择区域 -->
       <pi-grid col="3" gap="24" :border="false" hover-class="none" custom-class="pi-pd-lr-24">
         <!-- 固定生成12个坑位 -->
@@ -48,13 +28,11 @@
         >
           <view v-if="keys[index] !== ''" class="keyboard-key">
             <pi-button
+              :ripple="false"
+              hover-class="pi-hover-class"
               width="100%"
               :bg-color="index < 11 ? keyBackgroundColor : 'transparent'"
-              :custom-style="{
-                fontSize: '44rpx',
-                height: '100rpx',
-                lineHeight: '100rpx'
-              }"
+              :custom-style="keyboardKeyStyle"
               @click="handleKeyClick(keys[index])"
             >
               <template v-if="index < 11">{{ keys[index] }}</template>
@@ -64,7 +42,7 @@
         </pi-grid-item>
       </pi-grid>
     </view>
-  </pi-popup>
+  </pi-popup-select>
 </template>
 
 <script>
@@ -104,26 +82,6 @@ export default {
         return numberKeyboard.show
       }
     },
-    // 是否点击确认的时候关闭弹窗（默认：'true'）
-    onConfirmClose: {
-      type: Boolean,
-      default: numberKeyboard.onConfirmClose
-    },
-    // 是否显示title（默认：true）
-    showTitle: {
-      type: Boolean,
-      default: numberKeyboard.showTitle
-    },
-    // 标题（默认：日期选择）
-    title: {
-      type: String,
-      default: numberKeyboard.title
-    },
-    // 标题 padding（默认：24rpx）
-    titlePadding: {
-      type: [String, Number],
-      default: numberKeyboard.titlePadding
-    },
     // 左下角额外的键
     extraKey: {
       type: String,
@@ -140,114 +98,53 @@ export default {
     keyBackgroundColor: {
       type: String,
       // ''
-      default: numberKeyboard.backgroundColor
+      default: numberKeyboard.keyBackgroundColor
     },
-    /**
-     * 弹窗的配置，默认选项请参照popup
-     * ---------------------------------------------------------------------------------------------
-     */
-    // 控制弹窗的四个角圆角效果（默认'0 0 0 0'）
-    borderRadius: {
-      type: [String, Number],
-      default: numberKeyboard.borderRadius
-    },
-    // 是否显示关闭图标，默认（true）
-    showCloseIcon: {
-      type: Boolean,
-      default: numberKeyboard.showCloseIcon
-    },
-    // 关闭图标的名称，默认（close）
-    closeIconName: {
-      type: String,
-      default: numberKeyboard.closeIconName
-    },
-    closeIconPadding: {
-      type: [String, Number],
-      default: numberKeyboard.closeIconPadding
-    },
-    // 关闭图标的颜色，默认（'#666666'）
-    closeIconColor: {
-      type: String,
-      default: numberKeyboard.closeIconColor
-    },
-    // 关闭图标的大小，默认（'42rpx'）
-    closeIconSize: {
-      type: [String, Number],
-      default: numberKeyboard.closeIconSize
-    },
-    closeIconWeight: {
-      type: [String, Number],
-      default: numberKeyboard.closeIconWeight
-    },
-    // 关闭图标位置
-    closeIconPosition: {
-      // `''-自适应` `'tl-左上角'` `'tr'-右上角` `'bl'-左下角` `'br'-右下角`
-      type: String,
-      // `''`
-      default: numberKeyboard.closeIconPosition,
-      validator: function(value) {
-        return ['', 'tl', 'tr', 'bl', 'br'].includes(value)
+    // 按键自定义样式，对象形式（默认值：{}）
+    keyStyle: {
+      type: Object,
+      default() {
+        return numberKeyboard.keyStyle
       }
     },
-    // 顶部安全适配（状态栏高度，默认true）
-    safeAreaInsetTop: {
-      type: Boolean,
-      default: numberKeyboard.safeAreaInsetTop
+    // 弹窗选择参数设置
+    popupSelect: {
+      type: Object,
+      default() {
+        // 参照popup
+        return numberKeyboard.popupSelect
+      }
     },
-    // 底部安全适配（iPhoneX 留出底部安全距离，默认true）
-    safeAreaInsetBottom: {
-      type: Boolean,
-      default: numberKeyboard.safeAreaInsetBottom
-    },
-    /**
-     * mask props
-     * ---------------------------------------------------------------------------------------------
-     */
-    // 遮罩的过渡时间，格式：500、'500ms'、'0.5s'
-    duration: {
-      type: [Number, String],
-      default: numberKeyboard.duration
-    },
-    // 是否可以通过点击遮罩进行关闭，默认（true）
-    maskClosable: {
-      type: Boolean,
-      default: numberKeyboard.maskClosable
-    },
-    // 是否隐藏TabBar，默认（false）
-    hideTabBar: {
-      required: false,
-      type: Boolean,
-      default: numberKeyboard.hideTabBar
-    },
-    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）,默认（false）
-    appendToBody: {
-      type: Boolean,
-      default: numberKeyboard.appendToBody
-    },
-    // 层级z-index，（默认1000）
-    zIndex: {
-      type: [Number, String],
-      default: numberKeyboard.zIndex
-    },
-    // 背景颜色（默认'rgba(0, 0, 0, .5)'）
-    maskBackground: {
-      type: String,
-      default: numberKeyboard.maskBackground
+    // 弹窗参数设置
+    popup: {
+      type: Object,
+      default() {
+        // 参照popup
+        return numberKeyboard.popup
+      }
     }
   },
   computed: {
+    getPopupSelect() {
+      return this.$pi.lang.mergeDeep(numberKeyboard.popupSelect, this.popupSelect)
+    },
+    getPopup() {
+      const numberKeyboardPopup = this.$pi.lang.mergeDeep(
+        numberKeyboard.popup,
+        this.popupSelect.popup
+      )
+      return this.$pi.lang.mergeDeep(numberKeyboardPopup, this.popup)
+    },
     keys() {
       return [1, 2, 3, 4, 5, 6, 7, 8, 9, this.extraKey, 0, 'backspace']
     },
-    getHeight() {
-      return this.$pi.common.addUnit(this.height)
-    },
-    getTitlePadding() {
-      return this.$pi.common.addUnit(this.titlePadding)
-    },
     keyboardKeyStyle() {
-      const styles = {}
-      styles.backgroundColor = this.keyBackgroundColor
+      const styles = {
+        fontSize: '44rpx',
+        height: '100rpx',
+        lineHeight: '100rpx',
+        ...this.keyStyle
+      }
       return styles
     }
   },
@@ -262,6 +159,15 @@ export default {
         this.val = this.val.toString() + key
       }
       this.handleEmitChange()
+    },
+    handleCancel() {
+      /**
+       * @vuese
+       * 点击取消按钮时触发
+       * @arg 当前选中的值 单选为对象，多选模式为数组
+       */
+      this.$emit('cancel')
+      this.onCancelClose && this.handlePopupClose()
     },
     handleConfirm() {
       this.$emit('confirm', this.numberKeyboarded)

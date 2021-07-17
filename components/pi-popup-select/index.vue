@@ -157,12 +157,12 @@ export default {
     },
     // 工具条位置
     toolbarPosition: {
-      // 'bottom', 'top'
+      // 'bottom', 'top', 'none'
       type: String,
       // 'bottom'
       default: popupSelect.toolbarPosition,
       validator: function(value) {
-        return ['top', 'bottom'].includes(value)
+        return ['top', 'bottom', 'none'].includes(value)
       }
     },
     // 是否显示title

@@ -1,7 +1,15 @@
 <template>
   <pi-popup-select
     :value="val"
-    :popup-select="getPopupSelect"
+    :custom-style="getPopupSelect.customStyle"
+    :custom-class="getPopupSelect.customClass"
+    :height="getPopupSelect.height"
+    :show-title="getPopupSelect.showTitle"
+    :title="getPopupSelect.title"
+    :title-padding="getPopupSelect.titlePadding"
+    :toolbar-position="getPopupSelect.toolbarPosition"
+    :on-confirm-close="getPopupSelect.onConfirmClose"
+    :on-cancel-close="getPopupSelect.onCancelClose"
     :confirm-btn="getConfirmBtn"
     :cancel-btn="getCancelBtn"
     :popup="getPopup"
@@ -9,7 +17,7 @@
     @cancel="handleCancel"
     @confirm="handleConfirm"
   >
-    <view class="pi-h-100P pi-flex-column">
+    <view class="pi-h-100P pi-flex-column" :style="[customStyle]" :class="[customClass]">
       <pi-tabs v-if="val" v-model="tabCurrentItem" :items="getTabItems" />
       <swiper class="pi-scroll" :current="tabCurrent" @change="handleSwiperChange">
         <swiper-item v-for="item in getTabItems" :key="item.id">

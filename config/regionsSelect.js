@@ -11,9 +11,8 @@ export default {
   itemHeight: 110, // 行高（默认：'110rpx'）
   showItemBottomBorder: true, // 是否显示item下边框（默认：'true'）
   itemStyle: {}, // 行样式（默认：'{}'）
-  onConfirmClose: true, // 是否点击确认的时候关闭弹窗（默认：'true'）
   popupSelect: popupSelect, // popupSelect配置
+  popup: popupSelect.popup, // 弹窗的配置，默认选项请参照popup
   confirmBtn: popupSelect.confirmBtn, // 确认按钮配置
-  cancelBtn: popupSelect.cancelBtn, // 取消按钮配置
-  popup: popupSelect.popup // 弹窗的配置，默认选项请参照popup
+  cancelBtn: popupSelect.cancelBtn // 取消按钮配置
 }

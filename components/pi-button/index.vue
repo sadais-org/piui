@@ -263,12 +263,13 @@ export default {
   },
   methods: {
     handleButtonTap: debounce(function(e) {
-      if (this.loading || this.disabled || !this.ripple) return
-      // 是否开启水波纹效果
-      this.waveInfo.active = false
+      if (this.loading || this.disabled) return
+      this.$emit('click', e)
       // 点击事件
       console.log(TAG, '触发按钮click事件')
-      this.$emit('click', e)
+      if (!this.ripple) return
+      // 是否开启水波纹效果
+      this.waveInfo.active = false
       this.$nextTick(function() {
         this.queryWaveInfo(e)
       })

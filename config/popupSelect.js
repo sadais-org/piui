@@ -4,7 +4,7 @@ import Button from './button'
 export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
-  toolbarPosition: 'bottom', // 操作条（确定，取消按钮）位置，可选值 'top', 'bottom'
+  toolbarPosition: 'bottom', // 操作条（确定，取消按钮）位置，可选值 'top', 'bottom', 'none' -- 不显示
   showTitle: false, // 是否显示title（默认：true）
   title: '弹出选择', // 标题（默认：日期选择）
   titlePadding: '32rpx', // 标题 padding（默认：32rpx）

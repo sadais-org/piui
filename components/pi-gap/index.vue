@@ -1,5 +1,5 @@
 <template>
-  <view class="pi-gap" :style="[gapStyle]">
+  <view class="pi-gap" :style="[customStyle, gapStyle]" :class="[customClass]">
     <slot />
   </view>
 </template>

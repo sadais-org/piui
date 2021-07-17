@@ -16,7 +16,7 @@ export default {
   colon: false, // 是否在 label 后面添加冒号
   disabled: false, // 是否禁用
   border: false, // 是否显示边框
-  showRightIcon: true, // 是否显示右边icon，默认是箭头（可以自定义设置成其他图标）
+  showRightIcon: false, // 是否显示右边icon，默认是箭头（可以自定义设置成其他图标）
   rightIcon: {
     ...icon,
     name: 'right',
