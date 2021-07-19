@@ -387,7 +387,9 @@ export default {
     handleBackToday() {
       this.year = this.now.year
       this.month = this.now.month
-      this.calendarValue = this.now
+      if (this.type === 'date') {
+        this.calendarValue = this.now
+      }
     },
     handleChange(calendarValue) {
       this.calendarValue = calendarValue
