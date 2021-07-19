@@ -1,7 +1,15 @@
 <template>
   <pi-popup-select
     :value="val"
-    :popup-select="getPopupSelect"
+    :custom-style="getPopupSelect.customStyle"
+    :custom-class="getPopupSelect.customClass"
+    :height="getPopupSelect.height"
+    :show-title="getPopupSelect.showTitle"
+    :title="getPopupSelect.title"
+    :title-padding="getPopupSelect.titlePadding"
+    :toolbar-position="getPopupSelect.toolbarPosition"
+    :on-confirm-close="getPopupSelect.onConfirmClose"
+    :on-cancel-close="getPopupSelect.onCancelClose"
     :confirm-btn="getConfirmBtn"
     :cancel-btn="getCancelBtn"
     :popup="getPopup"
