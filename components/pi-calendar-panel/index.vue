@@ -4,14 +4,14 @@
     <view class="pi-align-center">
       <view class="pi-flex-sub pi-justify-center pi-align-center">
         <view class="pi-align-center">
-          <view class="pi-icon-back pi-pd-24" @tap="handleChangeYear(-1)" />
-          <view class="pi-pd-lr-8">{{ year }}年</view>
-          <view class="pi-icon-right pi-pd-24" @tap="handleChangeYear(1)" />
+          <view class="pi-icon-back pi-pd-14" @tap="handleChangeYear(-1)" />
+          <view class="pi-pd-lr-8 pi-text-nowrap">{{ year }}年</view>
+          <view class="pi-icon-right pi-pd-14" @tap="handleChangeYear(1)" />
         </view>
         <view class="pi-align-center">
-          <view class="pi-icon-back pi-pd-24" @tap="handleChangeMonth(-1)" />
-          <view class="pi-pd-lr-8">{{ month }}月</view>
-          <view class="pi-icon-right pi-pd-24" @tap="handleChangeMonth(1)" />
+          <view class="pi-icon-back pi-pd-14" @tap="handleChangeMonth(-1)" />
+          <view class="pi-pd-lr-8 pi-text-nowrap">{{ month }}月</view>
+          <view class="pi-icon-right pi-pd-14" @tap="handleChangeMonth(1)" />
         </view>
       </view>
       <view v-if="showBackToday" class="back-today" @tap="handleBackToday">回到今日</view>
@@ -404,19 +404,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.date-item {
-  position: relative;
-  z-index: 2;
-  width: calc(100% / 7);
-  margin-bottom: 12rpx;
-  overflow: hidden;
-}
-.back-today {
-  padding: 12rpx 24rpx;
-  overflow: hidden;
-  font-size: 20rpx;
-  color: #ffffff;
-  background: $pi-primary-color;
-  border-radius: 50rpx 0 0 50rpx;
+.pi-calendar-panel {
+  width: 100%;
+  .date-item {
+    position: relative;
+    z-index: 2;
+    width: calc(100% / 7);
+    margin-bottom: 12rpx;
+    overflow: hidden;
+  }
+  .back-today {
+    padding: 12rpx 24rpx;
+    overflow: hidden;
+    font-size: 20rpx;
+    color: #ffffff;
+    white-space: nowrap;
+    background: $pi-primary-color;
+    border-radius: 50rpx 0 0 50rpx;
+  }
 }
 </style>
