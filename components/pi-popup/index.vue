@@ -2,7 +2,7 @@
   <!-- 蒙层禁止触摸滚动 @touchmove.stop.prevent -->
   <view
     v-if="!closed"
-    class="pi-popup pi-fixed-top pi-w-100P"
+    class="pi-popup pi-fixed-full"
     :class="[
       show ? getMask.animationShow : getMask.animationHide,
       getMask.hideTabBar ? 'include-tabbar' : 'exclude-tabbar'
@@ -19,8 +19,15 @@
   >
     <view
       class="pi-abso pi-of-hidden"
-      :class="[customClass, aniClass]"
+      :class="[
+        customClass,
+        aniClass,
+        {
+          'pi-safearea': !['top', 'center'].includes(position) && safeAreaInsetBottom
+        }
+      ]"
       :style="[
+        contentStyle,
         {
           'borderRadius': getBorderRadius,
           'animation-duration': getDuration.css
@@ -30,23 +37,16 @@
       ]"
       @tap.stop.prevent
     >
+      <!-- 关闭图标 -->
       <view
-        class="pi-rela pi-w-100P pi-h-100P"
-        :class="{
-          'pi-safearea': !['top', 'center'].includes(position) && safeAreaInsetBottom
-        }"
-        :style="[contentStyle]"
-      >
-        <view
-          v-if="showCloseIcon"
-          class="pi-abso"
-          :class="'pi-icon-' + getCloseIcon.name"
-          :style="[closeIconStyle, { fontWeight: getCloseIcon.weight }]"
-          @tap.stop="closeMask"
-        />
-        <!-- default slot -->
-        <slot />
-      </view>
+        v-if="showCloseIcon"
+        class="pi-abso"
+        :class="'pi-icon-' + getCloseIcon.name"
+        :style="[closeIconStyle, { fontWeight: getCloseIcon.weight }]"
+        @tap.stop="closeMask"
+      />
+      <!-- default slot -->
+      <slot />
     </view>
   </view>
 </template>
@@ -319,12 +319,6 @@ export default {
 <style lang="scss" scoped>
 @import '../../scss/mixin.scss';
 .pi-popup {
-  &.include-tabbar {
-    @include full-height($include-tabbar: true);
-  }
-  &.exclude-tabbar {
-    @include full-height($include-tabbar: false);
-  }
 }
 
 .ani-scale-center-up {

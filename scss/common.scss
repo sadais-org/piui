@@ -580,6 +580,11 @@ image {
   }
 }
 
+.pi-full-height {
+  @include full-height($include-tabbar: false);
+}
+
+
 // 用于没有scroll-view时候的容器，默认铺满整个视窗，y轴内容溢出滚动
 .pi-container {
   position: relative;
@@ -665,6 +670,7 @@ image {
 }
 
 // 右箭头（更多）
+.pi-more,
 .more {
   position: relative;
   &::before {
@@ -676,6 +682,27 @@ image {
     color: #d2d2d2;
     content: '\E6A3';
     transform: translateY(-50%);
+  }
+}
+
+.pi-upload {
+  position: relative;
+  display: inline-block;
+  width: $pi-upload-radius;
+  height: $pi-upload-radius;
+  overflow: hidden;
+  background-color: #f6f6f6;
+  border-radius: 8rpx;
+  &::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-family: 'pi-icon';
+    font-size: 60rpx;
+    color: #a4a4a4;
+    text-align: center;
+    content: '\e64d';
+    transform: translate(-50%, -50%);
   }
 }
 

@@ -2,6 +2,8 @@
   <pi-popup
     ref="popup"
     :value="val"
+    :custom-class="getPopup.customClass"
+    :custom-style="getPopupCustomStyle"
     :position="getPopup.position"
     :border-radius="getPopup.borderRadius"
     :show-close-icon="showTitle && getPopup.showCloseIcon"
@@ -14,11 +16,7 @@
     :background="getPopup.background"
     @close="handlePopupClose"
   >
-    <view
-      class="pi-popup-select pi-flex-column"
-      :style="[customStyle, { height: getHeight }]"
-      :class="[customClass]"
-    >
+    <view class="pi-popup-select pi-flex-column" :style="[customStyle]" :class="[customClass]">
       <!-- 标题栏 -->
       <view
         v-if="showTitle"
@@ -237,8 +235,11 @@ export default {
     getPopup() {
       return this.$pi.lang.mergeDeep(popupSelect.popup, this.popup)
     },
-    getHeight() {
-      return this.$pi.common.addUnit(this.height)
+    getPopupCustomStyle() {
+      return {
+        ...this.customStyle,
+        height: this.$pi.common.addUnit(this.height)
+      }
     },
     getTitlePadding() {
       return this.$pi.common.addUnit(this.titlePadding)
@@ -275,7 +276,7 @@ export default {
 
 <style lang="scss" scoped>
 .pi-popup-select {
-  height: 50vh;
+  height: 100%;
   .pi-button-wrap {
     flex: 1;
     &:nth-child(2) {
