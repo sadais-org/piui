@@ -103,7 +103,7 @@ export default {
     // 层级z-index
     zIndex: {
       type: [Number, String],
-      // 999
+      // 998
       default: mask.zIndex
     },
     // 背景颜色
