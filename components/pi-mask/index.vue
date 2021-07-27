@@ -103,7 +103,7 @@ export default {
     // 层级z-index
     zIndex: {
       type: [Number, String],
-      // 998
+      // 999
       default: mask.zIndex
     },
     // 背景颜色
@@ -154,7 +154,7 @@ export default {
         console.log(TAG, '遮罩层已显示')
       }, this.getDuration.js)
       // #ifdef H5
-      if (this.appendToBody) {
+      if (this.appendToBody && this.$el) {
         document.body.appendChild(this.$el)
       }
       // #endif

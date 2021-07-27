@@ -564,6 +564,11 @@ image {
   will-change: transform;
 }
 
+// 修复toast层级过低的问题
+uni-toast {
+  z-index: 9999 !important;
+}
+
 // 点击态
 .pi-hover-class {
   position: relative;
