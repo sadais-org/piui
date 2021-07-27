@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="pi-bottom-bar" :style="[{ borderTop: borderTop }]" :class="[fixed]">
+    <view class="pi-bottom-bar" :style="[{ borderTop: borderTop }]" :class="[{ fixed: fixed }]">
       <!-- 默认插槽 -->
       <view
         class="pi-w-100P"
