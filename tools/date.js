@@ -11,13 +11,20 @@ export const getWeekDayZh = () => {
 
 /**
  * 解析日期信息
- * @param {*} value Date 日期
+ * @param {*} date Date 日期
  * @param {*} weekPrefix 星期前缀
  */
-export const parseDate = (value = new Date(), weekPrefix = '星期') => {
-  // ! 如果传入的日期格式是xxxx-xx-xx，在ios会报错，使用/进行替换
-  const val = isString(value) ? value.replace(/\.|-/g, '/') : value
-  const date = val ? new Date(val) : new Date()
+export const parseDate = (date = new Date(), weekPrefix = '星期') => {
+  if (isString(date)) {
+    const REGEX_PARSE = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/
+    const d = date.match(REGEX_PARSE)
+    if (d) {
+      const m = d[2] - 1 || 0
+      const ms = (d[7] || '0').substring(0, 3)
+      date = new Date(d[1], m, d[3] || 1, d[4] || 0, d[5] || 0, d[6] || 0, ms)
+    }
+  }
+
   return {
     year: date.getFullYear(), // 年份
     month: date.getMonth() + 1, // 月份
