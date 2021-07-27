@@ -1,3 +1,5 @@
+import icon from './icon'
+
 export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
@@ -15,5 +17,11 @@ export default {
   colon: false, // 是否在 label 后面添加冒号
   disabled: false, // 是否禁用
   border: false, // 是否显示边框
-  errorType: 'message'
+  errorType: 'message',
+  showRightIcon: null, // 是否显示右边icon，默认是箭头（可以自定义设置成其他图标）
+  rightIcon: {
+    ...icon,
+    name: 'right',
+    color: '#cccccc'
+  } // 右侧箭头配置
 }

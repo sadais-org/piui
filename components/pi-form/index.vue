@@ -35,7 +35,9 @@ export default {
       'colon',
       'disabled',
       'border',
-      'errorType'
+      'errorType',
+      'showRightIcon',
+      'rightIcon'
     ])
   ],
   props: {
@@ -179,6 +181,22 @@ export default {
       },
       validator: function(value) {
         return ['message', 'toast'].includes(value)
+      }
+    },
+    // 是否显示右边icon
+    showRightIcon: {
+      type: Boolean,
+      // true
+      default() {
+        // true
+        return form.showRightIcon
+      }
+    },
+    // 右侧icon配置
+    rightIcon: {
+      type: Object,
+      default() {
+        return form.rightIcon
       }
     }
   },

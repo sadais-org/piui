@@ -50,7 +50,7 @@
     </view>
     <!-- 右侧箭头 -->
     <pi-icon
-      v-else-if="showRightIcon"
+      v-else-if="getShowRightIcon"
       :custom-style="getRightIcon.customStyle"
       :custom-class="`pi-pd-left-4 ${getRightIcon.customClass}`"
       :name="getRightIcon.name"
@@ -240,8 +240,14 @@ export default {
     }
   },
   computed: {
+    getShowRightIcon() {
+      return this.inheritProps.showRightIcon !== null
+        ? this.inheritProps.showRightIcon
+        : this.showRightIcon
+    },
     getRightIcon() {
-      return this.$pi.lang.mergeDeep(formItem.rightIcon, this.rightIcon)
+      const rightIcon = this.$pi.lang.mergeDeep(this.inheritProps.rightIcon, this.rightIcon)
+      return this.$pi.lang.mergeDeep(formItem.rightIcon, rightIcon)
     },
     getBorder() {
       return this.inheritProps.border !== null ? this.inheritProps.border : this.border
