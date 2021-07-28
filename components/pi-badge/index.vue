@@ -1,17 +1,23 @@
 <template>
-  <view class="icon-wrap" @tap="handleClick">
-    <view :style="[iconStyle, customStyle]" :class="[iconClass, customClass]" />
-    <view v-if="badge || dot" class="icon-badge" :class="{ dot }" :style="[badgeStyle]">
-      {{ badge }}
+  <view class="badge-wrap" :style="[customStyle]" :class="[customClass]" @tap="handleClick">
+    <view
+      class="badge"
+      :class="[{ dot, abso: $slots.default || $slots.$default }]"
+      :style="[badgeStyle]"
+    >
+      <slot name="content">
+        {{ getContent }}
+      </slot>
     </view>
+    <slot />
   </view>
 </template>
 
 <script>
 import { getConfig } from '../../config'
 
-const TAG = 'PiIcon'
-const { icon } = getConfig()
+const TAG = 'PiBadge'
+const { badge } = getConfig()
 
 export default {
   name: TAG,
@@ -21,7 +27,7 @@ export default {
       type: Object,
       default() {
         // {}
-        return icon.customStyle
+        return badge.customStyle
       }
     },
     // 自定义样式类
@@ -29,83 +35,62 @@ export default {
       type: String,
       default() {
         // ''
-        return icon.customClass
+        return badge.customClass
       }
-    },
-    // 图标名称或图片链接
-    name: {
-      type: String,
-      // ''
-      default: icon.name
     },
     // 是否显示图标右上角小红点
     dot: {
       type: Boolean,
       // false
-      default: icon.dot
+      default: badge.dot
     },
     // 小红点的半径
     dotRadius: {
       type: [String, Number],
       // 16rpx
-      default: icon.dotRadius
+      default: badge.dotRadius
     },
     // 图标右上角徽标的内容
-    badge: {
+    content: {
       type: [String, Number],
       // ''
-      default: icon.badge
+      default: badge.content
     },
-    // 图标颜色
+    // 徽标背景颜色
     color: {
       type: String,
       // ''
-      default: icon.color
+      default: badge.color
     },
-    // 图标字体大小，单位rpx
-    size: {
+    // 最大值，超过最大值会显示 {max}+，仅当 content 为数字时有效
+    max: {
       type: [String, Number],
       // ''
-      default: icon.size
-    },
-    // 类名前缀，用于使用自定义图标
-    classPrefix: {
-      type: String,
-      // 'pi-icon-'
-      default: icon.classPrefix
+      default: badge.max
     }
   },
   data() {
-    return {
-      // 初始化组件时，默认为加载中状态
-      loading: true,
-      // 图片是否加载错误，如果是，则显示错误占位图
-      error: false
-    }
+    return {}
   },
   computed: {
-    getSize() {
-      return this.$pi.common.addUnit(this.size)
-    },
     getDotRadius() {
       return this.$pi.common.addUnit(this.dotRadius)
     },
-    iconStyle() {
-      const style = {}
-      this.color && (style.color = this.color)
-      this.getSize && (style.fontSize = this.getSize)
-      return style
-    },
     badgeStyle() {
-      const style = {}
+      const style = {
+        backgroundColor: this.color
+      }
       if (this.dot) {
         style.width = this.getDotRadius
         style.height = this.getDotRadius
       }
       return style
     },
-    iconClass() {
-      return this.classPrefix + this.name
+    getContent() {
+      const max = parseInt(this.max, 10)
+      const content = parseInt(this.content, 10)
+      if (this.$pi.lang.isNumber(content) && max < content) return `${max}+`
+      return this.content
     }
   },
   methods: {
@@ -117,13 +102,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.icon-wrap {
+.badge-wrap {
   position: relative;
-  display: inline-flex;
-  .icon-badge {
-    position: absolute;
-    top: 0;
-    right: 0;
+  display: inline-block;
+
+  .badge {
     box-sizing: border-box;
     min-width: 16px;
     padding: 0 3px;
@@ -135,12 +118,18 @@ export default {
     background-color: #ee0a24;
     border: 1px solid #ffffff;
     border-radius: 16px;
-    transform: translate(50%, -50%);
-    transform-origin: 100%;
+
     &.dot {
       min-width: 0;
       background-color: #ee0a24;
       border-radius: 100%;
+    }
+    &.abso {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(50%, -50%);
+      transform-origin: 100%;
     }
   }
 }

@@ -14,7 +14,7 @@
               activeIndex === index && activeItemStyle ? activeItemStyle : {}
             ]"
             class="pi-tab pi-align-center"
-            :class="[{ active: activeIndex === index }]"
+            :class="[{ active: activeIndex === index, line: showItemSplitLine }]"
             @tap.stop="handleSelectItem(item)"
           >
             <!-- slot slot-scoped只支持app,h5,微信小程序平台 -->
@@ -126,6 +126,14 @@ export default {
       // 默认主题色
       default() {
         return tabs.activeTextColor
+      }
+    },
+    // 是否显示每项分割线，可选值 `true`
+    showItemSplitLine: {
+      type: Boolean,
+      // `false`
+      default() {
+        return tabs.showItemSplitLine
       }
     },
     // 是否显示底部的滑块，可选值 `false`
@@ -332,12 +340,23 @@ export default {
     min-width: 100%;
     white-space: nowrap;
     .pi-tab {
+      position: relative;
       display: inline-block;
       font-size: 30rpx;
       text-align: center;
       transition: all $pi-animation-duration $pi-animation-timing-function;
       &.active {
         color: $pi-primary-color;
+      }
+      &.line::after {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 2rpx;
+        height: 60%;
+        content: '';
+        background-color: $pi-line-color;
+        transform: translateY(-50%);
       }
     }
     .slider-bar-guide {

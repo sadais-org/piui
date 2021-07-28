@@ -1,6 +1,15 @@
 const hasOwnProperty = Object.prototype.hasOwnProperty
 
 /**
+ * 判断对象是否对象类型
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `isObjectLike`.
+ */
+export const isObjectLike = value => {
+  return typeof value === 'object' && value !== null
+}
+
+/**
  * 获取对象标志
  * @param {*} value The value to query.
  * @returns {string} Returns the `toStringTag`.
@@ -37,6 +46,14 @@ export const isString = value => {
       !Array.isArray(value) &&
       getTag(value) == '[object String]')
   )
+}
+
+/**
+ * 判断对象是否数值类型
+ * @param {*} value The value to query.
+ */
+export const isNumber = value => {
+  return typeof value === 'number' || (isObjectLike(value) && getTag(value) == '[object Number]')
 }
 
 /**
