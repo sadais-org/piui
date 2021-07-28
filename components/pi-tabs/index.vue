@@ -14,7 +14,9 @@
               activeIndex === index && activeItemStyle ? activeItemStyle : {}
             ]"
             class="pi-tab pi-align-center"
-            :class="[{ active: activeIndex === index, line: showItemSplitLine }]"
+            :class="[
+              { active: activeIndex === index, line: index < items.length - 1 && showItemSplitLine }
+            ]"
             @tap.stop="handleSelectItem(item)"
           >
             <!-- slot slot-scoped只支持app,h5,微信小程序平台 -->
