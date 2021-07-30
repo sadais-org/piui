@@ -98,7 +98,7 @@ export default {
         return tabs.itemPadding
       }
     },
-    // 标签是否自动撑开，可选值 `true`
+    // 标签是否均分布局，可选值 `true`
     stretch: {
       type: Boolean,
       // `false`

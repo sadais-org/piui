@@ -3,6 +3,8 @@
     class="pi-radio-group"
     :style="[customStyle]"
     :class="[
+      shape,
+      { stretch: stretch },
       { horizontal: direction === 'horizontal' },
       { vertical: direction === 'vertical' },
       customClass
@@ -29,6 +31,7 @@ export default {
     parentInit([
       'val',
       'shape',
+      'stretch',
       'border',
       'disabled',
       'size',
@@ -79,12 +82,20 @@ export default {
     },
     // 形状
     shape: {
-      // 'round', 'square', 'dot', 'text'
+      // 'round', 'square', 'dot', 'text', 'button'
       type: String,
       // ''
       default: radioGroup.shape,
       validator: function(value) {
-        return ['', 'square', 'round', 'dot', 'text'].includes(value)
+        return ['', 'square', 'round', 'dot', 'text', 'button'].includes(value)
+      }
+    },
+    // 当shape为button的时候，选项否均分布局，可选值 `true`
+    stretch: {
+      type: Boolean,
+      // `false`
+      default() {
+        return radioGroup.stretch
       }
     },
     // 边框大小，单位rpx
@@ -150,21 +161,82 @@ export default {
 
   &.vertical {
     flex-direction: column;
-    ::v-deep .pi-radio-wrap,
-    pi-radio {
-      margin-bottom: 28rpx;
+    align-items: flex-start;
+    ::v-deep .pi-radio-wrap {
+      margin-bottom: 24rpx;
     }
   }
 
-  &.horizontal {
+  // 按钮样式
+  &.button {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+
+    /*  #ifndef  MP */
+    ::v-deep .pi-radio-wrap {
+      &:first-child .radio-label.button {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      &:last-child .radio-label.button {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+      }
+      &:not(:first-child) .radio-label.button {
+        border-left-width: 0 !important;
+      }
+      &:not(:first-child):not(:last-child) .radio-label.button {
+        border-radius: 0 !important;
+      }
+    }
+    &.stretch {
+      ::v-deep .pi-radio-wrap {
+        flex: 1;
+      }
+    }
+
+    /*  #endif  */
+
+    /*  #ifdef  MP */
+
+    ::v-deep pi-radio {
+      /* stylint-disable */
+      &:first-child .pi-radio-wrap .radio-label.button {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      &:last-child .pi-radio-wrap .radio-label.button {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+      }
+      &:not(:first-child) .pi-radio-wrap .radio-label.button {
+        border-left-width: 0 !important;
+      }
+      &:not(:first-child):not(:last-child) .pi-radio-wrap .radio-label.button {
+        border-radius: 0 !important;
+      }
+    }
+    &.stretch {
+      ::v-deep pi-radio {
+        flex: 1;
+        .pi-radio-wrap {
+          width: 100%;
+        }
+      }
+    }
+
+    /*  #endif  */
+  }
+
+  &.horizontal:not(.button) {
     flex-direction: row;
     align-items: center;
-    ::v-deep .pi-radio-wrap:not(:last-child) {
-      margin-right: 28rpx;
-    }
-    // 兼容小程序
+    ::v-deep .pi-radio-wrap:not(:last-child),
     ::v-deep pi-radio:not(:last-child) {
-      margin-right: 28rpx;
+      margin-right: 24rpx;
     }
   }
 }

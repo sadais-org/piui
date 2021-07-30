@@ -192,6 +192,7 @@ export default {
           }
         }
       }
+
       return style
     },
     dotStyle() {
@@ -231,6 +232,8 @@ export default {
 
 <style lang="scss" scoped>
 $disable-color: #c8c9cc;
+$unactive-color: #cccccc;
+
 .pi-check-wrap {
   display: inline-flex;
   align-items: center;
@@ -240,7 +243,7 @@ $disable-color: #c8c9cc;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    color: #cccccc;
+    color: $unactive-color;
     border: 4rpx solid $disable-color;
     transition: all $pi-animation-duration $pi-animation-timing-function;
     .dot {
@@ -264,27 +267,28 @@ $disable-color: #c8c9cc;
     &.text {
       padding: 12rpx 24rpx;
       margin-left: 0;
+      color: $unactive-color;
       border-color: transparent;
       border-style: solid;
     }
   }
   &.line {
     .check-label.text {
-      border-color: #cccccc;
+      border-color: $unactive-color;
     }
   }
   &.fill {
     .check-icon {
       color: #ffffff;
-      background-color: #cccccc;
-      border-color: #cccccc;
+      background-color: $unactive-color;
+      border-color: $unactive-color;
       .dot {
         background-color: #ffffff;
       }
     }
     .check-label.text {
       color: #ffffff;
-      background: #cccccc;
+      background: $unactive-color;
     }
   }
   &.disabled {

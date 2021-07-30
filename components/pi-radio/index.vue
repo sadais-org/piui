@@ -2,14 +2,21 @@
   <view
     class="pi-radio-wrap"
     :style="[customStyle]"
-    :class="[getShape, getActiveMode, { disabled: getDisable }, { active: val }, customClass]"
+    :class="[
+      getShape,
+      getActiveMode,
+      { disabled: getDisable },
+      { active: val },
+      { stretch: getStretch },
+      customClass
+    ]"
     @tap="handleRadioToggle"
   >
-    <view v-if="getShape !== 'text'" class="radio-icon" :style="[radioStyle]">
+    <view v-if="!['text', 'button'].includes(getShape)" class="radio-icon" :style="[radioStyle]">
       <view v-if="getShape === 'dot'" class="dot" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />
     </view>
-    <view class="radio-label" :class="{ text: getShape === 'text' }" :style="[textStyle]">
+    <view class="radio-label" :class="[getShape]" :style="[textStyle]">
       <slot />
     </view>
   </view>
@@ -56,12 +63,12 @@ export default {
     },
     // 形状
     shape: {
-      // 'square', 'round', 'dot', 'text'
+      // 'square', 'round', 'dot', 'text', 'button'
       type: String,
       // 'round'
       default: radio.shape,
       validator: function(value) {
-        return ['square', 'round', 'dot', 'text'].includes(value)
+        return ['square', 'round', 'dot', 'text', 'button'].includes(value)
       }
     },
     // 当shape为square的时候，设置圆角，值为数字时，单位默认rpx
@@ -128,6 +135,9 @@ export default {
     getShape() {
       return this.inheritProps.shape || this.shape
     },
+    getStretch() {
+      return this.inheritProps.stretch
+    },
     getBorderRadius() {
       return this._parent && this._parent.borderRadius
         ? this.$pi.common.addUnit(this._parent.borderRadius)
@@ -184,10 +194,20 @@ export default {
       }
       if (this.getActiveColor && this.val) {
         style.borderColor = this.getActiveColor
-        style.color = this.getActiveColor
-        if (this.getShape === 'text' && this.getActiveMode === 'fill') {
+        if (['text', 'button'].includes(this.getShape) && this.getActiveMode === 'fill') {
           style.backgroundColor = this.getActiveColor
+        } else {
+          style.color = this.getActiveColor
         }
+      }
+      if (this.getShape === 'button' && this.getActiveMode === 'fill') {
+        if (!this.val) {
+          style.color = this.getActiveColor
+        }
+        style.borderColor = this.getActiveColor
+      }
+      if (this.getActiveColor && this.getShape === 'button' && this.val) {
+        style.boxShadow = `-${this.getBorder} 0 0 0 ${this.getActiveColor}`
       }
       return style
     }
@@ -204,6 +224,8 @@ export default {
 
 <style lang="scss" scoped>
 $disable-color: #c8c9cc;
+$unactive-color: #cccccc;
+
 .pi-radio-wrap {
   display: inline-flex;
   align-items: center;
@@ -213,7 +235,7 @@ $disable-color: #c8c9cc;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    color: #cccccc;
+    color: $unactive-color;
     border: 4rpx solid $disable-color;
     transition: all $pi-animation-duration $pi-animation-timing-function;
     .dot {
@@ -237,32 +259,70 @@ $disable-color: #c8c9cc;
     &.text {
       padding: 12rpx 24rpx;
       margin-left: 0;
+      color: $unactive-color;
+      border-color: transparent;
+      border-style: solid;
+    }
+    &.button {
+      padding: 24rpx;
+      margin-left: 0;
+      line-height: 1;
+      color: $unactive-color;
       border-color: transparent;
       border-style: solid;
     }
   }
+  &.stretch {
+    .radio-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 84rpx;
+      padding: 0;
+      text-align: center;
+    }
+  }
+  &.disabled {
+    cursor: not-allowed;
+    .radio-icon {
+      opacity: $pi-disabled-opacity;
+    }
+    .radio-label {
+      color: $unactive-color;
+    }
+  }
   &.line {
     .radio-label.text {
-      border-color: #cccccc;
+      border-color: $unactive-color;
+    }
+    .radio-label.button {
+      border-color: $unactive-color;
     }
   }
   &.fill {
     .radio-icon {
       color: #ffffff;
-      background-color: #cccccc;
-      border-color: #cccccc;
+      background-color: $unactive-color;
+      border-color: $unactive-color;
       .dot {
         background-color: #ffffff;
       }
     }
     .radio-label.text {
       color: #ffffff;
-      background: #cccccc;
+      background: $unactive-color;
+    }
+    .radio-label.button {
+      color: $pi-primary-color;
+      border-color: $pi-primary-color;
     }
   }
   &.active {
     .radio-label {
       color: $pi-primary-color;
+      &.button {
+        box-shadow: -2px 0 0 0 $pi-primary-color;
+      }
     }
     &.line {
       .radio-icon {
@@ -274,6 +334,10 @@ $disable-color: #c8c9cc;
         }
       }
       .radio-label.text {
+        color: $pi-primary-color;
+        border-color: $pi-primary-color;
+      }
+      .radio-label.button {
         color: $pi-primary-color;
         border-color: $pi-primary-color;
       }
@@ -291,15 +355,10 @@ $disable-color: #c8c9cc;
         color: #ffffff;
         background: $pi-primary-color;
       }
-    }
-  }
-  &.disabled {
-    cursor: not-allowed;
-    .radio-icon {
-      opacity: $pi-disabled-opacity;
-    }
-    .radio-label {
-      color: #cccccc;
+      .radio-label.button {
+        color: #ffffff;
+        background: $pi-primary-color;
+      }
     }
   }
 }
