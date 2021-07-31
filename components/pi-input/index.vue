@@ -25,6 +25,7 @@
       :show-confirm-bar="showConfirmbar"
       :auto-height="autoHeight"
       :disable-default-padding="disableDefaultPadding"
+      @tap="handleItemClick"
       @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"
@@ -55,6 +56,7 @@
       :adjust-position="adjustPosition"
       :hold-keyboard="holdKeyboard"
       :auto-blur="autoBlur"
+      @tap="handleItemClick"
       @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"
@@ -241,6 +243,9 @@ export default {
     }
   },
   methods: {
+    handleItemClick(e) {
+      this.$emit('click', e)
+    },
     handleInput: debounce(function(e) {
       let value = e.detail.value
       // 输入内容
