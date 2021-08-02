@@ -20,7 +20,7 @@ const { list } = getConfig()
 
 export default {
   name: TAG,
-  mixins: [parentInit(['height', 'border', 'hoverClass'])],
+  mixins: [parentInit(['height', 'border', 'showRightIcon', 'hoverClass'])],
   props: {
     // 自定义样式
     customStyle: {
@@ -83,6 +83,15 @@ export default {
       default() {
         // true
         return list.border
+      }
+    },
+    // 是否显示右边icon
+    showRightIcon: {
+      type: Boolean,
+      // true
+      default() {
+        // true
+        return list.showRightIcon
       }
     },
     // 列按压时的样式类，"none"为无效果

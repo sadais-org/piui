@@ -39,7 +39,7 @@
     </view>
     <!-- 右侧箭头 -->
     <pi-icon
-      v-else-if="showRightIcon"
+      v-else-if="getShowRightIcon"
       :custom-style="getRightIcon.customStyle"
       :custom-class="`pi-pd-left-4 ${getRightIcon.customClass}`"
       :name="getRightIcon.name"
@@ -232,6 +232,11 @@ export default {
           ? this.inheritProps.height
           : this.height
       return this.$pi.common.addUnit(height)
+    },
+    getShowRightIcon() {
+      return !this.isEmptyInheritProps && this.inheritProps.showRightIcon !== null
+        ? this.inheritProps.showRightIcon
+        : this.showRightIcon
     },
     getHoverClass() {
       return !this.isEmptyInheritProps && this.inheritProps.hoverClass !== null
