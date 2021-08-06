@@ -9,7 +9,12 @@
       <view v-if="getShape === 'dot'" class="dot" :style="[dotStyle]" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />
     </view>
-    <view class="check-label" :class="{ text: getShape === 'text' }" :style="[textStyle]">
+    <view
+      v-if="$slots.default || $slots.$default"
+      class="check-label"
+      :class="{ text: getShape === 'text' }"
+      :style="[textStyle]"
+    >
       <!-- checkbox 内容 -->
       <slot />
     </view>

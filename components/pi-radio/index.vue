@@ -16,7 +16,12 @@
       <view v-if="getShape === 'dot'" class="dot" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />
     </view>
-    <view class="radio-label" :class="[getShape]" :style="[textStyle]">
+    <view
+      v-if="$slots.default || $slots.$default"
+      class="radio-label"
+      :class="[getShape]"
+      :style="[textStyle]"
+    >
       <slot />
     </view>
   </view>

@@ -181,10 +181,16 @@ export default {
       // '32rpx'
       default: popupSelect.titlePadding
     },
-    // 弹出选择层的高度，不可填百分比
+    // 弹出选择层的宽度，默认100%
+    width: {
+      type: String,
+      // '100%'
+      default: popupSelect.width
+    },
+    // 弹出选择层的高度
     height: {
       type: String,
-      // '50vh'
+      // '60%'
       default: popupSelect.height
     },
     // 是否点击取消的时候关闭弹窗
@@ -237,7 +243,7 @@ export default {
     },
     getPopupCustomStyle() {
       return {
-        ...this.customStyle,
+        width: this.$pi.common.addUnit(this.width),
         height: this.$pi.common.addUnit(this.height)
       }
     },

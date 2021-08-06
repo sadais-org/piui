@@ -8,7 +8,8 @@ export default {
   showTitle: false, // 是否显示title（默认：true）
   title: '弹出选择', // 标题（默认：日期选择）
   titlePadding: '32rpx', // 标题 padding（默认：32rpx）
-  height: '50%', // 弹出选择层的高度（默认：'50%'）
+  width: '100%', // 弹出选择层的宽度（默认：'100%'）
+  height: '60%', // 弹出选择层的高度（默认：'60%'）
   onCancelClose: true, // 是否点击取消的时候关闭弹窗（默认：'true'）
   onConfirmClose: true, // 是否点击确认的时候关闭弹窗（默认：'true'）
   // 确认按钮配置
