@@ -327,6 +327,7 @@ export default {
       console.log(TAG, '计算.pi-tab布局', this.tabRects)
     },
     handleSelectItem(item) {
+      this.$emit('beforeChange', this.val)
       this.val = item
       this.handleEmitChange()
     }
