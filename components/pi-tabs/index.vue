@@ -15,7 +15,11 @@
             ]"
             class="pi-tab pi-align-center"
             :class="[
-              { active: activeIndex === index, line: index < items.length - 1 && showItemSplitLine }
+              {
+                disabled: item[disabledField],
+                active: activeIndex === index,
+                line: index < items.length - 1 && showItemSplitLine
+              }
             ]"
             @tap.stop="handleSelectItem(item)"
           >
@@ -89,6 +93,12 @@ export default {
       type: String,
       // `text`
       default: tabs.displayField
+    },
+    // 选项禁用字段，默认为disabled
+    disabledField: {
+      type: String,
+      // `text`
+      default: tabs.disabledField
     },
     // 选项两边的padding，单位rpx
     itemPadding: {
@@ -327,6 +337,7 @@ export default {
       console.log(TAG, '计算.pi-tab布局', this.tabRects)
     },
     handleSelectItem(item) {
+      if (item[this.disabledField]) return
       this.$emit('beforeChange', this.val)
       this.val = item
       this.handleEmitChange()
@@ -360,6 +371,9 @@ export default {
         content: '';
         background-color: $pi-line-color;
         transform: translateY(-50%);
+      }
+      &.disabled {
+        opacity: $pi-disabled-opacity;
       }
     }
     .slider-bar-guide {

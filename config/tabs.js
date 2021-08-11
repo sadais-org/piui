@@ -4,6 +4,7 @@ export default {
   items: [], // 选项列表，默认（[]）
   keyField: 'id', // 选项id字段，默认为id
   displayField: 'text', // 选项显示字段，默认为text
+  disabledField: 'disabled', // 禁用字段，默认为disabled
   itemPadding: 30, // 选项两边的padding，单位rpx
   stretch: false, // 标签是否自动撑开
   duration: 300, // 动画执行时间（毫秒）
