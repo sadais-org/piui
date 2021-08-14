@@ -1,3 +1,6 @@
+import md from './mergeDeep'
+export const mergeDeep = md
+
 const hasOwnProperty = Object.prototype.hasOwnProperty
 
 /**
@@ -125,35 +128,4 @@ export const cloneDeep = obj => {
     }
   }
   return o
-}
-
-/**
- * 对象深度合并
- * @param {Object} target 目标
- * @param {Object} source 合并源
- */
-export const mergeDeep = (target = {}, source = {}) => {
-  target = cloneDeep(target)
-  if (typeof target !== 'object' || typeof source !== 'object') return false
-  for (var prop in source) {
-    if (!source.hasOwnProperty(prop)) continue
-    if (prop in target) {
-      if (typeof target[prop] !== 'object') {
-        target[prop] = source[prop]
-      } else {
-        if (typeof source[prop] !== 'object') {
-          target[prop] = source[prop]
-        } else {
-          if (target[prop].concat && source[prop].concat) {
-            target[prop] = target[prop].concat(source[prop])
-          } else {
-            target[prop] = mergeDeep(target[prop], source[prop])
-          }
-        }
-      }
-    } else {
-      target[prop] = source[prop]
-    }
-  }
-  return target
 }

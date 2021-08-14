@@ -12,7 +12,7 @@ export default {
   borderRadius: 0, // shape为square的时候设置（默认值：'0rpx'）
   lazyLoad: true, // 是否懒加载（默认值：'true'）
   showMenuByLongpress: true, // 开启长按图片显示识别微信小程序码菜单（默认值：'true'）
-  showLoading: true, // 是否显示加载中的图标或者自定义的slot（默认值：'true'）
+  showLoading: false, // 是否显示加载中的图标或者自定义的slot（默认值：'false'）
   loadingColor: '#c1c1c1', // 加载中颜色（默认值：'#c1c1c1'）
   loadingType: 'spinner', // 类型： spinner 菊花 round 圆环（默认值：'spinner'）
   loadingSize: 32, // 尺寸，默认32rpx
