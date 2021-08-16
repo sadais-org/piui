@@ -1,7 +1,7 @@
 /*
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:29:02
- * @LastEditTime: 2021-08-14 17:12:29
+ * @LastEditTime: 2021-08-16 14:28:01
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传
  * @FilePath: /piui-awesome/src/piui/config/upload-img.js
@@ -11,6 +11,7 @@ import icon from './icon.js'
 export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
+  imgField: '', // 上传图片的字段名称，字符串形式（默认值：''）
   action: '', // 上传接口地址，字符串形式（默认值：''）
   headers: {}, // 请求头，对象形式（默认值：{}）
   formData: {}, // 上传表单额外数据，对象形式（默认值：{}）
@@ -46,11 +47,11 @@ export default {
     sourceType: ['album'], // album 从相册选图，camera 使用相机，默认album
     crop: {} // 图像裁剪参数，设置后 sizeType 失效
   },
-  parseResultUrlFn: function(result) {
+  parseResultFn: function(result) {
     try {
       return JSON.parse(result.data)?.data.url
     } catch (error) {
-      console.error('解析上传结果失败，请使用自定义解析函数 parseResultUrlFn ', error)
+      console.error('解析上传结果失败，请使用自定义解析函数 parseResultFn ', error)
     }
   },
   beforeUpload: null, // 上传之前的钩子

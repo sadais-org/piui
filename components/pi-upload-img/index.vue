@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2021-08-14 17:15:23
+ * @LastEditTime: 2021-08-16 15:15:52
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -12,7 +12,7 @@
     <!-- 已上传图片展示 -->
     <view
       v-for="(img, index) in getImgs"
-      :key="img"
+      :key="imgField ? img[imgField] : img"
       :style="[getItemStyle]"
       class="pi-rela pi-flex-column-center"
       @tap="handlePreviewImage(img)"
@@ -21,7 +21,12 @@
         <pi-icon name="roundclosefill" color="#8e8e8e" size="36" />
       </view>
       <view :style="[getItemStyle]" class="pi-of-hidden">
-        <pi-img width="100%" height="100%" :mode="imageMode" :src="img" />
+        <pi-img
+          width="100%"
+          height="100%"
+          :mode="imageMode"
+          :src="imgField ? img[imgField] : img"
+        />
       </view>
     </view>
     <!-- 上传框 -->
@@ -103,6 +108,13 @@ export default {
       default() {
         // {}
         return uploadImg.uploadBtnStyle
+      }
+    },
+    // 上传图片的字段名称，字符串形式（默认值：''）
+    imgField: {
+      type: String,
+      default() {
+        return uploadImg.imgField
       }
     },
     // 显示的图片模式
@@ -199,18 +211,18 @@ export default {
       }
     },
     // 上传成功解析对象方法
-    parseResultUrlFn: {
-      type: Function,
+    parseResultFn: {
+      type: [Object, Function],
       default() {
         return {
           [PI_DEFAULT_FN_FLAG]: true,
-          fn: uploadImg.parseResultUrlFn
+          fn: uploadImg.parseResultFn
         }
       }
     },
     // 上传之前的钩子
     beforeUpload: {
-      type: Function,
+      type: [Object, Function],
       default() {
         return {
           [PI_DEFAULT_FN_FLAG]: true,
@@ -220,7 +232,7 @@ export default {
     },
     // 删除之前的钩子
     beforeRemove: {
-      type: Function,
+      type: [Object, Function],
       default() {
         return {
           [PI_DEFAULT_FN_FLAG]: true,
@@ -272,14 +284,16 @@ export default {
       this.handleEmitChange()
     },
     // 预览图片
-    handlePreviewImage(url) {
+    handlePreviewImage(img) {
       if (!this.previewFullImage) return
+      const urls = this.imgField ? this.val.map(img => img[this.imgField]) : this.val
+      const current = this.imgField ? img[this.imgField] : img
       uni.previewImage({
-        urls: this.val,
-        current: url,
+        urls,
+        current,
         indicator: 'default',
         success: () => {
-          this.$emit('preview', url, this.val)
+          this.$emit('preview', current, urls)
         }
       })
     },
@@ -308,6 +322,15 @@ export default {
           throw new Error(errMsg)
         }
 
+        console.log(this.beforeUpload)
+
+        const beforeUpload = this.beforeUpload[PI_DEFAULT_FN_FLAG]
+          ? this.beforeUpload.fn
+          : this.beforeUpload
+        const parseResultFn = this.parseResultFn[PI_DEFAULT_FN_FLAG]
+          ? this.parseResultFn.fn
+          : this.parseResultFn
+
         for await (const filePath of tempFilePaths) {
           let uploadResult = null
           const params = {
@@ -317,22 +340,19 @@ export default {
             formData: this.formData,
             header: this.headers
           }
-          const beforeUpload = this.beforeUpload[PI_DEFAULT_FN_FLAG]
-            ? this.beforeUpload.fn
-            : this.beforeUpload
+
           if (this.$pi.lang.isFunction(beforeUpload)) {
+            console.log(TAG, '使用自定义上传函数')
             // 上传之前的钩子， 如果定义了则使用钩子上传文件
             uploadResult = await beforeUpload(params)
           } else {
             const [, uploadFileResult = result] = await uni.uploadFile(params)
             uploadResult = uploadFileResult
           }
-          const parseResultUrlFn = this.parseResultUrlFn[PI_DEFAULT_FN_FLAG]
-            ? this.parseResultUrlFn.fn
-            : this.parseResultUrlFn
-          const url = await parseResultUrlFn(uploadResult)
-          if (url) {
-            this.val.push(url)
+
+          const item = await parseResultFn(uploadResult)
+          if (item) {
+            this.val.push(item)
             this.handleEmitChange()
           }
         }
