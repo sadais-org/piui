@@ -43,7 +43,7 @@ export default {
         return gridItem.customClass
       }
     },
-    // 当前宫格索引
+    // 当前宫格索引；必须从0开始
     index: {
       type: [Number, String],
       required: true
@@ -129,6 +129,12 @@ export default {
     getHoverClass() {
       return this.inheritProps.hoverClass !== null ? this.inheritProps.hoverClass : this.hoverClass
     },
+    isLastCol() {
+      // 是否是最后一列
+      const idx = parseInt(this.index, 10)
+      const totalCol = this.getCol
+      return idx + 1 === totalCol
+    },
     itemStyle() {
       const gap = this.$pi.common.addUnit(this.getGap)
       const style = {
@@ -137,7 +143,7 @@ export default {
         marginBottom: gap
       }
       // 如果设置了index，并且是列数的最后一行，则不设置marginRight
-      if (this.index && (this.index + 1) % this.getCol === 0) {
+      if (this.isLastCol) {
         style.marginRight = 0
       }
       if (this.bgColor) style.backgroundColor = this.bgColor
