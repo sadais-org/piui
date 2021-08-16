@@ -131,9 +131,8 @@ export default {
     },
     isLastCol() {
       // 是否是最后一列
-      const idx = parseInt(this.index, 10)
-      const totalCol = this.getCol
-      return idx + 1 === totalCol
+      const index = parseInt(this.index, 10)
+      return index && (index + 1) % this.getCol === 0
     },
     itemStyle() {
       const gap = this.$pi.common.addUnit(this.getGap)

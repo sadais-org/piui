@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2021-08-16 15:15:52
+ * @LastEditTime: 2021-08-16 17:06:15
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -73,7 +73,7 @@ export default {
     // 初始值
     value: {
       required: false,
-      type: Array,
+      type: [Array, String],
       default() {
         return []
       }
@@ -245,8 +245,11 @@ export default {
     return {}
   },
   computed: {
+    isValString() {
+      return this.$pi.lang.isString(this.val)
+    },
     getImgs() {
-      return this.val.filter(img => img)
+      return this.isValString ? (this.val ? [this.val] : []) : this.val.filter(img => img)
     },
     getItemStyle() {
       return this.$pi.lang.mergeDeep(uploadImg.itemStyle, this.itemStyle)
@@ -278,7 +281,7 @@ export default {
         // 上传之前的钩子， 如果定义了则使用钩子上传文件
         val = await beforeRemove(index)
       } else {
-        val = this.val.filter((_, i) => i !== index)
+        val = this.isValString ? '' : this.val.filter((_, i) => i !== index)
       }
       this.val = val
       this.handleEmitChange()
@@ -286,8 +289,17 @@ export default {
     // 预览图片
     handlePreviewImage(img) {
       if (!this.previewFullImage) return
-      const urls = this.imgField ? this.val.map(img => img[this.imgField]) : this.val
-      const current = this.imgField ? img[this.imgField] : img
+      let urls = []
+      let current = ''
+
+      if (this.isValString) {
+        current = this.val
+        urls = [this.val]
+      } else {
+        urls = this.imgField ? this.val.map(img => img[this.imgField]) : this.val
+        current = this.imgField ? img[this.imgField] : img
+      }
+
       uni.previewImage({
         urls,
         current,
@@ -352,7 +364,7 @@ export default {
 
           const item = await parseResultFn(uploadResult)
           if (item) {
-            this.val.push(item)
+            this.isValString ? (this.val = item) : this.val.push(item)
             this.handleEmitChange()
           }
         }
