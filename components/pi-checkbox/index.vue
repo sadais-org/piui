@@ -117,12 +117,12 @@ export default {
     },
     // 激活模式
     activeMode: {
-      // `'line'-线框模式` `'fill'-实底模式`
+      // `'line'-线框模式` `line-circle - 线环模式（无中间打钩和圆点）` `'fill'-实底模式`
       type: String,
       // 'line'
       default: checkbox.activeMode,
       validator: function(value) {
-        return ['line', 'fill'].includes(value)
+        return ['line', 'line-circle', 'fill'].includes(value)
       }
     }
   },
@@ -262,6 +262,11 @@ $unactive-color: #cccccc;
       display: inline-flex;
     }
   }
+  &.line-circle {
+    .check-icon {
+      color: transparent;
+    }
+  }
   .check-label {
     flex: 1;
     margin-left: 16rpx;
@@ -304,7 +309,8 @@ $unactive-color: #cccccc;
     .radio-label {
       color: $pi-primary-color;
     }
-    &.line {
+    &.line,
+    &.line-circle {
       .check-icon {
         color: $pi-primary-color;
         background-color: #ffffff;

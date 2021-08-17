@@ -120,12 +120,12 @@ export default {
     },
     // 激活模式
     activeMode: {
-      // line: 线框模式，fill: 实底模式
+      // `'line'-线框模式` `line-circle - 线环模式（无中间打钩和圆点）` `'fill'-实底模式`
       type: String,
       // 'line'
       default: radio.activeMode,
       validator: function(value) {
-        return ['line', 'fill'].includes(value)
+        return ['line', 'line-circle', 'fill'].includes(value)
       }
     }
   },
@@ -254,6 +254,11 @@ $unactive-color: #cccccc;
       display: inline-flex;
     }
   }
+  &.line-circle {
+    .radio-icon {
+      color: transparent;
+    }
+  }
   .radio-label {
     flex: 1;
     margin-left: 16rpx;
@@ -329,7 +334,8 @@ $unactive-color: #cccccc;
         box-shadow: -2px 0 0 0 $pi-primary-color;
       }
     }
-    &.line {
+    &.line,
+    &.line-circle {
       .radio-icon {
         color: $pi-primary-color;
         background-color: #ffffff;

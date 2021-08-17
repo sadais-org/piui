@@ -123,7 +123,7 @@ export default {
       // `''`
       default: checkboxGroup.activeMode,
       validator: function(value) {
-        return ['', 'line', 'fill'].includes(value)
+        return ['', 'line', 'line-circle', 'fill'].includes(value)
       }
     }
   },
