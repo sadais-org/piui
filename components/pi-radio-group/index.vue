@@ -135,7 +135,7 @@ export default {
       // 'line'
       default: radioGroup.activeMode,
       validator: function(value) {
-        return ['', 'line', 'line-circle', 'fill'].includes(value)
+        return ['', 'line', 'line-circle', 'fill', 'fill-circle'].includes(value)
       }
     }
   },

@@ -122,7 +122,7 @@ export default {
       // 'line'
       default: checkbox.activeMode,
       validator: function(value) {
-        return ['line', 'line-circle', 'fill'].includes(value)
+        return ['line', 'line-circle', 'fill', 'fill-circle'].includes(value)
       }
     }
   },
@@ -262,7 +262,8 @@ $unactive-color: #cccccc;
       display: inline-flex;
     }
   }
-  &.line-circle {
+  &.line-circle,
+  &.fill-circle {
     .check-icon {
       color: transparent;
     }
@@ -324,7 +325,8 @@ $unactive-color: #cccccc;
         border-color: $pi-primary-color;
       }
     }
-    &.fill {
+    &.fill,
+    &.fill-circle {
       .check-icon {
         color: #ffffff;
         background: $pi-primary-color;

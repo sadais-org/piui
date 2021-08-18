@@ -125,7 +125,7 @@ export default {
       // 'line'
       default: radio.activeMode,
       validator: function(value) {
-        return ['line', 'line-circle', 'fill'].includes(value)
+        return ['line', 'line-circle', 'fill', 'fill-circle'].includes(value)
       }
     }
   },
@@ -254,7 +254,8 @@ $unactive-color: #cccccc;
       display: inline-flex;
     }
   }
-  &.line-circle {
+  &.line-circle,
+  &.fill-circle {
     .radio-icon {
       color: transparent;
     }
@@ -353,7 +354,8 @@ $unactive-color: #cccccc;
         border-color: $pi-primary-color;
       }
     }
-    &.fill {
+    &.fill,
+    &.fill-circle {
       .radio-icon {
         color: #ffffff;
         background: $pi-primary-color;
