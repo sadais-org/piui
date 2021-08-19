@@ -6,6 +6,7 @@
     @mouseleave="handleStart"
   >
     <div class="inner" :style="animateTime">
+      <!-- 默认插槽：放置pi-marquee-item -->
       <slot />
     </div>
     <div v-if="showCopy" class="inner" :style="animateTime">
@@ -24,8 +25,9 @@ export default {
   props: {
     // 控制方向
     direction: {
-      // vertical or horizontal
+      // `'vertical'` or `'horizontal'`
       type: String,
+      // `'horizontal'`
       default: marquee.direction
     },
     // 动画移动速度:每毫秒移动多少像素
@@ -68,12 +70,22 @@ export default {
     window.removeEventListener('resize', this.updateTime)
   },
   methods: {
+    /**
+     * @vuese
+     * 暂停动画
+     * @arg 无
+     */
     handlePause() {
       if (!this.hoverPause) {
         return
       }
       this.animateTime = 'animation: none'
     },
+    /**
+     * @vuese
+     * 开始动画 重新计算动画时间
+     * @arg 无
+     */
     handleStart() {
       if (!this.hoverPause) {
         return
