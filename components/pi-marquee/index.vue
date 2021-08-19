@@ -56,6 +56,7 @@ export default {
     duration: {
       immediate: true,
       handler() {
+        this.handlePause()
         this.updateTime()
       }
     }
@@ -120,6 +121,7 @@ export default {
   width: 100%;
   white-space: nowrap;
   overflow: auto hidden;
+  background: #ffffff;
 }
 
 .marquee-container > .inner {
