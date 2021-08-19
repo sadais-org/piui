@@ -4,7 +4,7 @@
     :class="{ vertical: direction === 'vertical' }"
     @mouseenter="handlePause"
     @mouseleave="handleStart"
-    @scroll.prevent=""
+    @touchmove.stop.prevent
   >
     <view class="inner-wrap" :style="animate">
       <view ref="inner" class="inner">
