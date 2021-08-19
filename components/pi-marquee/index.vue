@@ -5,11 +5,10 @@
     @mouseenter="handlePause"
     @mouseleave="handleStart"
   >
-    <div class="inner" :style="animateTime">
-      <!-- 默认插槽：放置pi-marquee-item -->
+    <div class="inner" :style="animate">
       <slot />
     </div>
-    <div v-if="showCopy" class="inner" :style="animateTime">
+    <div v-if="showCopy" class="inner" :style="animate">
       <slot />
     </div>
   </div>
@@ -33,7 +32,7 @@ export default {
     // 动画移动速度:每毫秒移动多少像素
     speed: {
       type: Number,
-      // 0.2s
+      // 0.2px
       default: marquee.speed
     },
     // 是否支持鼠标移上去暂停滚动
@@ -46,7 +45,7 @@ export default {
   data() {
     return {
       children: [],
-      animateTime: '',
+      animate: {},
       showCopy: false
     }
   },
@@ -79,7 +78,7 @@ export default {
       if (!this.hoverPause) {
         return
       }
-      this.animateTime = 'animation: none'
+      this.$set(this.animate, 'animationPlayState', 'paused')
     },
     /**
      * @vuese
@@ -90,7 +89,7 @@ export default {
       if (!this.hoverPause) {
         return
       }
-      this.updateTime()
+      this.$set(this.animate, 'animationPlayState', 'running')
     },
     updateTime() {
       this.$nextTick(() => {
@@ -109,16 +108,16 @@ export default {
             this.showCopy = false
           } else {
             const time = inner.offsetWidth / this.speed / 1000
-            this.animateTime = `animation-duration: ${time}s`
+            this.$set(this.animate, 'animationDuration', `${time}s`)
             this.showCopy = true
           }
         } else {
           if (inner.offsetHeight <= containerHeight) {
-            this.animateTime = 'animation: none'
+            this.$set(this.animate, 'animationPlayState', 'paused')
             this.showCopy = false
           } else {
             const time = inner.offsetHeight / this.speed / 1000
-            this.animateTime = `animation-duration: ${time}s`
+            this.$set(this.animate, 'animationDuration', `${time}s`)
             this.showCopy = true
           }
         }
