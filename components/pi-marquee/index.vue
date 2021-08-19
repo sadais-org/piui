@@ -1,10 +1,15 @@
 <template>
-  <div class="marquee-container" :class="{vertical: direction === 'vertical'}" @mouseenter="handlePause" @mouseleave="handleStart">
+  <div
+    class="marquee-container"
+    :class="{ vertical: direction === 'vertical' }"
+    @mouseenter="handlePause"
+    @mouseleave="handleStart"
+  >
     <div class="inner" :style="animateTime">
-        <slot></slot>
+      <slot />
     </div>
     <div v-if="showCopy" class="inner" :style="animateTime">
-        <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
@@ -12,22 +17,22 @@
 <script>
 import { getConfig } from '../../config'
 
-const TAG = "Marquee"
+const TAG = 'PiMarquee'
 const { marquee } = getConfig()
 export default {
   name: TAG,
   props: {
     // 控制方向
     direction: {
-        // vertical or horizontal
-        type: String,
-        default: marquee.direction
+      // vertical or horizontal
+      type: String,
+      default: marquee.direction
     },
     // 动画移动速度:每毫秒移动多少像素
     speed: {
-        type: Number,
-        // 0.2s
-        default: marquee.speed
+      type: Number,
+      // 0.2s
+      default: marquee.speed
     },
     // 是否支持鼠标移上去暂停滚动
     hoverPause: {
@@ -45,13 +50,13 @@ export default {
   },
   watch: {
     direction() {
-      this.children.forEach(i => i.direction = this.direction)
+      this.children.forEach(i => (i.direction = this.direction))
       this.updateTime()
     },
     duration: {
       immediate: true,
       handler() {
-          this.updateTime()
+        this.updateTime()
       }
     }
   },
@@ -111,50 +116,47 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .marquee-container {
-    width: 100%;
-    white-space: nowrap;
-    overflow: auto hidden;
+  width: 100%;
+  white-space: nowrap;
+  overflow: auto hidden;
 }
 
 .marquee-container > .inner {
-    display: inline-block;
-    height: 100%;
-    white-space: nowrap;
-    animation: roll 0s linear infinite;
+  display: inline-block;
+  height: 100%;
+  white-space: nowrap;
+  animation: roll 0s linear infinite;
 }
-
 
 .marquee-container.vertical {
-    height: 100%;
-    white-space: normal;
-    overflow: hidden auto;
+  height: 100%;
+  white-space: normal;
+  overflow: hidden auto;
 }
 
-
 .marquee-container.vertical > .inner {
-    height: auto;
-    width: 100%;
-    white-space: normal;
-    animation: roll-vertical 0s linear infinite;
+  height: auto;
+  width: 100%;
+  white-space: normal;
+  animation: roll-vertical 0s linear infinite;
 }
 
 @keyframes roll {
-    0% {
-        transform: translateX(0)
-    }
-    100% {
-        transform: translateX(-100%)
-    }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 @keyframes roll-vertical {
-    0% {
-        transform: translateY(0)
-    }
-    100% {
-        transform: translateY(-100%)
-    }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
 }
 </style>

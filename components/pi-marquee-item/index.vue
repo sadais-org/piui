@@ -1,11 +1,11 @@
 <template>
   <view class="marquee-item">
-    <slot></slot>
+    <slot />
   </view>
 </template>
 
 <script>
-const TAG = 'MarqueeItem'
+const TAG = 'PiMarqueeItem'
 export default {
   name: TAG,
   data() {
@@ -21,8 +21,8 @@ export default {
     let targetIdx = -1
     this.$parent.children.some((i, idx) => {
       if (i._uid === this._uid) {
-          targetIdx = idx
-          return true
+        targetIdx = idx
+        return true
       }
       return false
     })
@@ -35,12 +35,12 @@ export default {
 
 <style lang="scss" scoped>
 .marquee-item {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .marquee-item.vertical {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 </style>
