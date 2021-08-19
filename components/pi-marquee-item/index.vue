@@ -5,9 +5,9 @@
 </template>
 
 <script>
-const TAG = 'PiMarqueeItem'
+// const TAG = 'PiMarqueeItem'
 export default {
-  name: TAG,
+  name: 'PiMarqueeItem',
   data() {
     return {
       direction: ''

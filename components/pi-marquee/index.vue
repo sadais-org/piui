@@ -18,10 +18,10 @@
 <script>
 import { getConfig } from '../../config'
 
-const TAG = 'PiMarquee'
+// const TAG = 'PiMarquee'
 const { marquee } = getConfig()
 export default {
-  name: TAG,
+  name: 'PiMarquee',
   props: {
     // 控制方向
     direction: {
