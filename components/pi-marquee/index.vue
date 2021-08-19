@@ -6,11 +6,13 @@
     @mouseleave="handleStart"
     @scroll.prevent=""
   >
-    <view class="inner" :style="animate">
-      <slot />
-    </view>
-    <view v-if="showCopy" class="inner" :style="animate">
-      <slot />
+    <view class="inner-wrap" :style="animate">
+      <view ref="inner" class="inner">
+        <slot />
+      </view>
+      <view v-if="showCopy" class="inner">
+        <slot />
+      </view>
     </view>
   </view>
 </template>
@@ -97,7 +99,9 @@ export default {
       this.$nextTick(() => {
         const containerWidth = this.$el.clientWidth
         const containerHeight = this.$el.clientHeight
-        const inner = this.$el.children[0]
+
+        const inner = this.$refs.inner.$el
+
         if (!inner) {
           // 没有marquee-item 则直接停止动画 隐藏拷贝
           this.handlePause()
@@ -135,14 +139,13 @@ export default {
   white-space: nowrap;
   overflow: auto hidden;
   background: #ffffff;
+  font-size: 0px;
 }
 
-.marquee-container > .inner {
+.marquee-container .inner {
   display: inline-block;
   height: 100%;
   white-space: nowrap;
-  animation: roll 0s linear infinite;
-  font-size: 0;
 }
 
 .marquee-container.vertical {
@@ -151,19 +154,28 @@ export default {
   overflow: hidden auto;
 }
 
-.marquee-container.vertical > .inner {
+.marquee-container.vertical .inner {
   height: auto;
   width: 100%;
   white-space: normal;
-  animation: roll-vertical 0s linear infinite;
 }
 
+.inner-wrap {
+  display: inline-block;
+  white-space: nowrap;
+  animation: roll 0s linear infinite;
+}
+
+.marquee-container.vertical > .inner-wrap {
+  white-space: normal;
+  animation: roll-vertical 0s linear infinite;
+}
 @keyframes roll {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
@@ -172,7 +184,7 @@ export default {
     transform: translateY(0);
   }
   100% {
-    transform: translateY(-100%);
+    transform: translateY(-50%);
   }
 }
 </style>

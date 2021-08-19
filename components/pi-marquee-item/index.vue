@@ -6,20 +6,24 @@
 
 <script>
 // const TAG = 'PiMarqueeItem'
+import { childInit } from '../../mixin/props-sync'
+const extendMarquee = childInit('PiMarquee')
 export default {
   name: 'PiMarqueeItem',
+  mixins: [extendMarquee],
   data() {
     return {
       direction: ''
     }
   },
   mounted() {
-    this.$parent.children.push(this)
-    this.direction = this.$parent.direction
+    console.log(this._parent)
+    this._parent.children.push(this)
+    this.direction = this._parent.direction
   },
   beforeDestroy() {
     let targetIdx = -1
-    this.$parent.children.some((i, idx) => {
+    this._parent.children.some((i, idx) => {
       if (i._uid === this._uid) {
         targetIdx = idx
         return true
@@ -27,7 +31,7 @@ export default {
       return false
     })
     if (targetIdx !== -1) {
-      this.$parent.children.splice(targetIdx, 1)
+      this._parent.children.splice(targetIdx, 1)
     }
   }
 }
