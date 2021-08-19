@@ -37,6 +37,7 @@ export default {
 .marquee-item {
   position: relative;
   display: inline-block;
+  font-size: 28rpx;
 }
 
 .marquee-item.vertical {

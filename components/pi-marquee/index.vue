@@ -1,17 +1,18 @@
 <template>
-  <div
+  <view
     class="marquee-container"
     :class="{ vertical: direction === 'vertical' }"
     @mouseenter="handlePause"
     @mouseleave="handleStart"
+    @scroll.prevent=""
   >
-    <div class="inner" :style="animate">
+    <view class="inner" :style="animate">
       <slot />
-    </div>
-    <div v-if="showCopy" class="inner" :style="animate">
+    </view>
+    <view v-if="showCopy" class="inner" :style="animate">
       <slot />
-    </div>
-  </div>
+    </view>
+  </view>
 </template>
 
 <script>
@@ -59,6 +60,7 @@ export default {
       handler() {
         this.handlePause()
         this.updateTime()
+        this.handleStart()
       }
     }
   },
@@ -140,6 +142,7 @@ export default {
   height: 100%;
   white-space: nowrap;
   animation: roll 0s linear infinite;
+  font-size: 0;
 }
 
 .marquee-container.vertical {
