@@ -1,13 +1,15 @@
 <template>
   <view
+    :style="[customStyle]"
     class="marquee-container"
-    :class="{ vertical: direction === 'vertical' }"
+    :class="[customClass, isVertical ? 'vertical' : '']"
     @mouseenter="handlePause"
     @mouseleave="handleStart"
     @touchmove.stop.prevent
+    @mousewheel.stop.prevent
   >
-    <view class="inner-wrap" :style="animate">
-      <view ref="inner" class="inner">
+    <view class="inner-wrap" :class="direction" :style="animate">
+      <view id="firstInner" class="inner">
         <slot />
       </view>
       <view v-if="showCopy" class="inner">
@@ -25,17 +27,32 @@ const { marquee } = getConfig()
 export default {
   name: 'PiMarquee',
   props: {
-    // 控制方向
-    direction: {
-      // `'vertical'` or `'horizontal'`
+    customStyle: {
+      type: Object,
+      // {}
+      default() {
+        return marquee.customStyle
+      }
+    },
+    // 自定义样式类
+    customClass: {
       type: String,
-      // `'horizontal'`
+      // ''
+      default() {
+        return marquee.customClass
+      }
+    },
+    // 控制滚动方向方向
+    direction: {
+      // `'lr'`、`'rl'`、`'tb'`、`'bt'`
+      type: String,
+      // `'rl'`
       default: marquee.direction
     },
     // 动画移动速度:每毫秒移动多少像素
     speed: {
       type: Number,
-      // 0.2px
+      // 0.1px
       default: marquee.speed
     },
     // 是否支持鼠标移上去暂停滚动
@@ -52,9 +69,19 @@ export default {
       showCopy: false
     }
   },
+  computed: {
+    isVertical() {
+      return ['tb', 'bt'].includes(this.direction)
+    }
+  },
   watch: {
+    customStyle() {
+      this.updateTime()
+    },
+    customClass() {
+      this.updateTime()
+    },
     direction() {
-      this.children.forEach(i => (i.direction = this.direction))
       this.updateTime()
     },
     speed: {
@@ -96,11 +123,11 @@ export default {
       this.$set(this.animate, 'animationPlayState', 'running')
     },
     updateTime() {
-      this.$nextTick(() => {
-        const containerWidth = this.$el.clientWidth
-        const containerHeight = this.$el.clientHeight
-
-        const inner = this.$refs.inner.$el
+      this.$nextTick(async () => {
+        const rect = await this.$pi.common.queryRect(this, '.marquee-container', false)
+        const containerWidth = rect.width
+        const containerHeight = rect.height
+        const inner = await this.$pi.common.queryRect(this, '#firstInner', false)
 
         if (!inner) {
           // 没有marquee-item 则直接停止动画 隐藏拷贝
@@ -108,21 +135,21 @@ export default {
           this.showCopy = false
           return
         }
-        if (this.direction !== 'vertical') {
-          if (inner.offsetWidth <= containerWidth) {
+        if (!this.isVertical) {
+          if (inner.width <= containerWidth) {
             this.handlePause()
             this.showCopy = false
           } else {
-            const time = inner.offsetWidth / this.speed / 1000
+            const time = inner.width / this.speed / 1000
             this.$set(this.animate, 'animationDuration', `${time}s`)
             this.showCopy = true
           }
         } else {
-          if (inner.offsetHeight <= containerHeight) {
+          if (inner.height <= containerHeight) {
             this.$set(this.animate, 'animationPlayState', 'paused')
             this.showCopy = false
           } else {
-            const time = inner.offsetHeight / this.speed / 1000
+            const time = inner.height / this.speed / 1000
             this.$set(this.animate, 'animationDuration', `${time}s`)
             this.showCopy = true
           }
@@ -163,14 +190,34 @@ export default {
 .inner-wrap {
   display: inline-block;
   white-space: nowrap;
-  animation: roll 0s linear infinite;
+  &.lr {
+    animation: roll-lr 0s linear infinite;
+  }
+  &.rl {
+    animation: roll-rl 0s linear infinite;
+  }
+  &.tb {
+    animation: roll-tb 0s linear infinite;
+  }
+  &.bt {
+    animation: roll-bt 0s linear infinite;
+  }
 }
 
 .marquee-container.vertical > .inner-wrap {
   white-space: normal;
-  animation: roll-vertical 0s linear infinite;
 }
-@keyframes roll {
+
+@keyframes roll-lr {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes roll-rl {
   0% {
     transform: translateX(0);
   }
@@ -179,12 +226,21 @@ export default {
   }
 }
 
-@keyframes roll-vertical {
+@keyframes roll-bt {
   0% {
     transform: translateY(0);
   }
   100% {
     transform: translateY(-50%);
+  }
+}
+
+@keyframes roll-tb {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0%);
   }
 }
 </style>

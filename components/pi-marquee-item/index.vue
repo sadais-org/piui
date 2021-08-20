@@ -12,14 +12,10 @@ export default {
   name: 'PiMarqueeItem',
   mixins: [extendMarquee],
   data() {
-    return {
-      direction: ''
-    }
+    return {}
   },
   mounted() {
-    console.log(this._parent)
     this._parent.children.push(this)
-    this.direction = this._parent.direction
   },
   beforeDestroy() {
     let targetIdx = -1
