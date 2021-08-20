@@ -57,7 +57,7 @@ export default {
       this.children.forEach(i => (i.direction = this.direction))
       this.updateTime()
     },
-    duration: {
+    speed: {
       immediate: true,
       handler() {
         this.handlePause()
@@ -67,10 +67,10 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('resize', this.updateTime)
+    window && window.addEventListener('resize', this.updateTime)
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.updateTime)
+    window && window.removeEventListener('resize', this.updateTime)
   },
   methods: {
     /**
