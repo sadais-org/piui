@@ -1,4 +1,4 @@
-import { dynamicImport } from '../tools/common'
+import { dynamicImport } from '@sadais/piui-tool/tools/common'
 
 /**
  * 配置各组件默认属性，可以在install中进行覆盖，达到全局配置的效果

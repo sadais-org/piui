@@ -43,7 +43,7 @@
  */
 import { getConfig } from '../../config'
 
-import { debounce } from '../../tools/common'
+import { debounce } from '@sadais/piui-tool/tools/common'
 const TAG = 'PiButton'
 const { button } = getConfig()
 

@@ -13,7 +13,7 @@
  * @property {String} background 是否显示模态框 default: transparent
  * @example <status-bar />
  */
-import { systemInfo } from '../../tools/system'
+import { systemInfo } from '@sadais/piui-tool/tools/system'
 
 import { getConfig } from '../../config'
 const { statusBar } = getConfig()

@@ -9,6 +9,7 @@ export default {
   titlePadding: '32rpx', // 标题 padding（默认：32rpx）
   width: 600, // 弹窗宽度，可以是数值(rpx)，百分比，auto等
   content: '内容', // 弹窗内容
+  contentPadding: '32rpx 0', // 内容 padding
   contentStyle: {}, // 内容样式
   onCancelClose: true, // 是否点击取消的时候关闭弹窗（默认：'true'）
   onConfirmClose: true, // 是否点击确认的时候关闭弹窗（默认：'true'）

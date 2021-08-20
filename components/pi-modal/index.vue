@@ -26,10 +26,10 @@
         <template v-else>{{ title }}</template>
       </view>
       <!-- 内容区域 -->
-      <view class="pi-flex-column-center pi-pd-24 modal-content">
+      <view class="pi-flex-column-center modal-content" :style="[getContentStyle]">
         <!-- 内容插槽 -->
         <slot v-if="$slots.default || $slots.$default" />
-        <view v-else :style="[contentStyle]">{{ content }}</view>
+        <view v-else>{{ content }}</view>
       </view>
 
       <!-- 按钮区域 -->
@@ -177,6 +177,12 @@ export default {
       // '内容'
       default: modal.content
     },
+    // 内容 padding
+    contentPadding: {
+      type: [String, Number],
+      // '32rpx'
+      default: modal.contentPadding
+    },
     // 内容的样式
     contentStyle: {
       type: Object,
@@ -237,6 +243,13 @@ export default {
     },
     getTitlePadding() {
       return this.$pi.common.addUnit(this.titlePadding)
+    },
+    getContentStyle() {
+      const contentStyle = {
+        padding: this.$pi.common.addUnit(this.contentPadding),
+        ...this.contentStyle
+      }
+      return contentStyle
     },
     modalStyle() {
       return {

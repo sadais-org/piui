@@ -57,9 +57,9 @@
  * input	蒙层显示或者关闭的时候触发事件 value: boolean (蒙层是否显示)
  */
 import ValueSync from '../../mixin/value-sync'
-import { systemInfo } from '../../tools/system'
+import { systemInfo } from '@sadais/piui-tool/tools/system'
 import { getConfig } from '../../config'
-import { parseDuration } from '../../tools/common'
+import { parseDuration } from '@sadais/piui-tool/tools/common'
 
 const TAG = 'PiPopup'
 const { popup } = getConfig()

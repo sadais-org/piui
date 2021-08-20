@@ -72,8 +72,8 @@
  * slot title 是除开icon的剩余空间
  * slot 整个标题栏的插槽
  */
-import { systemInfo } from '../../tools/system'
-import navi from '../../tools/navi'
+import { systemInfo } from '@sadais/piui-tool/tools/system'
+import navi from '@sadais/piui-tool/tools/navi'
 import { getConfig } from '../../config'
 
 const TAG = 'PiNavbar'

@@ -33,7 +33,7 @@
  */
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
-import { parseDuration } from '../../tools/common'
+import { parseDuration } from '@sadais/piui-tool/tools/common'
 
 const TAG = 'PiMask'
 const { mask } = getConfig()

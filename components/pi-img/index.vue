@@ -48,7 +48,7 @@
  * 如果要自定义loading底图和请求失败图，请使用slot对本组件进行二次封装
  */
 import { getConfig } from '../../config'
-import { debounce } from '../../tools/common'
+import { debounce } from '@sadais/piui-tool/tools/common'
 
 const TAG = 'PiImg'
 const { img } = getConfig()

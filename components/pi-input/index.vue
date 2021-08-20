@@ -74,7 +74,7 @@
 import Emitter from '../../mixin/emitter'
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
-import { debounce } from '../../tools/common'
+import { debounce } from '@sadais/piui-tool/tools/common'
 
 const { input } = getConfig()
 
