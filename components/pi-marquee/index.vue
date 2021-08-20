@@ -49,10 +49,10 @@ export default {
       // `'rl'`
       default: marquee.direction
     },
-    // 动画移动速度:每毫秒移动多少像素
+    // 动画移动速度:每秒移动多少像素
     speed: {
       type: Number,
-      // 0.1px
+      // 100
       default: marquee.speed
     },
     // 是否支持鼠标移上去暂停滚动
@@ -140,7 +140,7 @@ export default {
             this.handlePause()
             this.showCopy = false
           } else {
-            const time = inner.width / this.speed / 1000
+            const time = inner.width / this.speed
             this.$set(this.animate, 'animationDuration', `${time}s`)
             this.showCopy = true
           }
@@ -149,7 +149,7 @@ export default {
             this.$set(this.animate, 'animationPlayState', 'paused')
             this.showCopy = false
           } else {
-            const time = inner.height / this.speed / 1000
+            const time = inner.height / this.speed
             this.$set(this.animate, 'animationDuration', `${time}s`)
             this.showCopy = true
           }
