@@ -324,12 +324,30 @@ export default {
         const pages = getCurrentPages()
         // 如果堆栈大于1表示打开了子页面，需要显示返回按钮
         this.isShowBack = pages.length > 1
+        // #ifdef H5
+        if(!this.isShowBack) {
+          // H5端，如果isShowBack为false，继续尝试获取父节点的属性判断是否子页面
+          const page = this.$pi.parent(this, 'Page')
+          if(!page) return
+          this.isShowBack = !page.isQuit && !page.$route.meta.isQuit
+        }
+        // #endif
       } else {
         this.isShowBack = this.showBack
       }
     },
-    handleGoBack() {
-      !this.customBackFunc && navi.navigateBack()
+    handleGoBack(){
+      if(!this.customBackFunc) {
+        if (getCurrentPages().length === 1) {
+          uni.reLaunch({
+            url: '/'
+          })
+        } else {
+          uni.navigateBack({
+            from: 'backbutton'
+          })
+        }
+      }
       this.$emit('navigateToBack')
     },
     handleGoHome() {
