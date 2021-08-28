@@ -17,6 +17,7 @@
           :style="[itemStyle]"
           :class="{ vertical: isVertical }"
         >
+          <!-- item插槽 -->
           <slot name="item" :item="item" />
         </view>
       </view>
