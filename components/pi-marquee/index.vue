@@ -8,12 +8,28 @@
     @touchmove.stop.prevent
     @mousewheel.stop.prevent
   >
-    <view class="inner-wrap" :class="direction" :style="animate">
+    <view class="inner-wrap" :class="direction" :style="[animate]">
       <view id="firstInner" class="inner">
-        <slot />
+        <view
+          v-for="(item, idx) in items"
+          :key="idx"
+          class="marquee-item"
+          :style="[itemStyle]"
+          :class="{ vertical: isVertical }"
+        >
+          <slot name="item" :item="item" />
+        </view>
       </view>
       <view v-if="showCopy" class="inner">
-        <slot />
+        <view
+          v-for="(item, idx) in items"
+          :key="idx"
+          class="marquee-item"
+          :style="[itemStyle]"
+          :class="{ vertical: isVertical }"
+        >
+          <slot name="item" :item="item" />
+        </view>
       </view>
     </view>
   </view>
@@ -21,7 +37,6 @@
 
 <script>
 import { getConfig } from '../../config'
-
 // const TAG = 'PiMarquee'
 const { marquee } = getConfig()
 export default {
@@ -60,11 +75,16 @@ export default {
       type: Boolean,
       // true
       default: marquee.hoverPause
+    },
+    // 轮播数据
+    items: {
+      type: Array,
+      // `[]`
+      default: () => marquee.items
     }
   },
   data() {
     return {
-      children: [],
       animate: {},
       showCopy: false
     }
@@ -206,6 +226,7 @@ export default {
 
 .marquee-container.vertical > .inner-wrap {
   white-space: normal;
+  width: 100%;
 }
 
 @keyframes roll-lr {
@@ -242,5 +263,16 @@ export default {
   100% {
     transform: translateY(0%);
   }
+}
+
+.marquee-item {
+  position: relative;
+  display: inline-block;
+  font-size: 28rpx;
+}
+
+.marquee-item.vertical {
+  width: 100%;
+  height: auto;
 }
 </style>
