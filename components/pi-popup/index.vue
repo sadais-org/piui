@@ -309,7 +309,7 @@ export default {
       }, this.getDuration.js)
     },
     handleCloseMask() {
-      if (!this.getMask.maskClosable) return
+      if (!this.getMask.maskCloseable) return
       this.closeMask()
     }
   }

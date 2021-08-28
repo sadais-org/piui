@@ -20,7 +20,7 @@
     @tap.stop.prevent="handleCloseMask"
   >
     <!-- 遮罩层内区域插槽 -->
-    <slot />
+    <view @tap.stop.prevent><slot /></view>
   </view>
 </template>
 
@@ -82,10 +82,10 @@ export default {
       default: mask.duration
     },
     // 是否可以通过点击遮罩进行关闭
-    maskClosable: {
+    maskCloseable: {
       type: Boolean,
       // true
-      default: mask.maskClosable
+      default: mask.maskCloseable
     },
     // 是否隐藏TabBar
     hideTabBar: {
@@ -178,7 +178,7 @@ export default {
       }, this.getDuration.js)
     },
     handleCloseMask() {
-      if (!this.maskClosable) return
+      if (!this.maskCloseable) return
       this.closeMask()
     }
   }

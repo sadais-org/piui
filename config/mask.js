@@ -4,7 +4,7 @@ export default {
   animationShow: 'pi-ani-fade-show', // 遮罩层显示动画
   animationHide: 'pi-ani-fade-hide', // 遮罩层隐藏动画
   duration: 300, // 遮罩的过渡时间，单位为ms
-  maskClosable: true, // 是否可以通过点击遮罩进行关闭
+  maskCloseable: true, // 是否可以通过点击遮罩进行关闭
   hideTabBar: false, // 是否隐藏TabBar
   appendToBody: true, // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
   zIndex: 999, // 元素 z-index
