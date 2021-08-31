@@ -25,7 +25,7 @@
           >
             <!-- slot slot-scoped只支持app,h5,微信小程序平台 -->
             <!-- <template slot="item" slot-scope="{ item }">{{ item.tag }}</template> -->
-            <slot name="item" :item="item">
+            <slot name="item" :item="item" :active="activeIndex === index">
               {{ item[displayField] }}
             </slot>
           </view>
