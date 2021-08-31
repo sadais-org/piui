@@ -14,7 +14,6 @@
           v-for="(item, idx) in items"
           :key="idx"
           class="marquee-item"
-          :style="[itemStyle]"
           :class="{ vertical: isVertical }"
         >
           <!-- item插槽 -->
@@ -26,7 +25,6 @@
           v-for="(item, idx) in items"
           :key="idx"
           class="marquee-item"
-          :style="[itemStyle]"
           :class="{ vertical: isVertical }"
         >
           <slot name="item" :item="item" />
