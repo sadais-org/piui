@@ -22,7 +22,7 @@
     </view>
     <pi-picker
       v-model="pickerOpts.show"
-      :items="pickerOpts.items"
+      :items="pickerItems"
       type="single"
       :default-value="[innerPage - 1]"
       @confirm="handleSelectPage"
@@ -91,15 +91,8 @@ export default {
     return {
       innerPage: 1,
       pickerOpts: {
-        show: false,
-        items: []
+        show: false
       }
-      // popupOpt: {
-      //   showTitle: true,
-      //   title: '请选择页码',
-      //   borderRadius: '24rpx 24rpx 0 0',
-      //   appendToBody: true
-      // }
     }
   },
   computed: {
@@ -180,7 +173,17 @@ export default {
     totalPage() {
       const ps = this.pageSize || 10
       const total = this.total || 0
-      return total / ps + (total % ps !== 0 ? 1 : 0)
+      return parseInt(`${total / ps}`, 10) + (total % ps !== 0 ? 1 : 0)
+    },
+    pickerItems() {
+      const tmps = []
+      for (let i = 1; i <= this.totalPage; i++) {
+        tmps.push({
+          id: i,
+          text: `${i}`
+        })
+      }
+      return tmps
     }
   },
   watch: {
@@ -214,14 +217,6 @@ export default {
       if (page !== '...') {
         this.innerPage = page
       } else {
-        const tmps = []
-        for (let i = 1; i <= this.totalPage; i++) {
-          tmps.push({
-            id: i,
-            text: `${i}`
-          })
-        }
-        this.pickerOpts.items = tmps
         this.pickerOpts.show = true
       }
     },
