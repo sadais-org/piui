@@ -236,45 +236,48 @@ export default {
 .page-wrap {
   display: block;
   width: 100%;
+  overflow: auto hidden;
   text-align: center;
   white-space: nowrap;
-  overflow: auto hidden;
 
   .prev {
     display: inline-block;
-    color: #979797;
     font-size: 24rpx;
+    color: #979797;
     &.active {
-      color: #092675;
+      color: $pi-primary-color;
       cursor: pointer;
     }
   }
 
   .page-item {
     display: inline-block;
-    color: #092675;
-    font-size: 24rpx;
     margin-left: 24rpx;
+    font-size: 24rpx;
     text-align: center;
+    transition: all $pi-animation-duration $pi-animation-timing-function;
+
     &.background {
-      padding: 8rpx;
-      font-size: 24rpx !important;
-      background-color: #f4f4f5;
       min-width: 60rpx;
+      padding: 8rpx;
       margin-left: 8rpx;
+      font-size: 24rpx !important;
       color: #606266;
+      background-color: #f4f4f5;
     }
     &.current {
       font-size: 32rpx;
+      color: $pi-primary-color;
     }
     &.current.background {
-      background-color: #409eff;
       color: #ffffff;
+      background-color: $pi-primary-color;
     }
   }
 
   .next {
     @extend .prev;
+
     margin-left: 16rpx;
   }
 }
