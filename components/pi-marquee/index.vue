@@ -110,6 +110,14 @@ export default {
         this.updateTime()
         this.handleStart()
       }
+    },
+    items: {
+      immediate: true,
+      handler() {
+        this.handlePause()
+        this.updateTime()
+        this.handleStart()
+      }
     }
   },
   mounted() {
