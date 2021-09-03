@@ -17,6 +17,7 @@
     @cancel="handleCancel"
     @confirm="handleConfirm"
   >
+    <slot name="header" />
     <picker-view
       v-if="val"
       class="pi-text-center pi-h-100P"
@@ -34,6 +35,7 @@
         </view>
       </picker-view-column>
     </picker-view>
+    <slot name="footer" />
   </pi-popup-select>
 </template>
 

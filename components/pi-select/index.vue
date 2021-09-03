@@ -18,6 +18,7 @@
     @confirm="handleConfirm"
   >
     <view class="pi-select pi-h-100P pi-flex-column" :style="[customStyle]" :class="[customClass]">
+      <slot name="header" />
       <scroll-view scroll-y class="pi-scroll">
         <view
           v-for="item in getItems"
@@ -39,6 +40,7 @@
           <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" readonly />
         </view>
       </scroll-view>
+      <slot name="footer" />
     </view>
   </pi-popup-select>
 </template>

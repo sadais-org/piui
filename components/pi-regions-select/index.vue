@@ -18,6 +18,7 @@
     @confirm="handleConfirm"
   >
     <view class="pi-h-100P pi-flex-column" :style="[customStyle]" :class="[customClass]">
+      <slot name="header" />
       <pi-tabs v-if="val" v-model="tabCurrentItem" :items="getTabItems" />
       <swiper class="pi-scroll" :current="tabCurrent" @change="handleSwiperChange">
         <swiper-item v-for="item in getTabItems" :key="item.id">
@@ -45,6 +46,7 @@
           </scroll-view>
         </swiper-item>
       </swiper>
+      <slot name="footer" />
     </view>
   </pi-popup-select>
 </template>

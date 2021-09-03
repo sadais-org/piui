@@ -13,6 +13,7 @@
     @cancel="handleCancel"
     @confirm="handleConfirm"
   >
+    <slot name="header" />
     <view
       class="pi-pd-bottom-32"
       :style="[{ backgroundColor: backgroundColor }, customStyle]"
@@ -41,6 +42,7 @@
           </view>
         </pi-grid-item>
       </pi-grid>
+      <slot name="footer" />
     </view>
   </pi-popup-select>
 </template>

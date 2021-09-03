@@ -11,7 +11,7 @@
       @blur="focus = false"
       @input="handleInput"
     />
-    <view class="labels pi-align-center" :class="[{ stretch }]">
+    <view class="labels pi-align-center" :class="[{ stretch }, getAlign]">
       <view
         v-for="(item, index) in getLength"
         :key="index"
@@ -34,6 +34,12 @@ import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
 const { codeInput } = getConfig()
 const TAG = 'PiCodeInput'
+
+const ALIGN_MAP = {
+  left: 'pi-justify-start',
+  right: 'pi-justify-end',
+  center: 'pi-justify-center'
+}
 
 export default {
   name: TAG,
@@ -104,6 +110,17 @@ export default {
       default() {
         return codeInput.stretch
       }
+    },
+    // 验证码对齐方向，可选值：left、center、right
+    align: {
+      type: String,
+      // left
+      default() {
+        return codeInput.align
+      },
+      validator: function(value) {
+        return ['right', 'left', 'center'].includes(value)
+      }
     }
   },
   data() {
@@ -125,10 +142,13 @@ export default {
       return parseInt(this.autoFocusDelay, 10)
     },
     arrCode: function() {
-      return this.val ? this.val.split('') : []
+      return this.val ? this.val.toString().split('') : []
     },
     currentIndex: function() {
-      return this.val ? this.val.length - 1 : 0
+      return this.val ? this.val.toString().length - 1 : 0
+    },
+    getAlign() {
+      return ALIGN_MAP[this.align]
     }
   },
   mounted() {
