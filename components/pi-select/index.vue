@@ -17,7 +17,7 @@
     @cancel="handleCancel"
     @confirm="handleConfirm"
   >
-    <view class="pi-h-100P pi-flex-column" :style="[customStyle]" :class="[customClass]">
+    <view class="pi-select pi-h-100P pi-flex-column" :style="[customStyle]" :class="[customClass]">
       <scroll-view scroll-y class="pi-scroll">
         <view
           v-for="item in getItems"
@@ -302,7 +302,6 @@ export default {
 
 <style lang="scss" scoped>
 .pi-select {
-  height: 50vh;
   .select-item.disabled {
     opacity: $pi-disabled-opacity;
   }

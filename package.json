@@ -13,7 +13,7 @@
     "url": "git+https://github.com/sadais-org/piui.git"
   },
   "peerDependencies": {
-    "@sadais/piui-tool": "^0.0.4"
+    "@sadais/piui-tool": "^0.0.9"
   },
   "keywords": [
     "piui sadais-piui"
