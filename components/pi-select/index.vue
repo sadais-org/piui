@@ -33,11 +33,44 @@
           @tap.stop="handleSelectItem(item)"
         >
           <!-- 自定义列表项 -->
-          <slot name="item" :item="item" class="pi-w-100P">
+          <slot name="item" :item="item" :selected="item.isSelected" class="pi-w-100P">
             <!-- item[displayField] -->
             {{ item[displayField] }}
           </slot>
-          <pi-checkbox :value="item.isSelected" active-mode="fill" shape="round" readonly />
+          <!-- 如果配置了图片地址，使用图片 -->
+          <pi-img
+            v-if="getSelectedImg.src"
+            :src="getSelectedImg.src"
+            :mode="getSelectedImg.mode"
+            :width="getSelectedImg.width"
+            :height="getSelectedImg.height"
+            :dot="getSelectedImg.dot"
+            :dot-radius="getSelectedImg.dotRadius"
+            :badge="getSelectedImg.badge"
+            :shape="getSelectedImg.shape"
+            :border-radius="getSelectedImg.borderRadius"
+            :show-loading="getSelectedImg.showLoading"
+            :loading-color="getSelectedImg.loadingColor"
+            :loading-type="getSelectedImg.loadingType"
+            :loading-size="getSelectedImg.loadingSize"
+            :show-error="getSelectedImg.showError"
+            :webp="getSelectedImg.webp"
+          />
+          <!-- 默认使用复选框 -->
+          <pi-checkbox
+            v-else
+            readonly
+            :value="item.isSelected"
+            :name="getSelectedCheckbox.name"
+            :shape="getSelectedCheckbox.shape"
+            :border-radius="getSelectedCheckbox.borderRadius"
+            :border="getSelectedCheckbox.border"
+            :disabled="getSelectedCheckbox.disabled"
+            :size="getSelectedCheckbox.size"
+            :icon-size="getSelectedCheckbox.iconSize"
+            :active-color="getSelectedCheckbox.activeColor"
+            :active-mode="getSelectedCheckbox.activeMode"
+          />
         </view>
       </scroll-view>
       <slot name="footer" />
@@ -135,11 +168,27 @@ export default {
         return select.itemStyle
       }
     },
+    // 选中图标的配置
+    selectedImg: {
+      type: Object,
+      default() {
+        // 参照img
+        return select.selectedImg
+      }
+    },
+    // 选中checkbox配置
+    selectedCheckbox: {
+      type: Object,
+      default() {
+        // 参照checkbox
+        return select.selectedCheckbox
+      }
+    },
     // 弹窗选择参数设置
     popupSelect: {
       type: Object,
       default() {
-        // 参照popup
+        // 参照popupSelect
         return select.popupSelect
       }
     },
@@ -172,6 +221,12 @@ export default {
     }
   },
   computed: {
+    getSelectedImg() {
+      return this.$pi.lang.mergeDeep(select.selectedImg, this.selectedImg)
+    },
+    getSelectedCheckbox() {
+      return this.$pi.lang.mergeDeep(select.selectedCheckbox, this.selectedCheckbox)
+    },
     getPopupSelect() {
       return this.$pi.lang.mergeDeep(select.popupSelect, this.popupSelect)
     },
@@ -220,7 +275,7 @@ export default {
   methods: {
     init() {
       console.log(TAG, '初始化')
-      let selected = this.defaultValue
+      let selected = this.$pi.lang.cloneDeep(this.defaultValue)
       if (!selected) {
         selected = this.isMulti ? [] : {}
       }
@@ -296,7 +351,7 @@ export default {
        * @arg 当前选中的值 单选为对象，多选模式为数组
        */
       this.$emit('confirm', this.selected)
-      this.onConfirmClose && this.handlePopupClose()
+      this.getPopupSelect.onConfirmClose && this.handlePopupClose()
     }
   }
 }

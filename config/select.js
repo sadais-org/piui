@@ -1,4 +1,6 @@
 import popupSelect from './popupSelect'
+import img from './img'
+import checkbox from './checkbox'
 
 export default {
   customClass: '', // 自定义样式类，字符串形式（''）
@@ -12,6 +14,12 @@ export default {
   itemHeight: 110, // 行高（默认：'110rpx'）
   showItemBottomBorder: true, // 是否显示item下边框（默认：'true'）
   itemStyle: {}, // 行样式（默认：'{}'）
+  selectedImg: img, // 选中图标的配置
+  selectedCheckbox: {
+    ...checkbox,
+    shape: 'round',
+    activeMode: 'fill-circle'
+  }, // 选中复选框配置
   popupSelect: popupSelect, // popupSelect配置
   popup: popupSelect.popup, // 弹窗的配置，默认选项请参照popup
   confirmBtn: popupSelect.confirmBtn, // 确认按钮配置

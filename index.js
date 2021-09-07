@@ -4,16 +4,19 @@ import { getConfig, setConfig } from './config'
 const logStyle = 'color:#ff6a00;'
 
 const install = function(Vue, config = {}) {
-  const piConfig = this.lang.mergeDeep(getConfig(), config)
+  const piConfig = tools.lang.mergeDeep(getConfig(), config)
   setConfig(piConfig)
   Vue.prototype.$piConfig = piConfig
-  Vue.prototype.$pi = this
-  Vue.prototype.$uni = this.uni // 统一uniapi调用入口
-  Vue.prototype.$toast = this.toast.info
-  Vue.prototype.$loading = this.toast.loading
-  Vue.prototype.$hideLoading = this.toast.hideLoading
+  Vue.prototype.$pi = tools
+  Vue.prototype.$uni = tools.uni // 统一uniapi调用入口
+  Vue.prototype.$toast = tools.toast.info
+  Vue.prototype.$loading = tools.toast.loading
+  Vue.prototype.$hideLoading = tools.toast.hideLoading
 
   // #ifdef  H5
+  // 方便调试，把$pi挂载到window上
+  window.$pi = tools
+  // h5环境 解决vh高度兼容性问题
   const setVh = () => {
     const vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty('--vh', `${vh}px`)
@@ -29,13 +32,10 @@ const install = function(Vue, config = {}) {
 
   console.log('%cpiui 已安装，教程：https://github.com/sadais-org/piui', logStyle)
   console.log('%cpiui 组件全局配置：', logStyle, piConfig)
-  console.log('%cpiui tools 已挂载：', logStyle, this)
+  console.log('%cpiui tools 已挂载：', logStyle, tools)
 
   console.groupEnd && console.groupEnd('piui')
   // #endif
 }
 
-export default {
-  ...tools,
-  install
-}
+export default install

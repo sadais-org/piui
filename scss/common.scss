@@ -796,15 +796,19 @@ uni-toast {
  * 常用宽高定义
  * -------------------------------------------------------------------------------------------------
  */
-.pi-w-100vw {
+.pi-w-100vw,
+.pi-w-100VW {
   width: 100vw;
 }
+.pi-w-100p,
 .pi-w-100P {
   width: 100%;
 }
-.pi-h-100vh {
-  height: 100vh;
+.pi-h-100vh,
+.pi-h-100VH {
+  @include full-height($include-tabbar: true);
 }
+.pi-h-100p,
 .pi-h-100P {
   height: 100%;
 }
