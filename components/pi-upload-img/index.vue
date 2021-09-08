@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2021-09-08 10:05:16
+ * @LastEditTime: 2021-09-08 16:43:51
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -13,21 +13,18 @@
     <view
       v-for="(img, index) in getImgs"
       :key="imgField ? img[imgField] : img"
-      :style="[getItemStyle]"
       class="pi-rela pi-flex-column-center"
       @tap="handlePreviewImage(img)"
     >
       <view class="close" @tap.stop="handleDelete(index)">
         <pi-icon name="roundclosefill" color="#8e8e8e" size="36" />
       </view>
-      <view :style="[getItemStyle]" class="pi-of-hidden">
-        <pi-img
-          width="100%"
-          height="100%"
-          :mode="imageMode"
-          :src="imgField ? img[imgField] : img"
-        />
-      </view>
+      <image
+        :style="[getItemStyle]"
+        class="pi-of-hidden"
+        :mode="imageMode"
+        :src="imgField ? img[imgField] : img"
+      />
     </view>
     <!-- 上传框 -->
     <view v-if="getUploadCount">
