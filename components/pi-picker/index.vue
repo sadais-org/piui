@@ -184,7 +184,11 @@ export default {
         picker.confirmBtn,
         this.popupSelect.confirmBtn
       )
-      return this.$pi.lang.mergeDeep(pickerConfirmBtn, this.confirmBtn)
+      const mergeConfirmBtn = this.$pi.lang.mergeDeep(pickerConfirmBtn, this.confirmBtn)
+      if (!mergeConfirmBtn.disabled) {
+        mergeConfirmBtn.disabled = this.scrolling
+      }
+      return mergeConfirmBtn
     },
     getCancelBtn() {
       const pickerCancelBtn = this.$pi.lang.mergeDeep(picker.cancelBtn, this.popupSelect.cancelBtn)
