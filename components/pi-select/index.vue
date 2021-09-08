@@ -86,7 +86,7 @@ const TAG = 'PiSelect'
 const { select } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiSelect',
   // 混入v-model
   mixins: [ValueSync],
   props: {

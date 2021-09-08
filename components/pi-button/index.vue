@@ -48,7 +48,7 @@ const TAG = 'PiButton'
 const { button } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiButton',
   props: {
     // 按钮尺寸
     size: {

@@ -29,7 +29,7 @@ const { lineProgress } = getConfig()
 const TAG = 'PiLineProgress'
 
 export default {
-  name: TAG,
+  name: 'PiLineProgress',
   props: {
     // 自定义样式
     customStyle: {

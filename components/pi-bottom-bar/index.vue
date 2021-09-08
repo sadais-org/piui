@@ -29,7 +29,7 @@ const { bottomBar } = getConfig()
 
 // 底部栏
 export default {
-  name: TAG,
+  name: 'PiBottomBar',
   props: {
     // 自定义样式，对象形式
     customStyle: {

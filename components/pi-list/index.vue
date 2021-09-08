@@ -19,7 +19,7 @@ const TAG = 'PiList'
 const { list } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiList',
   mixins: [parentInit(['height', 'border', 'showRightIcon', 'hoverClass'])],
   props: {
     // 自定义样式

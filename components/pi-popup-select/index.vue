@@ -129,7 +129,7 @@ const TAG = 'PiPopupSelect'
 const { popupSelect } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiPopupSelect',
   // 混入v-model
   mixins: [ValueSync],
   props: {

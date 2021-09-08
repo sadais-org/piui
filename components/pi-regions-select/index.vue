@@ -60,7 +60,7 @@ const { regionsSelect } = getConfig()
 const PLEASE_SELECT_TIP = '请选择'
 
 export default {
-  name: TAG,
+  name: 'PiRegionsSelect',
   // 混入v-model
   mixins: [ValueSync],
   props: {

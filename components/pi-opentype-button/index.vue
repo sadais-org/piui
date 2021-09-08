@@ -44,11 +44,11 @@
 import { getConfig } from '../../config'
 
 import { debounce } from '@sadais/piui-tool/tools/common'
-const TAG = 'PiButton'
+const TAG = 'PiOpentypeButton'
 const { button } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiOpentypeButton',
   props: {
     // 按钮尺寸
     size: {

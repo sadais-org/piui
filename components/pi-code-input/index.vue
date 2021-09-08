@@ -42,7 +42,7 @@ const ALIGN_MAP = {
 }
 
 export default {
-  name: TAG,
+  name: 'PiCodeInput',
   mixins: [ValueSync],
   props: {
     // 初始值，接收一个长度为length的内容

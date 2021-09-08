@@ -14,7 +14,7 @@ const TAG = 'PiIcon'
 const { icon } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiIcon',
   props: {
     // 自定义样式
     customStyle: {

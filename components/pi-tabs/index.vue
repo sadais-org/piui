@@ -50,7 +50,7 @@ const TAG = 'PiTabs'
 const { tabs } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiTabs',
   // 混入v-model
   mixins: [ValueSync],
   props: {

@@ -82,7 +82,7 @@ const alignFlexMap = {
 }
 
 export default {
-  name: TAG,
+  name: 'PiFormItem',
   mixins: [extendPiFrom, Emitter], // 注入inheritProps
   options: {
     styleIsolation: 'shared'

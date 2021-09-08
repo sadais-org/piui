@@ -23,7 +23,7 @@ const TAG = 'PiRadioGroup'
 const { radioGroup } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiRadioGroup',
   // 混入自定义样式customStyle和customClass
   mixins: [
     ValueSync,

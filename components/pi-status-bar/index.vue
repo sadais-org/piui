@@ -21,7 +21,7 @@ const { statusBar } = getConfig()
 const TAG = 'PiStatusBar'
 
 export default {
-  name: TAG,
+  name: 'PiStatusBar',
   props: {
     // 自定义样式，对象形式
     customStyle: {

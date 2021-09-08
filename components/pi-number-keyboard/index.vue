@@ -55,7 +55,7 @@ const TAG = 'PiNumberKeyboard'
 const { numberKeyboard } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiNumberKeyboard',
   // 混入v-model
   mixins: [ValueSync],
   props: {

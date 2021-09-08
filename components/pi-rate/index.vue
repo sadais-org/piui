@@ -31,7 +31,7 @@ const { rate } = getConfig()
 const TAG = 'PiRate'
 
 export default {
-  name: TAG,
+  name: 'PiRate',
   // 混入v-model
   mixins: [ValueSync],
   props: {

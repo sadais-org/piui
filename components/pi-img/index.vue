@@ -54,7 +54,7 @@ const TAG = 'PiImg'
 const { img } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiImg',
   props: {
     // 自定义样式
     customStyle: {

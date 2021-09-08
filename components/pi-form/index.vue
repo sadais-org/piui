@@ -20,7 +20,7 @@ const { form } = getConfig()
 
 // 仅仅作为一个容器，批量设置form-item的属性
 export default {
-  name: TAG,
+  name: 'PiForm',
   mixins: [
     parentInit([
       'height',

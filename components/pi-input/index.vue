@@ -81,7 +81,7 @@ const { input } = getConfig()
 const TAG = 'PiInput'
 
 export default {
-  name: TAG,
+  name: 'PiInput',
   // 混入v-model
   mixins: [ValueSync, Emitter],
   props: {

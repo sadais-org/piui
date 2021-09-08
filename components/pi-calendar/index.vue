@@ -55,7 +55,7 @@ const TAG = 'PiCalendar'
 const { calendar } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiCalendar',
   // 混入v-model
   mixins: [ValueSync],
   props: {

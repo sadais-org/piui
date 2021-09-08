@@ -14,7 +14,7 @@
 <script>
 const TAG = 'PiWebview'
 export default {
-  name: TAG,
+  name: 'PiWebview',
   props: {
     title: {
       type: String

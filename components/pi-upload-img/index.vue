@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2021-08-16 17:06:15
+ * @LastEditTime: 2021-09-08 10:05:16
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -66,7 +66,7 @@ const { uploadImg } = getConfig()
 const PI_DEFAULT_FN_FLAG = 'PI_DEFAULT_FN_FLAG'
 
 export default {
-  name: TAG,
+  name: 'PiUploadImg',
   // 混入v-model
   mixins: [ValueSync],
   props: {

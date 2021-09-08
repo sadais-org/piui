@@ -20,7 +20,7 @@ const TAG = 'PiBadge'
 const { badge } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiBadge',
   props: {
     // 自定义样式
     customStyle: {

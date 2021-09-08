@@ -123,7 +123,7 @@ const { modal } = getConfig()
 
 // 模态弹窗
 export default {
-  name: TAG,
+  name: 'PiModal',
   // 混入v-model
   mixins: [ValueSync],
   props: {

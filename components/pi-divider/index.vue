@@ -24,7 +24,7 @@ const TAG = 'PiDivider'
 const { divider } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiDivider',
   props: {
     // 自定义样式，对象形式
     customStyle: {

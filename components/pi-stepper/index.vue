@@ -43,7 +43,7 @@ const { stepper } = getConfig()
 const TAG = 'PiStepper'
 
 export default {
-  name: TAG,
+  name: 'PiStepper',
   // 混入v-model
   mixins: [ValueSync],
   props: {

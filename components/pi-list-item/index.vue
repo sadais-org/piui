@@ -62,7 +62,7 @@ const { listItem } = getConfig()
 const extendPiList = childInit('PiList')
 
 export default {
-  name: TAG,
+  name: 'PiListItem',
   mixins: [extendPiList], // 注入value与val，进行双向绑定
   props: {
     // 自定义样式

@@ -13,7 +13,7 @@ const TAG = 'PiWaterfall'
 const { waterfall } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiWaterfall',
   // 混入v-model
   mixins: [ValueSync],
   props: {

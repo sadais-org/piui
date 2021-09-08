@@ -23,7 +23,7 @@ const { gridItem } = getConfig()
 const extendPiGrid = childInit('PiGrid')
 
 export default {
-  name: TAG,
+  name: 'PiGridItem',
   // 混入自定义样式customStyle和customClass
   mixins: [extendPiGrid], // 注入value与val，进行双向绑定
   props: {

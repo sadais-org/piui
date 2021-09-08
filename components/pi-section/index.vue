@@ -46,7 +46,7 @@ const TAG = 'PiSection'
 const { section } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiSection',
   props: {
     // 自定义样式，对象形式
     customStyle: {

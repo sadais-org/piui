@@ -37,7 +37,7 @@ const extendRadioGroup = childInit('PiRadioGroup')
 
 // Radio组件
 export default {
-  name: TAG,
+  name: 'PiRadio',
   // 混入自定义样式customStyle和customClass
   mixins: [extendRadioGroup],
   options: {

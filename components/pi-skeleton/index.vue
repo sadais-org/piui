@@ -37,7 +37,7 @@ const { skeleton } = getConfig()
 const TAG = 'PiSkeleton'
 
 export default {
-  name: TAG,
+  name: 'PiSkeleton',
   props: {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {

@@ -39,7 +39,7 @@ const TAG = 'PiMask'
 const { mask } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiMask',
   // 混入v-model
   mixins: [ValueSync],
   props: {

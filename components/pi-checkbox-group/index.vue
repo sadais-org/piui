@@ -21,7 +21,7 @@ const TAG = 'PiCheckboxGroup'
 const { checkboxGroup } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiCheckboxGroup',
   // 混入自定义样式customStyle和customClass
   mixins: [
     ValueSync,

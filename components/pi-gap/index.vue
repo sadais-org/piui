@@ -14,7 +14,7 @@ const { gap } = getConfig()
 const TAG = 'PiGap'
 
 export default {
-  name: TAG,
+  name: 'PiGap',
   props: {
     // 自定义样式
     customStyle: {

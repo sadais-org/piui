@@ -12,7 +12,7 @@ const TAG = 'PiGrid'
 const { grid } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiGrid',
   mixins: [parentInit(['border', 'col', 'gap', 'square', 'hoverClass'])],
   props: {
     // 自定义样式

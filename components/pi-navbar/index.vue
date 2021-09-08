@@ -80,7 +80,7 @@ const TAG = 'PiNavbar'
 const { navbar } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiNavbar',
   props: {
     // 自定义样式 添加到组件的根节点上
     customStyle: {
