@@ -8,7 +8,7 @@
     <!-- title -->
     <view
       v-if="($slots && $slots.title) || title"
-      class="card-title pi-align-center"
+      class="card-title pi-align-center pi-solid-bottom-1"
       :style="[{ padding: getPadding }, titleStyle]"
     >
       <slot name="title">
@@ -16,7 +16,7 @@
       </slot>
     </view>
     <!-- body -->
-    <view v-if="$slots.body" class="pi-pd-tb-24 pi-solid-top-1" :style="[{ padding: getPadding }]">
+    <view v-if="$slots.body" class="pi-pd-tb-24" :style="[{ padding: getPadding }]">
       <slot name="body" />
     </view>
     <!-- footer -->
