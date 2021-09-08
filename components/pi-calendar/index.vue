@@ -146,6 +146,10 @@ export default {
       this.$emit('close')
       this.handleEmitChange()
     },
+    /**
+     * @vuese
+     * 确认选择
+     */
     handleConfirm() {
       this.$emit('confirm', this.calendarValue)
       this.handlePopupClose()

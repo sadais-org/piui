@@ -264,11 +264,19 @@ export default {
       this.$emit('close')
       this.handleEmitChange()
     },
+    /**
+     * @vuese
+     * 取消选择
+     */
     handleCancel() {
       // 点击取消按钮时触发
       this.$emit('cancel')
       this.onCancelClose && this.handlePopupClose()
     },
+    /**
+     * @vuese
+     * 确认选择
+     */
     handleConfirm() {
       // 点击确定按钮时触发
       this.$emit('confirm')

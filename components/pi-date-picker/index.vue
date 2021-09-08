@@ -332,6 +332,10 @@ export default {
       // 重新解析
       this.date = this.$pi.date.parseDate(time)
     },
+    /**
+     * @vuese
+     * 取消选择
+     */
     handleCancel() {
       /**
        * @vuese
@@ -341,6 +345,10 @@ export default {
       this.$emit('cancel')
       this.onCancelClose && this.handlePopupClose()
     },
+    /**
+     * @vuese
+     * 确认选择
+     */
     handleConfirm() {
       // 提交
       const value = this.format ? this.date.format(this.format) : this.date

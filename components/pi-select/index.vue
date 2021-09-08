@@ -315,8 +315,8 @@ export default {
     /**
      * @vuese
      * 全选或全清选择值
-     * @selected 是否勾选
-     * @nodes 需要改变的节点，不填默认全部
+     * @arg selected=true 是否勾选
+     * @arg nodes=[] 需要改变的节点，不填默认全部
      */
     toggleSelect(selected = true, nodes = []) {
       if (!this.isMulti) return
@@ -328,28 +328,26 @@ export default {
       const toggleSelect = this.items.filter(item => {
         let toggleNode = true
         if (nodes.length) {
-          toggleNode = nodes.findIndex(node[this.keyField] === item[this.keyField]) !== -1
+          toggleNode = nodes.findIndex(node => node[this.keyField] === item[this.keyField]) !== -1
         }
         return toggleNode && !item.disabled
       })
       if (!toggleSelect.length) return
       this.selected = toggleSelect
     },
+    /**
+     * @vuese
+     * 取消选择
+     */
     handleCancel() {
-      /**
-       * @vuese
-       * 点击取消按钮时触发
-       * @arg 当前选中的值 单选为对象，多选模式为数组
-       */
       this.$emit('cancel')
       this.onCancelClose && this.handlePopupClose()
     },
+    /**
+     * @vuese
+     * 确认选择
+     */
     handleConfirm() {
-      /**
-       * @vuese
-       * 点击确定按钮后触发
-       * @arg 当前选中的值 单选为对象，多选模式为数组
-       */
       this.$emit('confirm', this.selected)
       this.getPopupSelect.onConfirmClose && this.handlePopupClose()
     }

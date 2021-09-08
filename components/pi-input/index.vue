@@ -269,6 +269,10 @@ export default {
         this.dispatch('PiFormItem', 'form-blur', e.detail.value)
       }, 40)
     },
+    /**
+     * @vuese
+     * 确认选择
+     */
     handleConfirm(e) {
       // 输入完成事件
       this.$emit('confirm', e.detail.value)

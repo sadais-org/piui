@@ -258,21 +258,19 @@ export default {
       this.$emit('close')
       this.handleEmitChange()
     },
+    /**
+     * @vuese
+     * 取消选择
+     */
     handleCancel() {
-      /**
-       * @vuese
-       * 点击取消按钮时触发
-       * @arg 当前选中的值 单选为对象，多选模式为数组
-       */
       this.$emit('cancel')
       this.onCancelClose && this.handlePopupClose()
     },
+    /**
+     * @vuese
+     * 确认选择
+     */
     handleConfirm() {
-      /**
-       * @vuese
-       * 点击确定按钮后触发
-       * @arg 当前选中的值 单选为对象，多选模式为数组
-       */
       this.$emit('confirm', this.popupSelected)
       this.onConfirmClose && this.handlePopupClose()
     }

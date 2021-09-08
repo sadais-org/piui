@@ -285,21 +285,20 @@ export default {
       }
       this.pickerValue = pickerValue
     },
+    /**
+     * @vuese
+     * 取消选择
+     */
     handleCancel() {
-      /**
-       * @vuese
-       * 点击取消按钮时触发
-       * @arg 当前选中的值 单选为对象，多选模式为数组
-       */
       this.$emit('cancel')
       this.onCancelClose && this.handlePopupClose()
     },
+    /**
+     * @vuese
+     * 确认选择
+     */
     handleConfirm() {
       if (this.scrolling) return
-      /**
-       * 点击确定按钮时触发
-       * @arg this.pickerValue
-       */
       this.$emit('confirm', this.pickerValue)
       this.onConfirmClose && this.handlePopupClose()
     }
