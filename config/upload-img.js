@@ -1,7 +1,7 @@
 /*
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:29:02
- * @LastEditTime: 2021-08-16 14:28:01
+ * @LastEditTime: 2021-09-09 17:02:45
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传
  * @FilePath: /piui-awesome/src/piui/config/upload-img.js
@@ -43,8 +43,8 @@ export default {
   },
   // 调用uniapp.chooseImageOpts参数
   chooseImageOpts: {
-    sizeType: ['compressed'], // original 原图，compressed 压缩图，默认compressed
-    sourceType: ['album'], // album 从相册选图，camera 使用相机，默认album
+    sizeType: ['original', 'compressed'], // original 原图，compressed 压缩图，默认compressed
+    sourceType: ['album', 'camera'], // album 从相册选图，camera 使用相机，默认album
     crop: {} // 图像裁剪参数，设置后 sizeType 失效
   },
   parseResultFn: function(result) {
