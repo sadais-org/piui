@@ -1,6 +1,6 @@
 <template>
   <view
-    v-if="show"
+    v-if="val"
     class="pi-skeleton-wrap"
     :style="[customStyle, skeletonContainStyle]"
     :class="[customClass]"
@@ -30,14 +30,21 @@
  * @property {String} background 是否显示模态框 default: transparent
  * @example <pi-skeleton />
  */
+import ValueSync from '../../mixin/value-sync'
 import { systemInfo } from '@sadais/piui-tool/tools/system'
 import { getConfig } from '../../config'
 const { skeleton } = getConfig()
 
 const TAG = 'PiSkeleton'
 
+const DEFAULT_RETRYCOUNT = 50
+let timer = null
+let retryCount = DEFAULT_RETRYCOUNT
+
 export default {
   name: 'PiSkeleton',
+  // 混入v-model
+  mixins: [ValueSync],
   props: {
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
@@ -54,11 +61,11 @@ export default {
       }
     },
     // 是否显示骨架屏
-    show: {
+    value: {
       required: false,
       type: Boolean,
       // false
-      default: skeleton.show
+      default: skeleton.value
     },
     // 是否显示加载动画
     animation: {
@@ -140,10 +147,17 @@ export default {
       }
     }
   },
+  watch: {
+    value(value) {
+      if (value) retryCount = DEFAULT_RETRYCOUNT
+    }
+  },
   mounted() {
-    setTimeout(() => {
-      this.handleSelectorQuery()
-    }, 500)
+    this.handleSelectorQuery()
+    this.handleSubNodoQuery()
+  },
+  beforeDestroy() {
+    this.handleClearInterval()
   },
   methods: {
     handleSelectorQuery() {
@@ -173,9 +187,20 @@ export default {
             top: res[0][0].bottom - res[0][0].height
           }
         })
-      this.handleNodeQuery('rect')
-      this.handleNodeQuery('circle')
-      this.handleNodeQuery('round')
+    },
+    handleSubNodoQuery() {
+      if (timer) this.handleClearInterval()
+      timer = setInterval(() => {
+        if (retryCount < 0) {
+          this.handleClearInterval()
+          return
+        }
+        retryCount--
+        this.skeletonNodes = []
+        this.handleNodeQuery('rect')
+        this.handleNodeQuery('circle')
+        this.handleNodeQuery('round')
+      }, 100)
     },
     handleNodeQuery(selector) {
       const selectorMap = {
@@ -206,22 +231,28 @@ export default {
             res[0].map(r => ({ ...r, borderRadius, type: selector }))
           )
         })
+    },
+    handleClearInterval() {
+      clearInterval(timer)
+      this.timer = null
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.pi-skeleton-wrap {
+  z-index: 999;
+}
+
 .skeleton-fade {
   width: 100%;
   height: 100%;
   background: rgb(194, 207, 214);
-  animation-name: blink;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
+  animation: pi-skeleton-blink 2s ease-in-out infinite;
 }
 
-@keyframes blink {
+@keyframes pi-skeleton-blink {
   0% {
     opacity: 1;
   }

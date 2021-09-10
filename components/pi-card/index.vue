@@ -15,6 +15,14 @@
         {{ title }}
       </slot>
     </view>
+    <!-- default -->
+    <view
+      v-if="$slots.default || $slots.$default"
+      class="pi-pd-tb-24"
+      :style="[{ padding: getPadding }]"
+    >
+      <slot />
+    </view>
     <!-- body -->
     <view v-if="$slots.body" class="pi-pd-tb-24" :style="[{ padding: getPadding }]">
       <slot name="body" />
