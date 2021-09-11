@@ -37,7 +37,7 @@ const { skeleton } = getConfig()
 
 const TAG = 'PiSkeleton'
 
-const DEFAULT_RETRYCOUNT = 50
+const DEFAULT_RETRYCOUNT = 10
 let timer = null
 let retryCount = DEFAULT_RETRYCOUNT
 
@@ -154,7 +154,7 @@ export default {
   },
   mounted() {
     this.handleSelectorQuery()
-    this.handleSubNodoQuery()
+    this.handleCycleNodeQuery()
   },
   beforeDestroy() {
     this.handleClearInterval()
@@ -188,19 +188,22 @@ export default {
           }
         })
     },
-    handleSubNodoQuery() {
+    handleCycleNodeQuery() {
       if (timer) this.handleClearInterval()
+      this.handleSubNodeQuery()
       timer = setInterval(() => {
         if (retryCount < 0) {
           this.handleClearInterval()
           return
         }
         retryCount--
-        this.skeletonNodes = []
-        this.handleNodeQuery('rect')
-        this.handleNodeQuery('circle')
-        this.handleNodeQuery('round')
-      }, 100)
+        this.handleSubNodeQuery()
+      }, 200)
+    },
+    handleSubNodeQuery() {
+      this.handleNodeQuery('rect')
+      this.handleNodeQuery('circle')
+      this.handleNodeQuery('round')
     },
     handleNodeQuery(selector) {
       const selectorMap = {
@@ -227,9 +230,18 @@ export default {
           if (selector === 'circle') {
             borderRadius = '50%'
           }
-          this.skeletonNodes = this.skeletonNodes.concat(
-            res[0].map(r => ({ ...r, borderRadius, type: selector }))
-          )
+          res[0].forEach(r => {
+            const key = `${r.top}_${r.bottom}_${r.left}_${r.right}_${r.width}_${r.height}`
+            const newNode = this.skeletonNodes.findIndex(n => n.key === key) === -1
+            if (newNode) {
+              this.skeletonNodes.push({
+                ...r,
+                key,
+                borderRadius,
+                type: selector
+              })
+            }
+          })
         })
     },
     handleClearInterval() {
