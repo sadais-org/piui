@@ -23,7 +23,16 @@
         }"
         @tap="focus = true"
       >
-        {{ arrCode[index] || '' }}
+        <!-- slot slot-scoped只支持app,h5,微信小程序平台 -->
+        <!-- <template slot="item" slot-scope="{ item }">{{ item.tag }}</template> -->
+        <slot
+          name="item"
+          :index="index"
+          :item="arrCode[index]"
+          :active="focus === true && index === currentIndex"
+        >
+          {{ arrCode[index] ? codeFormat || arrCode[index] || '' : '' }}
+        </slot>
       </view>
     </view>
   </view>
@@ -120,6 +129,13 @@ export default {
       },
       validator: function(value) {
         return ['right', 'left', 'center'].includes(value)
+      }
+    },
+    // 验证码显示格式化
+    codeFormat: {
+      type: String,
+      default() {
+        return codeInput.codeFormat
       }
     }
   },
