@@ -4,7 +4,6 @@
 [![stars](https://img.shields.io/github/stars/sadais-org/piui?style=flat-square&logo=GitHub)](https://github.com/sadais-org/piui)
 [![forks](https://img.shields.io/github/forks/sadais-org/piui?style=flat-square&logo=GitHub)](https://github.com/sadais-org/piui)
 [![issues](https://img.shields.io/github/issues/sadais-org/piui?style=flat-square&logo=GitHub)](https://github.com/sadais-org/piui/issues)
-[![Website](https://img.shields.io/badge/uView-up-blue?style=flat-square)](https://uviewui.com)
 [![release](https://img.shields.io/github/v/release/sadais-org/piui?style=flat-square)](https://gitee.com/xuqu/uView/releases)
 [![license](https://img.shields.io/github/license/sadais-org/piui?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
 
@@ -40,7 +39,7 @@ piui是基于uniapp的高质量UI开源组件库
 
 ## Install
 
-### 使用脚手架<Badge text="推荐"/>
+### 使用脚手架【推荐】
 基于`vue-cli`脚手架创建，更加通用的`vue`项目配置，接入更加快捷，可以做到零配置直接运行，其中引入了`sadais-core`
 
 #### 步骤1： vue-cli安装（如果安装了可以跳过）
@@ -75,9 +74,8 @@ cd my-project && npm run dev
 
 ### 非脚手架项目引入（HbuilderX / Uniapp Vue-Cli工程）
 
-已初始化的项目，可以通过以下方式接入piui
+> 已初始化的项目，可以通过以下方式接入piui
 
-:::warning 重要
 `piui` `@sadais/piui-tool` 源码都以[es6](https://es6.ruanyifeng.com/) 语法编写，如果是 `vue-cli` 工程，必须在`vue.config.js`中声明其[显式转译](https://cli.vuejs.org/zh/config/#transpiledependencies)
 
 ```js
@@ -86,7 +84,6 @@ module.exports = {
   transpileDependencies: ['@sadais/piui-tool', 'sadais-piui']
 }
 ```
-:::
 
 #### 步骤1：安装piui
 安装`piui`，以及`piui工具库`
