@@ -9,24 +9,14 @@
     @mousewheel.stop.prevent
   >
     <view class="inner-wrap" :class="direction" :style="[animate]">
-      <view id="firstInner" class="inner">
+      <view v-for="(marqueeItems, index) in getItems" :key="index" class="inner">
         <view
-          v-for="(item, idx) in items"
+          v-for="(item, idx) in marqueeItems"
           :key="idx"
           class="marquee-item"
           :class="{ vertical: isVertical }"
         >
           <!-- item插槽 -->
-          <slot name="item" :item="item" />
-        </view>
-      </view>
-      <view v-if="showCopy" class="inner">
-        <view
-          v-for="(item, idx) in items"
-          :key="idx"
-          class="marquee-item"
-          :class="{ vertical: isVertical }"
-        >
           <slot name="item" :item="item" />
         </view>
       </view>
@@ -85,12 +75,16 @@ export default {
   data() {
     return {
       animate: {},
-      showCopy: false
+      cloneItems: false
     }
   },
   computed: {
     isVertical() {
       return ['tb', 'bt'].includes(this.direction)
+    },
+    getItems() {
+      if (!this.cloneItems) return [this.items]
+      return [this.items, this.items]
     }
   },
   watch: {
@@ -154,31 +148,31 @@ export default {
         const rect = await this.$pi.common.queryRect(this, '.marquee-container', false)
         const containerWidth = rect.width
         const containerHeight = rect.height
-        const inner = await this.$pi.common.queryRect(this, '#firstInner', false)
+        const inner = await this.$pi.common.queryRect(this, '.inner', false)
 
         if (!inner) {
           // 没有marquee-item 则直接停止动画 隐藏拷贝
           this.handlePause()
-          this.showCopy = false
+          this.cloneItems = false
           return
         }
         if (!this.isVertical) {
           if (inner.width <= containerWidth) {
             this.handlePause()
-            this.showCopy = false
+            this.cloneItems = false
           } else {
             const time = inner.width / this.speed
             this.$set(this.animate, 'animationDuration', `${time}s`)
-            this.showCopy = true
+            this.cloneItems = true
           }
         } else {
           if (inner.height <= containerHeight) {
             this.$set(this.animate, 'animationPlayState', 'paused')
-            this.showCopy = false
+            this.cloneItems = false
           } else {
             const time = inner.height / this.speed
             this.$set(this.animate, 'animationDuration', `${time}s`)
-            this.showCopy = true
+            this.cloneItems = true
           }
         }
       })
@@ -190,10 +184,10 @@ export default {
 <style lang="scss" scoped>
 .marquee-container {
   width: 100%;
-  white-space: nowrap;
   overflow: auto hidden;
+  font-size: 0;
+  white-space: nowrap;
   background: #ffffff;
-  font-size: 0px;
 }
 
 .marquee-container .inner {
@@ -204,13 +198,13 @@ export default {
 
 .marquee-container.vertical {
   height: 100%;
-  white-space: normal;
   overflow: hidden auto;
+  white-space: normal;
 }
 
 .marquee-container.vertical .inner {
-  height: auto;
   width: 100%;
+  height: auto;
   white-space: normal;
 }
 
@@ -232,8 +226,8 @@ export default {
 }
 
 .marquee-container.vertical > .inner-wrap {
-  white-space: normal;
   width: 100%;
+  white-space: normal;
 }
 
 @keyframes roll-lr {

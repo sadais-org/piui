@@ -1,5 +1,5 @@
 <template>
-  <view class="page-wrap" :class="customClass" :style="[customStyle, { textAlign }]">
+  <view class="page-wrap" :class="customClass" :style="[customStyle, { textAlign: align }]">
     <view
       class="prev"
       :class="{ active: innerPage > 1 }"
@@ -9,13 +9,13 @@
       <slot name="prev">上一页</slot>
     </view>
     <view
-      v-for="(i, idx) in pages"
-      :key="idx"
+      v-for="(i, index) in pages"
+      :key="index"
       class="page-item"
-      :class="[{ current: i === innerPage }, { background }]"
+      :class="[{ current: i === innerPage }, activeMode]"
       @click="handleClickPage(i)"
     >
-      {{ i }}
+      <slot name="item" :item="i" :active="i === innerPage">{{ i }}</slot>
     </view>
     <view class="next" :class="{ active: innerPage < totalPage }" @click="handleNext">
       <slot name="next">下一页</slot>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Config from '../../config/pagination'
+import config from '../../config/pagination'
 
 export default {
   name: 'PiPagination',
@@ -41,7 +41,7 @@ export default {
       type: Object,
       default() {
         // {}
-        return Config.customStyle
+        return config.customStyle
       }
     },
     // 自定义样式类
@@ -49,42 +49,52 @@ export default {
       type: String,
       default() {
         // ''
-        return Config.customClass
+        return config.customClass
       }
     },
     // 总共多少条数据
     total: {
       type: Number,
       // `0`
-      default: Config.total
+      default: config.total
     },
     // 只显示多少个页码
     limit: {
       type: Number,
       // `7`
-      default: Config.limit
+      default: config.limit
     },
     // 每页大小 用于计算共多少页
     pageSize: {
       type: Number,
       // `10`
-      default: Config.pageSize
+      default: config.pageSize
     },
     // 当前处于第几页 支持.sync
     page: {
       type: Number,
       // `0`
-      default: Config.page
+      default: config.page
     },
     // 页码是否添加背景色
     background: {
       type: Boolean,
-      default: Config.background
+      default: config.background
+    },
+    // 激活模式
+    activeMode: {
+      // 激活模式（text: 文字模式，fill: 填充背景色模式）
+      type: String,
+      // 'text'
+      default: config.activeMode,
+      validator: function(value) {
+        return ['text', 'fill'].includes(value)
+      }
     },
     // 对齐方式
-    textAlign: {
+    align: {
       type: String,
-      default: Config.textAlign
+      default: config.align
     }
   },
   data() {
@@ -252,7 +262,7 @@ export default {
     text-align: center;
     transition: all $pi-animation-duration $pi-animation-timing-function;
 
-    &.background {
+    &.fill {
       min-width: 60rpx;
       padding: 8rpx;
       margin-left: 8rpx;
@@ -264,7 +274,7 @@ export default {
       font-size: 32rpx;
       color: $pi-primary-color;
     }
-    &.current.background {
+    &.current.fill {
       color: #ffffff;
       background-color: $pi-primary-color;
     }

@@ -1,4 +1,4 @@
-# piui
+# PiUI
 
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![stars](https://img.shields.io/github/stars/sadais-org/piui?style=flat-square&logo=GitHub)](https://github.com/sadais-org/piui)
@@ -8,7 +8,7 @@
 [![license](https://img.shields.io/github/license/sadais-org/piui?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
 
 
-piui是基于uniapp的高质量UI开源组件库
+PiUI是基于uniapp，高质量UI移动组件库，基于 `vue.js` 语法，可编译到不同的平台
 
 * 高效开发
 * 灵活扩展，丰富的属性配置
@@ -133,6 +133,24 @@ Vue.use(piui, piuiConfig);
 PRs accepted.
 
 Small note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
+
+## Issue 规范
+issue 仅用于提交 Bug 或 Feature 相关的内容，其它内容可能会被直接关闭。
+
+在提交 issue 之前，请搜索相关内容是否已被提出。
+
+请说明 Muse UI 和 Vue 的版本号，并提供操作系统和浏览器信息。推荐使用  生成在线 demo，这能够更直观地重现问题。
+
+## Pull Request 规范
+请先 fork 一份到自己的项目下，不要直接在仓库下建分支。
+
+commit 信息要以[组件名]: 描述信息 的形式填写，例如 [Navbar]: fix xxx bug。
+
+执行 npm run build 后可以正确打包文件。
+
+提交 PR 前请 rebase，确保 commit 记录的整洁。
+
+如果是修复 bug，请在 PR 中给出描述信息。
 
 ## License
 
