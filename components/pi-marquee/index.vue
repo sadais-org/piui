@@ -17,7 +17,9 @@
           :class="{ vertical: isVertical }"
         >
           <!-- item插槽 -->
-          <slot name="item" :item="item" />
+          <slot name="item" :item="item">
+            <view>{{ item }}</view>
+          </slot>
         </view>
       </view>
     </view>

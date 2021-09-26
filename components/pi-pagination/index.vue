@@ -2,7 +2,7 @@
   <view class="page-wrap" :class="customClass" :style="[customStyle, { textAlign: align }]">
     <view
       class="prev"
-      :class="{ active: innerPage > 1 }"
+      :class="{ active: val > 1 }"
       :style="{ marginRight: '8rpx' }"
       @click="handlePrev"
     >
@@ -12,29 +12,32 @@
       v-for="(i, index) in pages"
       :key="index"
       class="page-item"
-      :class="[{ current: i === innerPage }, activeMode]"
+      :class="[{ current: i === val }, activeMode]"
       @click="handleClickPage(i)"
     >
-      <slot name="item" :item="i" :active="i === innerPage">{{ i }}</slot>
+      <slot name="item" :item="i" :active="i === val">{{ i }}</slot>
     </view>
-    <view class="next" :class="{ active: innerPage < totalPage }" @click="handleNext">
+    <view class="next" :class="{ active: val < totalPage }" @click="handleNext">
       <slot name="next">下一页</slot>
     </view>
     <pi-picker
       v-model="pickerOpts.show"
       :items="pickerItems"
       type="single"
-      :default-value="[innerPage - 1]"
+      :default-value="[val - 1]"
       @confirm="handleSelectPage"
     />
   </view>
 </template>
 
 <script>
+import ValueSync from '../../mixin/value-sync'
 import config from '../../config/pagination'
 
 export default {
   name: 'PiPagination',
+  // 混入v-model
+  mixins: [ValueSync],
   props: {
     // 自定义样式
     customStyle: {
@@ -51,6 +54,13 @@ export default {
         // ''
         return config.customClass
       }
+    },
+    // 当前处于第几页
+    value: {
+      required: false,
+      type: Number,
+      // `0`
+      default: config.page
     },
     // 总共多少条数据
     total: {
@@ -70,17 +80,6 @@ export default {
       // `10`
       default: config.pageSize
     },
-    // 当前处于第几页 支持.sync
-    page: {
-      type: Number,
-      // `0`
-      default: config.page
-    },
-    // 页码是否添加背景色
-    background: {
-      type: Boolean,
-      default: config.background
-    },
     // 激活模式
     activeMode: {
       // 激活模式（text: 文字模式，fill: 填充背景色模式）
@@ -99,7 +98,6 @@ export default {
   },
   data() {
     return {
-      innerPage: 1,
       pickerOpts: {
         show: false
       }
@@ -109,8 +107,8 @@ export default {
     pages() {
       const list = []
       let insertEllipsis = false
-      if (this.innerPage === 1) {
-        let right = this.innerPage + this.limit - 1
+      if (this.val === 1) {
+        let right = this.val + this.limit - 1
         if (right > this.totalPage) {
           right = this.totalPage
         } else if (right < this.totalPage - 1) {
@@ -126,8 +124,8 @@ export default {
         if (right < this.totalPage) {
           list.push(this.totalPage)
         }
-      } else if (this.innerPage === this.totalPage) {
-        let left = this.innerPage - this.limit + 1
+      } else if (this.val === this.totalPage) {
+        let left = this.val - this.limit + 1
         if (left <= 0) {
           left = 1
         } else if (left > 2) {
@@ -150,24 +148,24 @@ export default {
           middlePages = 0
         }
         const half = parseInt(middlePages / 2, 10)
-        let left = this.innerPage - half - 1
+        let left = this.val - half - 1
         if (left <= 1) {
           left = 2
         } else if (left > 2) {
           list.push('...')
         }
-        for (let i = left; i <= this.innerPage; i++) {
+        for (let i = left; i <= this.val; i++) {
           list.push(i)
         }
 
-        let right = middlePages - this.innerPage + left - 1
-        right += this.innerPage
+        let right = middlePages - this.val + left - 1
+        right += this.val
         if (right >= this.totalPage) {
           right = this.totalPage - 1
         } else if (right < this.totalPage - 1) {
           insertEllipsis = true
         }
-        for (let i = this.innerPage + 1; i <= right; i++) {
+        for (let i = this.val + 1; i <= right; i++) {
           list.push(i)
         }
         if (insertEllipsis) {
@@ -196,42 +194,32 @@ export default {
       return tmps
     }
   },
-  watch: {
-    page: {
-      immediate: true,
-      handler() {
-        this.innerPage = this.page
-      }
-    },
-    innerPage() {
-      this.$emit('update:page', this.innerPage)
-      // 当前页码发生改变
-      // arg 最新的页码
-      this.$emit('current-change', this.innerPage)
-    }
-  },
   methods: {
     handlePrev() {
-      this.innerPage -= 1
-      if (this.innerPage <= 0) {
-        this.innerPage = 1
+      this.val -= 1
+      if (this.val <= 0) {
+        this.val = 1
       }
+      this.handleEmitChange()
     },
     handleNext() {
-      this.innerPage += 1
-      if (this.innerPage > this.totalPage) {
-        this.innerPage = this.totalPage
+      this.val += 1
+      if (this.val > this.totalPage) {
+        this.val = this.totalPage
       }
+      this.handleEmitChange()
     },
     handleClickPage(page) {
       if (page !== '...') {
-        this.innerPage = page
+        this.val = page
+        this.handleEmitChange()
       } else {
         this.pickerOpts.show = true
       }
     },
     handleSelectPage(values) {
-      this.innerPage = values[0] + 1
+      this.val = values[0] + 1
+      this.handleEmitChange()
     }
   }
 }
