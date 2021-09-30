@@ -2,6 +2,8 @@
   <pi-popup
     ref="popup"
     :value="val"
+    :custom-class="getPopup.customClass"
+    :custom-style="getPopup.customStyle"
     position="center"
     :border-radius="getPopup.borderRadius"
     :show-close-icon="showTitle && getPopup.showCloseIcon"
