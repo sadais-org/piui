@@ -18,30 +18,29 @@ PiUI是基于uniapp，高质量UI移动组件库，基于 `vue.js` 语法，可�
 * 按需引入
 * 支持主题定制
 
-## Table of Contents
+## Website 网站
 
-- [Website](#website)
-- [Background](#background)
-- [Install](#install)
-- [Usage](#usage)
-- [Maintainers](#maintainers)
-- [Contributing](#contributing)
-- [License](#license)
+[官方文档：https://piui.sadais.com/](https://piui.sadais.com/)
 
-## Website
-[官方文档：https://piui.sadais.com/](https://piui.sadais.com/) 
+[GITHUB仓库：https://piui.sadais.com/](https://github.com/sadais-org/piui)
+
+[GITEE仓库：https://piui.sadais.com/](https://gitee.com/org-sadais/piui)
+
+`欢迎大家star和fork，你的支持是我们持续更新的动力！`
 
 `扫码体验[piui]小程序`
 
 ![](https://sadais-oss.oss-cn-hangzhou.aliyuncs.com/piui/qrcode.jpeg)
 
-## Background
+## Background 背景
 
-大多数团队使用[uni-app](https://uniapp.dcloud.io/)方案，是为了跨平台，在跨平台的基础上，uniapp提供的vue语法（不完全支持），能比原生的写法（小程序原生语法作为对比）提高30%的效率，但是仅仅使用uniapp提供的基础组件，是远远支撑不了现代移动端的业务复杂度。
+uniapp提供的vue语法（不完全支持），能比原生的写法（小程序原生语法作为对比）提高30%的效率。
+
+但是仅仅使用uniapp提供的基础组件，是远远支撑不了现代移动端的业务复杂度。
 
 借助`piui`的能力，可以让您基于uniapp，再增加至少50%的效率提升。
 
-## Install
+## Install 安装
 
 ### 使用脚手架【推荐】
 基于`vue-cli`脚手架创建，更加通用的`vue`项目配置，接入更加快捷，可以做到零配置直接运行，其中引入了`sadais-core`
@@ -124,15 +123,15 @@ Vue.use(piui, piuiConfig);
 }
 ```
 
-## Usage
+## Usage 使用方法
 
 配置easycom规则后，自动按需引入
 
-## Maintainers
+## Maintainers 成员
 
 [@zhangzhenfei](https://github.com/zhangzhenfei)
 
-## Contributing
+## Contributing 贡献
 
 PRs accepted.
 
