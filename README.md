@@ -22,9 +22,9 @@ PiUI是基于uniapp，高质量UI移动组件库，基于 `vue.js` 语法，可�
 
 [官方文档：https://piui.sadais.com/](https://piui.sadais.com/)
 
-[GITHUB仓库：https://piui.sadais.com/](https://github.com/sadais-org/piui)
+[GITHUB仓库：https://github.com/sadais-org/piui](https://github.com/sadais-org/piui)
 
-[GITEE仓库：https://piui.sadais.com/](https://gitee.com/org-sadais/piui)
+[GITEE仓库：https://gitee.com/org-sadais/piui](https://gitee.com/org-sadais/piui)
 
 `欢迎大家star和fork，你的支持是我们持续更新的动力！`
 
