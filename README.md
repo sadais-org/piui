@@ -29,7 +29,11 @@ PiUI是基于uniapp，高质量UI移动组件库，基于 `vue.js` 语法，可�
 - [License](#license)
 
 ## Website
-[官方文档](http://piui.sadais.com/)
+[官方文档：http://piui.sadais.com/](http://piui.sadais.com/) 
+
+`扫码体验[piui]小程序`
+
+![](https://sadais-oss.oss-cn-hangzhou.aliyuncs.com/piui/qrcode.jpeg)
 
 ## Background
 
