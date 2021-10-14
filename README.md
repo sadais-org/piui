@@ -161,5 +161,7 @@ MIT © 2021 zhangzhenfei
 
 ## 微信群
 
-piui开发交流1群
+请扫码添加[piui客服小助手]邀请进群
+
+![](https://sadais-oss.oss-cn-hangzhou.aliyuncs.com/piui/WechatIMG17.jpeg)
 
