@@ -225,6 +225,12 @@ export default {
     getMaxDate() {
       return this.minDate ? this.$pi.date.parseDate(this.maxDate) : ''
     },
+    isMinYear() {
+      return this.year === parseInt(this.minYear, 10)
+    },
+    isMaxYear() {
+      return this.year === parseInt(this.maxYear, 10)
+    },
     // 总天数
     days() {
       const days = []
@@ -367,11 +373,11 @@ export default {
     },
     handleChangeMonth(change) {
       const month = this.month + change
-      if (month > 12) {
+      if (month > 12 && !this.isMaxYear) {
         // 下一年
         this.year = this.year + 1
         this.month = 1
-      } else if (month < 1) {
+      } else if (month < 1 && !this.isMinYear) {
         // 上一年
         this.year = this.year - 1
         this.month = 12
@@ -380,8 +386,8 @@ export default {
       }
     },
     handleChangeYear(change) {
-      if (change > 0 && this.year === parseInt(this.maxYear, 10)) return
-      if (change < 0 && this.year === parseInt(this.minYear, 10)) return
+      if (change > 0 && this.isMaxYear) return
+      if (change < 0 && this.isMinYear) return
       this.year = this.year + change
     },
     handleBackToday() {
