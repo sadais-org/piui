@@ -137,6 +137,11 @@ export default {
       handler(value) {
         this.handleValChange()
       }
+    },
+    value: {
+      handler(val) {
+        console.warn('val', val)
+      }
     }
   },
   methods: {
