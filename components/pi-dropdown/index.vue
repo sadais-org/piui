@@ -70,7 +70,7 @@
     <!-- 遮罩层 -->
     <view
       v-if="!closed"
-      class="pi-fixed masktest"
+      class="pi-fixed pi-dropdown-mask"
       :class="[
         show ? getMask.animationShow : getMask.animationHide,
         getMask.hideTabBar ? 'include-tabbar' : 'exclude-tabbar'
@@ -300,5 +300,11 @@ export default {
   .rotate {
     transform: rotate(180deg);
   }
+}
+.pi-dropdown-mask {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>
