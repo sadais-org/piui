@@ -3,7 +3,9 @@
     <view
       v-for="item in option"
       :key="item.id"
-      class="item-btn pi-pd-24 pi-solid-bottom-2 pi-w-100P pi-justify-between pi-align-center"
+      class="item-btn pi-pd-24 pi-w-100P pi-justify-between pi-align-center"
+      :class="customClass"
+      :style="customStyle"
       @tap="handleChangeRadio(item)"
     >
       <text>{{ item.name }}</text>
