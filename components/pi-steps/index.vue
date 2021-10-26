@@ -10,6 +10,7 @@
       <view
         v-if="mode === 'dot'"
         class="pi-steps-item-dot"
+        :class="['pi-steps-item-dot-' + direction]"
         :style="{ backgroundColor: index <= current ? activeColor : color }"
       />
 
@@ -49,7 +50,8 @@
         :class="['pi-steps-item-text-' + direction]"
         :style="{ color: index <= current ? activeColor : color }"
       >
-        {{ item.name }}
+        <view>{{ item.name }}</view>
+        <text class="pi-fz-20" style="word-break:break-all">{{ item.desc }}</text>
       </view>
 
       <!-- 中线 -->
@@ -75,7 +77,7 @@ export default {
   // 混入v-model
   mixins: [ValueSync],
   props: {
-    // 步骤条的类型，dot|number|image|hollow
+    // 步骤条的类型，dot|number|icon
     mode: {
       type: String,
       default: 'dot'
@@ -120,7 +122,7 @@ export default {
     // 图标大小
     size: {
       type: String,
-      default: '22'
+      default: '40'
     }
   },
   data() {
@@ -141,14 +143,13 @@ $pi-steps-item-icon-width: 40rpx;
   .pi-steps-item {
     position: relative;
     display: flex;
+    align-items: flex-start;
     flex: 1;
-    align-items: center;
-    justify-content: center;
     font-size: 26rpx;
     &-row {
       display: flex;
       flex-direction: column;
-
+      align-items: center;
       .pi-steps-item-line {
         position: absolute;
         left: 75%;
@@ -174,10 +175,9 @@ $pi-steps-item-icon-width: 40rpx;
       flex-direction: row;
       justify-content: flex-start;
       min-height: 120rpx;
-
       .pi-steps-item-line {
         position: absolute;
-        top: 75%;
+        top: 40%;
         z-index: 0;
         height: 50%;
 
@@ -199,6 +199,9 @@ $pi-steps-item-icon-width: 40rpx;
       height: $pi-steps-item-dot-width;
       background: color;
       border-radius: 50%;
+      &-column {
+        margin-top: 6rpx;
+      }
     }
     &-number {
       display: flex;
@@ -217,9 +220,15 @@ $pi-steps-item-icon-width: 40rpx;
     &-text-row {
       margin-top: 14rpx;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     &-text-column {
+      width: 95%;
       margin-left: 14rpx;
+      display: flex;
+      flex-direction: column;
     }
   }
 }
