@@ -72,9 +72,7 @@ export default {
   data() {
     return {
       options: this.option,
-      currentName: this.name,
-      show: false, // 显示当前Item组件
-      currentId: '' // 当前选中的ItemId
+      show: false // 显示当前Item组件
     }
   },
   computed: {
