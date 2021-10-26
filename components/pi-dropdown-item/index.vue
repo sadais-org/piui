@@ -8,7 +8,7 @@
       :style="customStyle"
       @tap="handleChangeRadio(item)"
     >
-      <text>{{ item.name }}</text>
+      <text :style="{ color: item.id === val ? color : 'inherit' }">{{ item.name }}</text>
       <pi-icon v-if="item.id === val" name="blod-check" :color="color" size="32" />
     </view>
     <slot />
