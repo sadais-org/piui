@@ -1,17 +1,22 @@
 <template>
-  <view class="pi-steps" :style="{ flexDirection: direction }">
+  <view class="pi-steps" :style="[customStyle, { flexDirection: direction }]" :class="customClass">
     <view
       v-for="(item, index) in list"
       :key="index"
       class="pi-steps-item"
-      :class="['pi-steps-item-' + direction]"
+      :style="itemStyle"
+      :class="[itemClass, ['pi-steps-item-' + direction]]"
     >
       <!-- 圆点 -->
       <view
         v-if="mode === 'dot'"
         class="pi-steps-item-dot"
         :class="['pi-steps-item-dot-' + direction]"
-        :style="{ backgroundColor: index <= current ? activeColor : color }"
+        :style="{
+          backgroundColor: index === current ? currentColor : index < current ? activeColor : color,
+          width: size + 'rpx',
+          height: size + 'rpx'
+        }"
       />
 
       <!-- 数字-->
@@ -19,8 +24,11 @@
         v-if="mode === 'number'"
         class="pi-steps-item-number"
         :style="{
-          backgroundColor: current < index ? 'transparent' : activeColor,
-          borderColor: current < index ? color : activeColor
+          backgroundColor:
+            index === current ? 'currentColor' : current < index ? 'transparent' : activeColor,
+          borderColor: index === current ? currentColor : index < current ? activeColor : color,
+          width: size + 'rpx',
+          height: size + 'rpx'
         }"
       >
         <text
@@ -35,10 +43,10 @@
       </view>
 
       <!-- 图标 -->
-      <view v-if="mode === 'icon'" class="pi-steps-item-icon">
+      <view v-if="mode === 'icon'">
         <pi-icon
           :style="{
-            color: current < index ? color : activeColor
+            color: index === current ? currentColor : index < current ? activeColor : color
           }"
           :size="size"
           :name="item.icon"
@@ -48,7 +56,7 @@
       <!-- 文字 -->
       <view
         :class="['pi-steps-item-text-' + direction]"
-        :style="{ color: index <= current ? activeColor : color }"
+        :style="{ color: index === current ? currentColor : index < current ? activeColor : color }"
       >
         <view>{{ item.name }}</view>
         <text class="pi-fz-20" style="word-break:break-all">{{ item.desc }}</text>
@@ -59,6 +67,7 @@
         v-if="index < list.length - 1"
         class="pi-steps-item-line"
         :class="['pi-steps-item-line-' + mode]"
+        :style="lineStyle"
       >
         <pi-line :direction="direction" length="100%" :hair-line="false" :color="color" />
       </view>
@@ -71,73 +80,105 @@ import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
 
 const TAG = 'PiSteps'
-const { select } = getConfig()
+const { steps } = getConfig()
 export default {
   name: 'PiSteps',
   // 混入v-model
   mixins: [ValueSync],
   props: {
+    // 自定义样式，对象形式（默认值：{}）
+    customStyle: {
+      type: Object,
+      default() {
+        return steps.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    customClass: {
+      type: String,
+      default() {
+        return steps.customClass
+      }
+    },
+    // 自定义样式，对象形式（默认值：{}）
+    itemStyle: {
+      type: Object,
+      default() {
+        return steps.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式（''）
+    itemClass: {
+      type: String,
+      default() {
+        return steps.customClass
+      }
+    },
     // 步骤条的类型，dot|number|icon
     mode: {
       type: String,
-      default: 'dot'
+      default: steps.mode
     },
     // 步骤条的数据
     list: {
       type: Array,
       default() {
-        return []
+        return steps.list
       }
-    },
-    // 主题类型, primary|success|info|warning|error
-    type: {
-      type: String,
-      default: 'primary'
     },
     // 当前处于第几步
     current: {
       type: [Number, String],
-      default: 0
+      default: steps.current
     },
     // 激活步骤的颜色
     activeColor: {
       type: String,
-      default: '#2979ff'
+      default: steps.activeColor
     },
     // 未激活的颜色
     color: {
       type: String,
-      default: '#909399'
+      default: steps.color
+    },
+    // 当前步骤的颜色
+    currentColor: {
+      type: String,
+      default: steps.currentColor
     },
     // 选中图标
     icon: {
       type: String,
-      default: 'check'
+      default: steps.icon
     },
     // 排列方向，row|column
     direction: {
       type: String,
-      default: 'column'
+      default: steps.direction
     },
     // 图标大小
     size: {
       type: String,
-      default: '40'
+      default: steps.size
     }
   },
   data() {
     return {}
   },
-  computed: {},
+  computed: {
+    lineStyle() {
+      let style = {}
+      let size = this.size / 2 + 'rpx'
+      this.direction === 'column' ? (style.left = size) : (style.top = size)
+      return style
+    }
+  },
   watch: {},
   methods: {}
 }
 </script>
 
 <style lang="scss" scoped>
-$pi-steps-item-number-width: 34rpx;
-$pi-steps-item-dot-width: 20rpx;
-$pi-steps-item-icon-width: 40rpx;
 .pi-steps {
   display: flex;
   .pi-steps-item {
@@ -155,18 +196,6 @@ $pi-steps-item-icon-width: 40rpx;
         left: 75%;
         z-index: 0;
         width: 50%;
-
-        &-dot {
-          top: calc(#{$pi-steps-item-dot-width} / 2);
-        }
-
-        &-number {
-          top: calc(#{$pi-steps-item-number-width} / 2);
-        }
-
-        &-icon {
-          top: calc(#{$pi-steps-item-icon-width} / 2);
-        }
       }
     }
 
@@ -180,42 +209,21 @@ $pi-steps-item-icon-width: 40rpx;
         top: 40%;
         z-index: 0;
         height: 50%;
-
-        &-dot {
-          left: calc(#{$pi-steps-item-dot-width} / 2);
-        }
-
-        &-number {
-          left: calc(#{$pi-steps-item-number-width} / 2);
-        }
-
-        &-icon {
-          left: calc(#{$pi-steps-item-icon-width} / 2);
-        }
       }
     }
     &-dot {
-      width: $pi-steps-item-dot-width;
-      height: $pi-steps-item-dot-width;
-      background: color;
       border-radius: 50%;
       &-column {
-        margin-top: 6rpx;
+        margin-top: 4rpx;
       }
     }
     &-number {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: $pi-steps-item-number-width;
-      height: $pi-steps-item-number-width;
       overflow: hidden;
       border: 1px solid #8799a3;
       border-radius: 50%;
-    }
-    &-icon {
-      width: $pi-steps-item-icon-width;
-      height: $pi-steps-item-icon-width;
     }
     &-text-row {
       margin-top: 14rpx;
