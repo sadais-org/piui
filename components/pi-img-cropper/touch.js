@@ -5,7 +5,7 @@ export default {
         prev: null,
         deltaX: 0,
         deltaY: 0,
-        prevVector: null,
+        prevVector: null
       },
       cutMode: null
     }
@@ -22,7 +22,10 @@ export default {
       this.focus = false
       if (touches.length > 1) {
         const p = touches[1]
-        this.touch.prevVector = { x: p.pageX - touch.pageX, y: p.pageY - touch.pageY }
+        this.touch.prevVector = {
+          x: p.pageX - touch.pageX,
+          y: p.pageY - touch.pageY
+        }
       }
     },
     handleMove(e) {
@@ -133,16 +136,24 @@ export default {
     detectBoundary() {
       if (this.boundaryDetect) {
         console.log('detectBoundary')
-        const minX = this.crop.left + this.crop.width - this.img.width - (this.img.transform.scale - 1) * this.img.width / 2
-        const maxX = this.crop.left + (this.img.transform.scale - 1) * this.img.width / 2
+        const angle = (this.img.transform.rotate * Math.PI) / 180
+        const cos = Math.cos,
+          sin = Math.sin,
+          abs = Math.abs
+        const { width: w, height: h } = this.img
+        const scale = this.img.transform.scale
+        const realW = (w * abs(cos(angle)) + h * abs(sin(angle))) * scale
+        const realH = (w * abs(sin(angle)) + h * abs(cos(angle))) * scale
+        const minX = this.crop.left + this.crop.width - w - (realW - w) / 2
+        const maxX = this.crop.left + (realW - w) / 2
         let x = this.img.transform.x
-        x = Math.floor(x < minX ? minX : (x > maxX ? maxX : x))
+        x = Math.floor(x < minX ? minX : x > maxX ? maxX : x)
         this.img.transform.x = x
 
-        const minY = this.crop.top + this.crop.height - this.img.height - (this.img.transform.scale - 1) * this.img.height / 2
-        const maxY = this.crop.top + (this.img.transform.scale - 1) * this.img.height / 2
+        const minY = this.crop.top + this.crop.height - h - (realH - h) / 2
+        const maxY = this.crop.top + (realH - h) / 2
         let y = this.img.transform.y
-        y = Math.floor(y < minY ? minY : (y > maxY ? maxY : y))
+        y = Math.floor(y < minY ? minY : y > maxY ? maxY : y)
         this.img.transform.y = y
       }
     }
