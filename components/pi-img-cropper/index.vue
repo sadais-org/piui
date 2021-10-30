@@ -26,7 +26,7 @@
 import Touch from './touch'
 import Vector from './vector'
 import Canvas from './canvas'
-import { getConfig } from '../config'
+import { getConfig } from '../../config'
 
 const { imgCropper } = getConfig()
 export default {
