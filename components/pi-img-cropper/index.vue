@@ -1,6 +1,7 @@
 <template>
   <view
-    class="container"
+    :class="[customClass, 'container']"
+    :style="[customStyle]"
     @touchstart="handleStart"
     @touchmove="handleMove"
     @touchcancel="handleEnd"
@@ -17,7 +18,7 @@
       v-if="canvasId"
       :id="canvasId"
       :canvas-id="canvasId"
-      style="position: absolute; left: -500000px; top: -500000px"
+      style="position: absolute; left: -500000px; top: -500000px;"
       :style="canvasStyle"
     />
   </view>
@@ -33,6 +34,22 @@ export default {
   name: 'PiImgCropper',
   mixins: [Touch, Vector, Canvas],
   props: {
+    // 自定义样式
+    customStyle: {
+      type: Object,
+      default() {
+        // {}
+        return imgCropper.customStyle
+      }
+    },
+    // 自定义样式类
+    customClass: {
+      type: String,
+      default() {
+        // ''
+        return imgCropper.customClass
+      }
+    },
     // 图片src
     src: {
       type: String,
