@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2021-09-08 16:43:51
+ * @LastEditTime: 2021-11-01 16:53:25
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -12,7 +12,7 @@
     <!-- 已上传图片展示 -->
     <view
       v-for="(img, index) in getImgs"
-      :key="imgField ? img[imgField] : img"
+      :key="index"
       class="pi-rela pi-flex-column-center"
       @tap="handlePreviewImage(img)"
     >
