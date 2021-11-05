@@ -1,7 +1,7 @@
 <template>
   <view class="pi-steps" :style="[customStyle, { flexDirection: direction }]" :class="customClass">
     <view
-      v-for="(item, index) in list"
+      v-for="(item, index) in customItem"
       :key="index"
       class="pi-steps-item"
       :style="itemStyle"
@@ -13,7 +13,7 @@
         class="pi-steps-item-dot"
         :class="['pi-steps-item-dot-' + direction]"
         :style="{
-          backgroundColor: index === current ? currentColor : index < current ? activeColor : color,
+          backgroundColor: item.bgColor,
           width: size + 'rpx',
           height: size + 'rpx'
         }"
@@ -24,9 +24,8 @@
         v-if="mode === 'number'"
         class="pi-steps-item-number"
         :style="{
-          backgroundColor:
-            index === current ? 'currentColor' : current < index ? 'transparent' : activeColor,
-          borderColor: index === current ? currentColor : index < current ? activeColor : color,
+          backgroundColor: item.bgColor,
+          borderColor: item.borderColor,
           width: size + 'rpx',
           height: size + 'rpx'
         }"
@@ -34,7 +33,7 @@
         <text
           v-if="current < index"
           :style="{
-            color: current < index ? color : activeColor
+            color: item.color
           }"
         >
           {{ index + 1 }}
@@ -46,7 +45,7 @@
       <view v-if="mode === 'icon'">
         <pi-icon
           :style="{
-            color: index === current ? currentColor : index < current ? activeColor : color
+            color: item.color
           }"
           :size="size"
           :name="item.icon"
@@ -54,17 +53,14 @@
       </view>
 
       <!-- 文字 -->
-      <view
-        :class="['pi-steps-item-text-' + direction]"
-        :style="{ color: index === current ? currentColor : index < current ? activeColor : color }"
-      >
+      <view :class="['pi-steps-item-text-' + direction]" :style="{ color: item.color }">
         <view>{{ item.name }}</view>
         <text class="pi-fz-20" style="word-break:break-all">{{ item.desc }}</text>
       </view>
 
       <!-- 中线 -->
       <view
-        v-if="index < list.length - 1"
+        v-if="index < items.length - 1"
         class="pi-steps-item-line"
         :class="['pi-steps-item-line-' + mode]"
         :style="lineStyle"
@@ -86,6 +82,10 @@ export default {
   // 混入v-model
   mixins: [ValueSync],
   props: {
+    // 初始值
+    value: {
+      required: false
+    },
     // 自定义样式，对象形式（默认值：{}）
     customStyle: {
       type: Object,
@@ -120,16 +120,11 @@ export default {
       default: steps.mode
     },
     // 步骤条的数据
-    list: {
+    items: {
       type: Array,
       default() {
-        return steps.list
+        return steps.items
       }
-    },
-    // 当前处于第几步
-    current: {
-      type: [Number, String],
-      default: steps.current
     },
     // 激活步骤的颜色
     activeColor: {
@@ -171,6 +166,22 @@ export default {
       let size = this.size / 2 + 'rpx'
       this.direction === 'column' ? (style.left = size) : (style.top = size)
       return style
+    },
+    current() {
+      return this.val
+    },
+    customItem() {
+      return this.items.map((item, index) => {
+        if (index === this.val) {
+          item.bgColor = item.borderColor = item.color = this.currentColor
+        } else if (index < this.val) {
+          item.bgColor = item.borderColor = item.color = this.activeColor
+        } else {
+          item.borderColor = item.color = this.color
+          item.bgColor = this.mode === 'number' ? 'transparent' : this.color
+        }
+        return item
+      })
     }
   },
   watch: {},
