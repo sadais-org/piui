@@ -149,7 +149,7 @@ export default {
   }
 
   &-info {
-    background: $pi-secondary-color;
+    background: #909399;
   }
 }
 </style>
