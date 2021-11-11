@@ -53,7 +53,20 @@ export default {
     // 图片src
     src: {
       type: String,
+      // `''`
       default: imgCropper.src
+    },
+    // 图片格式
+    fileType: {
+      type: String,
+      // `png`
+      deault: imgCropper.fileType
+    },
+    // 图片质量(0,1]
+    quality: {
+      type: Number,
+      // `1`
+      default: imgCropper.quality
     },
     // 裁剪窗口大小
     cropSize: {
@@ -90,6 +103,7 @@ export default {
     // 放大裁剪窗口的倍数
     canvasZoom: {
       type: Number,
+      // `1`
       default: imgCropper.canvasZoom
     }
   },

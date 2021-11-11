@@ -92,8 +92,8 @@ export default {
         uni.canvasToTempFilePath(
           {
             canvasId: this.canvasId,
-            quality: 1,
-            fileType: 'png',
+            quality: this.quality,
+            fileType: this.fileTpe,
             success: (res) => {
               // 裁剪成功
               // @arg 参数1 结构：{ img: 本地路径 or base64(h5端), width, height }

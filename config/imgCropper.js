@@ -5,6 +5,10 @@ export default {
   customClass: '',
   // 图片src
   src: '',
+  //图片格式
+  fileType: 'png',
+  // 图片质量
+  quality: 1,
   // 裁剪窗口大小
   cropSize: { width: '50%', height: '50%' },
   // 最小的裁剪窗口
