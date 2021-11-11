@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2021-11-01 16:53:25
+ * @LastEditTime: 2021-11-11 17:54:26
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
- * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
+ * @FilePath: /piui-doc/piui/components/pi-upload-img/index.vue
 -->
 
 <template>
@@ -46,6 +46,13 @@
         <view v-if="uploadText" class="pi-mg-top-6 pi-fz-24 pi-light-gray">{{ uploadText }}</view>
       </view>
     </view>
+    <template v-if="showCrop && !!cropOpts">
+      <pi-mask v-model="showCrop" :mask-closeable="false">
+        <view class="pi-abso-full">
+          <pi-img-cropper :src="croPic" v-bind="cropOpts" @cropped="handleCrop" />
+        </view>
+      </pi-mask>
+    </template>
   </view>
 </template>
 
@@ -207,6 +214,12 @@ export default {
         return uploadImg.chooseImageOpts
       }
     },
+    // 裁剪参数 若需要裁剪 则传递一个对象,key参考pi-img-cropper的属性
+    cropOpts: {
+      type: [Object, Boolean],
+      // `false`
+      default: uploadImg.cropOpts
+    },
     // 上传成功解析对象方法
     parseResultFn: {
       type: [Object, Function],
@@ -239,7 +252,10 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      showCrop: false,
+      cropPic: ''
+    }
   },
   computed: {
     isValString() {
@@ -297,6 +313,7 @@ export default {
         current = this.imgField ? img[this.imgField] : img
       }
 
+      // eslint-disable-next-line no-undef
       uni.previewImage({
         urls,
         current,
@@ -306,41 +323,20 @@ export default {
         }
       })
     },
-    async handleChooseImage() {
-      if (this.disabled || !this.getUploadCount) return
-      const _this = this
-      // 检查上传地址
-      if (!this.beforeUpload && !this.action) {
-        this.$toast('请配置上传地址')
-        return
-      }
-      if (this.$pi.lang.isEmpty(this.headers)) {
-        console.log(TAG, '当前图片上传headers为空，请检查是否需要配置授权信息')
-      }
-      const { sizeType, extension, sourceType, crop } = this.getChooseImageOpts
+    handleCrop(res) {
+      this.showCrop = false
+      this.cropPic = ''
+      this.handleUpload([res.img])
+    },
+    async handleUpload(paths) {
+      const beforeUpload = this.beforeUpload[PI_DEFAULT_FN_FLAG]
+        ? this.beforeUpload.fn
+        : this.beforeUpload
+      const parseResultFn = this.parseResultFn[PI_DEFAULT_FN_FLAG]
+        ? this.parseResultFn.fn
+        : this.parseResultFn
       try {
-        const [, result] = await uni.chooseImage({
-          count: this.getUploadCount,
-          sizeType,
-          extension,
-          sourceType,
-          crop
-        })
-        const { errMsg, tempFilePaths } = result
-        if (errMsg !== 'chooseImage:ok') {
-          throw new Error(errMsg)
-        }
-
-        console.log(this.beforeUpload)
-
-        const beforeUpload = this.beforeUpload[PI_DEFAULT_FN_FLAG]
-          ? this.beforeUpload.fn
-          : this.beforeUpload
-        const parseResultFn = this.parseResultFn[PI_DEFAULT_FN_FLAG]
-          ? this.parseResultFn.fn
-          : this.parseResultFn
-
-        for await (const filePath of tempFilePaths) {
+        for await (const filePath of paths) {
           let uploadResult = null
           const params = {
             url: this.action,
@@ -355,7 +351,8 @@ export default {
             // 上传之前的钩子， 如果定义了则使用钩子上传文件
             uploadResult = await beforeUpload(params)
           } else {
-            const [, uploadFileResult = result] = await uni.uploadFile(params)
+            // eslint-disable-next-line no-undef
+            const [, uploadFileResult] = await uni.uploadFile(params)
             uploadResult = uploadFileResult
           }
 
@@ -365,6 +362,42 @@ export default {
             this.handleEmitChange()
           }
         }
+      } catch (e) {
+        this.$emit('fail', e)
+      }
+    },
+    async handleChooseImage() {
+      if (this.disabled || !this.getUploadCount) return
+      // 检查上传地址
+      if (!this.beforeUpload && !this.action) {
+        this.$toast('请配置上传地址')
+        return
+      }
+      if (this.$pi.lang.isEmpty(this.headers)) {
+        console.log(TAG, '当前图片上传headers为空，请检查是否需要配置授权信息')
+      }
+      const { sizeType, extension, sourceType, crop } = this.getChooseImageOpts
+      try {
+        // eslint-disable-next-line no-undef
+        const [, result] = await uni.chooseImage({
+          count: this.getUploadCount,
+          sizeType,
+          extension,
+          sourceType,
+          crop
+        })
+        const { errMsg, tempFilePaths } = result
+        if (errMsg !== 'chooseImage:ok') {
+          throw new Error(errMsg)
+        }
+
+        console.log(this.beforeUpload)
+        if (this.maxCount === 1 && this.cropOpts && tempFilePaths.length === 1) {
+          this.showCrop = true
+          this.cropPic = tempFilePaths[0]
+          return
+        }
+        this.handleUpload(tempFilePaths)
       } catch (error) {
         this.$emit('fail', error)
       }
