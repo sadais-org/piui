@@ -4,14 +4,7 @@
       class="pi-rela pi-w-100P pi-h-100P pi-solid-bottom-2 pi-bg-white"
       style="z-index: 6;"
       :class="[customClass]"
-      :style="[
-        customStyle,
-        {
-          borderRadius: show
-            ? `${customStyle.borderRadius} ${customStyle.borderRadius} 0 0`
-            : customStyle.borderRadius
-        }
-      ]"
+      :style="combinationStyle"
     >
       <!-- tabs从dropdownItem中获取其name的值 -->
       <scroll-view
@@ -50,15 +43,7 @@
       <view
         v-show="show"
         :class="[contentClass]"
-        :style="[
-          { top: customStyle.height, left: 0, background: '#fff' },
-          contentStyle,
-          {
-            borderRadius: show
-              ? `0 0 ${contentStyle.borderRadius} ${contentStyle.borderRadius}`
-              : contentStyle.borderRadius
-          }
-        ]"
+        :style="contentCombinationStyle"
         class="pi-abso pi-w-100P"
       >
         <view class="pi-dropdown-content pi-mg-top-6">
@@ -173,6 +158,29 @@ export default {
     }
   },
   computed: {
+    combinationStyle() {
+      const { customStyle, show } = this
+      return [
+        customStyle,
+        {
+          borderRadius: show
+            ? `${customStyle.borderRadius} ${customStyle.borderRadius} 0 0`
+            : customStyle.borderRadius
+        }
+      ]
+    },
+    contentCombinationStyle() {
+      const { customStyle, contentStyle, show } = this
+      return [
+        { top: customStyle.height, left: 0, background: '#fff' },
+        contentStyle,
+        {
+          borderRadius: show
+            ? `0 0 ${contentStyle.borderRadius} ${contentStyle.borderRadius}`
+            : contentStyle.borderRadius
+        }
+      ]
+    },
     getMask() {
       return this.$pi.lang.mergeDeep(dropdown.mask, this.mask)
     },
@@ -243,7 +251,7 @@ export default {
       this.activeIndex = index
       this.openMask()
       this.currentId = item._uid
-      this._children.forEach(child => {
+      this._children.find(child => {
         const showTab = child._uid === item._uid
         child.showOption(showTab)
       })
@@ -273,10 +281,7 @@ export default {
     // 关闭弹窗并返回结果
     handleChangeSubmit() {
       this.closeMask()
-      const submitVal = []
-      this._children.forEach(item => {
-        submitVal.push(item.val)
-      })
+      const submitVal = this._children.map(item => item.val)
       this.val = submitVal // 把最终结果传给绑定的v-model值
       this.handleEmitChange()
     }

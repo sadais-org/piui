@@ -55,6 +55,7 @@
             :loading-size="getSelectedImg.loadingSize"
             :show-error="getSelectedImg.showError"
             :webp="getSelectedImg.webp"
+            custom-class="pi-mg-left-24"
           />
           <!-- 默认使用复选框 -->
           <pi-checkbox
@@ -70,6 +71,7 @@
             :icon-size="getSelectedCheckbox.iconSize"
             :active-color="getSelectedCheckbox.activeColor"
             :active-mode="getSelectedCheckbox.activeMode"
+            custom-class="pi-mg-left-24"
           />
         </view>
       </scroll-view>
@@ -246,10 +248,8 @@ export default {
       return this.$pi.lang.mergeDeep(selectPopup, this.popup)
     },
     getItemStyle() {
-      const itemHeight = this.$pi.common.addUnit(this.itemHeight)
       return {
-        height: itemHeight,
-        lineHeight: itemHeight
+        height: this.$pi.common.addUnit(this.itemHeight)
       }
     },
     getItems() {
