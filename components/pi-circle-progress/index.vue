@@ -37,7 +37,7 @@
 </template>
 <script>
 import { getConfig } from '../../config'
-const { CircleProgress } = getConfig()
+const { circleProgress } = getConfig()
 
 const TAG = 'PiCircleProgress'
 export default {
