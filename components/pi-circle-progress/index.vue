@@ -1,7 +1,7 @@
 <!--
  * @Author: zhouxianpan
  * @Date: 2021-09-06 10:07:33
- * @LastEditTime: 2021-11-16 20:27:24
+ * @LastEditTime: 2021-11-16 20:40:03
  * @LastEditors: zhangzhenfei
  * @Description: 
  * @FilePath: \piui\components\pi-circle-progress\index.vue
@@ -12,7 +12,7 @@
     :style="{
       width: widthPx + 'px',
       height: widthPx + 'px',
-      backgroundColor: bgColor
+      backgroundColor: bgColor,
     }"
   >
     <canvas
@@ -21,7 +21,7 @@
       class="pi-canvas-bg"
       :style="{
         width: widthPx + 'px',
-        height: widthPx + 'px'
+        height: widthPx + 'px',
       }"
     ></canvas>
     <canvas
@@ -30,18 +30,23 @@
       class="pi-canvas"
       :style="{
         width: widthPx + 'px',
-        height: widthPx + 'px'
+        height: widthPx + 'px',
       }"
     ></canvas>
   </view>
 </template>
 <script>
+import { getConfig } from '../../config'
+const { CircleProgress } = getConfig()
+
+const TAG = 'PiCircleProgress'
 export default {
+  name=TAG,
   props: {
     // 圆环进度百分比值
     percent: {
       type: Number,
-      default: 50,
+      default: PiCircleProgress.percent,
       // 限制值在0到100之间
       validator: val => {
         return val >= 0 && val <= 100
@@ -50,48 +55,48 @@ export default {
     // 整个圆环进度区域的背景色
     bgColor: {
       type: String,
-      default: '#ffffff'
+      default: PiCircleProgress.bgColor
     },
     // 底部圆环的颜色（灰色的圆环）
     inactiveColor: {
       type: String,
-      default: '#ececec'
+      default: PiCircleProgress.inactiveColor
     },
     // 圆环激活部分的颜色
     activeColor: {
       type: String,
-      default: '#19be6b'
+      default: PiCircleProgress.activeColor
     },
     // 圆环线条的宽度，单位rpx
     borderWidth: {
       type: [Number, String],
-      default: 14
+      default: PiCircleProgress.borderWidth
     },
     // 整个圆形的宽度，单位rpx
     width: {
       type: [Number, String],
-      default: 200
+      default: PiCircleProgress.width
     },
     // 整个圆环执行一圈的时间，单位ms
     duration: {
       type: [Number, String],
-      default: 1500
+      default: PiCircleProgress.duration
     },
     // 主题类型
     type: {
       type: String,
-      default: ''
+      default: PiCircleProgress.type
     },
 
     // 字体大小
     fontSize: {
       type: String,
-      default: '16px'
+      default: PiCircleProgress.fontSize
     },
     //显示的文字 默认为空
     text: {
       type: String,
-      default: ''
+      default: PiCircleProgress.text
     }
   },
   data() {
