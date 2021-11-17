@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2021-11-11 17:54:26
+ * @LastEditTime: 2021-11-17 10:11:39
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
- * @FilePath: /piui-doc/piui/components/pi-upload-img/index.vue
+ * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
 -->
 
 <template>
@@ -27,7 +27,7 @@
       />
     </view>
     <!-- 上传框 -->
-    <view v-if="getUploadCount">
+    <view v-if="getUploadMaxCount">
       <view :style="[getUploadBtnStyle]" class="pi-flex-column-center" @tap="handleChooseImage">
         <slot name="uploadBtn">
           <!-- 添加按钮 -->
@@ -46,13 +46,38 @@
         <view v-if="uploadText" class="pi-mg-top-6 pi-fz-24 pi-light-gray">{{ uploadText }}</view>
       </view>
     </view>
-    <template v-if="showCrop && !!cropOpts">
-      <pi-mask v-model="showCrop" :mask-closeable="false">
-        <view class="pi-abso-full">
-          <pi-img-cropper :src="croPic" v-bind="cropOpts" @cropped="handleCrop" />
+    <!-- 剪裁弹窗 -->
+    <pi-mask v-model="showCrop" :mask-closeable="false" background="rgba(0, 0, 0, .7)">
+      <view class="pi-abso-full pi-flex-column">
+        <view class="pi-flex-sub">
+          <pi-img-cropper
+            :custom-style="getCropOption.customStyle"
+            :custom-class="getCropOption.customClass"
+            :src="cropPic"
+            :file-type="getCropOption.fileType"
+            :quality="getCropOption.quality"
+            :crop-size="getCropOption.cropSize"
+            :min-crop-size="getCropOption.minCropSize"
+            :boundary-detect="getCropOption.boundaryDetect"
+            :keep-crop-ratio="getCropOption.keepCropRatio"
+            :disable-rotate="getCropOption.disableRotate"
+            :canvas-zoom="getCropOption.canvasZoom"
+            :mask-background="getCropMaskBackground"
+            @cropped="handleCrop"
+          />
         </view>
-      </pi-mask>
-    </template>
+        <pi-bottom-bar
+          border-top="none"
+          :background="getCropMaskBackground"
+          :safe-area-bg-color="getCropMaskBackground"
+        >
+          <view class="pi-justify-between pi-align-center pi-pd-tb-32 pi-pd-lr-24 pi-fz-32">
+            <view class="pi-white" @tap="handleCancelCrop">取消</view>
+            <view class="pi-primary" @tap="handleCompelteCrop">完成</view>
+          </view>
+        </pi-bottom-bar>
+      </view>
+    </pi-mask>
   </view>
 </template>
 
@@ -214,11 +239,18 @@ export default {
         return uploadImg.chooseImageOpts
       }
     },
-    // 裁剪参数 若需要裁剪 则传递一个对象,key参考pi-img-cropper的属性
-    cropOpts: {
-      type: [Object, Boolean],
+    // 当maxCount设置为1的时候，可开启裁剪
+    crop: {
+      type: Boolean,
       // `false`
-      default: uploadImg.cropOpts
+      default: uploadImg.crop
+    },
+    // 裁剪参数
+    cropOption: {
+      type: Object,
+      default() {
+        return uploadImg.cropOption
+      }
     },
     // 上传成功解析对象方法
     parseResultFn: {
@@ -240,6 +272,16 @@ export default {
         }
       }
     },
+    // 文件上传时的钩子
+    onProgress: {
+      type: [Object, Function],
+      default() {
+        return {
+          [PI_DEFAULT_FN_FLAG]: true,
+          fn: uploadImg.onProgress
+        }
+      }
+    },
     // 删除之前的钩子
     beforeRemove: {
       type: [Object, Function],
@@ -253,8 +295,9 @@ export default {
   },
   data() {
     return {
-      showCrop: false,
-      cropPic: ''
+      showCrop: false, // 是否显示裁剪工具
+      cropPic: '', // 需要剪裁的图片
+      cropedPic: '' // 剪裁后的图片
     }
   },
   computed: {
@@ -279,9 +322,15 @@ export default {
         arrayMerge: (target, source) => source
       })
     },
-    getUploadCount() {
+    getUploadMaxCount() {
       const maxCount = parseInt(this.maxCount, 10)
       return maxCount - this.getImgs.length
+    },
+    getCropMaskBackground() {
+      return 'rgba(0, 0, 0, .5)'
+    },
+    getCropOption() {
+      return this.$pi.lang.mergeDeep(uploadImg.cropOption, this.cropOption)
     }
   },
   methods: {
@@ -323,15 +372,13 @@ export default {
         }
       })
     },
-    handleCrop(res) {
-      this.showCrop = false
-      this.cropPic = ''
-      this.handleUpload([res.img])
-    },
     async handleUpload(paths) {
       const beforeUpload = this.beforeUpload[PI_DEFAULT_FN_FLAG]
         ? this.beforeUpload.fn
         : this.beforeUpload
+      // const onProgress = this.onProgress[PI_DEFAULT_FN_FLAG]
+      //   ? this.onProgress.fn
+      //   : this.onProgress
       const parseResultFn = this.parseResultFn[PI_DEFAULT_FN_FLAG]
         ? this.parseResultFn.fn
         : this.parseResultFn
@@ -351,7 +398,6 @@ export default {
             // 上传之前的钩子， 如果定义了则使用钩子上传文件
             uploadResult = await beforeUpload(params)
           } else {
-            // eslint-disable-next-line no-undef
             const [, uploadFileResult] = await uni.uploadFile(params)
             uploadResult = uploadFileResult
           }
@@ -366,8 +412,22 @@ export default {
         this.$emit('fail', e)
       }
     },
+    handleCrop(res) {
+      console.log(TAG, '处理剪裁')
+      this.cropedPic = res.img
+    },
+    handleCancelCrop() {
+      console.log(TAG, '取消剪裁')
+      this.showCrop = false
+      this.cropPic = ''
+    },
+    handleCompelteCrop() {
+      console.log(TAG, '完成剪裁')
+      this.showCrop = false
+      this.handleUpload([this.cropedPic])
+    },
     async handleChooseImage() {
-      if (this.disabled || !this.getUploadCount) return
+      if (this.disabled || !this.getUploadMaxCount) return
       // 检查上传地址
       if (!this.beforeUpload && !this.action) {
         this.$toast('请配置上传地址')
@@ -378,9 +438,8 @@ export default {
       }
       const { sizeType, extension, sourceType, crop } = this.getChooseImageOpts
       try {
-        // eslint-disable-next-line no-undef
         const [, result] = await uni.chooseImage({
-          count: this.getUploadCount,
+          count: this.getUploadMaxCount,
           sizeType,
           extension,
           sourceType,
@@ -390,9 +449,8 @@ export default {
         if (errMsg !== 'chooseImage:ok') {
           throw new Error(errMsg)
         }
-
-        console.log(this.beforeUpload)
-        if (this.maxCount === 1 && this.cropOpts && tempFilePaths.length === 1) {
+        if (this.getUploadMaxCount === 1 && this.crop && tempFilePaths.length === 1) {
+          // 单张图片设置了剪裁
           this.showCrop = true
           this.cropPic = tempFilePaths[0]
           return

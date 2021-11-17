@@ -1,6 +1,10 @@
 <template>
   <view>
-    <view class="pi-bottom-bar" :style="[{ borderTop: borderTop }]" :class="[{ fixed: fixed }]">
+    <view
+      class="pi-bottom-bar"
+      :style="[{ borderTop: borderTop, background: background }]"
+      :class="[{ fixed: fixed }]"
+    >
       <!-- 默认插槽 -->
       <view
         class="pi-w-100P"
@@ -63,6 +67,12 @@ export default {
         return bottomBar.safeArea
       }
     },
+    // 背景
+    background: {
+      type: String,
+      // '#ffffff'
+      default: bottomBar.background
+    },
     // 安全区域背景颜色
     safeAreaBgColor: {
       type: String,
@@ -114,7 +124,6 @@ export default {
 <style lang="scss" scoped>
 .pi-bottom-bar {
   width: 100%;
-  background: #ffffff;
   &.fixed {
     position: fixed;
     right: 0;

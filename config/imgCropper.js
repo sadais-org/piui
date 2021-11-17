@@ -5,7 +5,7 @@ export default {
   customClass: '',
   // 图片src
   src: '',
-  //图片格式
+  // 图片格式
   fileType: 'png',
   // 图片质量
   quality: 1,
@@ -20,5 +20,7 @@ export default {
   // 是否禁止旋转
   disableRotate: false,
   // 放大裁剪窗口的倍数
-  canvasZoom: 1
+  canvasZoom: 1,
+  // 遮罩层背景颜色
+  maskBackground: 'rgba(0, 0, 0, .5)'
 }

@@ -1,18 +1,18 @@
 <template>
   <view
-    :class="[customClass, 'container']"
+    :class="[customClass, 'pi-img-cropper']"
     :style="[customStyle]"
-    @touchstart="handleStart"
-    @touchmove="handleMove"
-    @touchcancel="handleEnd"
-    @touchend="handleEnd"
+    @touchstart.stop.prevent="handleStart"
+    @touchmove.stop.prevent="handleMove"
+    @touchcancel.stop.prevent="handleEnd"
+    @touchend.stop.prevent="handleEnd"
   >
     <image class="img" mode="aspectFit" :style="[imgStyle]" :src="src" />
     <view class="crop" :style="[cropStyle]">
-      <view class="corner lt" @touchstart="setCutMode('lt')"></view>
-      <view class="corner rt" @touchstart="setCutMode('rt')"></view>
-      <view class="corner rb" @touchstart="setCutMode('rb')"></view>
-      <view class="corner lb" @touchstart="setCutMode('lb')"></view>
+      <view class="corner lt" @touchstart="setCutMode('lt')" />
+      <view class="corner rt" @touchstart="setCutMode('rt')" />
+      <view class="corner rb" @touchstart="setCutMode('rb')" />
+      <view class="corner lb" @touchstart="setCutMode('lb')" />
     </view>
     <canvas
       v-if="canvasId"
@@ -105,6 +105,12 @@ export default {
       type: Number,
       // `1`
       default: imgCropper.canvasZoom
+    },
+    // 遮罩层背景颜色
+    maskBackground: {
+      type: String,
+      // 'rgba(0, 0, 0, .5)'
+      default: imgCropper.maskBackground
     }
   },
   data() {
@@ -154,15 +160,13 @@ export default {
     },
     cropStyle() {
       const { top: t, right: r, bottom: b, left: l } = this.crop
-      // this.focus = true: 让裁剪窗口周围更暗，聚焦裁剪窗口中的内容
-      const alpha = this.focus ? 0.8 : 0.5
       // 指定裁剪窗口的位置、大小、周边的遮罩层效果
       return {
         top: `${t}px`,
         right: `${r}px`,
         bottom: `${b}px`,
         left: `${l}px`,
-        outline: `50000px solid rgba(0, 0, 0, ${alpha})`
+        outline: `50000px solid ${this.maskBackground}`
       }
     }
   },
@@ -194,10 +198,10 @@ export default {
     getContainerSize() {
       return new Promise(resolve => {
         let query = uni.createSelectorQuery()
-        //#ifndef MP-ALIPAY
+        // #ifndef MP-ALIPAY
         query = query.in(this)
-        //#endif
-        const node = query.select('.container')
+        // #endif
+        const node = query.select('.pi-img-cropper')
         node
           .boundingClientRect(result => {
             resolve(result)
@@ -303,7 +307,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.pi-img-cropper {
   position: relative;
   width: 100%;
   height: 100%;

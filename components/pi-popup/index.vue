@@ -318,8 +318,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../scss/mixin.scss';
-.pi-popup {
-}
 
 .ani-scale-center-up {
   animation: scale-center-up $pi-animation-duration $pi-animation-timing-function both;

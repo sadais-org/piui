@@ -1,12 +1,13 @@
 /*
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:29:02
- * @LastEditTime: 2021-11-11 17:53:31
+ * @LastEditTime: 2021-11-17 10:07:54
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传
- * @FilePath: /piui-doc/piui/config/upload-img.js
+ * @FilePath: /piui-awesome/src/piui/config/upload-img.js
  */
 import icon from './icon.js'
+import cropOption from './imgCropper.js'
 
 export default {
   customClass: '', // 自定义样式类，字符串形式（''）
@@ -34,7 +35,8 @@ export default {
   disabled: false, // 是否禁用上传
   maxCount: 9, // 上传文件的最大数量
   uploadText: '', // 上传区域文字提示
-  cropOpts: false, // 如果需要裁剪 则为pi-img-cropper的属性组成的对象
+  crop: false, // 当maxCount设置为1的时候，可开启裁剪
+  cropOption, // 裁剪配置
   // 上传区域图标
   uploadIcon: {
     ...icon,
@@ -56,5 +58,6 @@ export default {
     }
   },
   beforeUpload: null, // 上传之前的钩子
+  onProgress: null, // 文件上传时的钩子
   beforeRemove: null // 删除之前的钩子
 }
