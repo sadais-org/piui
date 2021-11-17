@@ -1,10 +1,10 @@
 <!--
  * @Author: zhouxianpan
  * @Date: 2021-09-06 10:07:33
- * @LastEditTime: 2021-11-16 20:40:03
+ * @LastEditTime: 2021-11-17 09:51:45
  * @LastEditors: zhangzhenfei
  * @Description: 
- * @FilePath: \piui\components\pi-circle-progress\index.vue
+ * @FilePath: /piui-doc/piui/components/pi-circle-progress/index.vue
 -->
 <template>
   <view
@@ -12,7 +12,7 @@
     :style="{
       width: widthPx + 'px',
       height: widthPx + 'px',
-      backgroundColor: bgColor,
+      backgroundColor: bgColor
     }"
   >
     <canvas
@@ -21,7 +21,7 @@
       class="pi-canvas-bg"
       :style="{
         width: widthPx + 'px',
-        height: widthPx + 'px',
+        height: widthPx + 'px'
       }"
     ></canvas>
     <canvas
@@ -30,7 +30,7 @@
       class="pi-canvas"
       :style="{
         width: widthPx + 'px',
-        height: widthPx + 'px',
+        height: widthPx + 'px'
       }"
     ></canvas>
   </view>
@@ -39,14 +39,13 @@
 import { getConfig } from '../../config'
 const { circleProgress } = getConfig()
 
-const TAG = 'PiCircleProgress'
 export default {
-  name=TAG,
+  name: 'PiCircleProgress',
   props: {
     // 圆环进度百分比值
     percent: {
       type: Number,
-      default: PiCircleProgress.percent,
+      default: circleProgress.percent,
       // 限制值在0到100之间
       validator: val => {
         return val >= 0 && val <= 100
@@ -55,48 +54,48 @@ export default {
     // 整个圆环进度区域的背景色
     bgColor: {
       type: String,
-      default: PiCircleProgress.bgColor
+      default: circleProgress.bgColor
     },
     // 底部圆环的颜色（灰色的圆环）
     inactiveColor: {
       type: String,
-      default: PiCircleProgress.inactiveColor
+      default: circleProgress.inactiveColor
     },
     // 圆环激活部分的颜色
     activeColor: {
       type: String,
-      default: PiCircleProgress.activeColor
+      default: circleProgress.activeColor
     },
     // 圆环线条的宽度，单位rpx
     borderWidth: {
       type: [Number, String],
-      default: PiCircleProgress.borderWidth
+      default: circleProgress.borderWidth
     },
     // 整个圆形的宽度，单位rpx
     width: {
       type: [Number, String],
-      default: PiCircleProgress.width
+      default: circleProgress.width
     },
     // 整个圆环执行一圈的时间，单位ms
     duration: {
       type: [Number, String],
-      default: PiCircleProgress.duration
+      default: circleProgress.duration
     },
     // 主题类型
     type: {
       type: String,
-      default: PiCircleProgress.type
+      default: circleProgress.type
     },
 
     // 字体大小
     fontSize: {
       type: String,
-      default: PiCircleProgress.fontSize
+      default: circleProgress.fontSize
     },
     //显示的文字 默认为空
     text: {
       type: String,
-      default: PiCircleProgress.text
+      default: circleProgress.text
     }
   },
   data() {
