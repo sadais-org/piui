@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2021-11-17 10:11:39
+ * @LastEditTime: 2021-11-17 11:30:50
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -47,7 +47,7 @@
       </view>
     </view>
     <!-- 剪裁弹窗 -->
-    <pi-mask v-model="showCrop" :mask-closeable="false" background="rgba(0, 0, 0, .7)">
+    <pi-mask v-model="showCrop" :mask-closeable="false" background="rgba(0, 0, 0, .9)">
       <view class="pi-abso-full pi-flex-column">
         <view class="pi-flex-sub">
           <pi-img-cropper
@@ -327,7 +327,7 @@ export default {
       return maxCount - this.getImgs.length
     },
     getCropMaskBackground() {
-      return 'rgba(0, 0, 0, .5)'
+      return 'rgba(0, 0, 0, .3)'
     },
     getCropOption() {
       return this.$pi.lang.mergeDeep(uploadImg.cropOption, this.cropOption)
@@ -376,14 +376,26 @@ export default {
       const beforeUpload = this.beforeUpload[PI_DEFAULT_FN_FLAG]
         ? this.beforeUpload.fn
         : this.beforeUpload
-      // const onProgress = this.onProgress[PI_DEFAULT_FN_FLAG]
-      //   ? this.onProgress.fn
-      //   : this.onProgress
+      const onProgress = this.onProgress[PI_DEFAULT_FN_FLAG] ? this.onProgress.fn : this.onProgress
       const parseResultFn = this.parseResultFn[PI_DEFAULT_FN_FLAG]
         ? this.parseResultFn.fn
         : this.parseResultFn
       try {
         for await (const filePath of paths) {
+          // ---------- 上传之前的钩子 ----------
+
+          let beforeUploadResult = true
+          if (this.$pi.lang.isFunction(beforeUpload)) {
+            console.log(TAG, '调用文件上传前钩子')
+            beforeUploadResult = await beforeUpload(filePath)
+          }
+          if (!beforeUploadResult) {
+            console.log(TAG, '文件上传前钩子返回false，跳过上传')
+            continue
+          }
+
+          // ---------- 上传文件 ----------
+
           let uploadResult = null
           const params = {
             url: this.action,
@@ -392,15 +404,16 @@ export default {
             formData: this.formData,
             header: this.headers
           }
-
-          if (this.$pi.lang.isFunction(beforeUpload)) {
+          if (this.$pi.lang.isFunction(onProgress)) {
             console.log(TAG, '使用自定义上传函数')
             // 上传之前的钩子， 如果定义了则使用钩子上传文件
-            uploadResult = await beforeUpload(params)
+            uploadResult = await onProgress(params)
           } else {
             const [, uploadFileResult] = await uni.uploadFile(params)
             uploadResult = uploadFileResult
           }
+
+          // ---------- 解析上传结果 ----------
 
           const item = await parseResultFn(uploadResult)
           if (item) {
@@ -429,7 +442,8 @@ export default {
     async handleChooseImage() {
       if (this.disabled || !this.getUploadMaxCount) return
       // 检查上传地址
-      if (!this.beforeUpload && !this.action) {
+      const onProgress = this.onProgress[PI_DEFAULT_FN_FLAG] ? this.onProgress.fn : this.onProgress
+      if (!onProgress && !this.action) {
         this.$toast('请配置上传地址')
         return
       }
