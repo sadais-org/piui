@@ -1,3 +1,5 @@
+import { debounce } from '@sadais/piui-tool/tools/common'
+
 export default {
   data() {
     return {
@@ -133,9 +135,9 @@ export default {
       crop.width = this.root.width - crop.left - crop.right
       crop.height = this.root.height - crop.top - crop.bottom
     },
-    detectBoundary() {
+    detectBoundary: debounce(function(e) {
       if (this.boundaryDetect) {
-        console.log('detectBoundary')
+        console.log('图片剪裁插件 -> 边界检查')
         const angle = (this.img.transform.rotate * Math.PI) / 180
         const cos = Math.cos,
           sin = Math.sin,
@@ -156,6 +158,6 @@ export default {
         y = Math.floor(y < minY ? minY : y > maxY ? maxY : y)
         this.img.transform.y = y
       }
-    }
+    }, 200)
   }
 }
