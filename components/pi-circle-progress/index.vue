@@ -1,10 +1,10 @@
 <!--
  * @Author: zhouxianpan
  * @Date: 2021-09-06 10:07:33
- * @LastEditTime: 2021-11-17 09:51:45
+ * @LastEditTime: 2021-11-18 14:59:35
  * @LastEditors: zhangzhenfei
  * @Description: 
- * @FilePath: /piui-doc/piui/components/pi-circle-progress/index.vue
+ * @FilePath: \piui-awesome\src\piui\components\pi-circle-progress\index.vue
 -->
 <template>
   <view
@@ -23,7 +23,7 @@
         width: widthPx + 'px',
         height: widthPx + 'px'
       }"
-    ></canvas>
+    />
     <canvas
       :id="elId"
       :canvas-id="elId"
@@ -32,7 +32,7 @@
         width: widthPx + 'px',
         height: widthPx + 'px'
       }"
-    ></canvas>
+    />
   </view>
 </template>
 <script>
@@ -92,7 +92,7 @@ export default {
       type: String,
       default: circleProgress.fontSize
     },
-    //显示的文字 默认为空
+    // 显示的文字 默认为空
     text: {
       type: String,
       default: circleProgress.text
@@ -105,7 +105,7 @@ export default {
       elBgId: this.$pi.guid(), // 支付宝等小程序 动态生产ID
       elId: this.$pi.guid(),
       progressContext: null,
-      //开始的角度
+      // 开始的角度
       widthPx: uni.upx2px(this.width), // 转成px后的整个组件的背景宽度
       borderWidthPx: uni.upx2px(this.borderWidth), // 转成px后的圆环的宽度
       startAngle: -Math.PI / 2, // canvas画圆的起始角度，默认为3点钟方向，定位到12点钟方向
@@ -114,13 +114,13 @@ export default {
       oldPercent: 0 // 当动态修改进度值的时候，保存进度值的变化前后值，用于比较用
     }
   },
-  mounted() {
-    setTimeout(() => {
-      // 背景圆
-      this.drawProgressBg()
-      // 进度圆
-      this.drawCircleByProgress(this.percent)
-    }, 50)
+  computed: {
+    // 有type主题时，优先起作用
+    circleColor() {
+      if (['success', 'error', 'info', 'primary', 'warning'].indexOf(this.type) >= 0)
+        return this.$u.color[this.type]
+      else return this.activeColor
+    }
   },
   watch: {
     // 深度监听进度
@@ -137,13 +137,13 @@ export default {
       }, 50)
     }
   },
-  computed: {
-    // 有type主题时，优先起作用
-    circleColor() {
-      if (['success', 'error', 'info', 'primary', 'warning'].indexOf(this.type) >= 0)
-        return this.$u.color[this.type]
-      else return this.activeColor
-    }
+  mounted() {
+    setTimeout(() => {
+      // 背景圆
+      this.drawProgressBg()
+      // 进度圆
+      this.drawCircleByProgress(this.percent)
+    }, 50)
   },
   created() {
     console.log(this.$pi)
