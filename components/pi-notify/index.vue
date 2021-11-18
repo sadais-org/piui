@@ -1,24 +1,32 @@
 <template>
   <view
-    v-if="show"
-    class="pi-notify"
-    :style="[{ color, background: bgColor }, customStyle]"
-    :class="[`pi-notify-${type}`, customClass]"
+    v-if="!closed"
+    class="pi-notify pi-fixed-top pi-w-100P pi-text-ellipsis"
+    :style="[getNotifyStyle]"
+    :class="[`pi-notify-${type}`, getAniClass]"
   >
+    <!-- 状态栏占位 -->
+    <pi-status-bar :background="bgColor" />
     <!-- 内容插槽 -->
-    <slot v-if="$slots.default || $slots.$default" />
-    <!-- message prop -->
-    <template v-else>{{ message }}</template>
+    <div
+      class="pi-notify-container pi-text-ellipsis"
+      :style="[customStyle, getContainerStyle]"
+      :class="[customClass]"
+    >
+      <!-- message prop -->
+      <template v-if="message">{{ message }}</template>
+      <slot v-else-if="$slots.default || $slots.$default" />
+    </div>
   </view>
 </template>
 
 <script>
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
+import { parseDuration } from '@sadais/piui-tool/tools/common'
 
 const TAG = 'PiNotify'
 const { notify } = getConfig()
-let timer = null
 
 export default {
   name: TAG,
@@ -26,7 +34,8 @@ export default {
   props: {
     // 初始值
     value: {
-      required: false
+      required: false,
+      type: Boolean
     },
     // 自定义样式
     customStyle: {
@@ -52,21 +61,13 @@ export default {
     },
     // notify 类型
     type: {
-      // `'primary'-主要通知` `'success'-成功通知` `'base'/'danger'-危险通知` `'warning'-警告通知` `'info'-提示通知`
       type: String,
-      // `'base'`
+      // 'primary'
       default: notify.type,
       validator: function(value) {
-        return [
-          'base',
-          'primary',
-          'success',
-          'danger',
-          'warning',
-          'info',
-          'customDuration',
-          ''
-        ].includes(value)
+        return ['primary', 'success', 'danger', 'warning', 'info', 'customDuration', ''].includes(
+          value
+        )
       }
     },
     // 展示时长,默认单位 ms
@@ -86,28 +87,110 @@ export default {
       type: String,
       // ''
       default: notify.bgColor
+    },
+    // 层级z-index
+    zIndex: {
+      type: [Number, String],
+      // 999
+      default: notify.zIndex
+    },
+    // 是否挂载到body下，防止嵌套层级无法遮罩的问题（仅H5环境生效）
+    appendToBody: {
+      type: Boolean,
+      // false
+      default: notify.appendToBody
+    },
+    // 是否自动隐藏，默认 true
+    autoHide: {
+      type: Boolean,
+      // true
+      default: notify.autoHide
+    },
+    // 是否单行显示，默认 false
+    singleLine: {
+      type: Boolean,
+      // false
+      default: notify.singleLine
     }
   },
   data() {
     return {
-      show: false, // 是否显示 notify 消息通知
-      clearTimer: () => {
-        if (timer) {
-          clearTimeout(timer)
-          timer = null
-        }
+      show: false, // 是否显示节点
+      showed: false, // 是否显示动画执行完毕
+      closed: true // 是否已关闭（用来防止val为false的情况，动画无法执行）
+    }
+  },
+  computed: {
+    getDuration() {
+      return parseDuration(this.duration)
+    },
+    getNotifyStyle() {
+      const { color, bgColor, zIndex } = this
+      return {
+        zIndex,
+        color,
+        background: bgColor
+      }
+    },
+    getAniClass() {
+      return this.show ? 'pi-ani-slide-top-show' : 'pi-ani-slide-top-hide'
+    },
+    getContainerStyle() {
+      const style = {}
+      style.whiteSpace = this.singleLine ? 'nowrap' : 'pre-wrap'
+      return style
+    }
+  },
+  watch: {
+    val: {
+      deep: true,
+      immediate: true,
+      handler(value) {
+        value ? this.showNotify() : this.hideNotify()
       }
     }
   },
+  destroyed() {
+    // #ifdef H5
+    if (this.appendToBody && this.$el && this.$el.parentNode) {
+      this.$el.parentNode.removeChild(this.$el)
+    }
+    // #endif
+  },
   methods: {
-    showNotify(props = {}) {
-      const duration = props.duration || this.duration
-      this.clearTimer()
+    showNotify() {
+      if (this.show) return
+      console.log(TAG, '显示通知栏')
+      this.closed = false
       this.show = true
-
-      timer = setTimeout(() => {
-        this.show = false
-      }, duration)
+      this.showed = false
+      this.handleEmitChange()
+      setTimeout(() => {
+        // 动画执行完毕
+        this.showed = true
+        // 自动关闭
+        this.autoHide &&
+          setTimeout(() => {
+            this.hideNotify()
+          }, this.getDuration.js)
+      }, 300)
+      // #ifdef H5
+      if (this.appendToBody) {
+        document.body.appendChild(this.$el)
+      }
+      // #endif
+    },
+    hideNotify() {
+      if (!this.show || !this.showed) return
+      console.log(TAG, '隐藏通知栏')
+      this.show = false
+      this.showed = false
+      setTimeout(() => {
+        this.$emit('closed')
+        this.closed = true
+        this.val = false
+        this.handleEmitChange()
+      }, 300)
     }
   }
 }
@@ -115,20 +198,17 @@ export default {
 
 <style lang="scss" scoped>
 .pi-notify {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 20rpx 30rpx;
   color: $pi-background-color;
   font-size: $pi-font-size;
-  z-index: 9999;
-  overflow-y: auto;
-  transition: all 0.35s linear;
-  box-sizing: border-box;
-  white-space: pre-wrap;
-  text-align: center;
-  word-wrap: break-word;
+  padding: 24rpx 32rpx;
+  overflow: hidden;
+
+  transition: all $pi-animation-duration $pi-animation-timing-function;
+
+  .pi-notify-container {
+    text-align: center;
+    min-width: 0;
+  }
 
   &-primary {
     background: $pi-primary-color;
@@ -138,8 +218,6 @@ export default {
     background: $pi-fourth-color;
   }
 
-  &-customDuration,
-  &-base,
   &-danger {
     background: #e64340;
   }
