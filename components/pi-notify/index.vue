@@ -138,6 +138,12 @@ export default {
     getContainerStyle() {
       const style = {}
       style.whiteSpace = this.singleLine ? 'nowrap' : 'pre-wrap'
+
+      // #ifdef  MP-WEIXIN
+      const buttonRect = wx.getMenuButtonBoundingClientRect()
+      style.paddingRight = `${buttonRect.width}px`
+      // #endif
+
       return style
     }
   },
