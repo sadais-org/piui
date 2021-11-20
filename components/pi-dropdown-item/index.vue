@@ -87,10 +87,17 @@ export default {
         return dropdownItem.customClass
       }
     },
-    // 菜单图标
-    icon: {
-      type: String,
-      default: dropdownItem.icon
+    // 是否显示菜单
+    showIcon: {
+      type: Boolean,
+      default: dropdownItem.showIcon
+    },
+    // 菜单图标配置
+    iconOption: {
+      type: Object,
+      default() {
+        return dropdownItem.iconOption
+      }
     },
     // 菜单标题
     title: {
@@ -156,6 +163,9 @@ export default {
     }
   },
   computed: {
+    getIconOption() {
+      return this.$pi.lang.mergeDeep(dropdownItem.iconOption, this.iconOption)
+    },
     getItemHeight() {
       return this.inheritProps.itemHeight !== null ? this.inheritProps.itemHeight : this.itemHeight
     },

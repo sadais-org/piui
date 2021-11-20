@@ -6,7 +6,18 @@
       :style="{ color: item.opened && item.activeColor ? item.activeColor : 'inherit' }"
       @tap.stop="handleClick"
     >
-      <pi-icon v-if="item.icon" class="pi-mg-right-8" :name="item.icon" size="36" />
+      <pi-icon
+        v-if="item.showIcon"
+        :name="item.iconOption.name"
+        :dot="item.iconOption.dot"
+        :badge="item.iconOption.badge"
+        :color="item.iconOption.color"
+        :size="item.iconOption.size"
+        :class-prefix="item.iconOption.classPrefix"
+        :custom-style="item.iconOption.customStyle"
+        :custom-class="`pi-mg-right-8 ${item.iconOption.customClass}`"
+      />
+
       <text class=" pi-pd-right-8 pi-fz-28">
         {{ item.text }}
       </text>

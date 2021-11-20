@@ -228,7 +228,8 @@ export default {
         }
         const currentOption = item.options?.find(opt => opt[item.getKeyField] === this.val[index])
         const newItem = {
-          icon: item.icon || '',
+          showIcon: item.showIcon,
+          iconOption: item.getIconOption,
           id: item._uid,
           text: currentOption ? currentOption[item.getDisplayField] : item.title,
           disabled: item.disabled,
