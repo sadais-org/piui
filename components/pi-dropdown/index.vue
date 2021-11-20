@@ -1,68 +1,36 @@
 <template>
-  <view class="pi-dropdown pi-rela pi-w-100P">
+  <view class="pi-dropdown pi-rela pi-w-100P" :class="[customClass]" :style="[customStyle]">
+    <view>
+      <pi-tabs
+        :value="activeItem"
+        :items="tabs"
+        :show-slider-bar="false"
+        show-item-split-line
+        active-text-color="inherit"
+      >
+        <view slot="item" slot-scope="{ item, index }">
+          <!-- 注意：slot内不能使用父组件data -->
+          <dropdown-tab :item="item" @click="handleClickTab(item, index)" />
+        </view>
+      </pi-tabs>
+    </view>
+    <!-- 展示dropdownItem下的数据 -->
     <view
-      class="pi-rela pi-w-100P pi-h-100P pi-solid-bottom-2 pi-bg-white"
-      style="z-index: 6;"
-      :class="[customClass]"
-      :style="combinationStyle"
+      class="pi-dropdown-content pi-mg-top-12"
+      :class="[contentClass, show ? 'pi-ani-slide-top-show' : 'pi-ani-slide-top-hide']"
+      :style="[contentStyle, contentCombinationStyle]"
     >
-      <!-- tabs从dropdownItem中获取其name的值 -->
-      <scroll-view
-        class="pi-srcoll pi-w-100P pi-h-100P"
-        scroll-x
-        :scroll-left="scrollLeft"
-        scroll-with-animation
-      >
-        <view class="pi-align-center pi-h-100P">
-          <view
-            v-for="(item, index) in tabs"
-            :key="item._uid"
-            class="pi-dropdown-tab-item pi-pd-lr-20 pi-text-nowrap pi-h-100P pi-align-center"
-            :style="[{ color: show && item._uid === currentId ? activeColor : '' }]"
-            @tap="handleClickTab(item, index)"
-          >
-            <!-- todo 当前项存在value中高亮选项 目前还有问题，当插槽位置在中间时可能有问题 -->
-            <pi-icon
-              v-if="item.icon"
-              class="pi-mg-right-6"
-              :color="item.selected ? activeColor : ''"
-              :name="item.icon"
-              size="36"
-            />
-            <text
-              class="pi-pd-right-8 pi-fz-28"
-              :style="{ color: item.selected ? activeColor : '' }"
-            >
-              {{ item.name }}
-            </text>
-            <pi-icon :class="{ rotate: show && item._uid === currentId }" name="unfold" size="16" />
-          </view>
-        </view>
-      </scroll-view>
-      <!-- 展示dropdownItem下的数据 -->
-      <view
-        v-show="show"
-        :class="[contentClass]"
-        :style="contentCombinationStyle"
-        class="pi-abso pi-w-100P"
-      >
-        <view class="pi-dropdown-content pi-mg-top-6">
-          <slot />
-        </view>
-      </view>
+      <slot />
     </view>
 
     <!-- 遮罩层 -->
     <view
       v-if="!closed"
-      class="pi-fixed pi-dropdown-mask"
-      :class="[
-        show ? getMask.animationShow : getMask.animationHide,
-        getMask.hideTabBar ? 'include-tabbar' : 'exclude-tabbar'
-      ]"
+      class="pi-abso pi-dropdown-mask"
+      :class="[show ? getMask.animationShow : getMask.animationHide]"
       :style="[
         {
-          'zIndex': 1,
+          'z-index': getMask.zIndex,
           'background': getMask.background,
           'animation-duration': getDuration.css
         }
@@ -78,13 +46,27 @@ import ValueSync from '../../mixin/value-sync'
 import { parentInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
 import { parseDuration } from '@sadais/piui-tool/tools/common'
+import DropdownTab from './components/dropdown-tab.vue'
 
 const TAG = 'PiDropdown'
 const { dropdown } = getConfig()
 
 export default {
   name: TAG,
-  mixins: [ValueSync, parentInit(['value', 'tabs'])], // 注入value与val，进行双向绑定
+  components: {
+    DropdownTab
+  },
+  mixins: [
+    ValueSync,
+    parentInit([
+      'itemHeight',
+      'keyField',
+      'displayField',
+      'disabledField',
+      'selectedImg',
+      'selectedCheckbox'
+    ])
+  ], // 注入value与val，进行双向绑定
   props: {
     // 初始值
     value: {
@@ -140,71 +122,76 @@ export default {
         // ''
         return dropdown.activeColor
       }
+    },
+    // -------------以下属性为子组件pi-dropdown-item继承用--------------
+    // 行高 值为数字，则单位默认rpx
+    itemHeight: {
+      type: [String, Number],
+      // 110
+      default: dropdown.itemHeight
+    },
+    // 选项id字段
+    keyField: {
+      type: String,
+      // `id`
+      default: dropdown.keyField
+    },
+    // 选项显示字段
+    displayField: {
+      type: String,
+      // `text`
+      default: dropdown.displayField
+    },
+    // 选项禁用字段，默认为disabled
+    disabledField: {
+      type: String,
+      // `text`
+      default: dropdown.disabledField
+    },
+    // 选中图标的配置
+    selectedImg: {
+      type: Object,
+      default() {
+        // 参照img
+        return dropdown.selectedImg
+      }
+    },
+    // 选中checkbox配置
+    selectedCheckbox: {
+      type: Object,
+      default() {
+        // 参照checkbox
+        return dropdown.selectedCheckbox
+      }
     }
   },
   data() {
     return {
+      containerRect: { left: 0, right: 0, top: 0 }, // 容器的位置
+
       tabs: [], // 下拉菜单
-      currentId: '', // id
+      activeItem: {}, // 当前选中项
 
       show: false, // 是否显示节点
       showed: false, // 是否显示动画执行完毕
-      closed: true, // 是否已关闭（用来防止val为false的情况，动画无法执行）
-
-      // 位置计算
-      tabsWidth: 0, // 组件区域宽度
-      tabRects: [], // 标签节点信息
-      activeIndex: 0 // 当前选中项
+      closed: true // 是否已关闭（用来防止val为false的情况，动画无法执行）
     }
   },
   computed: {
-    combinationStyle() {
-      const { customStyle, show } = this
-      return [
-        customStyle,
-        {
-          borderRadius: show
-            ? `${customStyle.borderRadius} ${customStyle.borderRadius} 0 0`
-            : customStyle.borderRadius
-        }
-      ]
-    },
     contentCombinationStyle() {
-      const { customStyle, contentStyle, show } = this
-      return [
-        { top: customStyle.height, left: 0, background: '#fff' },
-        contentStyle,
-        {
-          borderRadius: show
-            ? `0 0 ${contentStyle.borderRadius} ${contentStyle.borderRadius}`
-            : contentStyle.borderRadius
-        }
-      ]
+      const { containerRect, closed } = this
+      return {
+        top: `${containerRect.height}px`,
+        left: 0,
+        width: `${containerRect.width}px`,
+        zIndex: !closed ? 101 : -1
+      }
     },
     getMask() {
       return this.$pi.lang.mergeDeep(dropdown.mask, this.mask)
     },
     getDuration() {
       return parseDuration(this.getMask.duration, dropdown.mask.duration)
-    },
-    activeRect() {
-      const rect = {
-        left: 0,
-        width: 0
-      }
-      if (!this.tabRects.length) return rect
-      const activeIndex =
-        this.activeIndex >= this.tabRects.length ? this.tabRects.length - 1 : this.activeIndex
-      rect.left = this.tabRects.slice(0, activeIndex).reduce((previous, current) => {
-        return previous + current.width
-      }, 0)
-      rect.width = this.tabRects[activeIndex].width
-      return rect
-    },
-    scrollLeft() {
-      // 计算当前激活item移动到容器中心距离左边距离
-      const scrollLeft = this.activeRect.left - this.tabsWidth / 2 + this.activeRect.width / 2
-      return scrollLeft < 0 ? 0 : scrollLeft
     }
   },
   watch: {
@@ -218,47 +205,62 @@ export default {
   },
   mounted() {
     this.init()
-    this.tabsInit()
   },
   methods: {
-    async tabsInit() {
-      const srollWrapRect = await this.$pi.common.queryRect(this, '.pi-dropdown', false)
-      if (srollWrapRect) {
-        this.tabsWidth = srollWrapRect.width
-      }
-      this.tabRects = await this.$pi.common.queryRect(this, '.pi-dropdown-tab-item', true)
-    },
     init() {
-      // 给下面的选项设置选中效果
-      this._children.forEach((item, index) => {
-        item.val = this.value[index] || ''
-      })
-      // 定义新的对象数组渲染界面
+      console.log(TAG, 'init')
+      let hasValueChange = false
+      const val = this.$pi.lang.cloneDeep(this.val)
       this.tabs = this._children.map((item, index) => {
-        const currentItem = item.option.filter(opt => opt.id === this.value[index]) // 获取当前已被选择的项
-
+        if (this.val[index] === undefined) {
+          this.val[index] = ''
+        }
+        // 同步父子组件的值
+        if (this.val[index] !== item.val) {
+          console.log(TAG, 'Dropdown和DropdownItem绑定值不一致，即将同步')
+          if (item.val) {
+            // 以子组件的值为准
+            hasValueChange = true
+            val[index] = item.val
+          } else if (this.val[index]) {
+            item.emitChange(this.val[index])
+          }
+        }
+        const currentOption = item.options?.find(opt => opt[item.getKeyField] === this.val[index])
         const newItem = {
           icon: item.icon || '',
-          _uid: item._uid,
-          name: currentItem[0]?.name || item.name,
-          selected: !!currentItem[0]?.id
+          id: item._uid,
+          text: currentOption ? currentOption[item.getDisplayField] : item.title,
+          disabled: item.disabled,
+          opened: false,
+          activeColor: this.activeColor
         }
         return newItem
       })
+      if (hasValueChange) {
+        this.val = val
+        this.handleEmitChange()
+      }
     },
     // 显示当前Tab
-    handleClickTab(item, index) {
-      this.activeIndex = index
+    async handleClickTab(item) {
+      if (item.disabled) return
+      // 更新打开的tab标志
+      this.tabs = this.tabs.map(tab => {
+        tab.opened = tab.id === item.id
+        return tab
+      })
+      this.activeItem = item
+      // 每次点击都重新更新父容器的位置
+      this.containerRect = await this.$pi.common.queryRect(this, '.pi-dropdown', false)
       this.openMask()
-      this.currentId = item._uid
       this._children.find(child => {
-        const showTab = child._uid === item._uid
-        child.showOption(showTab)
+        child.show = child._uid === item.id
       })
     },
     openMask() {
       if (this.show) return
-      console.log(TAG, '显示弹窗层')
+      console.log(TAG, '显示下拉菜单遮罩层')
       this.closed = false
       this.show = true
       this.showed = false
@@ -270,20 +272,27 @@ export default {
     // 仅关闭窗口，不作数据操作
     closeMask() {
       if (!this.show || !this.showed) return
-      console.log(TAG, '关闭弹窗层')
+      console.log(TAG, '隐藏下拉菜单遮罩层')
       this.show = false
       this.showed = false
+      this.tabs = this.tabs.map(tab => {
+        tab.opened = false
+        return tab
+      })
       setTimeout(() => {
         this.closed = true
         this.getMask.hideTabBar && uni.showTabBar()
       }, this.getDuration.js)
     },
     // 关闭弹窗并返回结果
-    handleChangeSubmit() {
+    submit() {
       this.closeMask()
-      const submitVal = this._children.map(item => item.val)
-      this.val = submitVal // 把最终结果传给绑定的v-model值
-      this.handleEmitChange()
+      setTimeout(() => {
+        // 延迟执行，防止父子组件的值同步不上
+        const submitVal = this._children.map(item => item.val)
+        this.val = submitVal // 把最终结果传给绑定的v-model值
+        this.handleEmitChange()
+      }, 20)
     }
   }
 }
@@ -291,25 +300,17 @@ export default {
 
 <style lang="scss" scoped>
 .pi-dropdown {
-  z-index: 2;
   .pi-dropdown-content {
-    left: 0;
-    box-shadow: 0 10rpx 10rpx rgba(0, 0, 0, 0.1);
+    position: absolute;
+    background: #ffffff;
+    border-radius: 12rpx;
+    box-shadow: 0 0 8rpx 0 #edeef1;
   }
-  .pi-dropdown-tab-item {
-    transition: all $pi-animation-duration $pi-animation-timing-function;
+  .pi-dropdown-mask {
+    top: -9999px;
+    left: -9999px;
+    right: -9999px;
+    bottom: -9999px;
   }
-  .current {
-    color: #ff9900;
-  }
-  .rotate {
-    transform: rotate(180deg);
-  }
-}
-.pi-dropdown-mask {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
 }
 </style>

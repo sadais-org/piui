@@ -9,7 +9,7 @@
     ]"
     :style="[
       {
-        'zIndex': getMask.zIndex,
+        'z-index': getMask.zIndex,
         'background': getMask.background,
         'animation-duration': getDuration.css
       }

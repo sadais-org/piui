@@ -1,18 +1,57 @@
 <template>
-  <view v-if="show" class="pi-dropdown-item pi-rela pi-w-100P">
-    <view
-      v-for="item in option"
-      :key="item.id"
-      class="item-btn pi-pd-24 pi-w-100P pi-justify-between pi-align-center"
-      :class="customClass"
-      :style="customStyle"
-      @tap="handleChangeRadio(item)"
-    >
-      <text :style="{ color: item.id === val ? color : 'inherit' }">{{ item.name }}</text>
-      <pi-icon v-if="item.id === val" name="blod-check" :color="color" size="32" />
-    </view>
-    <slot />
-  </view>
+  <scroll-view v-if="show" scroll-y class="pi-dropdown-item pi-w-100P">
+    <template v-if="!$slots.default && !$slots.$default">
+      <view
+        v-for="item in options"
+        :key="item[getKeyField]"
+        class="item-wrap pi-pd-tb-24 pi-pd-lr-32 pi-w-100P pi-justify-between pi-align-center"
+        :class="[customClass, item[getDisabledField] ? 'disabled' : '']"
+        :style="[customStyle, getItemStyle]"
+        @tap="handleSelectItem(item)"
+      >
+        <view>
+          {{ item[getDisplayField] }}
+        </view>
+        <!-- 如果配置了图片地址，使用图片 -->
+        <pi-img
+          v-if="getSelectedImg.src && item.id === val"
+          :src="getSelectedImg.src"
+          :mode="getSelectedImg.mode"
+          :width="getSelectedImg.width"
+          :height="getSelectedImg.height"
+          :dot="getSelectedImg.dot"
+          :dot-radius="getSelectedImg.dotRadius"
+          :badge="getSelectedImg.badge"
+          :shape="getSelectedImg.shape"
+          :border-radius="getSelectedImg.borderRadius"
+          :show-loading="getSelectedImg.showLoading"
+          :loading-color="getSelectedImg.loadingColor"
+          :loading-type="getSelectedImg.loadingType"
+          :loading-size="getSelectedImg.loadingSize"
+          :show-error="getSelectedImg.showError"
+          :webp="getSelectedImg.webp"
+          custom-class="pi-mg-left-24"
+        />
+        <!-- 默认使用复选框 -->
+        <pi-checkbox
+          v-if="!getSelectedImg.src"
+          readonly
+          :value="item.id === val"
+          :name="getSelectedCheckbox.name"
+          :shape="getSelectedCheckbox.shape"
+          :border-radius="getSelectedCheckbox.borderRadius"
+          :border="getSelectedCheckbox.border"
+          :disabled="getSelectedCheckbox.disabled"
+          :size="getSelectedCheckbox.size"
+          :icon-size="getSelectedCheckbox.iconSize"
+          :active-color="getSelectedCheckbox.activeColor"
+          :active-mode="getSelectedCheckbox.activeMode"
+          custom-class="pi-mg-left-24"
+        />
+      </view>
+    </template>
+    <slot v-else />
+  </scroll-view>
 </template>
 
 <script>
@@ -22,11 +61,11 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiDropdownItem'
 const { dropdownItem } = getConfig()
-const extendPidropDown = childInit('PiDropdown')
+const extendPiDropDown = childInit('PiDropdown')
 
 export default {
   name: TAG,
-  mixins: [ValueSync, extendPidropDown], // 注入value与val，进行双向绑定、混入自定义样式customStyle和customClass
+  mixins: [ValueSync, extendPiDropDown], // 注入value与val，进行双向绑定、混入自定义样式customStyle和customClass
   props: {
     // 初始值
     value: {
@@ -48,57 +87,138 @@ export default {
         return dropdownItem.customClass
       }
     },
-    // 图标
+    // 菜单图标
     icon: {
       type: String,
-      default: ''
+      default: dropdownItem.icon
     },
-    // 名称
-    name: {
+    // 菜单标题
+    title: {
       type: String,
-      default: ''
+      default: dropdownItem.title
+    },
+    // 是否禁用
+    disabled: {
+      type: Boolean,
+      default: dropdownItem.disabled
     },
     // 选项列表，默认
-    option: {
+    options: {
       type: Array,
       default() {
-        return dropdownItem.option
+        return dropdownItem.options
       }
     },
-    tabs: {
-      type: Object
+    // 行高 值为数字，则单位默认rpx
+    itemHeight: {
+      type: [String, Number],
+      // 110
+      default: dropdownItem.itemHeight
+    },
+    // 选项id字段
+    keyField: {
+      type: String,
+      // `id`
+      default: dropdownItem.keyField
+    },
+    // 选项显示字段
+    displayField: {
+      type: String,
+      // `text`
+      default: dropdownItem.displayField
+    },
+    // 选项禁用字段，默认为disabled
+    disabledField: {
+      type: String,
+      // `text`
+      default: dropdownItem.disabledField
+    },
+    // 选中图标的配置
+    selectedImg: {
+      type: Object,
+      default() {
+        // 参照img
+        return dropdownItem.selectedImg
+      }
+    },
+    // 选中checkbox配置
+    selectedCheckbox: {
+      type: Object,
+      default() {
+        // 参照checkbox
+        return dropdownItem.selectedCheckbox
+      }
     }
   },
   data() {
     return {
-      options: this.option,
       show: false // 显示当前Item组件
     }
   },
   computed: {
-    color() {
-      return this._parent.activeColor
+    getItemHeight() {
+      return this.inheritProps.itemHeight !== null ? this.inheritProps.itemHeight : this.itemHeight
+    },
+    getKeyField() {
+      return this.inheritProps.keyField !== null ? this.inheritProps.keyField : this.keyField
+    },
+    getDisplayField() {
+      return this.inheritProps.displayField !== null
+        ? this.inheritProps.displayField
+        : this.displayField
+    },
+    getDisabledField() {
+      return this.inheritProps.disabledField !== null
+        ? this.inheritProps.disabledField
+        : this.disabledField
+    },
+    getSelectedImg() {
+      const selectedImg = this.inheritProps.selectedImg || dropdownItem.selectedImg
+      return this.$pi.lang.mergeDeep(selectedImg, this.selectedImg)
+    },
+    getSelectedCheckbox() {
+      const selectedCheckbox = this.inheritProps.selectedCheckbox || dropdownItem.selectedCheckbox
+      return this.$pi.lang.mergeDeep(selectedCheckbox, this.selectedCheckbox)
+    },
+    getItemStyle() {
+      return {
+        height: this.$pi.common.addUnit(this.getItemHeight)
+      }
     }
   },
   methods: {
-    showOption(bool) {
-      this.show = bool
+    emitChange(val) {
+      this.val = val
+      this.handleEmitChange()
     },
-    handleChangeRadio(item) {
-      this.val = item.id
+    handleSelectItem(item) {
+      if (item[this.getDisabledField]) {
+        return
+      }
+      this.emitChange(item.id)
       setTimeout(() => {
-        this._parent.handleChangeSubmit()
-      }, 50) // 延迟 可见按钮点击动画
+        this._parent.submit()
+      }, 300) // 延迟 可见按钮点击动画
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '../../scss/mixin.scss';
+
 .pi-dropdown-item {
-  .item-btn {
-    &:active {
-      background: #eeeeee;
+  max-height: 600rpx;
+  .item-wrap {
+    &:not(:last-child) {
+      @include pi-border;
+      &::after {
+        border: 0 solid $pi-list-border-color;
+        border-bottom-width: $pi-list-border-width;
+      }
+    }
+    &.disabled {
+      opacity: $pi-disabled-opacity;
     }
   }
 }

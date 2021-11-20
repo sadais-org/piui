@@ -39,7 +39,7 @@
           </slot>
           <!-- 如果配置了图片地址，使用图片 -->
           <pi-img
-            v-if="getSelectedImg.src"
+            v-if="getSelectedImg.src && item.isSelected"
             :src="getSelectedImg.src"
             :mode="getSelectedImg.mode"
             :width="getSelectedImg.width"
@@ -59,7 +59,7 @@
           />
           <!-- 默认使用复选框 -->
           <pi-checkbox
-            v-else
+            v-if="!getSelectedImg.src"
             readonly
             :value="item.isSelected"
             :name="getSelectedCheckbox.name"

@@ -333,7 +333,6 @@ export default {
       if (srollWrapRect) {
         this.tabsWidth = srollWrapRect.width
       }
-      console.warn('this.tabsWidth', this.tabsWidth)
       this.tabRects = await this.$pi.common.queryRect(this, '.pi-tab', true)
       console.log(TAG, '计算.pi-tab布局', this.tabRects)
     },

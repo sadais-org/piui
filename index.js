@@ -30,7 +30,7 @@ const install = function(Vue, config = {}) {
   // #ifndef APP-PLUS
   console.group && console.group('piui')
 
-  console.log('%cpiui 已安装，教程：https://github.com/sadais-org/piui', logStyle)
+  console.log('%cpiui 已安装，教程：https://piui.sadais.com/docs/components/Config.html', logStyle)
   console.log('%cpiui 组件全局配置：', logStyle, piConfig)
   console.log('%cpiui tools 已挂载：', logStyle, tools)
 

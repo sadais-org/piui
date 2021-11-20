@@ -1,8 +1,21 @@
+import img from './img'
+import checkbox from './checkbox'
+
 export default {
-  option: [], // 选项列表，默认（[]）
   customClass: '', // 自定义样式类，字符串形式（''）
-  customStyle: {
-    borderBottom: '2rpx solid #eee'
-  }, // 自定义样式，对象形式（默认值：{}）
-  contentStyle: {} // 内容自定义样式
+  customStyle: {}, // 自定义样式，对象形式（默认值：{}）
+  icon: '',
+  title: '',
+  disabled: false, // 是否禁用
+  option: [], // 选项列表，默认（[]）
+  itemHeight: 110, // 行高（默认：'110rpx'）
+  keyField: 'id', // 选项id字段，默认为id
+  displayField: 'text', // 选项显示字段，默认为text
+  disabledField: 'disabled', // 选项禁用字段，默认为disabled
+  selectedImg: img, // 选中图标的配置
+  selectedCheckbox: {
+    ...checkbox,
+    shape: 'round',
+    activeMode: 'fill-circle'
+  } // 选中复选框配置
 }
