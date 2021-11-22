@@ -8,31 +8,29 @@
       :class="[itemClass, item.mode, direction, { active: index < val }]"
     >
       <view class="step-icon pi-flex-row-center" :style="[item.style]">
-        <slot name="item-icon" :item="item" :index="index" :active="index < val">
-          <template v-if="item.mode === 'dot'">
-            <view class="item-dot pi-radius-round" :style="[item.dotStyle]" />
-          </template>
-          <!-- 数字-->
-          <template v-if="item.mode === 'number'">
-            <text v-if="index >= val">
-              {{ index + 1 }}
-            </text>
-            <pi-icon v-else name="check" color="#ffffff" />
-          </template>
-          <!-- 图标 -->
-          <pi-icon
-            v-if="item.mode === 'icon'"
-            :custom-style="item.icon.customStyle"
-            :custom-class="item.icon.customClass"
-            :name="item.icon.name"
-            :dot="item.icon.dot"
-            :dot-radius="item.icon.dotRadius"
-            :badge="item.icon.badge"
-            :color="item.icon.color"
-            :size="item.icon.size"
-            :class-prefix="item.icon.classPrefix"
-          />
-        </slot>
+        <template v-if="item.mode === 'dot'">
+          <view class="item-dot pi-radius-round" :style="[item.dotStyle]" />
+        </template>
+        <!-- 数字-->
+        <template v-if="item.mode === 'number'">
+          <text v-if="index >= val">
+            {{ index + 1 }}
+          </text>
+          <pi-icon v-else name="check" color="#ffffff" />
+        </template>
+        <!-- 图标 -->
+        <pi-icon
+          v-if="item.mode === 'icon'"
+          :custom-style="item.icon.customStyle"
+          :custom-class="item.icon.customClass"
+          :name="item.icon.name"
+          :dot="item.icon.dot"
+          :dot-radius="item.icon.dotRadius"
+          :badge="item.icon.badge"
+          :color="item.icon.color"
+          :size="item.icon.size"
+          :class-prefix="item.icon.classPrefix"
+        />
       </view>
 
       <!-- 文字 -->
@@ -44,12 +42,7 @@
       </view>
 
       <!-- 中线 -->
-      <view
-        v-if="index < items.length - 1"
-        class="pi-steps-item-line"
-        :class="['pi-steps-item-line-' + mode]"
-        :style="lineStyle"
-      >
+      <view v-if="index < items.length - 1" class="pi-steps-item-line" :style="[lineStyle]">
         <pi-line :direction="direction" length="100%" :hair-line="false" :color="color" />
       </view>
     </view>
