@@ -1,61 +1,46 @@
 <template>
   <view class="pi-steps" :style="[customStyle, { flexDirection: direction }]" :class="customClass">
     <view
-      v-for="(item, index) in customItem"
+      v-for="(item, index) in getItems"
       :key="index"
       class="pi-steps-item"
       :style="itemStyle"
-      :class="[itemClass, ['pi-steps-item-' + direction]]"
+      :class="[itemClass, item.mode, direction, { active: index < val }]"
     >
-      <!-- 圆点 -->
-      <view
-        v-if="mode === 'dot'"
-        class="pi-steps-item-dot"
-        :class="['pi-steps-item-dot-' + direction]"
-        :style="{
-          backgroundColor: item.bgColor,
-          width: size + 'rpx',
-          height: size + 'rpx'
-        }"
-      />
-
-      <!-- 数字-->
-      <view
-        v-if="mode === 'number'"
-        class="pi-steps-item-number"
-        :style="{
-          backgroundColor: item.bgColor,
-          borderColor: item.borderColor,
-          width: size + 'rpx',
-          height: size + 'rpx'
-        }"
-      >
-        <text
-          v-if="current < index"
-          :style="{
-            color: item.color
-          }"
-        >
-          {{ index + 1 }}
-        </text>
-        <pi-icon v-else :name="icon" color="#ffffff" />
-      </view>
-
-      <!-- 图标 -->
-      <view v-if="mode === 'icon'">
-        <pi-icon
-          :style="{
-            color: item.color
-          }"
-          :size="size"
-          :name="item.icon"
-        />
+      <view class="step-icon pi-flex-row-center" :style="[item.style]">
+        <slot name="item-icon" :item="item" :index="index" :active="index < val">
+          <template v-if="item.mode === 'dot'">
+            <view class="item-dot pi-radius-round" :style="[item.dotStyle]" />
+          </template>
+          <!-- 数字-->
+          <template v-if="item.mode === 'number'">
+            <text v-if="index >= val">
+              {{ index + 1 }}
+            </text>
+            <pi-icon v-else name="check" color="#ffffff" />
+          </template>
+          <!-- 图标 -->
+          <pi-icon
+            v-if="item.mode === 'icon'"
+            :custom-style="item.icon.customStyle"
+            :custom-class="item.icon.customClass"
+            :name="item.icon.name"
+            :dot="item.icon.dot"
+            :dot-radius="item.icon.dotRadius"
+            :badge="item.icon.badge"
+            :color="item.icon.color"
+            :size="item.icon.size"
+            :class-prefix="item.icon.classPrefix"
+          />
+        </slot>
       </view>
 
       <!-- 文字 -->
-      <view :class="['pi-steps-item-text-' + direction]" :style="{ color: item.color }">
-        <view>{{ item.name }}</view>
-        <text class="pi-fz-20" style="word-break:break-all">{{ item.desc }}</text>
+      <view :class="['pi-steps-item-text']" :style="{ color: item.style.fontColor }">
+        <slot name="item" :item="item" :index="index" :active="index < val">
+          <view>{{ item.name }}</view>
+          <text class="pi-fz-20" style="word-break:break-all">{{ item.desc }}</text>
+        </slot>
       </view>
 
       <!-- 中线 -->
@@ -141,45 +126,102 @@ export default {
       type: String,
       default: steps.currentColor
     },
-    // 选中图标
-    icon: {
-      type: String,
-      default: steps.icon
-    },
     // 排列方向，row|column
     direction: {
       type: String,
       default: steps.direction
     },
-    // 图标大小
+    // 圆点大小
     size: {
       type: String,
       default: steps.size
+    },
+    // 图标配置
+    icon: {
+      type: Object,
+      default() {
+        return steps.icon
+      }
     }
   },
   data() {
     return {}
   },
   computed: {
+    getDotMaxSize() {
+      return this.items.reduce((pre, cur) => {
+        const icon = this.$pi.lang.mergeDeep(this.getIcon, cur.icon)
+        const size = parseInt(icon.size || this.size, 10)
+        return size > pre ? size : pre
+      }, 0)
+    },
     lineStyle() {
-      let style = {}
-      let size = this.size / 2 + 'rpx'
+      const style = {}
+      const size = this.getDotMaxSize / 2 + 'rpx'
       this.direction === 'column' ? (style.left = size) : (style.top = size)
       return style
     },
-    current() {
-      return this.val
+    getCurrentColor() {
+      return this.currentColor || this.color
     },
-    customItem() {
-      return this.items.map((item, index) => {
-        if (index === this.val) {
-          item.bgColor = item.borderColor = item.color = this.currentColor
-        } else if (index < this.val) {
-          item.bgColor = item.borderColor = item.color = this.activeColor
-        } else {
-          item.borderColor = item.color = this.color
-          item.bgColor = this.mode === 'number' ? 'transparent' : this.color
+
+    getIcon() {
+      return this.$pi.lang.mergeDeep(steps.rightIcon, this.icon)
+    },
+    getItems() {
+      const getSize = this.$pi.common.addUnit(this.size)
+      const getDotMaxSize = this.$pi.common.addUnit(this.getDotMaxSize)
+
+      return this.items.map((originitem, index) => {
+        const item = { ...originitem, dotStyle: {} }
+        const style = {}
+        item.mode = item.mode || this.mode
+        item.icon = this.$pi.lang.mergeDeep(this.getIcon, item.icon)
+        if (item.mode === 'dot') {
+          style.width = getDotMaxSize
+          style.height = getDotMaxSize
+          item.dotStyle.width = getSize
+          item.dotStyle.height = getSize
         }
+        if (item.mode === 'number') {
+          style.width = getDotMaxSize
+          style.height = getDotMaxSize
+          style.color = '#ffffff'
+        }
+        if (index === this.val) {
+          // 当前步骤
+          style.fontColor = this.getCurrentColor
+          if (item.mode === 'icon') {
+            style.color = this.getCurrentColor
+          } else if (item.mode === 'dot') {
+            item.dotStyle.backgroundColor = this.getCurrentColor
+          } else {
+            style.backgroundColor = this.getCurrentColor
+          }
+        } else if (index < this.val && this.activeColor) {
+          // 已激活步骤
+          style.fontColor = this.activeColor
+          if (item.mode === 'icon') {
+            style.color = this.activeColor
+          } else if (item.mode === 'dot') {
+            item.dotStyle.backgroundColor = this.getCurrentColor
+          } else {
+            style.backgroundColor = this.activeColor
+          }
+        } else if (index > this.val) {
+          // 未激活步骤
+          style.fontColor = this.color
+          if (item.mode === 'dot') {
+            item.dotStyle.backgroundColor = this.color
+          }
+          if (item.mode === 'icon') {
+            style.color = this.color
+          }
+          if (item.mode === 'number') {
+            style.backgroundColor = this.color
+          }
+        }
+        item.style = style
         return item
       })
     }
@@ -198,10 +240,17 @@ export default {
     align-items: flex-start;
     flex: 1;
     font-size: 26rpx;
-    &-row {
+    &.row {
       display: flex;
       flex-direction: column;
       align-items: center;
+      .pi-steps-item-text {
+        margin-top: 14rpx;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
       .pi-steps-item-line {
         position: absolute;
         left: 75%;
@@ -210,44 +259,47 @@ export default {
       }
     }
 
-    &-column {
+    &.column {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
+      align-items: center;
       min-height: 120rpx;
+      .pi-steps-item-text {
+        width: 95%;
+        margin-left: 14rpx;
+        display: flex;
+        flex-direction: column;
+      }
       .pi-steps-item-line {
         position: absolute;
-        top: 40%;
+        top: 75%;
         z-index: 0;
         height: 50%;
       }
     }
-    &-dot {
+    .item-dot,
+    .step-icon {
       border-radius: 50%;
-      &-column {
-        margin-top: 4rpx;
-      }
-    }
-    &-number {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       overflow: hidden;
-      border: 1px solid #8799a3;
-      border-radius: 50%;
     }
-    &-text-row {
-      margin-top: 14rpx;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    &-text-column {
-      width: 95%;
-      margin-left: 14rpx;
-      display: flex;
-      flex-direction: column;
+
+    &.active {
+      .pi-steps-item-text {
+        color: $pi-primary-color;
+      }
+
+      .item-dot {
+        background-color: $pi-primary-color;
+      }
+
+      &.icon .step-icon {
+        color: $pi-primary-color;
+      }
+
+      &.number .step-icon {
+        background-color: $pi-primary-color;
+      }
     }
   }
 }

@@ -32,7 +32,7 @@ const install = function(Vue, config = {}) {
 
   console.log('%cpiui 已安装，教程：https://piui.sadais.com/docs/components/Config.html', logStyle)
   console.log('%cpiui 组件全局配置：', logStyle, piConfig)
-  console.log('%cpiui tools 已挂载：', logStyle, tools)
+  console.log('%cpiui tools 已挂载，使用方式 this.$pi.xxx：', logStyle, tools)
 
   console.groupEnd && console.groupEnd('piui')
   // #endif

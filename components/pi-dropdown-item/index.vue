@@ -1,6 +1,6 @@
 <template>
   <scroll-view v-if="show" scroll-y class="pi-dropdown-item pi-w-100P">
-    <template v-if="!$slots.default && !$slots.$default">
+    <slot>
       <view
         v-for="item in options"
         :key="item[getKeyField]"
@@ -49,8 +49,7 @@
           custom-class="pi-mg-left-24"
         />
       </view>
-    </template>
-    <slot v-else />
+    </slot>
   </scroll-view>
 </template>
 
