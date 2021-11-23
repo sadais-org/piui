@@ -2,7 +2,12 @@
   <view
     class="pi-form-item"
     :style="[customStyle, itemStyle]"
-    :class="[{ border: getBorder }, { 'pi-align-center': !getWrap }, customClass]"
+    :class="[
+      { disabled: getDisabled },
+      { border: getBorder },
+      { 'pi-align-center': !getWrap },
+      customClass
+    ]"
     @tap.stop="handleItemClick"
   >
     <!-- 表单标题 -->
@@ -263,6 +268,9 @@ export default {
     getColon() {
       return this.inheritProps.colon !== null ? this.inheritProps.colon : this.colon
     },
+    getDisabled() {
+      return this.inheritProps.disabled !== null ? this.inheritProps.disabled : this.disabled
+    },
     getLabelAlign() {
       return this.inheritProps.labelAlign !== null ? this.inheritProps.labelAlign : this.labelAlign
     },
@@ -430,6 +438,10 @@ export default {
 .pi-form-item {
   overflow: hidden;
   font-size: $pi-form-size;
+  &.disabled {
+    pointer-events: none;
+    opacity: $pi-disabled-opacity;
+  }
   &.border {
     @include pi-border;
     &::after {

@@ -10,7 +10,7 @@
       :placeholder="placeholder"
       :placeholder-style="placeholderStyle"
       :placeholder-class="placeholderClass"
-      :disabled="disabled"
+      :disabled="getDisabled"
       :maxlength="maxlength"
       :cursor-spacing="cursorSpacing"
       :focus="focus"
@@ -44,7 +44,7 @@
       :placeholder="placeholder"
       :placeholder-style="placeholderStyle"
       :placeholder-class="placeholderClass"
-      :disabled="disabled"
+      :disabled="getDisabled"
       :maxlength="maxlength"
       :cursor-spacing="cursorSpacing"
       :focus="focus"
@@ -240,6 +240,13 @@ export default {
   data() {
     return {
       focused: this.focus
+    }
+  },
+  computed: {
+    getDisabled() {
+      const parentFormItem = this.$pi.parent(this, 'PiFormItem')
+      const disabled = this.disabled || (parentFormItem && parentFormItem.getDisabled)
+      return disabled
     }
   },
   methods: {
