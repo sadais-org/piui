@@ -82,15 +82,15 @@ export default {
   },
   data() {
     return {
-      localStartNum: this.startNum,
+      startNumCache: this.startNum,
       showingVal: this.formatNumber(this.startNum),
       printVal: null,
-      paused: false, // 是否暂停
-      localDuration: Number(this.duration),
+      isPaused: false, // 是否暂停
+      durationCache: Number(this.duration),
       startTime: null, // 开始的时间
       timestamp: null, // 时间戳
       remaining: null, // 停留的时间
-      animationInstance: null,
+      timer: null,
       lastTime: 0 // 上一次的时间
     }
   },
@@ -114,7 +114,7 @@ export default {
     easingFn(t, b, c, d) {
       return (c * (-Math.pow(2, (-10 * t) / d) + 1) * 1024) / 1023 + b
     },
-    requestAnimationFrame(callback) {
+    requestTimeout(callback) {
       const currTime = new Date().getTime()
       // 为了使setTimteout的尽可能的接近每秒60帧的效果
       const timeToCall = Math.max(0, 16 - (currTime - this.lastTime)) // 计算当前一帧内还剩多少时间
@@ -124,80 +124,68 @@ export default {
       this.lastTime = currTime + timeToCall
       return id
     },
-
-    cancelAnimationFrame(id) {
-      clearTimeout(id)
-    },
     // 开始滚动数字
     start() {
-      this.localStartNum = this.startNum
+      this.startNumCache = this.startNum
       this.startTime = null
-      this.localDuration = this.duration
-      this.paused = false
-      this.animationInstance = this.requestAnimationFrame(this.count)
+      this.durationCache = this.duration
+      this.isPaused = false
+      this.timer = this.requestTimeout(this.count)
     },
     // 暂定状态，重新再开始滚动；或者滚动状态下，暂停
     reStart() {
-      if (this.paused) {
+      if (this.isPaused) {
         this.resume()
-        this.paused = false
+        this.isPaused = false
       } else {
         this.stop()
-        this.paused = true
+        this.isPaused = true
       }
     },
     // 暂停
     stop() {
-      this.cancelAnimationFrame(this.animationInstance)
+      clearTimeout(this.timer)
     },
     // 重新开始(暂停的情况下)
     resume() {
       this.startTime = null
-      this.localDuration = this.remaining
-      this.localStartNum = this.printVal
-      this.requestAnimationFrame(this.count)
+      this.durationCache = this.remaining
+      this.startNumCache = this.printVal
+      this.requestTimeout(this.count)
     },
     // 重置
     reset() {
       this.startTime = null
-      this.cancelAnimationFrame(this.animationInstance)
+      clearTimeout(this.timer)
       this.showingVal = this.formatNumber(this.startNum)
     },
     count(timestamp) {
       if (!this.startTime) this.startTime = timestamp
       this.timestamp = timestamp
       const progress = timestamp - this.startTime
-      this.remaining = this.localDuration - progress
-      if (this.isEase) {
-        if (this.countDown) {
-          this.printVal =
-            this.localStartNum -
-            this.easingFn(progress, 0, this.localStartNum - this.endNum, this.localDuration)
-        } else {
-          this.printVal = this.easingFn(
-            progress,
-            this.localStartNum,
-            this.endNum - this.localStartNum,
-            this.localDuration
-          )
-        }
+      this.remaining = this.durationCache - progress
+      if (this.countDown) {
+        this.printVal =
+          this.startNumCache - this.isEase
+            ? this.easingFn(progress, 0, this.startNumCache - this.endNum, this.durationCache)
+            : (this.startNumCache - this.endNum) * (progress / this.durationCache)
       } else {
-        if (this.countDown) {
-          this.printVal =
-            this.localStartNum -
-            (this.localStartNum - this.endNum) * (progress / this.localDuration)
-        } else {
-          this.printVal =
-            this.localStartNum +
-            (this.endNum - this.localStartNum) * (progress / this.localDuration)
-        }
+        this.printVal = this.isEase
+          ? this.easingFn(
+              progress,
+              this.startNumCache,
+              this.endNum - this.startNumCache,
+              this.durationCache
+            )
+          : this.startNumCache +
+            (this.endNum - this.startNumCache) * (progress / this.durationCache)
       }
       this.printVal = this.countDown
         ? Math.max(this.printVal, this.endNum)
         : Math.min(this.printVal, this.endNum)
       this.showingVal = this.formatNumber(this.printVal)
-      if (progress < this.localDuration) {
-        this.animationInstance = this.requestAnimationFrame(this.count)
+      if (progress < this.durationCache) {
+        this.timer = this.requestTimeout(this.count)
       } else {
         this.$emit('end')
       }
@@ -209,11 +197,10 @@ export default {
     formatNumber(num) {
       num = Number(num)
       num = num.toFixed(Number(this.decimals))
-      num += ''
       return this.$pi.format.numFormat(num, this.decimals, this.thousands)
     },
     destroyed() {
-      this.cancelAnimationFrame(this.animationInstance)
+      clearTimeout(this.timer)
     }
   }
 }
