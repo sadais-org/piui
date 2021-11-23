@@ -11,54 +11,73 @@
 </template>
 
 <script>
+import { getConfig } from '../../config'
+const { countUp } = getConfig()
+
 export default {
   name: 'PiCountUp',
   props: {
+    // 自定义样式，对象形式
+    customStyle: {
+      type: Object,
+      default() {
+        // {}
+        return countUp.customStyle
+      }
+    },
+    // 自定义样式类，字符串形式
+    customClass: {
+      type: String,
+      default() {
+        // ''
+        return countUp.customClass
+      }
+    },
     // 开始的数值，默认从0增长到某一个数
     startNum: {
       type: [Number, String],
-      default: 0
+      default: countUp.startNum
     },
     // 要滚动的目标数值，必须
     endNum: {
       type: [Number, String],
       default: 0,
-      required: true
+      required: countUp.endNum
     },
     // 滚动到目标数值的动画持续时间，单位为毫秒（ms）
     duration: {
       type: [Number, String],
-      default: 2000
+      default: countUp.duration
     },
     // 设置数值后是否自动开始滚动
     autoplay: {
       type: Boolean,
-      default: true
+      default: countUp.autoplay
     },
     // 要显示的小数位数
     decimals: {
       type: [Number, String],
-      default: 0
+      default: countUp.decimals
+    },
+    // 千位符分隔符，默认为空
+    thousands: {
+      type: [String],
+      default: countUp.thousands
     },
     // 是否在即将到达目标数值的时候，使用缓慢滚动的效果
     isEase: {
       type: Boolean,
-      default: true
-    },
-    // 十进制分割
-    decimal: {
-      type: [Number, String],
-      default: '.'
+      default: countUp.isEase
     },
     // 字体颜色
     fontColor: {
       type: String,
-      default: '#333333'
+      default: countUp.fontColor
     },
     // 字体大小
     fontSize: {
       type: [Number, String],
-      default: 38
+      default: countUp.fontSize
     }
   },
   data() {
@@ -191,7 +210,7 @@ export default {
       num = Number(num)
       num = num.toFixed(Number(this.decimals))
       num += ''
-      return num.replace('.', this.decimal)
+      return this.$pi.format.numFormat(num, this.decimals, this.thousands)
     },
     destroyed() {
       this.cancelAnimationFrame(this.animationInstance)
