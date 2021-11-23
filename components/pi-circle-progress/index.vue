@@ -1,7 +1,7 @@
 <!--
  * @Author: zhouxianpan
  * @Date: 2021-09-06 10:07:33
- * @LastEditTime: 2021-11-18 14:59:35
+ * @LastEditTime: 2021-11-23 16:45:30
  * @LastEditors: zhangzhenfei
  * @Description: 
  * @FilePath: \piui-awesome\src\piui\components\pi-circle-progress\index.vue
@@ -109,7 +109,6 @@ export default {
       widthPx: uni.upx2px(this.width), // 转成px后的整个组件的背景宽度
       borderWidthPx: uni.upx2px(this.borderWidth), // 转成px后的圆环的宽度
       startAngle: -Math.PI / 2, // canvas画圆的起始角度，默认为3点钟方向，定位到12点钟方向
-      progressContext: '', // 活动圆的canvas上下文
       newPercent: 0, // 当动态修改进度值的时候，保存进度值的变化前后值，用于比较用
       oldPercent: 0 // 当动态修改进度值的时候，保存进度值的变化前后值，用于比较用
     }
@@ -138,26 +137,27 @@ export default {
     }
   },
   mounted() {
+    // 背景圆
+    this.drawProgressBg()
     setTimeout(() => {
-      // 背景圆
-      this.drawProgressBg()
       // 进度圆
       this.drawCircleByProgress(this.percent)
-    }, 50)
+    }, 500)
   },
   created() {
-    console.log(this.$pi)
     this.newPercent = this.percent
     this.oldPercent = 0
   },
   methods: {
     drawProgressBg() {
+      console.log(this)
       let ctx = uni.createCanvasContext(this.elBgId, this)
       ctx.setLineWidth(this.borderWidthPx) // 设置圆环宽度
       ctx.setStrokeStyle(this.inactiveColor) // 线条颜色
-      ctx.beginPath() // 开始描绘路径
+      ctx.beginPath() // 开描绘路径
       // 设置一个原点(110,110)，半径为100的圆的路径到当前路径
       let radius = this.widthPx / 2
+      //  用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
       ctx.arc(radius, radius, radius - this.borderWidthPx, 0, 2 * Math.PI, false)
       ctx.stroke() // 对路径进行描绘
       ctx.draw()
