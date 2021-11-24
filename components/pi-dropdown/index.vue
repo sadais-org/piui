@@ -52,7 +52,7 @@ const TAG = 'PiDropdown'
 const { dropdown } = getConfig()
 
 export default {
-  name: TAG,
+  name: 'PiDropdown',
   components: {
     DropdownTab
   },
