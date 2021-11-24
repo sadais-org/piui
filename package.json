@@ -4,7 +4,7 @@
   "description": "piui组件库",
   "main": "index.js",
   "scripts": {
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "changelog": "npx gitmoji-changelog"
   },
   "repository": {
     "type": "git",

@@ -1,243 +1,485 @@
-## 1.0.181 (2021-09-27)
+# Changelog
+
+<a name="1.2.0"></a>
+## 1.2.0 (2021-11-24)
+
+### Added
+
+- ✨ feat: pi-cound-up 增加千分位属性 [c41a751]
+- ✨ feat: dropdown增加icon的可配置性 [de3d39c]
+- ✨ feat: 增加.pi-fw-bold样式 [e7c62c9]
+
+### Changed
+
+- 💄 style: 优化组件样式 [1970b88]
+- ♻️ refactor: 更改dropdown组件标识 [2d433fe]
+- ♻️ refactor: count-up组件逻辑调整 [8a6e530]
+- ♻️ refactor: 优化pi-steps [c5f492c]
+- ♻️ refactor: 重构下拉菜单 [141b893]
+- ♻️ refactor: 优化notify组件 [54e3fb0]
+- ⚡ perf: 优化图片剪裁插件 -&gt; 边界检查 [e710319]
+- 💄 style: 调整上传图片剪裁背景透明度 [c51a1c2]
+- ⚡ perf: 上传图片剪裁功能优化 [fa3126a]
+
+### Fixed
+
+- 🐛 fix: Form表单问题 #12 [4c61e6c]
+- 🐛 fix: pi-steps兼容小程序 [7650e2c]
+- 🐛 fix: pi-notify 适配微信小程序胶囊按钮 [ca416cb]
+- 🐛 fix: 修复组件eslint报错 [085307c]
+- 🐛 fix: 修复pi-select文字超长的时候，换行行距过高的问题 [f708ce2]
+- 🐛 fix: 下拉筛选组件问题修复 [c33c5a7]
+
+### Miscellaneous
+
+-  flx：格式化 [40de245]
+-  fix:格式化 [c12256a]
+-  fix:优化 [e5de759]
+-  Merge branch &#x27;master&#x27; of http://git.sadais.com:8080/r/piui/piui [3a9b4c7]
+-  fix:修改环形进度条 [5ecab21]
+-  fix:修改环形进度条 [f7c0deb]
+-  fix:优化环形图 [e4aa852]
+-  fix :提交 [6a96184]
+-  fix:环形进度条 [77cf737]
+-  fix :优化环形图 [67a42df]
+-  fix:环形进度条 [ac6808d]
+-  Merge branch &#x27;master&#x27; of http://git.sadais.com:8080/r/piui/piui [91d4daf]
+-  fix:新增环形进度条 [a50da86]
+-  feat: pi-upload-img增加裁剪控制 [303bccb]
+-  feat: pi-img-cropper增加图片后缀、压缩质量控制 [6932d79]
 
 
-### Bug Fixes
+<a name="1.1.1"></a>
+## 1.1.1 (2021-11-05)
 
-* eslint报错 ([cb657f8](https://github.com/sadais-org/piui/commit/cb657f8901d3a67c5aba07997336d8e58218db3c))
-* listitem 右侧类型不匹配bug fix ([1f160df](https://github.com/sadais-org/piui/commit/1f160df3e6dfe282207bf22471a8aa2ab040ef77))
-* listitem右侧图标配置不生效的问题 ([847c509](https://github.com/sadais-org/piui/commit/847c509fbef3e27d636c7b0f9f277e47033159f1))
-* marqueebug ([250a05d](https://github.com/sadais-org/piui/commit/250a05d5cd6a53686a0f00c075666e1e07e9b532))
-* marquee滚动间隙问题、暂停问题 ([c5e2d09](https://github.com/sadais-org/piui/commit/c5e2d098b18add81adceb2533eb8bf21a26a4be1))
-* Marquee组件name改为直接写 ([786bcbe](https://github.com/sadais-org/piui/commit/786bcbe43e00fdaf3a3f21517a7e60d6c7af9e3d))
-* pi-marquee兼容性问题、更新speed无效的问题 ([06550be](https://github.com/sadais-org/piui/commit/06550be19bb06e6639286ab70b50d60acbcd03b1))
-* pi-marquee动画暂停 ([aa48fd7](https://github.com/sadais-org/piui/commit/aa48fd78e38b101f32e2af40dce8eb0a9a3c178c))
-* pi-marquee速度改为每秒移动多少像素 ([45f83ae](https://github.com/sadais-org/piui/commit/45f83aef9e60a6a8f8f259cf0e1439336eb16cf3))
-* pi-tabs代码优化 ([e94072f](https://github.com/sadais-org/piui/commit/e94072fcb6c3303b3e45fc9d37a7bfefa187f409))
-* radio注释 ([4e795dd](https://github.com/sadais-org/piui/commit/4e795ddef2971454a652a15de3dbb14a8fd7e907))
-* stepper允许直接输入(不完善) ([024d776](https://github.com/sadais-org/piui/commit/024d776b07c529578a7c411da9e24c94a5762bd3))
-* tslint报错 ([68eda20](https://github.com/sadais-org/piui/commit/68eda20c5ac5787682bd4417d3a8dfd6a8577050))
-* xx ([a72fca0](https://github.com/sadais-org/piui/commit/a72fca046348a5f9eb0ad712b61435338e847de3))
-* 修复calendar拼写错误 ([1c30c21](https://github.com/sadais-org/piui/commit/1c30c215a34a3120b97aed3351c1840c0491c25c))
-* 修复date-picker 12 月选不中的问题 ([afd5f17](https://github.com/sadais-org/piui/commit/afd5f17232834aafd4bf1855bf8d070e9b201d7f))
-* 修复decodeParams返回数据格式错误问题 ([c746df2](https://github.com/sadais-org/piui/commit/c746df27d2098b8b526f58eb178b8be82643dfe2))
-* 修复navi.js转换失败问题 ([73804df](https://github.com/sadais-org/piui/commit/73804df9b70686c7a15a1662aa6334e1512d82d7))
-* 修复pi-line-progress进度过少时显示不正常 ([719177f](https://github.com/sadais-org/piui/commit/719177fed405ac51f1c5dbb9510255f1aedd65f1))
-* 修复pi-list 属性设置无效的问题 ([1565626](https://github.com/sadais-org/piui/commit/156562683e2615e9310319ba2990055a7316bcd4))
-* 修复pi-loading设置文字尺寸和文字样式无效问题 ([557bf0e](https://github.com/sadais-org/piui/commit/557bf0e995ce44d51659137fdb01af5e723b1ddd))
-* 修复pi-marquee无法滚动的问题 ([6f827ce](https://github.com/sadais-org/piui/commit/6f827ceef2bd309d4116ecbc6b0ff0da368c183e))
-* 修复pi-modal点击事件bug ([3ffcbdc](https://github.com/sadais-org/piui/commit/3ffcbdc36bc6be8b6391f6beae4ac82aa4dea1b7))
-* 修复pi-search不能清空的问题 ([5d872b1](https://github.com/sadais-org/piui/commit/5d872b1e22e9efb9f8799f7b67b5b163482552c3))
-* 修复pi-search动态style在小程序不生效的问题 ([31b93ad](https://github.com/sadais-org/piui/commit/31b93add3eabe00ffa6ff8ad444b33434dfd8ead))
-* 修复pi-search搜索清空无效的问题 ([41f1f71](https://github.com/sadais-org/piui/commit/41f1f71256fe6540ca7038b8e5446731213b13e3))
-* 修复pi-select height属性无效的问题 ([5ba5695](https://github.com/sadais-org/piui/commit/5ba56959cae9b452ae40734bb5351154aef489dd))
-* 修复pi-select单选取消选择不生效问题 ([9a19615](https://github.com/sadais-org/piui/commit/9a196156c636aa5f73a42a97fe6e401449800eef))
-* 修复pi-select单选模式下取消选择返回默认值的问题 ([f5db4b3](https://github.com/sadais-org/piui/commit/f5db4b396079212e23e196512f8f461b625061d1))
-* 修复pi-select取消勾选项返回数据错乱问题 ([b8d00cb](https://github.com/sadais-org/piui/commit/b8d00cbf2ae4e6fd65ed9f8de9a3d80430e405a8))
-* 修复pi-tabs下标超长报错 ([893b5a7](https://github.com/sadais-org/piui/commit/893b5a7e0b0f3a2fecfda4caf4adcafd8b1cbe77))
-* 修复pi-webview更改url无法触发加载的问题 ([b5dacf9](https://github.com/sadais-org/piui/commit/b5dacf90d3ad5cba349b6fbe4e3cd7e3799310df))
-* 修复piui宫格布局边框无法设定的问题 ([8a87337](https://github.com/sadais-org/piui/commit/8a873373d0948294dee3a1e1931bc542d89a2dff))
-* 修复searchIcon部分属性无效bug, 完善注释 ([fcd257d](https://github.com/sadais-org/piui/commit/fcd257d113322a7bf4e8c64675d58e5d057c890a))
-* 修复section & tabs 隐藏sliderbar无效的问题 ([2174c6a](https://github.com/sadais-org/piui/commit/2174c6af72a461602e865c7d13144f5f80f74575))
-* 修复storage获取失败的问题 ([6d1c546](https://github.com/sadais-org/piui/commit/6d1c546fc16e74a5617a3cd90050cbd404e9daa7))
-* 修复事件在支付宝和头条小程序无法触发的问题 ([ba807cb](https://github.com/sadais-org/piui/commit/ba807cbb9c95cfe08357dc14e9ce9ab7447eb5ba))
-* 修复倒计时样式不居中的问题 ([99074c3](https://github.com/sadais-org/piui/commit/99074c393bb47a30654d24bc5ff29740c78f39af))
-* 修复列表事件无法上报的问题 ([eeadf15](https://github.com/sadais-org/piui/commit/eeadf154bc136f0a2a996790db89bff7d88318f0))
-* 修复初始化地址显示错误 ([54295ac](https://github.com/sadais-org/piui/commit/54295acdd5d3ac119f20e33397074b179a1083f1))
-* 修复图片高度不对 ([e3d9bdc](https://github.com/sadais-org/piui/commit/e3d9bdc04fcfc303bdd94dc360bbe51a15928762))
-* 修复地区选择控件位置计算错误问题 ([c05a41c](https://github.com/sadais-org/piui/commit/c05a41c0013f422f02fadcf3aa7c9087ce35167c))
-* 修复导航在小程序平台显示不正常的问题 ([a9cec7d](https://github.com/sadais-org/piui/commit/a9cec7d40a677b7543ab521346e2c7c773578160))
-* 修复小程序中还没滚动结束就点确定，导致选择出错 ([672a694](https://github.com/sadais-org/piui/commit/672a694281373011a99c3e1bbca00f35fa0fbcfb))
-* 修复弹窗中点击事件问题 ([8e125be](https://github.com/sadais-org/piui/commit/8e125be438046b45effbe28709cad45b5d2f716a))
-* 修复弹窗圆角效果失效的问题 ([22e3a89](https://github.com/sadais-org/piui/commit/22e3a892b3d9b98b001e152bb90f738c43b60b15))
-* 修复按钮自定义样式不生效的问题 ([6c1e4d9](https://github.com/sadais-org/piui/commit/6c1e4d99de9f3fd07850f07670d7a1a3ddb2771e))
-* 修复按钮行号不一致的问题 ([b2d0aeb](https://github.com/sadais-org/piui/commit/b2d0aeb5f38b010a3c1d140c8c5f86467adf1403))
-* 修复按钮触发两次的问题 ([475fd03](https://github.com/sadais-org/piui/commit/475fd03b35112b93ed835e29de64ff97407e33ba))
-* 修复支付宝小程序pi-tabs滚动无效的问题 ([441c2fb](https://github.com/sadais-org/piui/commit/441c2fb47e0aa82521dd2e52502d5cf0d3f5da17))
-* 修复文案错误以及判断优化 ([1c5236d](https://github.com/sadais-org/piui/commit/1c5236d13c1e156654ad2c097a89d81547198a0d))
-* 修复日期控件格式化问题 ([7ccc77d](https://github.com/sadais-org/piui/commit/7ccc77d2f6ee5099a96a142cf6721632e3ac61ee))
-* 修复样式问题 ([547a639](https://github.com/sadais-org/piui/commit/547a639e274a60aecbea594b0f20f534e89e7c07))
-* 修复组件报错 ([0c12ddf](https://github.com/sadais-org/piui/commit/0c12ddfd00804467aa506d5a4170e216f960046f))
-* 修复自定义样式在组件上不生效的问题 ([8376f12](https://github.com/sadais-org/piui/commit/8376f1284716b9e746941dcf8f8aa145f8cf9d75))
-* 修复进度条默认动态展示的效果 ([2ef00c6](https://github.com/sadais-org/piui/commit/2ef00c659645c7894d1cfd0722634e90b716048a))
-* 修复错误 ([451b5db](https://github.com/sadais-org/piui/commit/451b5db400165bdca7043bec7edec01274ab6ff3))
-* 修改extraStyle无效问题 ([0baf5ef](https://github.com/sadais-org/piui/commit/0baf5ef33d390fcae3609781ca8e4684d76a9b93))
-* 修改pi-loading组件注释 ([f745235](https://github.com/sadais-org/piui/commit/f7452353a0736e6323819bd80e65d1fca5f4f7db))
-* 修改pi-regions-select顶部操作条样式 ([8f22882](https://github.com/sadais-org/piui/commit/8f22882ad3815d3e5359a93840d9a27715d7217c))
-* 修改pi-search注释 ([3b205e9](https://github.com/sadais-org/piui/commit/3b205e9485264cdfe8e83dc3e04d2cea647367a7))
-* 修改导航栏配置文件 状态栏背景色默认白色 ([bb03776](https://github.com/sadais-org/piui/commit/bb03776833b5aee0e0819fa11b409d2873b7941a))
-* 去除pi-marquee中itemStyle ([98fbf9a](https://github.com/sadais-org/piui/commit/98fbf9a97f5a98ab5900a4ad68a6c27585fd8b6d))
-* 合并修复switch组件size属性的bug ([86c30cd](https://github.com/sadais-org/piui/commit/86c30cdb6dc8fe4e1aaf4217f930216ecd993208))
-* 完善fix: 完善pi-picker注释 ([73df9d9](https://github.com/sadais-org/piui/commit/73df9d9e652e9bda28a4485c16cc0b1e979c2104))
-* 完善pi-grid-item最后一列的判断 ([12afd9a](https://github.com/sadais-org/piui/commit/12afd9aff8a3112a5f44cf62a9921683f4bed9fd))
-* 完善pi-list-item注释 ([87904b8](https://github.com/sadais-org/piui/commit/87904b854571c3123acff68b84ec6deea91eead1))
-* 完善pi-mask注释 ([3a0b937](https://github.com/sadais-org/piui/commit/3a0b93735dce3a1fe318f67b74fe4ac0f63297cf))
-* 完善pi-navbar注释 ([7f6e68e](https://github.com/sadais-org/piui/commit/7f6e68e0479060d89dc26607f85ef967b3ed4bb5))
-* 完善pi-navbar注释 ([654f619](https://github.com/sadais-org/piui/commit/654f619e4354f93f84301d02f1bee2c8a1028599))
-* 完善pi-radio-group ([79af01c](https://github.com/sadais-org/piui/commit/79af01cdaee172c98f3d9a3b08ae2e08bfcda4c8))
-* 完善pi-radio-group注释 ([96a9e6f](https://github.com/sadais-org/piui/commit/96a9e6fc6a9d4d7f69e66e39b88a936fd67e317a))
-* 完善pi-radio注释 ([36730d2](https://github.com/sadais-org/piui/commit/36730d23c70a976c753a28ed8e0b09a04eb63016))
-* 完善pi-select注释 ([4b1dd71](https://github.com/sadais-org/piui/commit/4b1dd714fc981dcf13851e0bafef9beb12d2d414))
-* 完善switch组件的注释 ([156f7d8](https://github.com/sadais-org/piui/commit/156f7d82bbed2fff06f62dbfddcf6568260beb18))
-* 所有组件的duration支持:500 '500ms' '0.5s'  3中格式 ([4386b57](https://github.com/sadais-org/piui/commit/4386b575e3a0bd13aae12b5721ac0ed31d27070d))
-* 更新code-input事件注释 ([3a683c6](https://github.com/sadais-org/piui/commit/3a683c64eb0f7cbf86a3f0993cc2c39a6db927e6))
-* 更新duration解析日志输出 ([08dbeb2](https://github.com/sadais-org/piui/commit/08dbeb227ea4c11aa147e1d8d3b04d1fecd2e283))
-* 更新pi-marquee注释 ([7726ed4](https://github.com/sadais-org/piui/commit/7726ed4894651ac080c113a2462c26d33642c55c))
-* 更新pi-swiper路径引用错误 ([d3d6ccf](https://github.com/sadais-org/piui/commit/d3d6ccfcb5aaa3ec3c139e3536de2ab827e00b07))
-* 更新版本号 ([9262eb4](https://github.com/sadais-org/piui/commit/9262eb41a4998fdce01ac85194f50d983c15c706))
-* 更新跑马灯 ([5055af0](https://github.com/sadais-org/piui/commit/5055af098a06a87d700a3b5a99f2eb5136fb884b))
-* 格式化&重命名marquee ([5a83a1e](https://github.com/sadais-org/piui/commit/5a83a1ef42841e546d787b3ed7b7b0edcd12cbdd))
-* 模态窗点击报错 ([00f5190](https://github.com/sadais-org/piui/commit/00f5190149db5da3754b82621ea55705cec4b89f))
-* 禁止marquee鼠标滚动 ([375edb5](https://github.com/sadais-org/piui/commit/375edb53e7e5ffebef6bc2c10d9fbd170a74cf58))
-* 组件名加上Pi前缀 ([196cbf2](https://github.com/sadais-org/piui/commit/196cbf2ff64de0aee6f62a58a786484c0c9741d4))
-* 跑马灯兼容微信小程序 ([ae56945](https://github.com/sadais-org/piui/commit/ae569457ed892607bbbbc54c51a73b2cd1f7cebc))
-* 跑马灯禁止鼠标滚动 ([8b831b4](https://github.com/sadais-org/piui/commit/8b831b4eb7a1a62d86805a67eff53ea747f7d44a))
-* 部分组件需要事件上报 ([b059436](https://github.com/sadais-org/piui/commit/b059436c91ff420b5e1a58210a33bd06c838d262))
-* 重构pi-marquee ([825706a](https://github.com/sadais-org/piui/commit/825706aaa4d85280adf412e590821ec261ab5963))
+### Added
 
+- ✨ feat: 下拉组件更新 [e941bcb]
+- ✨ feat: 新增下拉筛选组件 [a2fac88]
+- ✨ feat: 增加自定义样式控制 [b374a80]
+- ✨ feat: 优化分页组件，使用v-model改变页码 [5cd8edb]
+- ✨ feat: 优化跑马灯以及分页组件 [a27ebe6]
+- ✨ feat: 增加标准化的readme.md [ca8fe8d]
+- ✨ feat: pi-code-input 新增slot &amp; codeFormat属性 [b86cc6e]
+- ✨ feat: 修复骨架屏在小程序闪烁的问题 [99a7841]
+- ✨ feat: 优化骨架屏组件 [3cd3401]
+- ✨ feat: 更新pi-upload-img默认值 [a1c4b1f]
+- ✨ feat: 修复小程序上传文件无法设置圆角 [dbd0809]
+- ✨ feat: 增加pi-picker小程序端，滚动结束后才能点击确定按钮 [3eeb2bb]
+- ✨ feat: 增加方法注释 [b4047ae]
+- ✨ feat: pi-select 增加属性 [e789608]
+- ✨ feat: 弹窗相关组件增加header&amp;footer插槽 [b203e64]
+- ✨ feat: 增加piui-tool 依赖包的声明 [7158eac]
+- ✨ feat: 1.0.167 发布 [f1811ff]
+- ✨ feat: 增加选择框填充属性 [73cfdb9]
+- ✨ feat: 复选框和单选框，新增填充模式 [9e70873]
+- ✨ feat: 优化图片上传组件 [770cee1]
+- ✨ feat: 增加图片上传组件 [2ddac4c]
+- ✨ feat: tabs增加disableField字段 [5aa13de]
+- ✨ feat: tabs增加beforeChange事件 [5390f60]
+- ✨ feat: 新增pi-list showRightIcon 配置 [48fd60e]
+- ✨ feat: pi-input 增加click事件 [f3f6216]
+- ✨ feat: radio新增按钮样式 [7cbf552]
+- ✨ feat: 新增pi-badge组件 [8c57389]
+- ✨ feat: 优化listitem配置 [4c92297]
+- ✨ feat: 优化navbar视觉效果 [fe51811]
+- ✨ feat: 优化pi-modal参数 [9616459]
+- ✨ feat: 完善pi-code-input [9b112cb]
+- ✨ feat: 完善按钮文档 [5f321b5]
+- ✨ feat: 优化属性 [5e00706]
+- ✨ feat: 抽取禁用透明值变量 [7871578]
+- ✨ feat: 增加card组件 [d8f5ffd]
+- ✨ feat: 完善配置信息 [7b6b402]
+- ✨ feat: navi beforeBack调整 [131a28b]
+- ✨ feat: navi模块新增beforeBack拦截后退操作 [8961848]
+- ✨ feat: 新增beforeEach路由守卫 [c994c05]
+- ✨ feat: 增加新icon图标 [1486b36]
+- ✨ feat: stepper组件步长小数位加减精度溢出问题解决 [5003f6e]
+- ✨ feat: 修改uni方法导出 [56987ed]
+- ✨ feat: 新增文件处理和uniapp统一调用方式 [d6f9a03]
+- ✨ feat: button组件注释修改 [f2e5ba8]
+- ✨ feat: 增加数字键盘组件 [1c2c6ab]
+- ✨ feat: 初步完成瀑布流组件 [8d306e7]
+- ✨ feat(pi-rate): 完成评分组件 [8f73dda]
 
-### Features
+### Changed
 
-* 1.0.6版本发布 ([704fb77](https://github.com/sadais-org/piui/commit/704fb7786219f1928b9ebb7fd4678f0f8f9f3e2b))
-* 1.0.7发布 ([60f6d63](https://github.com/sadais-org/piui/commit/60f6d63a5d341b1224cf58351b13f5020bb8419a))
-* checkbox增加只读模式 ([437ee11](https://github.com/sadais-org/piui/commit/437ee1155873c3cbde4deaa075e03671f437c11d))
-* codeinput新增autoFocusDelay属性 ([2e94186](https://github.com/sadais-org/piui/commit/2e941868740a52bf31e9a39433eea739053597a0))
-* divider增加contentPosition属性处理 ([0081938](https://github.com/sadais-org/piui/commit/0081938764ced74f7cd60e7b340f9242c2c90ffe))
-* divider组件完成 ([58207ea](https://github.com/sadais-org/piui/commit/58207ea58a628b41e7a32a29bebdc507826b720d))
-* loading默认设置mask ([e0792d9](https://github.com/sadais-org/piui/commit/e0792d9cfd4849599b9a95844e625a569fa3d5ad))
-* pi-icon增加dot-radius红点半径属性 ([207868f](https://github.com/sadais-org/piui/commit/207868f13c41e7cc34abab7b2ba0858ab80ed5ef))
-* pi-img加上红点和徽章 ([1d6d005](https://github.com/sadais-org/piui/commit/1d6d00598ac50ed4ea19e25d6c4144a0cb9e1622))
-* pi-img添加点击事件&validate添加密码校验方法 ([baf9052](https://github.com/sadais-org/piui/commit/baf90521f9084918f0b412c5b2effa67335af206))
-* pi-line-progress增加width属性 ([d995337](https://github.com/sadais-org/piui/commit/d995337245ea022435a80b797cf9a03616268c7d))
-* pi-marquee跑马灯组件 ([2c5130d](https://github.com/sadais-org/piui/commit/2c5130d326a3f43d21f036e810268f18b5b48873))
-* pi-navbar支持默认显示 ([d597495](https://github.com/sadais-org/piui/commit/d597495aa1f60734150e6aea9261f96c3015f606))
-* pi-search 增加设置icon的位置 ([602cc7a](https://github.com/sadais-org/piui/commit/602cc7a28b69163aaecac80751d963d5ffe91272))
-* pi-select选项增加disabled属性 ([fc0ea1a](https://github.com/sadais-org/piui/commit/fc0ea1ad6425cc9026fb375a6c6a88d10cadc737))
-* pi-stepper优化 ([e5a4942](https://github.com/sadais-org/piui/commit/e5a4942da4cc5736cf52dad3188adde8cc106017))
-* piui grid及tabs组件bug修复 ([0802680](https://github.com/sadais-org/piui/commit/0802680e69bf0fb9e680c5ac3fa43b8472651969))
-* piui 代码精简，优化 ([9c4750b](https://github.com/sadais-org/piui/commit/9c4750bcd3156e0f40c7cd380af7eb3dedd4a696))
-* piui优化 ([e72b861](https://github.com/sadais-org/piui/commit/e72b86160ecf03078da880f8806b80325a22483f))
-* piui配置支持继承合并 ([d19c890](https://github.com/sadais-org/piui/commit/d19c890d0f3afefedbed65f02f0ba341f9c303ec))
-* regions-select组件修改弹出窗默认值 ([064ed93](https://github.com/sadais-org/piui/commit/064ed934bf07451f3289ecdf2c9ccc21b42feabe))
-* swiper增加imgField字段 ([ae34c75](https://github.com/sadais-org/piui/commit/ae34c7575c985db95b8fb449d836d079c8407521))
-* tabs增加配置项 ([ef3c50e](https://github.com/sadais-org/piui/commit/ef3c50e629b1fbc0743f87b7ef8e50e91eb7d754))
-* 代码格式化 ([f1285f8](https://github.com/sadais-org/piui/commit/f1285f88cae10f6a206a099a2eceab5995b5e6b3))
-* 优化pi-search组件 ([d4126e6](https://github.com/sadais-org/piui/commit/d4126e6482d4febf26df658976a2f05bb0e279c7))
-* 优化piui install console.log ([e7afc37](https://github.com/sadais-org/piui/commit/e7afc37ce46f9064d074045440ff9402d501a51e))
-* 优化piui-listitem右侧图标展示方式 ([a732210](https://github.com/sadais-org/piui/commit/a73221038b0192de7f4bf8e69f123b1ff5e13bfb))
-* 优化piui转场动画 ([447a076](https://github.com/sadais-org/piui/commit/447a0767d95b819fc7ffa9215aa88203883afbf6))
-* 优化prop ([73fa737](https://github.com/sadais-org/piui/commit/73fa7373f8ec520c079f48a090b380fdd388e19f))
-* 优化动画执行函数 ([c8ee39d](https://github.com/sadais-org/piui/commit/c8ee39de5d2a13f6338739a0c2b3a097c8dcac6b))
-* 优化导航栏和状态栏 ([75b5bef](https://github.com/sadais-org/piui/commit/75b5bef168fe8b36ca3f2269867b4954c571b6e8))
-* 优化微信授权 ([a38c6af](https://github.com/sadais-org/piui/commit/a38c6af9675cdffba5e7861c17145f0bd17ee09e))
-* 优化打印日志 ([d91bf43](https://github.com/sadais-org/piui/commit/d91bf43ae094063927a32a2efddd028c3ef8454d))
-* 优化日期选择当前pickerValue显示 ([546fd21](https://github.com/sadais-org/piui/commit/546fd21fa0fa7dbfecbea1a48c9f440c1a31c6ef))
-* 优化样式动态绑定过长的问题 ([ab73b14](https://github.com/sadais-org/piui/commit/ab73b14e9e27b117f477afc681ae37a747ee1588))
-* 优化界面展示 ([b5d4e2e](https://github.com/sadais-org/piui/commit/b5d4e2e39136ba70043e86bbb2bb0c910684d2dd))
-* 修复pi-tabs宽度问题 ([2f0aa7d](https://github.com/sadais-org/piui/commit/2f0aa7d02ef3284c88887296c1168d1308d251df))
-* 修复pigrid父子组件无法联动问题 ([1b05321](https://github.com/sadais-org/piui/commit/1b05321b428259116b9c9e0f7f7ada438f2a2e28))
-* 修复tabs组件延时问题 ([5b47d8b](https://github.com/sadais-org/piui/commit/5b47d8beae99c3d5c47d14082c394699ae53d587))
-* 修复倒计时文字不居中的问题 ([89643a3](https://github.com/sadais-org/piui/commit/89643a35346b3cb5d64ab41e8aaafd8c509229ec))
-* 修复搜索框无法清空的问题 ([774a47a](https://github.com/sadais-org/piui/commit/774a47af2b11174fefab2c95f541db1f1d86bcaf))
-* 修复进度条文字不居中的问题 ([6b4e9ad](https://github.com/sadais-org/piui/commit/6b4e9ad7ade5ffd2e21fa7b3b68de4e710f4b89a))
-* 修改readme ([573f376](https://github.com/sadais-org/piui/commit/573f376a2ac99bff743f701e4301c5eed2985176))
-* 修改列表按下默认hover时间 ([2356bf3](https://github.com/sadais-org/piui/commit/2356bf3317d2e272bf32a0f2b6f9d232e550d51d))
-* 修改默认配置 ([aa0b6ea](https://github.com/sadais-org/piui/commit/aa0b6ead2f2545a03981e93ab6c4908b8a397fcf))
-* 倒计时设置默认字体大小 ([8ce6761](https://github.com/sadais-org/piui/commit/8ce6761cc3982d2a3d135a2ccbf8152208d8730d))
-* 兼容支付宝小程序 ([c1043bf](https://github.com/sadais-org/piui/commit/c1043bffb2e85be5ec4baa595583c9b1e1eb730c))
-* 初始化swiper组件 ([c93523b](https://github.com/sadais-org/piui/commit/c93523bd1bde05a7faedc2204c32287100f41c4a))
-* 初始化倒计时组件 ([6a140a5](https://github.com/sadais-org/piui/commit/6a140a54e98a7ba892382e8ecb578a0a9cebb5f1))
-* 初始化多选组件 ([e4a35c8](https://github.com/sadais-org/piui/commit/e4a35c872ef24d09eec2094a924a3f130b8a066d))
-* 初始化多选组件 ([cf59550](https://github.com/sadais-org/piui/commit/cf59550ae20783e433829c6a1e649805e38293d8))
-* 初始化提交 ([f4abca2](https://github.com/sadais-org/piui/commit/f4abca29115aeb7460dbb63d4bf3c99268dabc80))
-* 初始化日历界面 ([b26e8ca](https://github.com/sadais-org/piui/commit/b26e8ca61cad3e2065112bb822cc07fd440b0acf))
-* 初始化预设样式 ([95e77f9](https://github.com/sadais-org/piui/commit/95e77f919a11f578f0e0cb896cd1349f6b3c64f0))
-* 初步完成图片组件 ([34de056](https://github.com/sadais-org/piui/commit/34de05668d07c3179c8716a6bd64b29c050a57e7))
-* 初步完成日历组件 ([91a877f](https://github.com/sadais-org/piui/commit/91a877fd101d8e8c7403fe20fe410d30a4569ea7))
-* 初步完成表单校验 ([a65afbb](https://github.com/sadais-org/piui/commit/a65afbbb3d990be475974675f9a87fa43c410d72))
-* 初步完成骨架屏组件 ([d4515ac](https://github.com/sadais-org/piui/commit/d4515ac2e16481c64cb4827a04e78001dcdb6993))
-* 删除旧组件代码 ([1185726](https://github.com/sadais-org/piui/commit/11857267af1575835da7c5b51b57681804705e0a))
-* 去掉customClass重复引用 ([9c2ab50](https://github.com/sadais-org/piui/commit/9c2ab5020f896647b9a6e5dbd0efb802ab1a6a4c))
-* 去掉样式!important修饰 ([a55475e](https://github.com/sadais-org/piui/commit/a55475e9b5ae5dc0099e7a87823e29e983247f50))
-* 发布npm ([b9a1137](https://github.com/sadais-org/piui/commit/b9a11370b112a7c9fde3f4a34a626eb117156e5b))
-* 变量和样式的一些重构 ([ea0bfaa](https://github.com/sadais-org/piui/commit/ea0bfaacfd140b7a4c5755fb8ae5ad2c80fa33c0))
-* 同步点击态时间 ([d816c1c](https://github.com/sadais-org/piui/commit/d816c1c5566cb22376785b3039d86f60017827ef))
-* 增加$pi.native的uniapi调用能力 ([aaeddd6](https://github.com/sadais-org/piui/commit/aaeddd660c2b915f290c9203632f7eacb83b92be))
-* 增加iconfont注释 ([ee05141](https://github.com/sadais-org/piui/commit/ee05141aac40b58d324bf25f9ff42b3ba3f614b0))
-* 增加loading组件 ([ba5d108](https://github.com/sadais-org/piui/commit/ba5d1084706b686af569560c3ca9fdfe7b6edc8e))
-* 增加pi-gap间隔槽插件 ([22ab4fe](https://github.com/sadais-org/piui/commit/22ab4fe28e5c58bee2b548897d771f01facc3f1a))
-* 增加popup关闭按钮 ([7919dc4](https://github.com/sadais-org/piui/commit/7919dc45ca70ab5e3e82545a698ba3a78f622137))
-* 增加section的样式 ([51c522f](https://github.com/sadais-org/piui/commit/51c522fe791e31f0b4381c177ddb68b203904060))
-* 增加toast表单校验方式 ([e609dfc](https://github.com/sadais-org/piui/commit/e609dfc17a209bccbe5fef38520336c23c09d480))
-* 增加webview组件 ([bb40e63](https://github.com/sadais-org/piui/commit/bb40e6386d2952335566b0f16e3c819b34fd0124))
-* 增加工具库 ([3882fbd](https://github.com/sadais-org/piui/commit/3882fbd4e98226556c25fd8e4c34723cfd8e7ad5))
-* 增加文档说明 ([446013f](https://github.com/sadais-org/piui/commit/446013ffbe9326e6ddba56416731cf8ce31dd35c))
-* 增加新特性 ([28fe3cc](https://github.com/sadais-org/piui/commit/28fe3cc7d61f2e0ddf28ff1fe4d1c0c7ed0dd2d1))
-* 增加组件全局的样式自定义mixin ([fdbe685](https://github.com/sadais-org/piui/commit/fdbe685daa7482545f369b667d282477d4ede87e))
-* 增加设置激活颜色 ([8b4407b](https://github.com/sadais-org/piui/commit/8b4407b473f41c5153a9e07d7a13c54b856882a7))
-* 增加转场效果 ([226216d](https://github.com/sadais-org/piui/commit/226216d94b3d51fd0b274b3e53a71a6247d482ed))
-* 增加轮播图组件 ([72da085](https://github.com/sadais-org/piui/commit/72da0859d340910293d89d36929e290a7219bde1))
-* 完事date-picker ([fd7a8c2](https://github.com/sadais-org/piui/commit/fd7a8c274a2ed1ecd38f2ef9299e2a9e382856ec))
-* 完善form校验 ([ce35016](https://github.com/sadais-org/piui/commit/ce35016608670e5b1c15568162c8cae5dbf3dcc6))
-* 完善form样式 ([2a18f22](https://github.com/sadais-org/piui/commit/2a18f22f829d270cd26038d80341b7fd6c2324f0))
-* 完善form组件 ([747a8b8](https://github.com/sadais-org/piui/commit/747a8b8e4dd1412b496a841a68bb2deed075d337))
-* 完善form组件 ([1e033f6](https://github.com/sadais-org/piui/commit/1e033f6406fece926f835ce50465d0a6d1fdb4c2))
-* 完善form表单 ([c2d2b91](https://github.com/sadais-org/piui/commit/c2d2b91e9d7b252122bb44944dcda8df24084eaf))
-* 完善pi-checkbox ([b75bc41](https://github.com/sadais-org/piui/commit/b75bc41a082e94825b606dc476a18288e1731bbf))
-* 完善pi-checkbox ([13665d5](https://github.com/sadais-org/piui/commit/13665d5e444cfc5eb20085d6097f556a06e4d508))
-* 完善pi-checkbox ([9ca6883](https://github.com/sadais-org/piui/commit/9ca68836ba95a6e47e67b8193a85d1ed50ecf4c4))
-* 完善pi-checkbox-group ([eb9874f](https://github.com/sadais-org/piui/commit/eb9874f1c9f4cc0db0580249837f4ba3524a8def))
-* 完善pi-list pi-section ([6ea36a6](https://github.com/sadais-org/piui/commit/6ea36a69882f1dd29d92618f7111762c4a9ee004))
-* 完善pi-list-item ([7ec907d](https://github.com/sadais-org/piui/commit/7ec907dab206ace7ba1623aa3e4bdffaed353604))
-* 完善pi-navbar ([398bce0](https://github.com/sadais-org/piui/commit/398bce05455d803b0c217b459fbb711676702436))
-* 完善pi-search组件 ([587f603](https://github.com/sadais-org/piui/commit/587f6030272e3094be53904196d8daee904ab99c))
-* 完善pi-switch ([70778c5](https://github.com/sadais-org/piui/commit/70778c5d6d399a851e89731c0bb21cde80b24154))
-* 完善pi-tab导航组件 ([e7cc5c9](https://github.com/sadais-org/piui/commit/e7cc5c99f0f064fe19318762d520b749ac5d15f9))
-* 完善倒计时生命周期 ([c5be002](https://github.com/sadais-org/piui/commit/c5be002ae894ef6f340e64f034034f5b6a7b5475))
-* 完善列表项 ([b3784ec](https://github.com/sadais-org/piui/commit/b3784ec5672f01e346ed489f00ef37d2c96a3115))
-* 完善图标和工具类 ([6c20670](https://github.com/sadais-org/piui/commit/6c206700ef972ca45204c1452066514916b9168c))
-* 完善地区选择控件 ([25c83e9](https://github.com/sadais-org/piui/commit/25c83e95564fcd8e17d62ddf91eec113cdbece31))
-* 完善地区选择组件 ([111995f](https://github.com/sadais-org/piui/commit/111995f0d398173c38ece54bab873fe1eefde5fc))
-* 完善导航栏组件 ([0a58f9a](https://github.com/sadais-org/piui/commit/0a58f9a9dc174027708dbb6977aad633b5ca8396))
-* 完善按钮以及底部栏 ([155f5a4](https://github.com/sadais-org/piui/commit/155f5a4d439ed5d52e694e59c016ccc98bc3314a))
-* 完善日历选择组件 ([7b0f843](https://github.com/sadais-org/piui/commit/7b0f843f8fc4edabeffad0f0bc5a05ce47f6af59))
-* 完善选择器pi-select ([64fc6e4](https://github.com/sadais-org/piui/commit/64fc6e4b7870a994cd9d96010e5285b843f9fb34))
-* 完善遮罩层 ([bda223b](https://github.com/sadais-org/piui/commit/bda223b8d9ab2d6d9b2d6f90e8b16d51b8333a8f))
-* 完成pi-button组件 ([8a736ef](https://github.com/sadais-org/piui/commit/8a736ef8380d41684828167851447cfa288b04ab))
-* 完成pi-line-progress组件 ([8b7ebf4](https://github.com/sadais-org/piui/commit/8b7ebf4837fb8151d6ee9e8b66c81f5bba3a973a))
-* 完成pi-modal模态窗 ([df7d049](https://github.com/sadais-org/piui/commit/df7d049aed7c3930339d86c1a3334b31d23baea8))
-* 完成初步组件架构 ([9d68651](https://github.com/sadais-org/piui/commit/9d68651769e4734c7589c44c92efcd40a57ff961))
-* 宫格布局适配小程序 ([8fbd01c](https://github.com/sadais-org/piui/commit/8fbd01c2430300870e6a737ce45d672fdea33d14))
-* 导航栏新增微信胶囊样式 ([1fb48d1](https://github.com/sadais-org/piui/commit/1fb48d10a9b071b09828b80e876de8ca70f192e1))
-* 扩展checkbox组件 ([1740b61](https://github.com/sadais-org/piui/commit/1740b6141860ce6a8090c5e12719d3e4dae875fc))
-* 抽离日历组件面板 ([5fc1377](https://github.com/sadais-org/piui/commit/5fc13777bcdd59627d671261481638e191bad66e))
-* 按钮尺寸标志修改 ([bdd9ae4](https://github.com/sadais-org/piui/commit/bdd9ae4a7b1469520a2ab63ee6c6ece075577c2d))
-* 接入导航栏内嵌tabs效果 ([866dcc5](https://github.com/sadais-org/piui/commit/866dcc566f58e558daacbadc15bd1044805e0fa5))
-* 新增code-input组件 ([0c26380](https://github.com/sadais-org/piui/commit/0c26380323754047f924e773b680d105008b9e2d))
-* 新增pi-swiper插槽 ([d16a115](https://github.com/sadais-org/piui/commit/d16a1154d98d96d073ed1d94c8403972dd956b54))
-* 新增picker组件 ([3168fd9](https://github.com/sadais-org/piui/commit/3168fd99ba2f8b8aae698ff4416b436b4e7276a1))
-* 新增popup组件 ([98e5824](https://github.com/sadais-org/piui/commit/98e582484cb8154ec9e42e593fee1ad8b521fda4))
-* 新增radio组件 ([888f94c](https://github.com/sadais-org/piui/commit/888f94c6c4bed0910975471f9dfb5967cf48e32f))
-* 新增select组件 ([46dbefb](https://github.com/sadais-org/piui/commit/46dbefb494a8870fcec28ad0e464f26d0e6aefc1))
-* 新增stepper组件 ([8be4342](https://github.com/sadais-org/piui/commit/8be4342e3b6343db6fa8b0e6172e4c3466b7c6d3))
-* 新增倒计时组件 ([9540b6b](https://github.com/sadais-org/piui/commit/9540b6b71ce2f0ca523f7d97d560ef41cb919e21))
-* 新增分页组件 ([5b79a9b](https://github.com/sadais-org/piui/commit/5b79a9be9a0cf1cd4b0df20591d4d7bd9a369bc7))
-* 新增属性配置文字选中状态颜色 ([857fea7](https://github.com/sadais-org/piui/commit/857fea7788949294e451c23fc51a61a28b35b4c6))
-* 更改pi-tab底部导轨长度缺失问题 ([6801f13](https://github.com/sadais-org/piui/commit/6801f137fb527a561083c90b6e6e873a4ff9e5e9))
-* 更改pi-tab样式无法覆盖问题 ([3969ea6](https://github.com/sadais-org/piui/commit/3969ea666c99ef166fe86074a5411b640bc34ab0))
-* 更改关闭按钮颜色 ([0887234](https://github.com/sadais-org/piui/commit/0887234355dfcabd57c666a17f563274b64b23cb))
-* 更改导航默认状态栏底色为透明 ([de392d4](https://github.com/sadais-org/piui/commit/de392d447ea17c78daa0e9bc293b2cff599d3a0f))
-* 更改默认动画 ([4c3a439](https://github.com/sadais-org/piui/commit/4c3a4394b3e49bd8ff7fae0ea35b7554cc9bc227))
-* 更新iconfont样式 ([fc40378](https://github.com/sadais-org/piui/commit/fc40378d32872348056e27b840e9564e2415c3bf))
-* 步长组件保留小数位 ([e3f3bf5](https://github.com/sadais-org/piui/commit/e3f3bf5b368860ba1dc45f0863bfa62698a42f1e))
-* 简化$piTools为$pi ([5c25ac0](https://github.com/sadais-org/piui/commit/5c25ac06fad0399883a6a8a349414dff771f21c6))
-* 自动文档更新完善 ([b6f7481](https://github.com/sadais-org/piui/commit/b6f7481d1e07df56690d0cbbbc92594cef10930f))
-* 适配支付宝小程序 ([8d2e079](https://github.com/sadais-org/piui/commit/8d2e0790ab5af4b1a34cc6547399414f62b05399))
-* 适配表单相关组件 ([4db5103](https://github.com/sadais-org/piui/commit/4db5103cc7b04dc226e67ad2451ba25b6ca6777c))
+- ⚡ perf: 优化代码评审提出的问题 [fa11c05]
+- ♻️ refactor: 调整组件名 [17b7d12]
+- 💄 style: 样式调整 [c34df12]
+- ⚡ perf: 优化H5下的导航栏返回按钮显示逻辑 [07c10c0]
+- ♻️ refactor: 抽取piui-tool工具库 [91d8102]
+- ⚡ perf: 优化属性 [892d52f]
+- 🎨 chore: 增加表单右侧图标 [c74cb1e]
+- 💄 style: 优化日历样式 [ab69059]
+- ♻️ refactor: 优化弹窗类组件 [1fca0f4]
+- ♻️ refactor: 重构select抽取popup-select组件 [a686092]
+- ♻️ refactor: 重构picker，抽取popup-select组件 [22be341]
+- ♻️ refactor: 抽取popup-select组件 [16c1f62]
+- 💄 style: 优化组件展示样式 [3cb9f22]
+- 💄 style: 调整pi-section样式 [ca3464a]
+- ⚡ perf: 优化pi-bottom-bar的布局方式，避免自定义样式影响底部安全区域 [d12a233]
+- ♻️ refactor: 优化弹窗类配置 [177024a]
+- 💄 style: 优化代码格式 [1310b57]
+- 💄 style: 调整输入框样式 [5e97826]
+- ⚡ perf: 优化深度选择器逻辑 [462fd85]
+- ⚡ perf: 优化动画效果 [d336afd]
+- ♻️ refactor: popup参数重构 [cf07b8a]
+- ♻️ refactor: navi模块重构为class [38b065e]
+- ⚡ perf: input增加autoHeight属性 [5e30061]
+- 💄 style: 代码格式化 [1c45249]
+- 🎨 chore: 增加push/pull指令 [501e55e]
+- ⚡ perf: 优化数字键盘 [08e8a52]
 
+### Fixed
 
-### Performance Improvements
+- 🐛 fix: 修改notify提示通知背景色 [30a2e82]
+- 🐛 fix: 修复pi-upload-img在小程序编译失败的问题 [93ce27a]
+- 🐛 fix: 下拉筛选组件里面的文字也可高亮 [94771bd]
+- 🐛 fix: 删除不要字段 [7de183a]
+- 🐛 fix: 下拉组件的遮罩样式 [9aedafd]
+- 🐛 fix: 删除没用样式 [ffcc983]
+- 🐛 fix: 修复设定了最小年份和最大年份的时候，切换月份还可以切换年份的问题 [564cab9]
+- 🐛 fix: 修复顶部有边框的问题 [64835ac]
+- 🐛 fix: 修复pi-select item disabled失效的问题 [0b4204f]
+- 🐛 fix: 更改错别字 [300f16f]
+- 🐛 fix: 修复宫格index判断最后一列错误的问题 [f52d4b4]
+- 🐛 fix: 修复pi-tab最后一项竖线显示的问题 [5145289]
+- 🐛 fix: 修复toast层级过低的问题 [838d283]
+- 🐛 fix: 修复ios下，时间解析失败的bug [d619f87]
+- 🐛 fix: 修复mask遮挡toast的问题 [4eda89a]
+- 🐛 fix: 修复pi-bottom-bar fixed无效的问题 [4427d03]
+- 🐛 fix: 修复字体显示不一致的问题 [b38e29e]
+- 🐛 fix: 修复popup无法设置百分比高度的问题 [b483753]
+- 🐛 fix: 修复select参数传递错误 [a6d4429]
+- 🐛 fix: 修复pi-calendar范围选择模式，点击返回今日，选择报错的问题 [ad62348]
+- 🐛 fix: 修复pi-popup-select slot无法自定义布局的问题 [6076fc6]
+- 🐛 fix: 修复pi-grid-item缺少左侧边框的问题 [dd01dce]
+- 🐛 fix: 修复ios无法显示日历的bug [44f0ef6]
+- 🐛 fix: 修复pi-gird-item高度不对的问题 [e5ff311]
+- 🐛 fix: 修复date-picker变量未定义的问题 [d3e3e67]
+- 🐛 fix: 修复picker在小程序中无法点击的问题 [5599f6b]
+- 🐛 fix: 修复弹窗配置错误信息 [24375bd]
+- 🐛 fix: 修复点击态影响点击事情的问题 [b1a0e4b]
+- 🐛 fix: 修复构建报错 [50abde8]
+- 🐛 fix: 修复组件属性被覆盖的问题 [9f8f26f]
+- 🐛 fix: 修复pi-mask内容关闭遮罩层的问题 [262d34c]
+- 🐛 fix: 修复pi-swiper路径错误 [41c3a98]
+- 🐛 fix: 修复按钮事件默认冒泡 [62799d9]
+- 🐛 fix: 修复表单无法自动校验的问题 [5e43d52]
+- 🐛 fix: 修复组件样式错乱的问题 [d2fd1a9]
+- 🐛 fix: 修复组件名称导致真机报错的问题 [921cecc]
+- 🐛 fix: 修复手机号校验 [88d46a1]
+- 🐛 fix: switch组件disabled属性使用 [de04aa2]
+- 🐛 fix: 日期选择组件修复 [e55446e]
+- 🐛 fix: piui注释完善 [d39353f]
+- 🐛 fix: 修复toast接收title如果是数值，无法弹出的问题 [d92a91b]
+- 🐛 fix: 修改弹窗层级 [9a2835d]
+- 🐛 fix: 修复section extraStyle不生效的问题 [04f9879]
+- 🐛 fix: 修复在popup在tabbar页面弹窗位置不正确的问题 [476a625]
+- 🐛 fix: 修复list-item组件禁用无效的问题 [63b8391]
+- 🐛 fix: pi-grid-item去除index属性 [eee13c4]
+- 🐛 fix: 修复地区组件缺少参数的问题 [64b9ddd]
+- 🐛 fix: datePicker.js配置文件报错 [bd3b18b]
+- 🐛 fix: 修复导航栏z-index设置不生效问题 [ba05abf]
+- 🐛 fix: 完善pi-select组件的注释 [d67c6ad]
+- 🐛 fix: 修复pi-grid传递hoverclass没有覆盖pi-grid-item的问题 [2ac4a2f]
+- 🐛 fix: 修复pi-grid宫格布局无法居中的问题 [a9078db]
+- 🐛 fix: 修复css语法报错 [a777f17]
 
-* picker代码优化 ([512e48b](https://github.com/sadais-org/piui/commit/512e48bb0c7cddff286d535dd0db31445848cd9b))
+### Miscellaneous
 
+-  feat: countup组件初版 [aba54f9]
+-  :sparklrs: feat: pi-notify消息通知组件 [d95e8ea]
+-  feat: 更新属性 [329e661]
+-  fix: 路径错误 [b7e0d43]
+-  fix: 图片裁剪旋转后边界检测错误 [4f5ead8]
+-  feat: 添加pi-img-cropper [245b215]
+-  feat: 完善步骤条 [5d6d00f]
+-  feat: 步骤条新增描述属性 [d2faec4]
+-  feat: 步骤条组件开发（80%） [e7d32a6]
+- 📝 docs: 增加客服小助手微信扫码进群联系方式 [8420ce0]
+- 📝 docs: 文档更新 [28192ee]
+- 📝 docs: 更新文档 [432b2f8]
+- 📝 docs: 更新文档 [fd20aa9]
+- 📝 docs: 官网文档换成https [0e4f073]
+- 📝 docs: 更新说明文档 [2c104f6]
+- 📝 docs: 更新文档 [a42e7d7]
+-  fix:新增环形进度 [3f1f2db]
+-  fix: 更新版本号 [9262eb4]
+-  fix: 修复pi-marquee无法滚动的问题 [6f827ce]
+-  fix: 去除pi-marquee中itemStyle [98fbf9a]
+-  refactor: pi-pagination [a8356c8]
+-  feat: 新增分页组件 [5b79a9b]
+-  fix: 更新跑马灯 [5055af0]
+-  fix: 跑马灯兼容微信小程序 [ae56945]
+-  fix: pi-marquee速度改为每秒移动多少像素 [45f83ae]
+-  fix: 重构pi-marquee [825706a]
+-  fix: pi-marquee兼容性问题、更新speed无效的问题 [06550be]
+-  fix: 禁止marquee鼠标滚动 [375edb5]
+-  fix: marquee滚动间隙问题、暂停问题 [c5e2d09]
+-  fix: 跑马灯禁止鼠标滚动 fix: 跑马灯暂停动画 [8b831b4]
+-  fix: pi-marquee动画暂停 [aa48fd7]
+-  fix: Marquee组件name改为直接写 [786bcbe]
+-  fix: 更新pi-marquee注释 [7726ed4]
+-  fix: marqueebug [250a05d]
+-  fix: 格式化&amp;重命名marquee [5a83a1e]
+-  feat: pi-marquee跑马灯组件 [2c5130d]
+-  fix: 完善pi-grid-item最后一列的判断 feat: index属性注释写明必须从0开始 [12afd9a]
+-  fix: 修复组件报错 [0c12ddf]
+-  fix: 修复样式问题 [547a639]
+-  代码合并 [b6dbfd0]
+-  fix: 修复弹窗中点击事件问题 [8e125be]
+-  feat: 优化prop [73fa737]
+- 📝 docs: 抽取组件名称 [dc70444]
+-  fix: 更新pi-swiper路径引用错误 [d3d6ccf]
+-  fix: 组件名加上Pi前缀 [196cbf2]
+- 📝 docs: 注释修改 [6d3a5a9]
+- 📝 docs: 注释修改 [a10c3d7]
+-  fix: 修改pi-search注释 [3b205e9]
+-  fix: 修复searchIcon部分属性无效bug, 完善注释 [fcd257d]
+-  fix: 修改pi-regions-select顶部操作条样式 [8f22882]
+-  fix: 完善fix: 完善pi-picker注释 [73df9d9]
+-  fix: 完善pi-navbar注释 [7f6e68e]
+-  fix: 完善pi-navbar注释 [654f619]
+-  fix: 完善pi-mask注释 [3a0b937]
+-  fix: 修改pi-loading组件注释 [f745235]
+-  fix: 修复pi-loading设置文字尺寸和文字样式无效问题 [557bf0e]
+-  fix: 完善pi-list-item注释 [87904b8]
+- 📝 docs: 更新注释 [912eff9]
+- 📝 docs: 更新注释 [4131bc8]
+- 📝 docs: 完善list&amp;listItem样式 [ae90ed3]
+- 📝 docs: pi-list、pi-list-item、pi-loading文档相关注释调整 [814585d]
+- 📝 docs: 文档相关注释调整 [86e221e]
+- 📝 docs: gap、grid、grid-item文档相关注释调整 [0f8e98e]
+- 📝 docs: 完善pi-picker、pi-select的文档注释 [ae53c8a]
+- 📝 docs: pi-form文档相关注释补充 [c6f406a]
+- 📝 docs: form-item文档相关注释补充 [00b9470]
+- 📝 docs: divider、form文档相关注释调整 [a12e49a]
+- 📝 docs: checkbox、count-down、date-picker文档相关注释新增 [9d8933b]
+- 📝 docs: 完善pi-navbar的文档注释 [2ebe4a0]
+-  feat: 增加$pi.native的uniapi调用能力 [aaeddd6]
+- 📝 docs: 完善pi-modal的文档注释 🐛 fix: 组件宽/高若带小数点，单位丢失 [2a8baf9]
+-  fix: 更新duration解析日志输出 [08dbeb2]
+-  fix: 所有组件的duration支持:500 &#x27;500ms&#x27; &#x27;0.5s&#x27;  3中格式 [4386b57]
+-  style: pi-section标题不允许换行 [5499f25]
+-  fix: 更新code-input事件注释 [3a683c6]
+-  feat: 步长组件保留小数位 feat: 步长组件取整 [e3f3bf5]
+-  fix: stepper允许直接输入(不完善) [024d776]
+- 📝 docs: 地区选择90% [c963cd4]
+- 📝 docs: 地区选择器文档修改 [11aa14a]
+-  fix: 完善pi-radio-group [79af01c]
+-  fix: 完善pi-radio-group注释 [96a9e6f]
+-  fix: 完善pi-radio注释 [36730d2]
+- 📝 docs: 修改tabs文档90% [b3b4f9a]
+-  fix: radio注释 [4e795dd]
+-  fix: 完善pi-select注释 [4b1dd71]
+- 📝 docs: section组件文档修改 [c3c72dc]
+-  fix: tslint报错 [68eda20]
+-  fix: xx [a72fca0]
+-  fix: 合并修复switch组件size属性的bug [86c30cd]
+- 📝 docs: swiper添加注释文档内容 [d341786]
+-  fix: 完善switch组件的注释 [156f7d8]
+- 📝 docs: swiper修改 [07842cc]
+- 📝 docs: 修改状态栏文档 [aceaaa9]
+- 📝 docs: search添加事件文档 [1313aae]
+- 📝 docs: 修改search文档 [df29b70]
+- 📝 docs: 修改search文档 [1e77313]
+- 📝 docs: 修改search组件 [2466651]
+- 📝 docs: 修改搜索组件 [6910952]
+- 📝 docs: 搜索组件文档添加 [436bd69]
+-  feat: 初步完成骨架屏组件 [d4515ac]
+-  feat: 增加toast表单校验方式 [e609dfc]
+-  feat: 初步完成表单校验 [a65afbb]
+-  feat: 完善form校验 [ce35016]
+-  style: 优化勾选样式 [7318026]
+-  feat: 扩展checkbox组件 [1740b61]
+-  feat: 完善form组件 [747a8b8]
+-  feat: 完善form样式 [2a18f22]
+-  feat[version]: 发布1.0.47版本 [97cf301]
+-  feat: 新增radio组件 [888f94c]
+-  feat: 完善form表单 [c2d2b91]
+-  feat: 适配表单相关组件 [4db5103]
+-  fix: 修复自定义样式在组件上不生效的问题 [8376f12]
+-  feat[version]: 发布版本1.0.45 [4385174]
+-  feat: 增加section的样式 [51c522f]
+-  feat[search]: 增加自定义搜索图标样式 [a1ad337]
+-  feat: 完善form组件 [1e033f6]
+-  style: 标准化样式 [bf2b731]
+-  feat: 抽离日历组件面板 [5fc1377]
+-  fix: 修复小程序中还没滚动结束就点确定，导致选择出错 [672a694]
+-  refactor: pi-swiper优化 [a8fde26]
+-  feat: 新增pi-swiper插槽 [d16a115]
+-  fix: 修复pi-webview更改url无法触发加载的问题 [b5dacf9]
+-  feat: swiper增加imgField字段 [ae34c75]
+-  feat: 去掉样式!important修饰 [a55475e]
+-  feat: 更改pi-tab样式无法覆盖问题 [3969ea6]
+-  fix: 修复pi-search搜索清空无效的问题 [41f1f71]
+-  fix: 修复pi-search不能清空的问题 [5d872b1]
+-  feat: checkbox增加只读模式 [437ee11]
+-  feat: 修复搜索框无法清空的问题 [774a47a]
+-  feat: 修复pi-tabs宽度问题 [2f0aa7d]
+-  modal样式设置无效 [21c2693]
+-  feat: 优化微信授权 [a38c6af]
+-  feat: 更改pi-tab底部导轨长度缺失问题 [6801f13]
+-  fix: 修复日期控件格式化问题 [7ccc77d]
+-  feat: 增加webview组件 [bb40e63]
+-  feat: codeinput新增autoFocusDelay属性 [2e94186]
+-  feat: 新增code-input组件 [0c26380]
+-  fix: 修复pi-list 属性设置无效的问题 [1565626]
+-  feat: pi-stepper优化 [e5a4942]
+-  feat: 新增stepper组件 [8be4342]
+-  fix: 修复piui宫格布局边框无法设定的问题 [8a87337]
+-  feat: piui优化 [e72b861]
+-  feat: 1.0.7发布 [60f6d63]
+-  feat: pi-img加上红点和徽章 [1d6d005]
+-  feat: pi-select选项增加disabled属性 [fc0ea1a]
+-  feat: 1.0.6版本发布 [704fb77]
+-  feat: pi-search 增加设置icon的位置 [602cc7a]
+-  feat: pi-icon增加dot-radius红点半径属性 [207868f]
+-  fix: listitem 右侧类型不匹配bug fix [1f160df]
+-  fix: listitem右侧图标配置不生效的问题 [847c509]
+-  feat: 优化piui-listitem右侧图标展示方式 [a732210]
+-  docs: 注释完善 [18059f8]
+-  feat: 自动文档更新完善 [b6f7481]
+-  feat: 发布npm [b9a1137]
+-  fix: 修复弹窗圆角效果失效的问题 [22e3a89]
+-  docs: markdown文档生成支持 [6a84a3f]
+-  fix: 修复pi-select单选取消选择不生效问题 [9a19615]
+-  fix: 修复pi-select单选模式下取消选择返回默认值的问题 [f5db4b3]
+-  fix: 修复pi-select取消勾选项返回数据错乱问题 [b8d00cb]
+-  docs: 完善文档 [2dec511]
+-  fix: 修复错误 [451b5db]
+-  fix: 修复section &amp; tabs 隐藏sliderbar无效的问题 [2174c6a]
+-  docs: 更新文档 [48eac99]
+-  docs: picker文档更新 [dae4cb7]
+-  perf: picker代码优化 [512e48b]
+-  fix: 修复pi-modal点击事件bug [3ffcbdc]
+-  fix: 模态窗点击报错 [00f5190]
+-  fix: 修复按钮行号不一致的问题 [b2d0aeb]
+-  fix: 修复列表事件无法上报的问题 [eeadf15]
+-  fix: 部分组件需要事件上报 [b059436]
+-  fix: 修复事件在支付宝和头条小程序无法触发的问题 [ba807cb]
+-  feat: 修改readme [573f376]
+-  feat: 增加文档说明 [446013f]
+-  feat: 修复pigrid父子组件无法联动问题 [1b05321]
+-  feat: 新增picker组件 [3168fd9]
+-  fix: 修复初始化地址显示错误 [54295ac]
+-  feat: regions-select组件修改弹出窗默认值 [064ed93]
+-  feat: 完善地区选择组件 [111995f]
+-  fix: 修复地区选择控件位置计算错误问题 [c05a41c]
+-  feat: 优化界面展示 [b5d4e2e]
+-  fix: 修复pi-tabs下标超长报错 [893b5a7]
+-  feat: 修复tabs组件延时问题 [5b47d8b]
+-  feat: 完善地区选择控件 [25c83e9]
+-  fix: pi-tabs代码优化 [e94072f]
+-  feat: piui grid及tabs组件bug修复 [0802680]
+-  fix: 修复文案错误以及判断优化 [1c5236d]
+-  feat: 优化日期选择当前pickerValue显示 [546fd21]
+-  feat: 更改导航默认状态栏底色为透明 [de392d4]
+-  feat: 增加设置激活颜色 [8b4407b]
+-  feat: 增加轮播图组件 [72da085]
+-  feat: 初始化swiper组件 [c93523b]
+-  fix: 修复date-picker 12 月选不中的问题 [afd5f17]
+-  feat: 完事date-picker [fd7a8c2]
+-  fix: 修改导航栏配置文件 状态栏背景色默认白色 [bb03776]
+-  fix: 修复storage获取失败的问题 [6d1c546]
+-  feat: tabs增加配置项 [ef3c50e]
+-  feat: loading默认设置mask [e0792d9]
+-  feat: 新增属性配置文字选中状态颜色 [857fea7]
+-  feat: 修复倒计时文字不居中的问题 [89643a3]
+-  feat: 更改默认动画 [4c3a439]
+-  feat: 按钮尺寸标志修改 [bdd9ae4]
+-  feat: 优化动画执行函数 [c8ee39d]
+-  feat: 倒计时设置默认字体大小 [8ce6761]
+-  fix: 修复倒计时样式不居中的问题 [99074c3]
+-  feat: pi-img添加点击事件&amp;validate添加密码校验方法 [baf9052]
+-  feat: 完善倒计时生命周期 [c5be002]
+-  feat: 新增倒计时组件 [9540b6b]
+-  feat: 初始化倒计时组件 [6a140a5]
+-  feat: 修复进度条文字不居中的问题 [6b4e9ad]
+-  fix: 修复按钮触发两次的问题 [475fd03]
+-  fix: 修复decodeParams返回数据格式错误问题 [c746df2]
+-  feat: 去掉customClass重复引用 [9c2ab50]
+-  fix: 修复图片高度不对 [e3d9bdc]
+-  feat: 更改关闭按钮颜色 [0887234]
+-  fix: 修复pi-select height属性无效的问题 [5ba5695]
+-  fix: 修复pi-line-progress进度过少时显示不正常 [719177f]
+-  feat: 修改默认配置 [aa0b6ea]
+-  feat: 完善选择器pi-select [64fc6e4]
+-  feat: 增加新特性 [28fe3cc]
+-  feat: 增加pi-gap间隔槽插件 [22ab4fe]
+-  feat: pi-line-progress增加width属性 [d995337]
+-  fix: 修复进度条默认动态展示的效果 [2ef00c6]
+-  feat: 完成pi-line-progress组件 [8b7ebf4]
+-  feat: 优化打印日志 [d91bf43]
+-  fix: 修改extraStyle无效问题 [0baf5ef]
+-  fix: 修复按钮自定义样式不生效的问题 [6c1e4d9]
+-  feat: 同步点击态时间 [d816c1c]
+-  piui: 父子组件信息同步方法重构 [5baa06a]
+-  feat: 修改列表按下默认hover时间 [2356bf3]
+-  feat: 优化piui转场动画 [447a076]
+-  feat: 增加转场效果 [226216d]
+-  feat: pi-navbar支持默认显示 [d597495]
+-  feat: 完善pi-list pi-section [6ea36a6]
+-  feat: 完善列表项 [b3784ec]
+-  feat: 完善pi-list-item [7ec907d]
+-  feat: 宫格布局适配小程序 [8fbd01c]
+-  feat: 1. 接入宫格布局 2. 优化代码结构 [be2fb23]
+-  feat: 接入导航栏内嵌tabs效果 [866dcc5]
+-  feat: 导航栏新增微信胶囊样式 [1fb48d1]
+-  feat: 代码格式化 [f1285f8]
+-  feat: 完善pi-switch [70778c5]
+-  feat: 优化导航栏和状态栏 [75b5bef]
+-  feat: 完善导航栏组件 [0a58f9a]
+-  feat: 完善按钮以及底部栏 [155f5a4]
+-  feat: 完善pi-checkbox [b75bc41]
+-  feat: 完善pi-checkbox [13665d5]
+-  fix: 修复支付宝小程序pi-tabs滚动无效的问题 [441c2fb]
+-  feat: 完善pi-tab导航组件 [e7cc5c9]
+-  feat: 完善pi-checkbox-group [eb9874f]
+-  feat: 完善pi-checkbox [9ca6883]
+-  fix: 修复pi-search动态style在小程序不生效的问题 [31b93ad]
+-  feat: 适配支付宝小程序 [8d2e079]
+-  feat: 兼容支付宝小程序 [c1043bf]
+-  feat: 初始化多选组件 [e4a35c8]
+-  feat: 初始化多选组件 [cf59550]
+-  fix: 修复navi.js转换失败问题 [73804df]
+-  feat: 优化样式动态绑定过长的问题 [ab73b14]
+-  feat: 完成pi-modal模态窗 [df7d049]
+-  feat: 初步完成图片组件 [34de056]
+-  style: 去除多余注释 [0786011]
+-  feat: 新增select组件 [46dbefb]
+-  feat: piui配置支持继承合并 [d19c890]
+-  feat: 完善日历选择组件 [7b0f843]
+-  feat: 增加组件全局的样式自定义mixin [fdbe685]
+-  feat: 完成pi-button组件 [8a736ef]
+-  feat: 初步完成日历组件 [91a877f]
+-  feat: 增加popup关闭按钮 [7919dc4]
+-  fix: 修复calendar拼写错误 [1c30c21]
+-  feat: 简化$piTools为$pi [5c25ac0]
+-  feat: 初始化日历界面 [b26e8ca]
+-  fix: eslint报错 [cb657f8]
+-  feat: 增加loading组件 [ba5d108]
+-  feat: divider增加contentPosition属性处理 [0081938]
+-  feat: divider组件完成 [58207ea]
+-  feat: 优化piui install console.log [e7afc37]
+-  feat: 新增popup组件 [98e5824]
+-  fix: 修复导航在小程序平台显示不正常的问题 [a9cec7d]
+-  feat: 完善遮罩层 [bda223b]
+-  feat: 优化pi-search组件 [d4126e6]
+-  feat: 完善pi-search组件 [587f603]
+-  feat: piui 代码精简，优化 [9c4750b]
+-  feat: 完善pi-navbar [398bce0]
+-  feat: 完成初步组件架构 [9d68651]
+-  feat: 删除旧组件代码 [1185726]
+-  feat: 完善图标和工具类 [6c20670]
+-  feat: 增加工具库 [3882fbd]
+-  feat: 增加iconfont注释 [ee05141]
+-  feat: 更新iconfont样式 [fc40378]
+-  feat: 变量和样式的一些重构 [ea0bfaa]
+-  style: 代码格式化 [ab6d456]
+-  feat: 初始化预设样式 [95e77f9]
+-  feat: 初始化提交 [f4abca2]
 
 
