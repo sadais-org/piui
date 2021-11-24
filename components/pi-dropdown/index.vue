@@ -305,7 +305,6 @@ export default {
     position: absolute;
     background: #ffffff;
     border-radius: 12rpx;
-    box-shadow: 0 0 8rpx 0 #edeef1;
   }
   .pi-dropdown-mask {
     top: -9999px;
