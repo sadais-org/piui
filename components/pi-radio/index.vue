@@ -332,7 +332,7 @@ $unactive-color: #cccccc;
     .radio-label {
       color: $pi-primary-color;
       &.button {
-        box-shadow: -2px 0 0 0 $pi-primary-color;
+        box-shadow: -4rpx 0 0 0 $pi-primary-color;
       }
     }
     &.line,

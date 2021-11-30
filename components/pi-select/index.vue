@@ -19,7 +19,12 @@
   >
     <view class="pi-select pi-h-100P pi-flex-column" :style="[customStyle]" :class="[customClass]">
       <slot name="header" />
-      <scroll-view scroll-y class="pi-scroll">
+      <scroll-view
+        scroll-y
+        class="pi-scroll"
+        :scroll-into-view="getFirstSelectedId"
+        scroll-with-animation
+      >
         <view
           v-for="item in getItems"
           :id="`id-${item[keyField]}`"
@@ -265,6 +270,11 @@ export default {
         item.isSelected = isSelected
         return item
       })
+    },
+    getFirstSelectedId() {
+      const firstSelected = this.selected[0] || this.selected
+      const firstSelectedId = firstSelected[this.keyField]
+      return firstSelectedId ? `id-${firstSelected[this.keyField]}` : ''
     }
   },
   watch: {
