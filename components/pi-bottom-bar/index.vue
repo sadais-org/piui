@@ -131,5 +131,9 @@ export default {
     left: 0;
     z-index: 99;
   }
+  ::v-deep .pi-button[size] {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 </style>
