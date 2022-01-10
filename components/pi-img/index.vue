@@ -11,6 +11,7 @@
         :mode="mode"
         :lazy-load="lazyLoad"
         :style="[rectStyle, imageStyle]"
+        :show-menu-by-longpress="showMenuByLongpress"
         @error="handleError"
         @load="handleLoad"
       />
