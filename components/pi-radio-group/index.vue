@@ -37,7 +37,8 @@ export default {
       'size',
       'iconSize',
       'activeColor',
-      'activeMode'
+      'activeMode',
+      'canCancel'
     ])
   ], // 注入value与val，进行双向绑定
   options: {
@@ -137,6 +138,12 @@ export default {
       validator: function(value) {
         return ['', 'line', 'line-circle', 'fill', 'fill-circle'].includes(value)
       }
+    },
+    // 能否取消选中状态
+    canCancel: {
+      type: Boolean,
+      // null
+      default: radioGroup.canCancel
     }
   },
   methods: {
@@ -146,7 +153,19 @@ export default {
      * @arg pi-radio的name属性值
      */
     emitChange(childName) {
-      this.val = childName
+      let canCancel = this.canCancel
+      if (!canCancel) {
+        this._children.forEach(child => {
+          if (child.name === childName) {
+            canCancel = child.getCanCancel
+          }
+        })
+      }
+      if (canCancel && this.val === childName) {
+        this.val = ''
+      } else {
+        this.val = childName
+      }
       this.handleEmitChange()
     }
   }

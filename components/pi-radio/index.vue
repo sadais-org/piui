@@ -127,6 +127,12 @@ export default {
       validator: function(value) {
         return ['line', 'line-circle', 'fill', 'fill-circle'].includes(value)
       }
+    },
+    // 能否取消选中状态
+    canCancel: {
+      type: Boolean,
+      // false
+      default: radio.canCancel
     }
   },
   data() {
@@ -171,6 +177,9 @@ export default {
       return this.inheritProps.iconSize
         ? this.$pi.common.addUnit(this.inheritProps.iconSize)
         : this.$pi.common.addUnit(this.iconSize)
+    },
+    getCanCancel() {
+      return this.inheritProps.canCancel !== null ? this.inheritProps.canCancel : this.canCancel
     },
     radioStyle() {
       const style = {
