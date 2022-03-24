@@ -30,7 +30,7 @@
       @focus="handleFocus"
       @blur="handleBlur"
       @confirm="handleConfirm"
-      @keyboardheightchange="handlekeyboardHeightChange"
+      @keyboardheightchange="$emit('keyboardheightchange', $event)"
       @linechange="$emit('linechange', $event)"
     />
     <input
