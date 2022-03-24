@@ -246,19 +246,17 @@ export default {
   },
   computed: {
     getShowRightIcon() {
-      return this.inheritProps.showRightIcon !== null
-        ? this.inheritProps.showRightIcon
-        : this.showRightIcon
+      return this.$pi.expand.getPropValue(this.inheritProps.showRightIcon, this.showRightIcon)
     },
     getRightIcon() {
       const rightIcon = this.$pi.lang.mergeDeep(this.inheritProps.rightIcon, this.rightIcon)
       return this.$pi.lang.mergeDeep(formItem.rightIcon, rightIcon)
     },
     getBorder() {
-      return this.inheritProps.border !== null ? this.inheritProps.border : this.border
+      return this.$pi.expand.getPropValue(this.inheritProps.border, this.border)
     },
     getWrap() {
-      return this.inheritProps.wrap !== null ? this.inheritProps.wrap : this.wrap
+      return this.$pi.expand.getPropValue(this.inheritProps.wrap, this.wrap)
     },
     getLabelWrapBorder() {
       return this.inheritProps.labelWrapBorder !== null
@@ -266,26 +264,26 @@ export default {
         : this.labelWrapBorder
     },
     getColon() {
-      return this.inheritProps.colon !== null ? this.inheritProps.colon : this.colon
+      return this.$pi.expand.getPropValue(this.inheritProps.colon, this.colon)
     },
     getDisabled() {
-      return this.inheritProps.disabled !== null ? this.inheritProps.disabled : this.disabled
+      return this.$pi.expand.getPropValue(this.inheritProps.disabled, this.disabled)
     },
     getLabelAlign() {
-      return this.inheritProps.labelAlign !== null ? this.inheritProps.labelAlign : this.labelAlign
+      return this.$pi.expand.getPropValue(this.inheritProps.labelAlign, this.labelAlign)
     },
     getInputAlign() {
-      return this.inheritProps.inputAlign !== null ? this.inheritProps.inputAlign : this.inputAlign
+      return this.$pi.expand.getPropValue(this.inheritProps.inputAlign, this.inputAlign)
     },
     getErrorType() {
       return this.inheritProps.errorType
     },
     getPadding() {
-      const padding = this.inheritProps.padding !== null ? this.inheritProps.padding : this.padding
+      const padding = this.$pi.expand.getPropValue(this.inheritProps.padding, this.padding)
       return this.$pi.common.addUnit(padding)
     },
     getHeight() {
-      const height = this.inheritProps.height !== null ? this.inheritProps.height : this.height
+      const height = this.$pi.expand.getPropValue(this.inheritProps.height, this.height)
       return this.$pi.common.addUnit(height)
     },
     itemStyle() {
@@ -296,7 +294,7 @@ export default {
       return style
     },
     getLabelStyle() {
-      return this.inheritProps.labelStyle !== null ? this.inheritProps.labelStyle : this.labelStyle
+      return this.$pi.expand.getPropValue(this.inheritProps.labelStyle, this.labelStyle)
     },
     computedLabelStyle() {
       const style = {}
