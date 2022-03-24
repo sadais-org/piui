@@ -62,12 +62,12 @@ export default {
     },
     // 按钮的预置样式
     type: {
-      // `'default'` `'primary'` `'warn'` `'secondary'` `'line'`
+      // `'default'` `'primary'` `'warn'` `'secondary'` `'line'` `text`
       type: String,
       // 'default'
       default: button.type,
       validator: function(value) {
-        return ['default', 'primary', 'warn', 'secondary', 'line'].includes(value)
+        return ['default', 'primary', 'warn', 'secondary', 'line', 'text'].includes(value)
       }
     },
     // 按钮是否镂空
@@ -455,6 +455,16 @@ export default {
     background-color: #ffffff;
     &::after {
       border: 8rpx solid $pi-primary-color;
+    }
+  }
+  &.button-hover[type='line'] {
+    background-color: rgba($pi-primary-color, 0.08);
+  }
+
+  &[type='text'] {
+    background-color: transparent;
+    &::after {
+      border: none;
     }
   }
   &.button-hover[type='line'] {
