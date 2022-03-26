@@ -816,3 +816,8 @@ uni-toast {
 .pi-h-100P {
   height: 100%;
 }
+
+.pi-disabled {
+  opacity: $pi-disabled-opacity;
+  cursor: not-allowed;
+}

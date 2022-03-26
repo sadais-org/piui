@@ -351,7 +351,7 @@ export default {
      */
     handleCancel() {
       this.$emit('cancel')
-      this.onCancelClose && this.handlePopupClose()
+      this.getPopupSelect.onCancelClose && this.handlePopupClose()
     },
     /**
      * @vuese
