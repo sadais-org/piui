@@ -11,6 +11,7 @@ export default {
   defaultValue: null, // 默认值，单选是传Object，多选时传Array，默认null
   isMulti: false, // 是否多选，（默认：false）
   singleCancel: true, // 单选模式下，是否可取消选中
+  singleConfirm: false, // 单选模式下，是否直接选中，不需要点击确认按钮（需要设置singleCancel：false）
   itemHeight: 110, // 行高（默认：'110rpx'）
   showItemBottomBorder: true, // 是否显示item下边框（默认：'true'）
   itemStyle: {}, // 行样式（默认：'{}'）

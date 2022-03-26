@@ -155,6 +155,12 @@ export default {
       // true
       default: select.singleCancel
     },
+    // 单选模式下，是否直接选中，不需要点击确认按钮
+    singleConfirm: {
+      type: Boolean,
+      // false
+      default: select.singleConfirm
+    },
     // 行高 值为数字，则单位默认rpx
     itemHeight: {
       type: [String, Number],
@@ -235,7 +241,11 @@ export default {
       return this.$pi.lang.mergeDeep(select.selectedCheckbox, this.selectedCheckbox)
     },
     getPopupSelect() {
-      return this.$pi.lang.mergeDeep(select.popupSelect, this.popupSelect)
+      const popupSelect = this.$pi.lang.mergeDeep(select.popupSelect, this.popupSelect)
+      if (!this.singleCancel && this.singleConfirm) {
+        popupSelect.toolbarPosition = 'none'
+      }
+      return popupSelect
     },
     getConfirmBtn() {
       const selectConfirmBtn = this.$pi.lang.mergeDeep(
@@ -303,6 +313,7 @@ export default {
         // 单选
         if (!this.singleCancel) {
           this.selected = item
+          this.singleConfirm && this.handleConfirm()
           return
         }
         // 如果单选允许取消，需要判断是否点击了同一个选项
