@@ -1,5 +1,32 @@
 # Changelog
 
+<a name="1.2.3"></a>
+## 1.2.3 (2022-03-26)
+
+### Added
+
+- ✨ feat: pi-select增加single-confirm选项配置 [def559e]
+- ✨ feat: 增加pi-action-sheet组件 [bf179cd]
+- ✨ feat: 增加文字按钮类型 [767a4a6]
+- ✨ feat: pi-radio pi-radio-group 增加canCancel属性 [7874058]
+- ✨ feat: 优化pi-bottom-bar下按钮显示字数 [a671bd6]
+
+### Changed
+
+- 🎨 chore: 增加 changelog 命令 [51238e6]
+
+### Fixed
+
+- 🐛 fix: 修复input组件keyboardheightchange方法没有声明的问题 [6d26acf]
+- 🐛 fix: 修复表单属性无法覆盖的问题 [b7308e5]
+- 🐛 fix: 修复主题颜色被覆盖的问题 [12666d2]
+- 🐛 fix: 修复pi-img缺失show-menu-by-longpress的问题 [be8a020]
+
+### Miscellaneous
+
+- 📝 docs: 更新群二维码信息 [796040f]
+
+
 <a name="1.2.0"></a>
 ## 1.2.0 (2021-11-24)
 

@@ -150,7 +150,7 @@ export default {
     },
     itemAlign: {
       type: String,
-      // 'left'
+      // 'center'
       default: actionSheet.itemAlign,
       validator: function(value) {
         return ['left', 'center', 'right'].includes(value)
