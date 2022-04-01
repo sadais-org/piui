@@ -59,6 +59,8 @@ const TAG = 'PiRegionsSelect'
 const { regionsSelect } = getConfig()
 const PLEASE_SELECT_TIP = '请选择'
 
+
+
 export default {
   name: 'PiRegionsSelect',
   // 混入v-model
@@ -237,14 +239,19 @@ export default {
       handler(value) {
         this.init()
       }
+    },
+    regionsData: {
+      handler(value) {
+        this.init()
+      }
     }
   },
   methods: {
     init() {
-      if (this.defaultValue) {
-        const regions = this.$pi.regions.parseRegions(this.defaultValue.code, this.regionsData)
-        this.regions = regions
-      }
+      console.log(TAG, '地区选择组件初始化')
+      const defaultCode = this.defaultValue ? this.defaultValue.code : ''
+      const regions = this.$pi.regions.parseRegions(defaultCode, this.regionsData)
+      this.regions = regions
       // 默认都是展示tab最后一个列表
       this.tabCurrentItem = this.getTabItems[this.getTabItems.length - 1]
     },
