@@ -223,7 +223,7 @@ export default {
       return this.minDate ? this.$pi.date.parseDate(this.minDate) : ''
     },
     getMaxDate() {
-      return this.minDate ? this.$pi.date.parseDate(this.maxDate) : ''
+      return this.maxDate ? this.$pi.date.parseDate(this.maxDate) : ''
     },
     isMinYear() {
       return this.year === parseInt(this.minYear, 10)
