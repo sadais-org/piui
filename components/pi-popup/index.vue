@@ -14,7 +14,7 @@
         'animation-duration': getDuration.css
       }
     ]"
-    @touchmove.stop.prevent
+    @touchmove.stop.prevent="() => {}"
     @tap.stop.prevent="handleCloseMask"
   >
     <view
@@ -35,7 +35,7 @@
         positionStyle,
         customStyle
       ]"
-      @tap.stop.prevent
+      @tap.stop.prevent="() => {}"
     >
       <!-- 关闭图标 -->
       <view

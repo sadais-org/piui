@@ -4,7 +4,7 @@
     class="pi-skeleton-wrap"
     :style="[customStyle, skeletonContainStyle]"
     :class="[customClass]"
-    @touchmove.stop.prevent
+    @touchmove.stop.prevent="() => {}"
   >
     <view
       v-for="(node, index) in skeletonNodes"

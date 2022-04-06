@@ -16,11 +16,11 @@
         'animation-duration': getDuration.css
       }
     ]"
-    @touchmove.stop.prevent
+    @touchmove.stop.prevent="() => {}"
     @tap.stop.prevent="handleCloseMask"
   >
     <!-- 遮罩层内区域插槽 -->
-    <view @tap.stop.prevent><slot /></view>
+    <view @tap.stop.prevent="() => {}"><slot /></view>
   </view>
 </template>
 

@@ -300,7 +300,6 @@ export default {
   },
   watch: {
     value(val) {
-      console.log(val)
       this.init()
     }
   },
@@ -401,8 +400,10 @@ export default {
       this.calendarValue = calendarValue
       this.val =
         this.type === 'range'
-          ? this.calendarValue.map(cv => cv.format(this.dateFormat))
-          : this.calendarValue.format(this.dateFormat)
+          ? this.calendarValue.map(cv =>
+              this.$pi.date.formatDate(new Date(cv.timestamp), this.dateFormat)
+            )
+          : this.$pi.date.formatDate(new Date(this.calendarValue.timestamp), this.dateFormat)
       this.handleEmitChange()
     }
   }

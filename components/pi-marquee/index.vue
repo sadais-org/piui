@@ -5,8 +5,8 @@
     :class="[customClass, isVertical ? 'vertical' : '']"
     @mouseenter="handlePause"
     @mouseleave="handleStart"
-    @touchmove.stop.prevent
-    @mousewheel.stop.prevent
+    @touchmove.stop.prevent="() => {}"
+    @mousewheel.stop.prevent="() => {}"
   >
     <view class="inner-wrap" :class="direction" :style="[animate]">
       <view v-for="(marqueeItems, index) in getItems" :key="index" class="inner">
