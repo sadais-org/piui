@@ -299,8 +299,10 @@ export default {
     }
   },
   watch: {
-    value(val) {
-      this.init()
+    value(newVal, oldVal) {
+      if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+        this.init()
+      }
     }
   },
   created() {
@@ -311,7 +313,6 @@ export default {
       if (this.type === 'date') return true
       if (this.type === 'range' && this.$pi.lang.isArray(this.value) && this.value.length === 2)
         return true
-      console.error(TAG, 'value 参数不合法，请检查')
       return false
     },
     init() {
@@ -324,11 +325,11 @@ export default {
           this.year = nowDate.year
           this.month = nowDate.month
         }
-        this.calendarValue = [nowDate, endDate]
+        this.handleChange([nowDate, endDate])
       } else {
         this.year = nowDate.year
         this.month = nowDate.month
-        this.calendarValue = nowDate
+        this.handleChange(nowDate)
       }
     },
     isSameDay(day1, day2) {
@@ -357,7 +358,7 @@ export default {
       // 处理范围选择方式
       if (this.calendarValue.length === 2) {
         // 如果选了两项，则重新开始选择范围
-        this.calendarValue = [date]
+        this.handleChange([date])
       } else {
         // 如果第二项选择的和第一项一样，不做处理
         const isSameDay = this.isSameDay(this.calendarValue[0], date)
@@ -393,7 +394,7 @@ export default {
       this.year = this.now.year
       this.month = this.now.month
       if (this.type === 'date') {
-        this.calendarValue = this.now
+        this.handleChange(this.now)
       }
     },
     handleChange(calendarValue) {

@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2021-11-17 11:30:50
+ * @LastEditTime: 2022-04-07 11:51:44
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -340,7 +340,7 @@ export default {
         ? this.beforeRemove.fn
         : this.beforeRemove
       if (this.$pi.lang.isFunction(beforeRemove)) {
-        // 上传之前的钩子， 如果定义了则使用钩子上传文件
+        // 删除之前的钩子， 如果定义了则使用钩子删除文件
         val = await beforeRemove(index)
       } else {
         val = this.isValString ? '' : this.val.filter((_, i) => i !== index)
