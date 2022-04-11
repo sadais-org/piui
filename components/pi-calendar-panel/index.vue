@@ -284,6 +284,9 @@ export default {
           // type 为 range 开始和结束的提示
           if (isBegin) day.tip = this.startText
           if (isEnd) day.tip = this.endText
+          if (isBegin && isEnd) {
+            day.tip = this.startText + '-' + this.endText
+          }
         }
         // 当天样式
         if (this.showBackToday && this.isSameDay(this.now, day)) {
@@ -316,8 +319,9 @@ export default {
       return false
     },
     init() {
-      console.log(TAG, '组件初始化')
+      console.log(TAG, '组件初始化', this.value)
       if (!this.valid()) return
+      let initValue = this.value
       const nowDate = this.$pi.date.parseDate(this.type === 'date' ? this.value : this.value[0])
       if (this.type === 'range') {
         const endDate = this.$pi.date.parseDate(this.value[1])
@@ -325,12 +329,13 @@ export default {
           this.year = nowDate.year
           this.month = nowDate.month
         }
-        this.handleChange([nowDate, endDate])
+        initValue = [nowDate, endDate]
       } else {
         this.year = nowDate.year
         this.month = nowDate.month
-        this.handleChange(nowDate)
+        initValue = nowDate
       }
+      this.value && this.handleChange(initValue)
     },
     isSameDay(day1, day2) {
       return (
@@ -360,9 +365,6 @@ export default {
         // 如果选了两项，则重新开始选择范围
         this.handleChange([date])
       } else {
-        // 如果第二项选择的和第一项一样，不做处理
-        const isSameDay = this.isSameDay(this.calendarValue[0], date)
-        if (isSameDay) return
         // 和第一项判断大小，小的放前面
         if (date.timestamp > this.calendarValue[0].timestamp) {
           this.handleChange([this.calendarValue[0], date])
