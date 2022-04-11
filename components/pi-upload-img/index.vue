@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2022-04-07 11:51:44
+ * @LastEditTime: 2022-04-11 18:37:41
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
- * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
+ * @FilePath: \piui-awesome\src\piui\components\pi-upload-img\index.vue
 -->
 
 <template>
@@ -414,7 +414,7 @@ export default {
           }
 
           // ---------- 解析上传结果 ----------
-
+          this.$emit('uploaded', uploadResult)
           const item = await parseResultFn(uploadResult)
           if (item) {
             this.isValString ? (this.val = item) : this.val.push(item)
@@ -422,6 +422,7 @@ export default {
           }
         }
       } catch (e) {
+        console.log(TAG, '上传文件失败', e)
         this.$emit('fail', e)
       }
     },
@@ -471,6 +472,7 @@ export default {
         }
         this.handleUpload(tempFilePaths)
       } catch (error) {
+        console.log(TAG, '上传文件失败', e)
         this.$emit('fail', error)
       }
     }
