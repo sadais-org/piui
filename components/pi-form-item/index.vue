@@ -175,7 +175,7 @@ export default {
         return formItem.labelAlign
       },
       validator: function(value) {
-        return ['left', 'center', 'right'].includes(value)
+        return [null, 'left', 'center', 'right'].includes(value)
       }
     },
     // 表单输入区域 label 对齐方式
@@ -187,7 +187,7 @@ export default {
         return formItem.inputAlign
       },
       validator: function(value) {
-        return ['left', 'center', 'right'].includes(value)
+        return [null, 'left', 'center', 'right'].includes(value)
       }
     },
     // 是否以换行样式显示表单
