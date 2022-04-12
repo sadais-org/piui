@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2022-04-11 18:37:41
+ * @LastEditTime: 2022-04-12 09:11:41
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
- * @FilePath: \piui-awesome\src\piui\components\pi-upload-img\index.vue
+ * @FilePath: \hfmp-checkin-frontc:\Users\feilin\workspace\sadais\piui-awesome\src\piui\components\pi-upload-img\index.vue
 -->
 
 <template>
@@ -345,6 +345,7 @@ export default {
       } else {
         val = this.isValString ? '' : this.val.filter((_, i) => i !== index)
       }
+      this.$emit('remove', index)
       this.val = val
       this.handleEmitChange()
     },
@@ -428,15 +429,18 @@ export default {
     },
     handleCrop(res) {
       console.log(TAG, '处理剪裁')
+      this.$emit('crop', res.img)
       this.cropedPic = res.img
     },
     handleCancelCrop() {
       console.log(TAG, '取消剪裁')
+      this.$emit('cancelCrop')
       this.showCrop = false
       this.cropPic = ''
     },
     handleCompelteCrop() {
       console.log(TAG, '完成剪裁')
+      this.$emit('croped', [this.cropedPic])
       this.showCrop = false
       this.handleUpload([this.cropedPic])
     },
