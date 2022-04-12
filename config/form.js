@@ -10,7 +10,7 @@ export default {
   padding: null, // padding
   labelWidth: 120, // 表单项 label 宽度，默认单位为rpx
   labelAlign: 'left', // 表单项 label 对齐方式，可选值为 left center right
-  labelStyle: null, // 表单项 label样式
+  labelStyle: {}, // 表单项 label样式
   inputAlign: 'right', // 表单输入区域 label 对齐方式，可选值为 left center right
   wrap: false, // 是否以换行样式显示表单
   labelWrapBorder: false, // wrap样式label是否显示边框
