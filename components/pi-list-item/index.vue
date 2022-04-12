@@ -22,7 +22,7 @@
     </view>
 
     <!-- 标题和描述 -->
-    <view v-if="title || desc">
+    <view v-if="title || desc" class="title-wrap">
       <view v-if="title" :style="[titleStyle]" class="list-item-title">{{ title }}</view>
       <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{ desc }}</view>
     </view>
@@ -307,6 +307,10 @@ export default {
 .pi-list-item {
   height: $pi-form-item-height;
   line-height: 1;
+  .title-wrap {
+    max-width: 100%;
+    overflow: hidden;
+  }
   .list-item-title {
     font-size: $pi-list-title-fontsize;
     color: $pi-list-title-color;
