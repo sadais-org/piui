@@ -25,6 +25,8 @@
       :class="[customClass]"
       :indicator-style="indicatorStyle"
       :value="pickerValue"
+      @pickstart="handlePickstart"
+      @pickend="handlePickend"
       @change="handleDateChange"
     >
       <picker-view-column>
@@ -195,7 +197,8 @@ export default {
   data() {
     const date = this.$pi.date.parseDate(this.defaultValue)
     return {
-      date
+      date,
+      scrolling: false // picker是否在滚动中，小程序在scrolling中点确定，选择的项目不正确
     }
   },
   computed: {
@@ -207,7 +210,11 @@ export default {
         datePicker.confirmBtn,
         this.popupSelect.confirmBtn
       )
-      return this.$pi.lang.mergeDeep(datePickerConfirmBtn, this.confirmBtn)
+      const mergeConfirmBtn = this.$pi.lang.mergeDeep(datePickerConfirmBtn, this.confirmBtn)
+      if (!mergeConfirmBtn.disabled) {
+        mergeConfirmBtn.disabled = this.scrolling
+      }
+      return mergeConfirmBtn
     },
     getCancelBtn() {
       const datePickerCancelBtn = this.$pi.lang.mergeDeep(
@@ -311,6 +318,13 @@ export default {
   methods: {
     init() {
       this.date = this.$pi.date.parseDate(this.defaultValue)
+    },
+    handlePickstart() {
+      this.scrolling = true
+    },
+    // 标识滑动结束
+    handlePickend() {
+      this.scrolling = false
     },
     handlePopupClose() {
       this.val = false
