@@ -180,7 +180,7 @@ export default {
 
   @for $i from 1 through 12 {
     view:nth-of-type(#{$i}) {
-      opacity: 1 - (0.75 / 12) * ($i - 1);
+      opacity: 1 - 0.0625 * ($i - 1);
       transform: rotate($i * 30deg);
     }
   }
