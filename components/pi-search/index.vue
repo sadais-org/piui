@@ -337,7 +337,7 @@ export default {
     },
     handleActionClick() {
       // 点击按钮时触发
-      this.$emit('action')
+      this.$emit('action', this.val)
     }
   }
 }
