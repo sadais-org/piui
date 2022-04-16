@@ -36,11 +36,12 @@ export default {
       return arr.slice(0, 16).join('')
     },
     draw() {
+      let ctx
       // #ifdef MP-ALIPAY
-      const ctx = uni.createCanvasContext(this.canvasId)
+      ctx = uni.createCanvasContext(this.canvasId)
       // #endif
       // #ifndef MP-ALIPAY
-      const ctx = uni.createCanvasContext(this.canvasId, this)
+      ctx = uni.createCanvasContext(this.canvasId, this)
       // #endif
       ctx.save()
       // 填充裁剪窗口
@@ -52,18 +53,11 @@ export default {
         width: this.crop.width,
         height: this.crop.height
       })
-      ctx.fillRect(
-        0,
-        0,
-        this.crop.width * this.canvasZoom,
-        this.crop.height * this.canvasZoom
-      )
+      ctx.fillRect(0, 0, this.crop.width * this.canvasZoom, this.crop.height * this.canvasZoom)
       // 将画布的坐标原点 移动到裁剪窗口左上角对应的那个像素点的位置
       ctx.translate(
-        (this.img.width * 0.5 + this.img.transform.x - this.crop.left) *
-          this.canvasZoom,
-        (this.img.height * 0.5 + this.img.transform.y - this.crop.top) *
-          this.canvasZoom
+        (this.img.width * 0.5 + this.img.transform.x - this.crop.left) * this.canvasZoom,
+        (this.img.height * 0.5 + this.img.transform.y - this.crop.top) * this.canvasZoom
       )
       // 旋转图片
       ctx.rotate((this.img.transform.rotate * Math.PI) / 180)
@@ -94,7 +88,7 @@ export default {
             canvasId: this.canvasId,
             quality: this.quality,
             fileType: this.fileTpe,
-            success: (res) => {
+            success: res => {
               // 裁剪成功
               // @arg 参数1 结构：{ img: 本地路径 or base64(h5端), width, height }
               this.$emit('cropped', {
