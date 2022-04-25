@@ -1,10 +1,16 @@
 # Changelog
 
-<a name="1.2.3"></a>
-## 1.2.3 (2022-03-26)
+<a name="1.2.5"></a>
+## 1.2.5 (2022-04-25)
 
 ### Added
 
+- ✨ feat: 增加pi-search的action事件返回参数 [d32d620]
+- ✨ feat: 优化日期选择器，增加滚动中不可确认的功能 [8c6af79]
+- ✨ feat: 增加了图片处理事件的抛出（remove，crop，cancelCrop，croped） [7ab0f42]
+- ✨ feat: 图片上传组件增加uploaded事件 [fa84748]
+- ✨ feat: 日历组件范围支持选择同一天 [76db20f]
+- ✨ feat: 修复日历组件无法选中的问题 [9978654]
 - ✨ feat: pi-select增加single-confirm选项配置 [def559e]
 - ✨ feat: 增加pi-action-sheet组件 [bf179cd]
 - ✨ feat: 增加文字按钮类型 [767a4a6]
@@ -17,14 +23,41 @@
 
 ### Fixed
 
+- 🐛 fix: 修复marquee组件在小程序异常的问题 #18 [a777efc]
+- 🐛 fix: 修复跑马灯子元素宽度等于父元素宽度时候，没有动画的问题 [8ec77ab]
+- 🐛 fix: 修复pi-img-crop运行时报错 [2c2490f]
+- 🐛 fix: 修复某些sass版本解析报错的问题 [5f185a1]
+- 🐛 fix: 修复表单height和padding设置无效的问题 [9d97100]
+- 🐛 fix: 修复pi-form labelStyle设置无效的问题 [4dd8bcf]
+- 🐛 fix: 修复pi-list-item标题过长无法换行的问题 [e5b18b0]
+- 🐛 fix: 修复表单属性设置无效的问题 [55262eb]
+- 🐛 fix: 修复日历组件不设置默认值的时候，需要手动确定才能同步日历的问题 [659e896]
+- 🐛 fix: 修复日历组件设置最小时间展示全部禁用的问题 [02b1feb]
+- 🐛 fix: 修复地区选择组件异步数据以及没有默认值无法正常显示的问题 [f4fa447]
 - 🐛 fix: 修复input组件keyboardheightchange方法没有声明的问题 [6d26acf]
 - 🐛 fix: 修复表单属性无法覆盖的问题 [b7308e5]
 - 🐛 fix: 修复主题颜色被覆盖的问题 [12666d2]
 - 🐛 fix: 修复pi-img缺失show-menu-by-longpress的问题 [be8a020]
 
-### Miscellaneous
 
-- 📝 docs: 更新群二维码信息 [796040f]
+
+<a name="1.2.3"></a>
+## 1.2.3 (2022-03-26)
+
+### Added
+
+- ✨ feat: pi-select增加single-confirm选项配置 [def559e]
+- ✨ feat: 增加pi-action-sheet组件 [bf179cd]
+- ✨ feat: 增加文字按钮类型 [767a4a6]
+- ✨ feat: pi-radio pi-radio-group 增加canCancel属性 [7874058]
+- ✨ feat: 优化pi-bottom-bar下按钮显示字数 [a671bd6]
+
+### Fixed
+
+- 🐛 fix: 修复input组件keyboardheightchange方法没有声明的问题 [6d26acf]
+- 🐛 fix: 修复表单属性无法覆盖的问题 [b7308e5]
+- 🐛 fix: 修复主题颜色被覆盖的问题 [12666d2]
+- 🐛 fix: 修复pi-img缺失show-menu-by-longpress的问题 [be8a020]
 
 
 <a name="1.2.0"></a>
