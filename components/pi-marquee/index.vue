@@ -15,6 +15,7 @@
           :key="idx"
           class="marquee-item"
           :class="{ vertical: isVertical }"
+          :style="[getItemStyle]"
         >
           <!-- item插槽 -->
           <slot name="item" :item="item">
@@ -28,8 +29,10 @@
 
 <script>
 import { getConfig } from '../../config'
-// const TAG = 'PiMarquee'
+
+const TAG = 'PiMarquee'
 const { marquee } = getConfig()
+
 export default {
   name: 'PiMarquee',
   props: {
@@ -72,17 +75,37 @@ export default {
       type: Array,
       // `[]`
       default: () => marquee.items
+    },
+    // 每个item是否占据整个宽度
+    itemFullWidth: {
+      type: Boolean,
+      // false
+      default: marquee.itemFullWidth
+    },
+    // 延迟多少毫秒后开始滚动
+    runDelay: {
+      type: [Number, String],
+      // 500
+      default: marquee.runDelay
     }
   },
   data() {
     return {
       animate: {},
+      containerWidth: 'auto',
       cloneItems: false
     }
   },
   computed: {
     isVertical() {
       return ['tb', 'bt'].includes(this.direction)
+    },
+    getItemStyle() {
+      const style = {}
+      if (this.itemFullWidth && this.containerWidth !== 'auto') {
+        style.width = `${this.containerWidth}px`
+      }
+      return style
     },
     getItems() {
       if (!this.cloneItems) return [this.items]
@@ -91,19 +114,19 @@ export default {
   },
   watch: {
     customStyle() {
-      this.updateTime()
+      this.init()
     },
     customClass() {
-      this.updateTime()
+      this.init()
     },
     direction() {
-      this.updateTime()
+      this.init()
     },
     speed: {
       immediate: true,
       handler() {
         this.handlePause()
-        this.updateTime()
+        this.init()
         this.handleStart()
       }
     },
@@ -111,16 +134,16 @@ export default {
       immediate: true,
       handler() {
         this.handlePause()
-        this.updateTime()
+        this.init()
         this.handleStart()
       }
     }
   },
   mounted() {
-    window && window.addEventListener('resize', this.updateTime)
+    window && window.addEventListener('resize', this.init)
   },
   beforeDestroy() {
-    window && window.removeEventListener('resize', this.updateTime)
+    window && window.removeEventListener('resize', this.init)
   },
   methods: {
     /**
@@ -143,12 +166,14 @@ export default {
       if (!this.hoverPause) {
         return
       }
-      this.$set(this.animate, 'animationPlayState', 'running')
+      setTimeout(() => {
+        this.$set(this.animate, 'animationPlayState', 'running')
+      }, parseInt(this.runDelay, 10))
     },
-    updateTime() {
+    init() {
       this.$nextTick(async () => {
         const rect = await this.$pi.common.queryRect(this, '.marquee-container', false)
-        const containerWidth = rect.width
+        this.containerWidth = rect.width
         const containerHeight = rect.height
         const inner = await this.$pi.common.queryRect(this, '.inner', false)
 
@@ -159,8 +184,9 @@ export default {
           return
         }
         if (!this.isVertical) {
+          console.log(TAG, '横向滚动', inner.width, this.containerWidth)
           // 横向滚动
-          if (inner.width < containerWidth) {
+          if (!this.itemFullWidth && inner.width < this.containerWidth) {
             this.handlePause()
             this.cloneItems = false
           } else {
@@ -170,7 +196,7 @@ export default {
           }
         } else {
           // 纵向滚动
-          if (inner.height <= containerHeight) {
+          if (inner.height < containerHeight) {
             this.$set(this.animate, 'animationPlayState', 'paused')
             this.cloneItems = false
           } else {
@@ -188,7 +214,7 @@ export default {
 <style lang="scss" scoped>
 .marquee-container {
   width: 100%;
-  overflow: auto hidden;
+  overflow: hidden;
   font-size: 0;
   white-space: nowrap;
   background: #ffffff;
@@ -215,6 +241,7 @@ export default {
 .inner-wrap {
   display: inline-block;
   white-space: nowrap;
+
   &.lr {
     animation: roll-lr 0s linear infinite;
   }

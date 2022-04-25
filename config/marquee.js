@@ -4,5 +4,7 @@ export default {
   hoverPause: true,
   customStyle: {},
   customClass: '',
-  items: []
+  items: [],
+  itemFullWidth: false, // 每个item是否占据整个宽度
+  runDelay: 500 // 延迟多少毫秒后开始滚动
 }
