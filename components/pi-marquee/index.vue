@@ -159,7 +159,8 @@ export default {
           return
         }
         if (!this.isVertical) {
-          if (inner.width <= containerWidth) {
+          // 横向滚动
+          if (inner.width < containerWidth) {
             this.handlePause()
             this.cloneItems = false
           } else {
@@ -168,6 +169,7 @@ export default {
             this.cloneItems = true
           }
         } else {
+          // 纵向滚动
           if (inner.height <= containerHeight) {
             this.$set(this.animate, 'animationPlayState', 'paused')
             this.cloneItems = false
