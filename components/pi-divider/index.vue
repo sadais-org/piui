@@ -6,7 +6,10 @@
       :style="[dividerStyle]"
     />
     <!-- $slots.$default 是为了支持支付宝小程序 -->
-    <view v-if="$slots.default || $slots.$default" :style="[{ padding: contentPadding }]">
+    <view
+      v-if="$slots.default || $slots.$default"
+      :style="[{ padding: contentPadding }, contentStyle]"
+    >
       <slot />
     </view>
     <view

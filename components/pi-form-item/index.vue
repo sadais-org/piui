@@ -352,11 +352,11 @@ export default {
         this.validation('change')
       })
     },
-    // 从u-form的rules属性中，取出当前u-form-item的校验规则
+    // 从pi-form的rules属性中，取出当前pi-form-item的校验规则
     getRules() {
       // 父组件的所有规则
-      let rules = this._parent.rules
-      rules = rules ? rules[this.prop] : []
+      const parentRules = this._parent ? this._parent.rules : undefined
+      const rules = parentRules ? parentRules[this.prop] : []
       return [].concat(rules || [])
     },
     // 过滤出符合要求的rule规则
@@ -380,7 +380,7 @@ export default {
         if (!this.prop || !rules || rules.length === 0) {
           return resolve(_getResolve())
         }
-        const fieldValue = this._parent.model[this.prop]
+        const fieldValue = this._parent ? this._parent.model[this.prop] : undefined
         // 设置当前的装填，标识为校验中
         this.validateState = 'validating'
         // 调用async-validator的方法
