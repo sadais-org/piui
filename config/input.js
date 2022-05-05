@@ -6,6 +6,7 @@ export default {
   placeholderStyle: 'color: #c0c4cc; font-weight: 400;', // 指定 placeholder 的样式
   placeholderClass: 'input-placeholder', // 指定 placeholder 的样式类，注意页面或组件的style中写了scoped时，需要在类名前写::v-deep
   disabled: false, // 是否禁用
+  border: false, // 边框样式设置
   maxlength: 140, // 最大输入长度，设置为 -1 的时候不限制最大长度
   password: false,
   cursorSpacing: 0, // 指定光标与键盘的距离，单位 px

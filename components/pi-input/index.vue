@@ -1,5 +1,5 @@
 <template>
-  <view class="pi-input-wrap">
+  <view class="pi-input-wrap" :style="[getInputWrapStyle]">
     <textarea
       v-if="type === 'textarea'"
       class="pi-input-textarea"
@@ -145,6 +145,12 @@ export default {
       // false
       default: input.disabled
     },
+    // 边框样式设置
+    border: {
+      type: [Boolean, String],
+      // false
+      default: input.border
+    },
     // 最大输入长度，设置为 -1 的时候不限制最大长度
     maxlength: {
       type: [Number, String],
@@ -247,6 +253,19 @@ export default {
       const parentFormItem = this.$pi.parent(this, 'PiFormItem')
       const disabled = this.disabled || (parentFormItem && parentFormItem.getDisabled)
       return disabled
+    },
+    getInputWrapStyle() {
+      const style = {}
+      if (this.border) {
+        style.padding = '8rpx 14rpx'
+        style.borderRadius = '4rpx'
+        if (this.$pi.lang.isString(this.border)) {
+          style.border = this.border
+        } else {
+          style.border = '1Px solid #d9d9d9'
+        }
+      }
+      return style
     }
   },
   methods: {

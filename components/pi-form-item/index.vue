@@ -8,7 +8,7 @@
       { 'pi-align-center': !getWrap },
       customClass
     ]"
-    @tap.stop="handleItemClick"
+    @tap="handleItemClick"
   >
     <!-- 表单标题 -->
     <view
