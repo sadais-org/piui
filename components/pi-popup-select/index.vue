@@ -281,6 +281,8 @@ export default {
 <style lang="scss" scoped>
 .pi-popup-select {
   height: 100%;
+  max-width: 960rpx;
+  margin: 0 auto;
   .pi-button-wrap {
     flex: 1;
     &:nth-child(2) {

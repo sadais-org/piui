@@ -161,6 +161,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.pi-calendar {
+  max-width: 960rpx;
+  margin: 0 auto;
+}
 .date-item {
   position: relative;
   z-index: 2;
