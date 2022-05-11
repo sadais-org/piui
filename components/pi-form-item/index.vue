@@ -2,13 +2,7 @@
   <view
     class="pi-form-item"
     :style="[customStyle, itemStyle]"
-    :class="[
-      { disabled: getDisabled },
-      { border: getBorder },
-      { 'pi-align-center': !getWrap },
-      getFormItemClass,
-      customClass
-    ]"
+    :class="[...getFormItemClass, customClass]"
     @tap="handleItemClick"
   >
     <!-- 表单标题 -->
@@ -92,9 +86,9 @@ const alignFlexMap = {
 }
 
 const verticalAlignFlexMap = {
-  top: 'flex-start',
-  center: 'center',
-  bottom: 'flex-end'
+  top: 'pi-align-start',
+  center: 'pi-align-center',
+  bottom: 'pi-align-end'
 }
 
 export default {
@@ -364,15 +358,15 @@ export default {
       }
     },
     getFormItemClass() {
-      const classList = {}
+      const classList = []
       if (this.getDisabled) {
-        classList.disabled = true
+        classList.push('disabled')
       }
       if (this.getBorder) {
-        classList.border = true
+        classList.push('border')
       }
       if (!this.getWrap && this.getItemVerticalAlign) {
-        classList[verticalAlignFlexMap[this.itemVerticalAlign]] = true
+        classList.push(verticalAlignFlexMap[this.getItemVerticalAlign])
       }
       return classList
     }
