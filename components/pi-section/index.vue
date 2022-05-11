@@ -3,7 +3,7 @@
     class="section pi-align-center"
     :style="[itemStyle, customStyle]"
     :class="[{ border }, customClass]"
-    @tap.stop="handleSectionClick"
+    @tap="handleSectionClick"
   >
     <view v-if="line" class="line" :style="[lineStyle]" />
     <!-- 左侧区域 -->

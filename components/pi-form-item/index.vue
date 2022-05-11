@@ -6,6 +6,7 @@
       { disabled: getDisabled },
       { border: getBorder },
       { 'pi-align-center': !getWrap },
+      getFormItemClass,
       customClass
     ]"
     @tap="handleItemClick"
@@ -13,7 +14,7 @@
     <!-- 表单标题 -->
     <view
       v-if="label || $slots.label"
-      class="form-label pi-align-start pi-flex-nowrap"
+      class="form-label pi-pd-tb-8 pi-align-start pi-flex-nowrap"
       :style="[computedLabelStyle, getLabelStyle]"
       :class="[{ border: getWrap && getLabelWrapBorder }]"
     >
@@ -30,7 +31,11 @@
     <!-- 内容区域 -->
     <view
       class="content-wrap"
-      :class="[{ 'pi-flex-sub': !getWrap }, getInputAlign, { wrap: getWrap, nowrap: !getWrap }]"
+      :class="[
+        { 'pi-flex-sub': !getWrap },
+        getInputAlign,
+        { 'wrap': getWrap, 'nowrap': !getWrap, 'wrap-bottom': getWrap && getWrapBottomGap }
+      ]"
       :style="[contentWrapStyle]"
     >
       <view
@@ -84,6 +89,12 @@ const alignFlexMap = {
   left: 'flex-start',
   center: 'center',
   right: 'flex-end'
+}
+
+const verticalAlignFlexMap = {
+  top: 'flex-start',
+  center: 'center',
+  bottom: 'flex-end'
 }
 
 export default {
@@ -166,6 +177,18 @@ export default {
         return formItem.labelStyle
       }
     },
+    // 表单项垂直对齐方式，可选值为 top center bottom
+    itemVerticalAlign: {
+      // `'top'` `'center'` `'bottom'`
+      type: String,
+      // 'center'
+      default() {
+        return formItem.itemVerticalAlign
+      },
+      validator: function(value) {
+        return [null, 'top', 'center', 'bottom'].includes(value)
+      }
+    },
     // 表单label区域 label 对齐方式
     labelAlign: {
       // `'left'` `'center'` `'right'`
@@ -195,6 +218,12 @@ export default {
       type: Boolean,
       // false
       default: formItem.wrap
+    },
+    // wrap模式下是否在底部增加表单项之间的间距
+    wrapBottomGap: {
+      type: Boolean,
+      // null
+      default: formItem.wrapBottomGap
     },
     // wrap样式label是否显示边框
     labelWrapBorder: {
@@ -258,6 +287,9 @@ export default {
     getWrap() {
       return this.$pi.expand.getPropValue(this.inheritProps.wrap, this.wrap)
     },
+    getWrapBottomGap() {
+      return this.$pi.expand.getPropValue(this.inheritProps.wrapBottomGap, this.wrapBottomGap)
+    },
     getLabelWrapBorder() {
       return this.inheritProps.labelWrapBorder !== null
         ? this.inheritProps.labelWrapBorder
@@ -296,6 +328,12 @@ export default {
     getLabelStyle() {
       return this.$pi.expand.getPropValue(this.inheritProps.labelStyle, this.labelStyle)
     },
+    getItemVerticalAlign() {
+      return this.$pi.expand.getPropValue(
+        this.inheritProps.itemVerticalAlign,
+        this.itemVerticalAlign
+      )
+    },
     computedLabelStyle() {
       const style = {}
       if (this.getWrap) {
@@ -324,6 +362,19 @@ export default {
       return {
         justifyContent: alignFlexMap[this.getInputAlign]
       }
+    },
+    getFormItemClass() {
+      const classList = {}
+      if (this.getDisabled) {
+        classList.disabled = true
+      }
+      if (this.getBorder) {
+        classList.border = true
+      }
+      if (!this.getWrap && this.getItemVerticalAlign) {
+        classList[verticalAlignFlexMap[this.itemVerticalAlign]] = true
+      }
+      return classList
     }
   },
   mounted() {
@@ -462,7 +513,7 @@ export default {
     &.nowrap {
       margin-left: 24rpx;
     }
-    &.wrap {
+    &.wrap-bottom {
       margin-bottom: 24rpx;
     }
     .form-valid {

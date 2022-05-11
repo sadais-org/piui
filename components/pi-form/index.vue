@@ -29,8 +29,10 @@ export default {
       'labelWidth',
       'labelAlign',
       'labelStyle',
+      'itemVerticalAlign',
       'inputAlign',
       'wrap',
+      'wrapBottomGap',
       'labelWrapBorder',
       'colon',
       'disabled',
@@ -129,6 +131,18 @@ export default {
         return form.labelStyle
       }
     },
+    // 表单项垂直对齐方式，可选值为 top center bottom
+    itemVerticalAlign: {
+      // `'top'` `'center'` `'bottom'`
+      type: String,
+      // 'center'
+      default() {
+        return form.itemVerticalAlign
+      },
+      validator: function(value) {
+        return [null, 'top', 'center', 'bottom'].includes(value)
+      }
+    },
     // 表单输入区域 label 对齐方式
     inputAlign: {
       // `'left'` `'center'` `'right'`
@@ -146,6 +160,12 @@ export default {
       type: Boolean,
       // null
       default: form.wrap
+    },
+    // wrap模式下是否在底部增加表单项之间的间距
+    wrapBottomGap: {
+      type: Boolean,
+      // null
+      default: form.wrapBottomGap
     },
     // wrap样式label是否显示边框
     labelWrapBorder: {
