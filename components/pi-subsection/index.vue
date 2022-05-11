@@ -9,27 +9,14 @@
       ref="pi-subsection__bar"
       class="pi-subsection__bar"
       :style="[barStyle]"
-      :class="[
-        mode === 'button' && 'pi-subsection--button__bar',
-        current === 0 && mode === 'subsection' && 'pi-subsection__bar--first',
-        current > 0 &&
-          current < items.length - 1 &&
-          mode === 'subsection' &&
-          'pi-subsection__bar--center',
-        current === items.length - 1 && mode === 'subsection' && 'pi-subsection__bar--last'
-      ]"
+      :class="[barClass]"
     />
     <view
       v-for="(item, index) in items"
       :ref="`pi-subsection__item--${index}`"
       :key="index"
       class="pi-subsection__item"
-      :class="[
-        `pi-subsection__item--${index}`,
-        index < items.length - 1 && 'pi-subsection__item--no-border-right',
-        index === 0 && 'pi-subsection__item--first',
-        index === items.length - 1 && 'pi-subsection__item--last'
-      ]"
+      :class="[itemClass(index)]"
       :style="[itemStyle(index)]"
       @tap="clickHandler(index)"
     >
@@ -162,6 +149,22 @@ export default {
     }
   },
   computed: {
+    // 滑块指定class
+    barClass() {
+      // 默认按钮模式
+      let className = 'pi-subsection--button__bar'
+      // 分段器模式
+      if (this.mode === 'subsection') {
+        if (this.current === 0) {
+          className = 'pi-subsection__bar--first'
+        } else if (this.current > 0 && this.current < this.items.length - 1) {
+          className = 'pi-subsection__bar--center'
+        } else if (this.current === this.items.length - 1) {
+          className = 'pi-subsection__bar--last'
+        }
+      }
+      return className
+    },
     wrapperStyle() {
       const style = {}
       // button模式时，设置背景色
@@ -210,6 +213,20 @@ export default {
           }
         }
         return style
+      }
+    },
+    // 分段器item的class
+    itemClass(index) {
+      return (index) => {
+        let className = `pi-subsection__item--${index}`
+        if (index === 0) {
+          className += ' pi-subsection__item--first'
+        } else if (index < this.items.length - 1) {
+          className += ' pi-subsection__item--no-border-right'
+        } else if (index === this.items.length - 1) {
+          className += ' pi-subsection__item--last'
+        }
+        return className
       }
     },
     // 分段器文字颜色
