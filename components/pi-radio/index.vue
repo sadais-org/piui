@@ -10,9 +10,14 @@
       { stretch: getStretch },
       customClass
     ]"
-    @tap="handleRadioToggle"
+    @tap="handleRadioToggle(true)"
   >
-    <view v-if="!['text', 'button'].includes(getShape)" class="radio-icon" :style="[radioStyle]">
+    <view
+      v-if="!['text', 'button'].includes(getShape)"
+      class="radio-icon"
+      :style="[radioStyle]"
+      @tap="handleRadioToggle(false)"
+    >
       <view v-if="getShape === 'dot'" class="dot" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />
     </view>
@@ -133,6 +138,12 @@ export default {
       type: Boolean,
       // false
       default: radio.canCancel
+    },
+    // 是否点击图标才能选中，默认点击整行都能选中
+    onlyIconSelect: {
+      type: [Boolean],
+      // null
+      default: radio.onlyIconSelect
     }
   },
   data() {
@@ -150,8 +161,8 @@ export default {
       return this.inheritProps.stretch
     },
     getBorderRadius() {
-      return this._parent && this._parent.borderRadius
-        ? this.$pi.common.addUnit(this._parent.borderRadius)
+      return this.inheritProps.borderRadius
+        ? this.$pi.common.addUnit(this.inheritProps.borderRadius)
         : this.$pi.common.addUnit(this.borderRadius)
     },
     getBorder() {
@@ -180,6 +191,11 @@ export default {
     },
     getCanCancel() {
       return this.inheritProps.canCancel !== null ? this.inheritProps.canCancel : this.canCancel
+    },
+    getOnlyIconSelect() {
+      return this.inheritProps.onlyIconSelect !== null
+        ? this.inheritProps.onlyIconSelect
+        : this.onlyIconSelect
     },
     radioStyle() {
       const style = {
@@ -227,7 +243,8 @@ export default {
     }
   },
   methods: {
-    handleRadioToggle() {
+    handleRadioToggle(isTapRow) {
+      if (this.getOnlyIconSelect && isTapRow) return
       if (this.getDisable) return
       if (this.readonly) return
       this._parent && this._parent.emitChange(this.name)

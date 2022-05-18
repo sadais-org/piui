@@ -31,6 +31,7 @@ export default {
     parentInit([
       'val',
       'shape',
+      'borderRadius',
       'stretch',
       'border',
       'disabled',
@@ -38,7 +39,8 @@ export default {
       'iconSize',
       'activeColor',
       'activeMode',
-      'canCancel'
+      'canCancel',
+      'onlyIconSelect'
     ])
   ], // 注入value与val，进行双向绑定
   options: {
@@ -91,6 +93,12 @@ export default {
         return ['', 'square', 'round', 'dot', 'text', 'button'].includes(value)
       }
     },
+    // 当shape为square的时候，设置圆角，值为数字时，单位默认rpx
+    borderRadius: {
+      type: [null, String, Number],
+      // 8
+      default: radioGroup.borderRadius
+    },
     // 当shape为button的时候，选项否均分布局，可选值 `true`
     stretch: {
       type: Boolean,
@@ -141,9 +149,15 @@ export default {
     },
     // 能否取消选中状态
     canCancel: {
-      type: Boolean,
+      type: [Boolean, null],
       // null
       default: radioGroup.canCancel
+    },
+    // 是否点击图标才能选中，默认点击整行都能选中
+    onlyIconSelect: {
+      type: [Boolean, null],
+      // null
+      default: radioGroup.onlyIconSelect
     }
   },
   methods: {
