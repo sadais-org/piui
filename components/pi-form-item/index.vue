@@ -2,7 +2,7 @@
   <view
     class="pi-form-item"
     :style="[customStyle, itemStyle]"
-    :class="[...getFormItemClass, customClass]"
+    :class="getFormItemClass"
     @tap="handleItemClick"
   >
     <!-- 表单标题 -->
@@ -358,7 +358,7 @@ export default {
       }
     },
     getFormItemClass() {
-      const classList = []
+      const classList = [this.customClass]
       if (this.getDisabled) {
         classList.push('disabled')
       }
@@ -574,6 +574,9 @@ export default {
     &.right .input {
       text-align: right;
     }
+  }
+  ::v-deep pi-calendar-input {
+    width: 100%;
   }
 }
 </style>
