@@ -10,5 +10,6 @@ export default {
   size: 0, // checkbox大小，单位rpx
   iconSize: 0, // checkbox icon 大小，单位rpx
   activeColor: '', // 选中时图标的颜色
-  activeMode: '' // 激活模式（line: 线框模式，fill: 实底模式）
+  activeMode: '', // 激活模式（line: 线框模式，fill: 实底模式）
+  onlyIconSelect: null // 是否点击图标才能选中，默认点击整行都能选中
 }

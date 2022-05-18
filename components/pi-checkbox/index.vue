@@ -3,9 +3,14 @@
     class="pi-check-wrap"
     :style="[customStyle]"
     :class="[getShape, getActiveMode, { disabled: getDisable }, { active: val }, customClass]"
-    @tap="handleCheckboxToggle"
+    @tap="handleCheckboxToggle(true)"
   >
-    <view v-if="getShape !== 'text'" class="check-icon" :style="[checkStyle]">
+    <view
+      v-if="getShape !== 'text'"
+      class="check-icon"
+      :style="[checkStyle]"
+      @tap="handleCheckboxToggle(false)"
+    >
       <view v-if="getShape === 'dot'" class="dot" :style="[dotStyle]" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />
     </view>
@@ -124,6 +129,12 @@ export default {
       validator: function(value) {
         return ['line', 'line-circle', 'fill', 'fill-circle'].includes(value)
       }
+    },
+    // 是否点击图标才能选中，默认点击整行都能选中
+    onlyIconSelect: {
+      type: [Boolean],
+      // null
+      default: checkbox.onlyIconSelect
     }
   },
   data() {
@@ -161,6 +172,11 @@ export default {
       return this.inheritProps.iconSize
         ? this.$pi.common.addUnit(this.inheritProps.iconSize)
         : this.$pi.common.addUnit(this.iconSize)
+    },
+    getOnlyIconSelect() {
+      return this.inheritProps.onlyIconSelect !== null
+        ? this.inheritProps.onlyIconSelect
+        : this.onlyIconSelect
     },
     checkStyle() {
       const style = {
@@ -218,7 +234,8 @@ export default {
         this.val = true
       }
     },
-    handleCheckboxToggle() {
+    handleCheckboxToggle(isTapRow) {
+      if (this.getOnlyIconSelect && isTapRow) return
       if (this.getDisable) return
       if (this.readonly) return
       // 如果父组件做了可选数量限制

@@ -33,7 +33,8 @@ export default {
       'size',
       'iconSize',
       'activeColor',
-      'activeMode'
+      'activeMode',
+      'onlyIconSelect'
     ])
   ], // 注入value与val，进行双向绑定
   options: {
@@ -125,6 +126,12 @@ export default {
       validator: function(value) {
         return ['', 'line', 'line-circle', 'fill', 'fill-circle'].includes(value)
       }
+    },
+    // 是否点击图标才能选中，默认点击整行都能选中
+    onlyIconSelect: {
+      type: [Boolean, null],
+      // null
+      default: checkboxGroup.onlyIconSelect
     }
   },
   computed: {
@@ -136,11 +143,6 @@ export default {
     val: {
       handler(value) {
         this.handleValChange()
-      }
-    },
-    value: {
-      handler(val) {
-        console.warn('val', val)
       }
     }
   },
