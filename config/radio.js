@@ -4,10 +4,10 @@ export default {
   name: '', // 标识符
   shape: 'round', // 形状，可选值为 square round dot text
   borderRadius: 8, // 当shape为square的时候，设置圆角，单位rpx
-  border: 4, // 边框大小，单位rpx
+  border: 2, // 边框大小，单位rpx
   disabled: false, // 是否禁用复选框
   readonly: false, // 是否只读模式
-  size: 36, // radio大小，单位rpx
+  size: 40, // radio大小，单位rpx
   iconSize: 28, // radio icon 大小，单位rpx
   activeColor: '', // 选中时图标的颜色
   activeMode: 'line', // 激活模式（line: 线框模式，fill: 实底模式）
