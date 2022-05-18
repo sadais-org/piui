@@ -1,3 +1,5 @@
+import icon from './icon'
+
 export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
@@ -22,5 +24,12 @@ export default {
   showConfirmbar: true, // 是否显示键盘上方带有”完成“按钮那一栏
   autoHeight: false, // 是否自动增高
   fixed: false, // 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true
-  disableDefaultPadding: false // 是否去掉 iOS 下的默认内边距
+  disableDefaultPadding: false, // 是否去掉 iOS 下的默认内边距
+  clearable: false, // 是否可以清空
+  clearIcon: {
+    // 清空图标设置
+    ...icon,
+    name: 'close-line',
+    color: '#cccccc'
+  }
 }

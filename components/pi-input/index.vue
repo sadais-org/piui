@@ -63,6 +63,20 @@
       @confirm="handleConfirm"
       @keyboardheightchange="$emit('keyboardheightchange', $event)"
     />
+    <!-- 清空icon -->
+    <pi-icon
+      v-if="clearable && val"
+      :custom-style="clearIcon.customStyle"
+      :custom-class="`pi-pd-left-8 ${clearIcon.customClass}`"
+      :name="clearIcon.name"
+      :dot="clearIcon.dot"
+      :dot-radius="clearIcon.dotRadius"
+      :badge="clearIcon.badge"
+      :color="clearIcon.color"
+      :size="clearIcon.size"
+      :class-prefix="clearIcon.classPrefix"
+      @tap="handleChange('')"
+    />
   </view>
 </template>
 
@@ -241,6 +255,19 @@ export default {
       type: Boolean,
       // false
       default: input.disableDefaultPadding
+    },
+    // 是否可清空
+    clearable: {
+      type: Boolean,
+      // false
+      default: input.clearable
+    },
+    // 清空图标设置
+    clearIcon: {
+      type: Object,
+      default() {
+        return input.clearIcon
+      }
     }
   },
   data() {
@@ -275,10 +302,7 @@ export default {
     handleInput: debounce(function(e) {
       let value = e.detail.value
       // 输入内容
-      this.val = value
-      this.handleEmitChange()
-      this.dispatch('PiForm', 'form-change', value)
-      this.dispatch('PiFormItem', 'form-change', value)
+      this.handleChange(value)
     }, 50),
     handleFocus() {
       this.focused = true
@@ -302,6 +326,12 @@ export default {
     handleConfirm(e) {
       // 输入完成事件
       this.$emit('confirm', e.detail.value)
+    },
+    handleChange(value) {
+      this.val = value
+      this.handleEmitChange()
+      this.dispatch('PiForm', 'form-change', value)
+      this.dispatch('PiFormItem', 'form-change', value)
     }
   }
 }
@@ -310,6 +340,8 @@ export default {
 <style lang="scss" scoped>
 .pi-input-wrap {
   width: 100%;
+  display: flex;
+  align-items: center;
   .pi-input,
   .pi-input-textarea {
     width: 100%;
