@@ -137,11 +137,16 @@ export default {
       // 'text'
       default: select.displayField
     },
-    // 默认值，单选是传Object，多选时传Array
+    // 默认值，单选是传Number, String, Object，多选时传Array
     defaultValue: {
-      type: [Object, Array],
+      type: [Number, String, Object, Array],
       // null
       default: select.defaultValue
+    },
+    // 是否只绑定keyField的默认值，默认false
+    keyDefaultValue: {
+      type: Boolean,
+      default: select.keyDefaultValue
     },
     // 是否多选
     isMulti: {
@@ -230,6 +235,7 @@ export default {
   },
   data() {
     return {
+      // 当前选中的值
       selected: {}
     }
   },
@@ -293,11 +299,64 @@ export default {
     }
   },
   methods: {
+    valid() {
+      if (!this.$pi.lang.isEmpty(this.defaultValue)) {
+        if (this.isMulti && !this.$pi.lang.isArray(this.defaultValue)) {
+          console.error(TAG, '多选模式下defaultValue必须为数组类型')
+          return false
+        }
+        if (this.isMulti && this.$pi.lang.isArray(this.defaultValue)) {
+          const isArrayObject = this.defaultValue.every(item => {
+            return this.$pi.lang.isObject(item)
+          })
+          if (this.keyDefaultValue && isArrayObject) {
+            console.error(TAG, 'keyDefaultValue模式下defaultValue不能为对象数组类型')
+            return false
+          }
+          if (!this.keyDefaultValue && !isArrayObject) {
+            console.error(TAG, '非keyDefaultValue模式下defaultValue必须为对象数组类型')
+            return false
+          }
+        }
+        if (!this.isMulti) {
+          if (this.keyDefaultValue && this.$pi.lang.isObject(this.defaultValue)) {
+            console.error(TAG, 'keyDefaultValue模式下defaultValue不能为对象类型')
+            return false
+          }
+          if (
+            !this.keyDefaultValue &&
+            (!this.$pi.lang.isObject(this.defaultValue) || this.$pi.lang.isArray(this.defaultValue))
+          ) {
+            console.error(TAG, '非keyDefaultValue模式下defaultValue必须为对象类型')
+            return false
+          }
+        }
+      }
+      return true
+    },
     init() {
+      if (!this.valid()) {
+        return console.error(TAG, '默认值校验失败，跳过初始化')
+      }
       console.log(TAG, '初始化')
-      let selected = this.$pi.lang.cloneDeep(this.defaultValue)
-      if (!selected) {
-        selected = this.isMulti ? [] : {}
+      let selected = this.isMulti ? [] : {}
+      if (!this.$pi.lang.isEmpty(this.defaultValue)) {
+        // 如果有默认值，进行初始化
+        if (!this.keyDefaultValue) {
+          selected = this.$pi.lang.cloneDeep(this.defaultValue)
+        } else {
+          // 非对象类型构造成对象类型处理
+          if (this.isMulti && this.$pi.lang.isArray(this.defaultValue)) {
+            selected = this.defaultValue.map(item => ({
+              [this.keyField]: item
+            }))
+          }
+          if (!this.isMulti && !this.$pi.lang.isObject(this.defaultValue)) {
+            selected = {
+              [this.keyField]: this.defaultValue
+            }
+          }
+        }
       }
       this.selected = selected
     },
@@ -313,7 +372,11 @@ export default {
         // 单选
         if (!this.singleCancel) {
           this.selected = item
-          this.singleConfirm && this.handleConfirm()
+          if (this.singleConfirm) {
+            setTimeout(() => {
+              this.handleConfirm()
+            }, 300)
+          }
           return
         }
         // 如果单选允许取消，需要判断是否点击了同一个选项
@@ -369,7 +432,16 @@ export default {
      * 确认选择
      */
     handleConfirm() {
-      this.$emit('confirm', this.selected)
+      let selected = this.selected
+      if (!this.$pi.lang.isEmpty(selected) && this.keyDefaultValue) {
+        // 非对象类型返回值，返回值处理成非对象类型
+        if (this.$pi.lang.isArray(selected)) {
+          selected = selected.map(item => item[this.keyField])
+        } else if (this.$pi.lang.isObject(selected)) {
+          selected = selected[this.keyField]
+        }
+      }
+      this.$emit('confirm', selected)
       this.getPopupSelect.onConfirmClose && this.handlePopupClose()
     }
   }

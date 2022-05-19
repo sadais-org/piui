@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2022-05-18 16:38:07
+ * @LastEditTime: 2022-05-19 14:10:47
  * @LastEditors: zhangzhenfei
  * @Description: 日历输入
  * @FilePath: /hfmp-checkin-front/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-calendar-input/index.vue
@@ -152,7 +152,6 @@ export default {
         ? this.parseValueFn.fn
         : this.parseValueFn
       if (this.$pi.lang.isFunction(parseValueFn)) {
-        // 删除之前的钩子， 如果定义了则使用钩子删除文件
         const parseValue = parseValueFn(this.val)
         return parseValue
       }
