@@ -363,7 +363,6 @@ export default {
     handleConfirm() {
       // 提交
       const value = this.format ? this.date.format(this.format) : this.date
-      console.log(value)
       this.$emit('confirm', value)
       this.onConfirmClose && this.handlePopupClose()
     }
