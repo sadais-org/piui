@@ -10,6 +10,7 @@ export default {
   startYear, // 开始年份（默认当前年份 - 30）
   endYear, // 结束年份（默认当前年份）
   field: 'day', // 选择器的粒度 year、month、day、hour、minute、second
+  dateType: 'datetime', // 日期类型，date、datetime、time（默认值：datetime）
   defaultValue: '', // 日期默认值
   format: '', // 返回的日期格式，为空的时候，返回的是日期对象
   itemHeight: 110, // 行高（默认：'110rpx'）

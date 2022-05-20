@@ -29,32 +29,9 @@
       @pickend="handlePickend"
       @change="handleDateChange"
     >
-      <picker-view-column>
-        <view v-for="(item, index) in years" :key="index" :style="indicatorStyle">
-          {{ item }}年
-        </view>
-      </picker-view-column>
-      <picker-view-column v-if="showMonth">
-        <view v-for="(item, index) in months" :key="index" :style="indicatorStyle">
-          {{ item + 1 }}月
-        </view>
-      </picker-view-column>
-      <picker-view-column v-if="showDay">
-        <view v-for="(item, index) in days" :key="index" :style="indicatorStyle">{{ item }}日</view>
-      </picker-view-column>
-      <picker-view-column v-if="showHour">
-        <view v-for="(item, index) in hours" :key="index" :style="indicatorStyle">
-          {{ item }}时
-        </view>
-      </picker-view-column>
-      <picker-view-column v-if="showMinute">
-        <view v-for="(item, index) in minutes" :key="index" :style="indicatorStyle">
-          {{ item }}分
-        </view>
-      </picker-view-column>
-      <picker-view-column v-if="showSecond">
-        <view v-for="(item, index) in seconds" :key="index" :style="indicatorStyle">
-          {{ item }}秒
+      <picker-view-column v-for="col in columns" :key="col.field">
+        <view v-for="item in col.items" :key="item" :style="indicatorStyle">
+          {{ item }}{{ col.unit }}
         </view>
       </picker-view-column>
     </picker-view>
@@ -68,14 +45,7 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiDatePicker'
 const { datePicker } = getConfig()
-const FIELD_MAPS = [
-  { field: 'year', getMethod: 'years', setMethod: 'setYear' },
-  { field: 'month', getMethod: 'months', setMethod: 'setMonth' },
-  { field: 'day', getMethod: 'days', setMethod: 'setDate' },
-  { field: 'hour', getMethod: 'hours', setMethod: 'setHours' },
-  { field: 'minute', getMethod: 'minutes', setMethod: 'setMinutes' },
-  { field: 'second', getMethod: 'seconds', setMethod: 'setSeconds' }
-]
+const FIELDS = ['year', 'month', 'day', 'hour', 'minute', 'second']
 
 export default {
   name: 'PiDatePicker',
@@ -124,11 +94,23 @@ export default {
       type: String,
       validator: function(value) {
         // 这个值必须匹配下列字符串中的一个
-        return ['year', 'month', 'day', 'hour', 'minute', 'second'].includes(value)
+        return FIELDS.includes(value)
       },
       // 'day'
       default() {
         return datePicker.field
+      }
+    },
+    // 日期类型，date、datetime、time
+    dateType: {
+      // `'date'` `'datetime'` `'time'`
+      type: String,
+      validator: function(value) {
+        return ['date', 'datetime', 'time'].includes(value)
+      },
+      // 'datetime'
+      default() {
+        return datePicker.dateType
       }
     },
     // 日期默认值
@@ -245,61 +227,75 @@ export default {
       const itemHeight = uni.upx2px(this.itemHeight)
       return `height: ${itemHeight}px;line-height: ${itemHeight}px;`
     },
-    showYear() {
-      return ['year', 'month', 'day', 'hour', 'minute', 'second'].includes(this.field)
-    },
-    showMonth() {
-      return ['month', 'day', 'hour', 'minute', 'second'].includes(this.field)
-    },
-    showDay() {
-      return ['day', 'hour', 'minute', 'second'].includes(this.field)
-    },
-    showHour() {
-      return ['hour', 'minute', 'second'].includes(this.field)
-    },
-    showMinute() {
-      return ['minute', 'second'].includes(this.field)
-    },
-    showSecond() {
-      return ['second'].includes(this.field)
-    },
-    years() {
-      return this.$pi.common.generateArray(this.startYear, this.endYear)
-    },
-    months() {
-      return this.$pi.common.generateArray(0, 11)
-    },
-    days() {
+    columns() {
       const monthDays = new Date(this.date.year, this.date.month, 0).getDate()
-      return this.$pi.common.generateArray(1, monthDays)
-    },
-    hours() {
-      return this.$pi.common.generateArray(0, 23)
-    },
-    minutes() {
-      return this.$pi.common.generateArray(0, 59)
-    },
-    seconds() {
-      return this.$pi.common.generateArray(0, 59)
+      let columns = [
+        {
+          field: 'year',
+          unit: '年',
+          key: 'year',
+          setMethod: 'setYear',
+          items: this.$pi.common.generateArray(this.startYear, this.endYear)
+        },
+        {
+          field: 'month',
+          unit: '月',
+          key: 'month',
+          setMethod: 'setMonth',
+          items: this.$pi.common.generateArray(1, 12)
+        },
+        {
+          field: 'day',
+          unit: '日',
+          key: 'date',
+          setMethod: 'setDate',
+          items: this.$pi.common.generateArray(1, monthDays)
+        },
+        {
+          field: 'hour',
+          unit: '时',
+          key: 'hour',
+          setMethod: 'setHours',
+          type: 'time',
+          items: this.$pi.common.generateArray(0, 23)
+        },
+        {
+          field: 'minute',
+          unit: '分',
+          key: 'minute',
+          setMethod: 'setMinutes',
+          type: 'time',
+          items: this.$pi.common.generateArray(0, 59)
+        },
+        {
+          field: 'second',
+          unit: '秒',
+          key: 'second',
+          setMethod: 'setSeconds',
+          type: 'time',
+          items: this.$pi.common.generateArray(0, 59)
+        }
+      ]
+
+      columns = columns.filter((col, index) => {
+        return FIELDS.slice(index).includes(this.field)
+      })
+
+      if (this.dateType === 'time') {
+        columns = columns.filter(col => col.type === 'time')
+      }
+
+      return columns
     },
     pickerValue() {
-      const dateFieldMaps = [
-        { key: 'year', dataKey: 'years', showKey: 'showYear' },
-        { key: 'month', dataKey: 'months', showKey: 'showMonth' },
-        { key: 'date', dataKey: 'days', showKey: 'showDay' },
-        { key: 'hour', dataKey: 'hours', showKey: 'showHour' },
-        { key: 'minute', dataKey: 'minutes', showKey: 'showMinute' },
-        { key: 'second', dataKey: 'seconds', showKey: 'showSecond' }
-      ]
       const pickerValue = []
-      dateFieldMaps.forEach(map => {
+      this.columns.forEach(col => {
         // 当前日期字段
-        let value = this.date[map.key]
-        if (this[map.showKey] && value) {
-          if (map.key === 'month') value--
+        const value = this.date[col.key]
+        if (value !== null) {
           // 查找当前picker中索引对应的真实值
           const intValue = parseInt(value, 10)
-          const val = this[map.dataKey].findIndex(m => m === intValue)
+          const val = col.items.findIndex(m => m === intValue)
           pickerValue.push(val)
         }
       })
@@ -338,9 +334,10 @@ export default {
       values.forEach((value, index) => {
         if (value !== null) {
           // value为picker列的索引值
-          const field = FIELD_MAPS[index] // day
-          const val = this[field.getMethod][value] // days[index] 取出对应picker值
-          time[field.setMethod](val) // 调用原生date方法赋值
+          const col = this.columns[index]
+          let val = col.items[value] // 取出对应picker值
+          if (col.field === 'month') val--
+          time[col.setMethod](val) // 调用原生date方法赋值
         }
       })
       // 重新解析
@@ -366,6 +363,7 @@ export default {
     handleConfirm() {
       // 提交
       const value = this.format ? this.date.format(this.format) : this.date
+      console.log(value)
       this.$emit('confirm', value)
       this.onConfirmClose && this.handlePopupClose()
     }
