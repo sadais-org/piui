@@ -441,7 +441,7 @@ export default {
           selected = selected[this.keyField]
         }
       }
-      this.$emit('confirm', selected)
+      this.$emit('confirm', selected, this.selected)
       this.getPopupSelect.onConfirmClose && this.handlePopupClose()
     }
   }

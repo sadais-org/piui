@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2022-05-19 15:21:32
+ * @LastEditTime: 2022-05-21 15:00:18
  * @LastEditors: zhangzhenfei
  * @Description: 选择输入
  * @FilePath: /hfmp-checkin-front/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-select-input/index.vue
@@ -162,7 +162,7 @@ export default {
           return this.getSelect.items
             .filter(item => this.val.includes(item[this.getSelect.keyField]))
             .map(item => item[this.getSelect.displayField])
-            .join(` ${this.rangeSplit} `)
+            .join(this.rangeSplit)
         } else {
           const val = this.getSelect.items.find(item => item[this.getSelect.keyField] === this.val)
           return val ? val[this.getSelect.displayField] : ''
@@ -175,7 +175,7 @@ export default {
               this.val.some(v => v[this.getSelect.keyField] === item[this.getSelect.keyField])
             )
             .map(item => item[this.getSelect.displayField])
-            .join(` ${this.rangeSplit} `)
+            .join(this.rangeSplit)
         } else {
           const val = this.getSelect.items.find(
             item => item[this.getSelect.keyField] === this.val[this.getSelect.keyField]

@@ -7,7 +7,8 @@ export default {
   regionsData, // 区域数据（考虑到体积，只包含了部分演示数据）
   keyField: 'code', // 选项id字段，默认为code
   displayField: 'name', // 选项显示字段，默认为name
-  defaultValue: null, // 默认值，单选是传Object，多选时传Array，默认null
+  keyDefaultValue: false, // 是否只绑定keyField的默认值，默认false
+  defaultValue: null, // 默认值
   itemHeight: 110, // 行高（默认：'110rpx'）
   showItemBottomBorder: true, // 是否显示item下边框（默认：'true'）
   itemStyle: {}, // 行样式（默认：'{}'）

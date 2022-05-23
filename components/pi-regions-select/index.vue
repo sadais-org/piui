@@ -59,8 +59,6 @@ const TAG = 'PiRegionsSelect'
 const { regionsSelect } = getConfig()
 const PLEASE_SELECT_TIP = '请选择'
 
-
-
 export default {
   name: 'PiRegionsSelect',
   // 混入v-model
@@ -107,9 +105,13 @@ export default {
     },
     // 默认值
     defaultValue: {
-      type: Object,
-      // `null`，单选是传`Object`，多选时传`Array`
+      type: [Object, String],
       default: regionsSelect.defaultValue
+    },
+    // 是否只绑定keyField的默认值，默认false
+    keyDefaultValue: {
+      type: Boolean,
+      default: regionsSelect.keyDefaultValue
     },
     // 行高
     itemHeight: {
@@ -247,9 +249,28 @@ export default {
     }
   },
   methods: {
+    valid() {
+      if (!this.$pi.lang.isEmpty(this.defaultValue)) {
+        if (this.keyDefaultValue && this.$pi.lang.isObject(this.defaultValue)) {
+          console.error(TAG, 'keyDefaultValue模式下defaultValue不能为对象类型')
+          return false
+        }
+        if (!this.keyDefaultValue && !this.$pi.lang.isObject(this.defaultValue)) {
+          console.error(TAG, '非keyDefaultValue模式下defaultValue必须为对象类型')
+          return false
+        }
+      }
+      return true
+    },
     init() {
+      if (!this.valid()) {
+        return console.error(TAG, '默认值校验失败，跳过初始化')
+      }
       console.log(TAG, '地区选择组件初始化')
-      const defaultCode = this.defaultValue ? this.defaultValue.code : ''
+      let defaultCode = ''
+      if (!this.$pi.lang.isEmpty(this.defaultValue)) {
+        defaultCode = this.keyDefaultValue ? this.defaultValue : this.defaultValue.code
+      }
       const regions = this.$pi.regions.parseRegions(defaultCode, this.regionsData)
       this.regions = regions
       // 默认都是展示tab最后一个列表
@@ -302,9 +323,14 @@ export default {
      * 确认选择
      */
     handleConfirm() {
+      let selected = this.regions
+      // 返回前生成一下name，方便使用
       this.regions.generateName()
+      if (this.keyDefaultValue) {
+        selected = selected[this.keyField]
+      }
       // 点击确认事件
-      this.$emit('confirm', this.regions)
+      this.$emit('confirm', selected, this.regions)
       this.onConfirmClose && this.handlePopupClose()
     }
   }

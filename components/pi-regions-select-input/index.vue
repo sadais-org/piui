@@ -1,14 +1,14 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2022-05-21 15:00:48
+ * @LastEditTime: 2022-05-23 09:24:53
  * @LastEditors: zhangzhenfei
  * @Description: 日历输入
- * @FilePath: /hfmp-checkin-front/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-calendar-input/index.vue
+ * @FilePath: /hfmp-checkin-front/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-regions-select-input/index.vue
 -->
 
 <template>
-  <view class="pi-calendar-input">
+  <view class="pi-regions-select-input">
     <!-- 输入框 -->
     <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="show = true">
       <slot />
@@ -45,22 +45,24 @@
       @click="show = true"
     />
 
-    <!-- 日历弹出框 -->
-    <pi-calendar
+    <!-- 地区弹出框 -->
+    <pi-regions-select
       v-model="show"
-      :custom-class="getCalendar.customClass"
-      :custom-style="getCalendar.customStyle"
-      :show-title="getCalendar.showTitle"
-      :title="getCalendar.title"
-      :title-padding="getCalendar.titlePadding"
-      :type="getCalendar.type"
-      :calendar-panel="{
-        ...getCalendar.calendarPanel,
-        dateFormat: getCalendar.dateFormat,
-        value: val
-      }"
-      :popup="getCalendar.popup"
-      @confirm="handleCalendarConfirm"
+      :default-value="val"
+      :custom-class="getRegionsSelect.customClass"
+      :custom-style="getRegionsSelect.customStyle"
+      :regions-data="getRegionsSelect.regionsData"
+      :key-field="getRegionsSelect.keyField"
+      :display-field="getRegionsSelect.displayField"
+      :key-default-value="getRegionsSelect.keyDefaultValue"
+      :item-height="getRegionsSelect.itemHeight"
+      :show-item-bottom-border="getRegionsSelect.showItemBottomBorder"
+      :item-style="getRegionsSelect.itemStyle"
+      :popup-select="getRegionsSelect.popupSelect"
+      :popup="getRegionsSelect.popup"
+      :confirm-btn="getRegionsSelect.confirmBtn"
+      :cancel-btn="getRegionsSelect.cancelBtn"
+      @confirm="handleRegionsSelectConfirm"
     />
   </view>
 </template>
@@ -69,13 +71,13 @@
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
 
-const TAG = 'PiCalendarInput'
-const { calendarInput } = getConfig()
+const TAG = 'PiRegionsSelectInput'
+const { regionsSelectInput } = getConfig()
 
 const PI_DEFAULT_FN_FLAG = 'PI_DEFAULT_FN_FLAG'
 
 export default {
-  name: 'PiCalendar',
+  name: 'PiRegionsSelectInput',
   // 混入v-model
   mixins: [ValueSync],
   props: {
@@ -88,7 +90,7 @@ export default {
       type: Object,
       // {}
       default() {
-        return calendarInput.customStyle
+        return regionsSelectInput.customStyle
       }
     },
     // 自定义样式类，字符串形式
@@ -96,36 +98,30 @@ export default {
       type: String,
       // ''
       default() {
-        return calendarInput.customClass
+        return regionsSelectInput.customClass
       }
     },
     // input输入设置
     input: {
       type: Object,
       default() {
-        // 参照calendar
-        return calendarInput.input
+        // 参照RegionsSelect
+        return regionsSelectInput.input
       }
     },
     // 日历弹窗参数设置
-    calendar: {
+    regionsSelect: {
       type: Object,
       default() {
-        // 参照calendar
-        return calendarInput.calendar
+        // 参照RegionsSelect
+        return regionsSelectInput.RegionsSelect
       }
     },
-    // 已选择的时间格式化显示规则，默认（'YYYY-MM-DD'）
-    dateFormat: {
-      type: String,
-      // 'YYYY-MM-DD'
-      default: calendarInput.dateFormat
-    },
-    // 范围选择时间分隔符，默认（'至'）
+    // 地区分隔符，默认（'/'）
     rangeSplit: {
       type: String,
-      // '至'
-      default: calendarInput.rangeSplit
+      // '/'
+      default: regionsSelectInput.rangeSplit
     },
     // 解析值的方法，如果配置了，则读取该函数的返回值作为显示的内容
     parseValueFn: {
@@ -133,7 +129,7 @@ export default {
       default() {
         return {
           [PI_DEFAULT_FN_FLAG]: true,
-          fn: calendarInput.parseValueFn
+          fn: regionsSelectInput.parseValueFn
         }
       }
     }
@@ -144,8 +140,8 @@ export default {
     }
   },
   computed: {
-    getCalendar() {
-      return this.$pi.lang.mergeDeep(calendarInput.calendar, this.calendar)
+    getRegionsSelect() {
+      return this.$pi.lang.mergeDeep(regionsSelectInput.regionsSelect, this.regionsSelect)
     },
     getInputValue() {
       const parseValueFn = this.parseValueFn[PI_DEFAULT_FN_FLAG]
@@ -155,36 +151,33 @@ export default {
         const parseValue = parseValueFn(this.val)
         return parseValue
       }
-      if (!this.dateFormat) {
-        console.warn('使用pi-calendar-input组件，请设置.dateFormat，否则无法正常显示')
-      }
       if (this.$pi.lang.isEmpty(this.val)) return ''
       // 常规字段正常返回
-      if (this.$pi.lang.isString(this.val) || this.$pi.lang.isNumber(this.val)) {
-        return this.val
-      }
-      // 如果是日期对象，返回格式化后的日期
-      if (this.calendar.calendarPanel.type === 'date') {
-        return this.$pi.date.formatDate(new Date(this.val), this.dateFormat)
-      }
-      if (this.calendar.calendarPanel.type === 'range') {
-        return this.val
-          .map(date => {
-            return this.$pi.date.formatDate(new Date(date), this.dateFormat)
-          })
-          .join(this.rangeSplit)
-      }
-      return ''
+      const code = this.getRegionsSelect.keyDefaultValue
+        ? this.val
+        : this.val[this.getRegionsSelect.keyField]
+      const regions = this.$pi.regions.parseRegions(code, this.getRegionsSelect.regionsData)
+      return this.generateRegionsName(regions)
     }
   },
   methods: {
+    generateRegionsName(regions) {
+      const addressFields = ['province', 'city', 'county', 'street']
+      return addressFields
+        .reduce((prev, curr) => {
+          const name = regions[curr][this.getRegionsSelect.displayField]
+          name && prev.push(name)
+          return prev
+        }, [])
+        .join(this.rangeSplit)
+    },
     handlePopupClose() {
       this.val = false
       // 关闭
       this.$emit('close')
       this.handleEmitChange()
     },
-    handleCalendarConfirm(value) {
+    handleRegionsSelectConfirm(value) {
       this.val = value
       this.handleEmitChange()
     }
@@ -193,7 +186,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pi-calendar-input {
+.pi-regions-select-input {
   width: 100%;
 }
 </style>

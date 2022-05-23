@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2022-05-20 16:17:27
+ * @LastEditTime: 2022-05-20 17:52:51
  * @LastEditors: zhangzhenfei
  * @Description: 日历输入
  * @FilePath: /hfmp-checkin-front/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-date-picker-input/index.vue
@@ -110,7 +110,7 @@ export default {
         return datePickerInput.input
       }
     },
-    // 日历弹窗参数设置
+    // 日期弹窗参数设置
     datePicker: {
       type: Object,
       default() {
