@@ -16,7 +16,7 @@
       v-if="!['text', 'button'].includes(getShape)"
       class="radio-icon"
       :style="[radioStyle]"
-      @tap="handleRadioToggle(false)"
+      @tap.stop="handleRadioToggle(false)"
     >
       <view v-if="getShape === 'dot'" class="dot" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />

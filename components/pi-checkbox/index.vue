@@ -9,7 +9,7 @@
       v-if="getShape !== 'text'"
       class="check-icon"
       :style="[checkStyle]"
-      @tap="handleCheckboxToggle(false)"
+      @tap.stop="handleCheckboxToggle(false)"
     >
       <view v-if="getShape === 'dot'" class="dot" :style="[dotStyle]" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />
