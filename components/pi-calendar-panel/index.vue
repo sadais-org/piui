@@ -58,7 +58,6 @@
           <view
             class="pi-abso-center pi-fw-500 pi-light-gray"
             style="
-
               z-index: 1;
               font-size: 300rpx;
               pointer-events: none;
@@ -267,6 +266,11 @@ export default {
           const inRange =
             start && end && day.timestamp > start.timestamp && day.timestamp < end.timestamp
           const activeStyle = {}
+          // 处理中间范围的样式
+          if (inRange) {
+            activeStyle.color = this.rangeColor
+            activeStyle.background = this.rangeBg
+          }
           // 处理两端
           if (isBegin || isEnd) {
             activeStyle.color = this.activeColor
@@ -274,11 +278,6 @@ export default {
               ? `${this.getActiveBorderRadius} 0 0 ${this.getActiveBorderRadius}`
               : `0 ${this.getActiveBorderRadius} ${this.getActiveBorderRadius} 0`
             if (this.activeBg) activeStyle.background = this.activeBg
-          }
-          // 处理中间范围的样式
-          if (inRange) {
-            activeStyle.color = this.rangeColor
-            activeStyle.background = this.rangeBg
           }
           day.activeStyle = activeStyle
           // type 为 range 开始和结束的提示
