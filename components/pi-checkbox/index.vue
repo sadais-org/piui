@@ -259,6 +259,8 @@ $unactive-color: #cccccc;
 .pi-check-wrap {
   display: inline-flex;
   align-items: center;
+  cursor: pointer;
+
   .check-icon {
     position: relative;
     display: inline-flex;

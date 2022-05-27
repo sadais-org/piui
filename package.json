@@ -1,6 +1,6 @@
 {
   "name": "sadais-piui",
-  "version": "1.2.6beta7",
+  "version": "1.2.6beta10",
   "description": "piui组件库",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/sadais-org/piui.git"
   },
   "peerDependencies": {
-    "@sadais/piui-tool": "^0.0.18"
+    "@sadais/piui-tool": ">=0.0.21"
   },
   "keywords": [
     "piui sadais-piui"

@@ -260,6 +260,8 @@ $unactive-color: #cccccc;
 .pi-radio-wrap {
   display: inline-flex;
   align-items: center;
+  cursor: pointer;
+
   .radio-icon {
     position: relative;
     display: inline-flex;
