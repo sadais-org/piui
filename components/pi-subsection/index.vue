@@ -18,7 +18,7 @@
       class="pi-subsection__item"
       :class="[itemClass(index)]"
       :style="[itemStyle(index)]"
-      @tap="clickHandler(index)"
+      @tap="handleSelectItem(index)"
     >
       <text class="pi-subsection__item__text" :style="[textStyle(index)]">{{ getText(item) }}</text>
     </view>
@@ -30,6 +30,7 @@
 const dom = uni.requireNativePlugin('dom')
 const animation = uni.requireNativePlugin('animation')
 // #endif
+import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
 const { subsection } = getConfig()
 /**
@@ -37,11 +38,21 @@ const { subsection } = getConfig()
  * @description 该分段器一般用于用户从几个选项中选择某一个的场景
  * @tutorial http://piui.sadais.com/docs/components/Subsection.html
  * @event {Function} change		分段器选项发生改变时触发  回调 index：选项的index索引值，从0开始
- * @example <pi-subsection :items="items" :current="curNow" @change="sectionChange" />
+ * @example <pi-subsection v-model="current" :items="items" @change="sectionChange" />
  */
 export default {
   name: 'PiSubsection',
+  // 混入v-model
+  mixins: [ValueSync],
   props: {
+    // 当前活动的tab的index
+    value: {
+      type: Number,
+      // 0
+      default() {
+        return subsection.current
+      }
+    },
     // 自定义样式，对象形式
     customStyle: {
       type: Object,
@@ -64,14 +75,6 @@ export default {
       // []
       default() {
         return subsection.items
-      }
-    },
-    // 当前活动的tab的index
-    current: {
-      type: [String, Number],
-      // 0
-      default() {
-        return subsection.current
       }
     },
     // 激活时的颜色
@@ -155,11 +158,11 @@ export default {
       let className = 'pi-subsection--button__bar'
       // 分段器模式
       if (this.mode === 'subsection') {
-        if (this.current === 0) {
+        if (this.val === 0) {
           className = 'pi-subsection__bar--first'
-        } else if (this.current > 0 && this.current < this.items.length - 1) {
+        } else if (this.val > 0 && this.val < this.items.length - 1) {
           className = 'pi-subsection__bar--center'
-        } else if (this.current === this.items.length - 1) {
+        } else if (this.val === this.items.length - 1) {
           className = 'pi-subsection__bar--last'
         }
       }
@@ -180,7 +183,7 @@ export default {
       style.height = `${this.itemRect.height}px`
       // 通过translateX移动滑块，其移动的距离为索引*item的宽度
       // #ifndef APP-NVUE
-      style.transform = `translateX(${this.current * this.itemRect.width}px)`
+      style.transform = `translateX(${this.val * this.itemRect.width}px)`
       // #endif
       if (this.mode === 'subsection') {
         // 在subsection模式下，需要动态设置滑块的圆角，因为移动滑块使用的是translateX，无法通过父元素设置overflow: hidden隐藏滑块的直角
@@ -219,10 +222,10 @@ export default {
     itemClass(index) {
       return (index) => {
         let className = `pi-subsection__item--${index}`
-        if (index === 0) {
-          className += ' pi-subsection__item--first'
-        } else if (index < this.items.length - 1) {
+        if (index < this.items.length - 1) {
           className += ' pi-subsection__item--no-border-right'
+        } else if (index === 0) {
+          className += ' pi-subsection__item--first'
         } else if (index === this.items.length - 1) {
           className += ' pi-subsection__item--last'
         }
@@ -233,14 +236,14 @@ export default {
     textStyle(index) {
       return (index) => {
         const style = {}
-        style.fontWeight = this.bold && this.current === index ? 'bold' : 'normal'
+        style.fontWeight = this.bold && this.val === index ? 'bold' : 'normal'
         style.fontSize = this.$pi.common.addUnit(this.fontSize)
         // subsection模式下，激活时默认为白色的文字
         if (this.mode === 'subsection') {
-          style.color = this.current === index ? '#fff' : this.inactiveColor
+          style.color = this.val === index ? '#fff' : this.inactiveColor
         } else {
           // button模式下，激活时文字颜色默认为activeColor
-          style.color = this.current === index ? this.activeColor : this.inactiveColor
+          style.color = this.val === index ? this.activeColor : this.inactiveColor
         }
         return style
       }
@@ -310,8 +313,9 @@ export default {
       })
     },
 
-    clickHandler(index) {
-      this.$emit('change', index)
+    handleSelectItem(index) {
+      this.val = index
+      this.handleEmitChange()
     }
   }
 }
