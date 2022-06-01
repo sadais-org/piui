@@ -50,7 +50,7 @@ export default {
       type: Number,
       // 0
       default() {
-        return subsection.current
+        return subsection.value
       }
     },
     // 自定义样式，对象形式
@@ -134,11 +134,11 @@ export default {
       }
     },
     // 从`items`元素对象中读取的键名
-    keyName: {
+    keyField: {
       type: String,
       // name
       default() {
-        return subsection.keyName
+        return subsection.keyField
       }
     }
   },
@@ -172,7 +172,7 @@ export default {
       const style = {}
       // button模式时，设置背景色
       if (this.mode === 'button') {
-        style.backgroundColor = this.bgColor
+        style.background = this.bgColor
       }
       return style
     },
@@ -187,7 +187,7 @@ export default {
       // #endif
       if (this.mode === 'subsection') {
         // 在subsection模式下，需要动态设置滑块的圆角，因为移动滑块使用的是translateX，无法通过父元素设置overflow: hidden隐藏滑块的直角
-        style.backgroundColor = this.activeColor
+        style.background = this.activeColor
       }
       // 按钮圆角模式 按钮模式生效
       if (this.round && this.mode === 'button') {
@@ -197,7 +197,7 @@ export default {
     },
     // 分段器item的样式
     itemStyle(index) {
-      return (index) => {
+      return index => {
         const style = {}
         if (this.mode === 'subsection') {
           // 设置border的样式
@@ -220,7 +220,7 @@ export default {
     },
     // 分段器item的class
     itemClass(index) {
-      return (index) => {
+      return index => {
         let className = `pi-subsection__item--${index}`
         if (index < this.items.length - 1) {
           className += ' pi-subsection__item--no-border-right'
@@ -234,7 +234,7 @@ export default {
     },
     // 分段器文字颜色
     textStyle(index) {
-      return (index) => {
+      return index => {
         const style = {}
         style.fontWeight = this.bold && this.val === index ? 'bold' : 'normal'
         style.fontSize = this.$pi.common.addUnit(this.fontSize)
@@ -283,19 +283,19 @@ export default {
     },
     // 判断展示文本
     getText(item) {
-      return typeof item === 'object' ? item[this.keyName] : item
+      return typeof item === 'object' ? item[this.keyField] : item
     },
     // 获取组件的尺寸
     getRect() {
       // #ifndef APP-NVUE
-      this.$pi.common.queryRect(this, '.pi-subsection__item--0', false).then((size) => {
+      this.$pi.common.queryRect(this, '.pi-subsection__item--0', false).then(size => {
         this.itemRect = size
       })
       // #endif
       // #ifdef APP-NVUE
       const ref = this.$refs['pi-subsection__item--0'][0]
       ref &&
-        dom.getComponentRect(ref, (res) => {
+        dom.getComponentRect(ref, res => {
           this.itemRect = res.size
         })
       // #endif
@@ -306,7 +306,7 @@ export default {
      * @returns {Promise} 返回promise
      */
     sleep(value = 30) {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         setTimeout(() => {
           resolve()
         }, value)
