@@ -1,6 +1,6 @@
 {
   "name": "sadais-piui",
-  "version": "1.2.6beta11",
+  "version": "1.2.6",
   "description": "piui组件库",
   "main": "index.js",
   "scripts": {
@@ -23,4 +23,3 @@
   },
   "homepage": "https://github.com/sadais-org/piui#readme"
 }
- 
