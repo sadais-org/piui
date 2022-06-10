@@ -326,7 +326,7 @@ $unactive-color: #cccccc;
     opacity: $pi-disabled-opacity;
   }
   &.active {
-    .radio-label {
+    .check-label {
       color: $pi-primary-color;
     }
     &.line,
