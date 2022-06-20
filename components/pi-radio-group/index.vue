@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import Emitter from '../../mixin/emitter'
 import ValueSync from '../../mixin/value-sync'
 import { parentInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
@@ -26,6 +27,7 @@ export default {
   name: 'PiRadioGroup',
   // 混入自定义样式customStyle和customClass
   mixins: [
+    Emitter,
     ValueSync,
     // parentInit 混入子组件要继承的属性
     parentInit([
@@ -181,6 +183,8 @@ export default {
         this.val = childName
       }
       this.handleEmitChange()
+      this.dispatch('PiForm', 'form-change', this.val)
+      this.dispatch('PiFormItem', 'form-change', this.val)
     }
   }
 }

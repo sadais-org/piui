@@ -400,7 +400,7 @@ export default {
     // 从pi-form的rules属性中，取出当前pi-form-item的校验规则
     getRules() {
       // 父组件的所有规则
-      const parentRules = this._parent ? this._parent.rules : undefined
+      const parentRules = this._parent && (this._parent.validRules || this._parent.rules)
       const rules = parentRules ? parentRules[this.prop] : []
       return [].concat(rules || [])
     },
@@ -449,7 +449,10 @@ export default {
             resolve(_getResolve())
           })
           .catch(({ errors, fields }) => {
-            console.log(TAG, '表单校验失败', this.prop, errors, fields)
+            console.log(TAG, '表单校验失败', `字段名：${this.prop}，字段值：${fieldValue}`)
+            console.log(TAG, '字段值：', fieldValue)
+            console.log(TAG, '错误信息', errors)
+            console.log(TAG, '校验规则', fields)
             // 记录状态和报错信息
             this.validateState = 'error'
             this.validateMessage = errors ? errors[0].message : ''

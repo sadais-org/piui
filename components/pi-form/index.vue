@@ -218,17 +218,33 @@ export default {
       default() {
         return form.rightIcon
       }
+    },
+    // 表单校验规则
+    rules: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
   data() {
     return {
-      rules: {}
+      validRules: {}
+    }
+  },
+  watch: {
+    rules: {
+      deep: true,
+      immediate: true,
+      handler(value) {
+        this.setRules(value)
+      }
     }
   },
   methods: {
     // 由于跨平台限制，无法通过props传递方法，通过refs方式在onReady生命周期设置校验规则
     setRules(rules) {
-      this.rules = rules
+      this.validRules = rules
     },
     // 校验数据
     async validation() {

@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import Emitter from '../../mixin/emitter'
 import ValueSync from '../../mixin/value-sync'
 import { parentInit } from '../../mixin/props-sync'
 import { getConfig } from '../../config'
@@ -24,6 +25,7 @@ export default {
   name: 'PiCheckboxGroup',
   // 混入自定义样式customStyle和customClass
   mixins: [
+    Emitter,
     ValueSync,
     parentInit([
       'value',
@@ -184,6 +186,8 @@ export default {
       })
       this.val = vals
       this.handleEmitChange()
+      this.dispatch('PiForm', 'form-change', this.val)
+      this.dispatch('PiFormItem', 'form-change', this.val)
     }
   }
 }

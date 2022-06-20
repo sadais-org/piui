@@ -12,6 +12,7 @@ export default {
   field: 'day', // 选择器的粒度 year、month、day、hour、minute、second
   dateType: 'datetime', // 日期类型，date、datetime、time（默认值：datetime）
   defaultValue: '', // 日期默认值
+  units: ['年', '月', '日', '时', '分', '秒'], // 单位数组，默认值：['年', '月', '日', '时', '分', '秒']
   format: '', // 返回的日期格式，为空的时候，返回的是日期对象
   itemHeight: 110, // 行高（默认：'110rpx'）
   itemStyle: {}, // 行样式（默认：{}）

@@ -119,6 +119,13 @@ export default {
       // ''
       default: datePicker.defaultValue
     },
+    // 单位数组，默认值：['年', '月', '日', '时', '分', '秒']
+    units: {
+      type: Array,
+      default() {
+        return datePicker.units
+      }
+    },
     // 返回的日期格式
     format: {
       type: String,
@@ -227,33 +234,40 @@ export default {
       const itemHeight = uni.upx2px(this.itemHeight)
       return `height: ${itemHeight}px;line-height: ${itemHeight}px;`
     },
+    getUnits() {
+      return this.$pi.mergeDeep(datePicker.units, this.units, {
+        arrayMerge: (target, source, options) => {
+          return target.map((t, index) => source[index] || t)
+        }
+      })
+    },
     columns() {
       const monthDays = new Date(this.date.year, this.date.month, 0).getDate()
       let columns = [
         {
           field: 'year',
-          unit: '年',
+          unit: this.getUnits[0],
           key: 'year',
           setMethod: 'setYear',
           items: this.$pi.common.generateArray(this.startYear, this.endYear)
         },
         {
           field: 'month',
-          unit: '月',
+          unit: this.getUnits[1],
           key: 'month',
           setMethod: 'setMonth',
           items: this.$pi.common.generateArray(1, 12)
         },
         {
           field: 'day',
-          unit: '日',
+          unit: this.getUnits[2],
           key: 'date',
           setMethod: 'setDate',
           items: this.$pi.common.generateArray(1, monthDays)
         },
         {
           field: 'hour',
-          unit: '时',
+          unit: this.getUnits[3],
           key: 'hour',
           setMethod: 'setHours',
           type: 'time',
@@ -261,7 +275,7 @@ export default {
         },
         {
           field: 'minute',
-          unit: '分',
+          unit: this.getUnits[4],
           key: 'minute',
           setMethod: 'setMinutes',
           type: 'time',
@@ -269,7 +283,7 @@ export default {
         },
         {
           field: 'second',
-          unit: '秒',
+          unit: this.getUnits[5],
           key: 'second',
           setMethod: 'setSeconds',
           type: 'time',
