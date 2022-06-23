@@ -283,7 +283,8 @@ export default {
         width: this.getSliderBarWidth,
         height: this.getSliderBarHeight,
         borderRadius: this.getSliderBarRadius,
-        transitionDuration: duration.css
+        transitionDuration: duration.css,
+        ...this.sliderBarStyle
       }
       let sliderScrollLeft = this.activeRect.left
       if (style.width !== 'auto') {
