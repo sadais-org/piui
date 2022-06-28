@@ -16,7 +16,6 @@
       </view>
       <view v-if="showBackToday" class="back-today" @tap="handleBackToday">回到今日</view>
     </view>
-
     <!-- 星期 -->
     <view
       class="pi-align-center pi-pd-24"
@@ -34,15 +33,13 @@
       <!-- 固定日期面板正方形，避免高度变化造成界面抖动 -->
       <view class="pi-rela">
         <view class="pi-rela pi-align-center pi-flex-wrap pi-pd-24">
-          <!-- 前置空项目 -->
-          <view v-for="emptyDay in firstDay" :key="emptyDay" class="date-item" />
-          <!-- 天 -->
           <view
             v-for="day in days"
             :key="day.key"
             class="date-item"
             style="cursor: pointer;"
-            :style="[day.nowStyle, day.activeStyle, day.disabledStyle]"
+            :style="[day.nowStyle, day.activeStyle]"
+            :class="{ 'pi-disabled': day.disabled }"
             @tap.stop="handleSelectDate(day)"
           >
             <view class="pi-square">
@@ -216,7 +213,9 @@ export default {
     },
     // 第一天
     firstDay() {
-      return new Date(`${this.year}/${this.month}/01 00:00:00`).getDay()
+      const preMonthLastDay = this.getPreMonthLastDay()
+      const firstDay = new Date(`${this.year}/${this.month}/01 00:00:00`).getDay()
+      return this.$pi.common.generateArray(preMonthLastDay - firstDay + 1, preMonthLastDay)
     },
     getMinDate() {
       return this.minDate ? this.$pi.date.parseDate(this.minDate) : ''
@@ -233,58 +232,73 @@ export default {
     // 总天数
     days() {
       const days = []
+      const dayCount = 7 * 6 // 固定显示6周
       const monthDays = new Date(this.year, this.month, 0).getDate()
-      for (let i = 1; i <= monthDays; i++) {
-        const day = {
+      for (let i = 1; i <= dayCount; i++) {
+        let day = {
           key: 'pi-calander-day-item-' + i,
-          index: i,
-          ...this.$pi.date.parseDate(`${this.year}/${this.month}/${i}`)
+          index: i
         }
-        const isDisabled = this.isDisabled(day)
-        // 禁用
-        if (isDisabled) {
-          day.disabledStyle = {
-            opacity: '0.3',
-            cursor: 'not-allowed'
+        const firstDayCount = this.firstDay.length
+        // 上月数据
+        if (i <= firstDayCount) {
+          day.date = this.firstDay[i - 1]
+          day.type = 'pre'
+          day.disabled = true
+        } else if (i > monthDays + firstDayCount) {
+          // 下月数据
+          day.date = i - monthDays - firstDayCount
+          day.type = 'next'
+          day.disabled = true
+        } else {
+          // 当月数据
+          day = {
+            ...day,
+            ...this.$pi.date.parseDate(`${this.year}/${this.month}/${i - firstDayCount}`)
           }
-        }
-        // 单选选中样式
-        if (this.type === 'date' && this.isSameDay(this.calendarValue, day)) {
-          const activeStyle = {
-            color: this.activeColor,
-            borderRadius: this.getActiveBorderRadius
+          const isDisabled = this.isDisabled(day)
+          // 禁用
+          if (isDisabled) {
+            day.disabled = true
           }
-          if (this.activeBg) activeStyle.background = this.activeBg
-          day.activeStyle = activeStyle
-        }
-        // 范围选中样式
-        if (this.type === 'range') {
-          const start = this.calendarValue[0]
-          const end = this.calendarValue[1]
-          const isBegin = this.isSameDay(start, day)
-          const isEnd = this.isSameDay(end, day)
-          const inRange =
-            start && end && day.timestamp > start.timestamp && day.timestamp < end.timestamp
-          const activeStyle = {}
-          // 处理中间范围的样式
-          if (inRange) {
-            activeStyle.color = this.rangeColor
-            activeStyle.background = this.rangeBg
-          }
-          // 处理两端
-          if (isBegin || isEnd) {
-            activeStyle.color = this.activeColor
-            activeStyle.borderRadius = isBegin
-              ? `${this.getActiveBorderRadius} 0 0 ${this.getActiveBorderRadius}`
-              : `0 ${this.getActiveBorderRadius} ${this.getActiveBorderRadius} 0`
+          // 单选选中样式
+          if (this.type === 'date' && this.isSameDay(this.calendarValue, day)) {
+            const activeStyle = {
+              color: this.activeColor,
+              borderRadius: this.getActiveBorderRadius
+            }
             if (this.activeBg) activeStyle.background = this.activeBg
+            day.activeStyle = activeStyle
           }
-          day.activeStyle = activeStyle
-          // type 为 range 开始和结束的提示
-          if (isBegin) day.tip = this.startText
-          if (isEnd) day.tip = this.endText
-          if (isBegin && isEnd) {
-            day.tip = this.startText + '-' + this.endText
+          // 范围选中样式
+          if (this.type === 'range') {
+            const start = this.calendarValue[0]
+            const end = this.calendarValue[1]
+            const isBegin = this.isSameDay(start, day)
+            const isEnd = this.isSameDay(end, day)
+            const inRange =
+              start && end && day.timestamp > start.timestamp && day.timestamp < end.timestamp
+            const activeStyle = {}
+            // 处理中间范围的样式
+            if (inRange) {
+              activeStyle.color = this.rangeColor
+              activeStyle.background = this.rangeBg
+            }
+            // 处理两端
+            if (isBegin || isEnd) {
+              activeStyle.color = this.activeColor
+              activeStyle.borderRadius = isBegin
+                ? `${this.getActiveBorderRadius} 0 0 ${this.getActiveBorderRadius}`
+                : `0 ${this.getActiveBorderRadius} ${this.getActiveBorderRadius} 0`
+              if (this.activeBg) activeStyle.background = this.activeBg
+            }
+            day.activeStyle = activeStyle
+            // type 为 range 开始和结束的提示
+            if (isBegin) day.tip = this.startText
+            if (isEnd) day.tip = this.endText
+            if (isBegin && isEnd) {
+              day.tip = this.startText + '-' + this.endText
+            }
           }
         }
         // 当天样式
@@ -351,9 +365,18 @@ export default {
         (this.getMaxDate && day.timestamp > this.getMaxDate.timestamp)
       return isDisabled
     },
+    // 获取上个月最后一天
+    getPreMonthLastDay() {
+      let year = this.year
+      let month = this.month
+      if (month === 1) {
+        year = year - 1
+        month = 12
+      }
+      return new Date(year, month - 1, '0').getDate()
+    },
     handleSelectDate(date) {
-      const isDisabled = this.isDisabled(date)
-      if (isDisabled) return
+      if (date.disabled) return
       if (this.type === 'date') {
         // 单选方式
         this.handleChange(date)
