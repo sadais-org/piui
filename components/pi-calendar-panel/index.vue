@@ -9,9 +9,9 @@
           <view class="pi-icon-right pi-pd-14" @tap="handleChangeYear(1)" />
         </view>
         <view class="pi-align-center">
-          <view class="pi-icon-back pi-pd-14" @tap="handleChangeMonth(-1)" />
+          <view class="pi-icon-back pi-pd-14" @tap="handlePrevMonth()" />
           <view class="pi-pd-lr-8 pi-text-nowrap">{{ month }}月</view>
-          <view class="pi-icon-right pi-pd-14" @tap="handleChangeMonth(1)" />
+          <view class="pi-icon-right pi-pd-14" @tap="handleNextMonth()" />
         </view>
       </view>
       <view v-if="showBackToday" class="back-today" @tap="handleBackToday">回到今日</view>
@@ -32,37 +32,30 @@
     <view class="pi-square">
       <!-- 固定日期面板正方形，避免高度变化造成界面抖动 -->
       <view class="pi-rela">
-        <view class="pi-rela pi-align-center pi-flex-wrap pi-pd-24">
-          <view
-            v-for="day in days"
-            :key="day.key"
-            class="date-item"
-            style="cursor: pointer;"
-            :style="[day.nowStyle, day.activeStyle]"
-            :class="{ 'pi-disabled': day.disabled }"
-            @tap.stop="handleSelectDate(day)"
-          >
-            <view class="pi-square">
-              <view class="pi-rela pi-flex-column-center pi-lh-28">
-                <text>{{ day.date }}</text>
-                <text v-if="day.tip" class=" pi-text-nowrap pi-fz-18 pi-mg-top-6">
-                  {{ day.tip }}
-                </text>
-              </view>
-            </view>
-          </view>
-          <!-- 日历蒙层 -->
-          <view
-            class="pi-abso-center pi-fw-500 pi-light-gray"
-            style="
-              z-index: 1;
-              font-size: 300rpx;
-              pointer-events: none;
-              opacity: 0.1;"
-          >
-            {{ month }}
-          </view>
-        </view>
+        <swiper
+          class="pi-w-100P pi-h-100P"
+          :current="currentTabIndex"
+          circular
+          @change="handleTabChange"
+        >
+          <swiper-item v-for="tab in [1, 2, 3]" :key="tab">
+            <calandar-days
+              :calendar-value="calendarValue"
+              :year="year"
+              :month="getCalandarMonth(tab)"
+              :type="type"
+              :today-active-border-color="todayActiveBorderColor"
+              :active-color="activeColor"
+              :active-bg="activeBg"
+              :active-border-radius="activeBorderRadius"
+              :range-color="rangeColor"
+              :range-bg="rangeBg"
+              :start-text="startText"
+              :end-text="endText"
+              @change="handleChange"
+            />
+          </swiper-item>
+        </swiper>
       </view>
     </view>
   </view>
@@ -71,12 +64,14 @@
 <script>
 import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
+import CalandarDays from './components/calendar-days'
 
 const TAG = 'PiCalendarPanel'
 const { calendarPanel } = getConfig()
 
 export default {
   name: 'PiCalendarPanel',
+  components: { CalandarDays },
   mixins: [ValueSync],
   props: {
     // 自定义样式，对象形式
@@ -201,7 +196,8 @@ export default {
       now: now, // 当前时间
       year: '', // 年份
       month: '', // 月份
-      calendarValue: ''
+      calendarValue: '',
+      currentTabIndex: 1 // 当前选中的tab索引
     }
   },
   computed: {
@@ -211,107 +207,11 @@ export default {
     weekDayZh() {
       return this.$pi.date.getWeekDayZh()
     },
-    // 第一天
-    firstDay() {
-      const preMonthLastDay = this.getPreMonthLastDay()
-      const firstDay = new Date(`${this.year}/${this.month}/01 00:00:00`).getDay()
-      return this.$pi.common.generateArray(preMonthLastDay - firstDay + 1, preMonthLastDay)
-    },
-    getMinDate() {
-      return this.minDate ? this.$pi.date.parseDate(this.minDate) : ''
-    },
-    getMaxDate() {
-      return this.maxDate ? this.$pi.date.parseDate(this.maxDate) : ''
-    },
     isMinYear() {
       return this.year === parseInt(this.minYear, 10)
     },
     isMaxYear() {
       return this.year === parseInt(this.maxYear, 10)
-    },
-    // 总天数
-    days() {
-      const days = []
-      const dayCount = 7 * 6 // 固定显示6周
-      const monthDays = new Date(this.year, this.month, 0).getDate()
-      for (let i = 1; i <= dayCount; i++) {
-        let day = {
-          key: 'pi-calander-day-item-' + i,
-          index: i
-        }
-        const firstDayCount = this.firstDay.length
-        // 上月数据
-        if (i <= firstDayCount) {
-          day.date = this.firstDay[i - 1]
-          day.type = 'pre'
-          day.disabled = true
-        } else if (i > monthDays + firstDayCount) {
-          // 下月数据
-          day.date = i - monthDays - firstDayCount
-          day.type = 'next'
-          day.disabled = true
-        } else {
-          // 当月数据
-          day = {
-            ...day,
-            ...this.$pi.date.parseDate(`${this.year}/${this.month}/${i - firstDayCount}`)
-          }
-          const isDisabled = this.isDisabled(day)
-          // 禁用
-          if (isDisabled) {
-            day.disabled = true
-          }
-          // 单选选中样式
-          if (this.type === 'date' && this.isSameDay(this.calendarValue, day)) {
-            const activeStyle = {
-              color: this.activeColor,
-              borderRadius: this.getActiveBorderRadius
-            }
-            if (this.activeBg) activeStyle.background = this.activeBg
-            day.activeStyle = activeStyle
-          }
-          // 范围选中样式
-          if (this.type === 'range') {
-            const start = this.calendarValue[0]
-            const end = this.calendarValue[1]
-            const isBegin = this.isSameDay(start, day)
-            const isEnd = this.isSameDay(end, day)
-            const inRange =
-              start && end && day.timestamp > start.timestamp && day.timestamp < end.timestamp
-            const activeStyle = {}
-            // 处理中间范围的样式
-            if (inRange) {
-              activeStyle.color = this.rangeColor
-              activeStyle.background = this.rangeBg
-            }
-            // 处理两端
-            if (isBegin || isEnd) {
-              activeStyle.color = this.activeColor
-              activeStyle.borderRadius = isBegin
-                ? `${this.getActiveBorderRadius} 0 0 ${this.getActiveBorderRadius}`
-                : `0 ${this.getActiveBorderRadius} ${this.getActiveBorderRadius} 0`
-              if (this.activeBg) activeStyle.background = this.activeBg
-            }
-            day.activeStyle = activeStyle
-            // type 为 range 开始和结束的提示
-            if (isBegin) day.tip = this.startText
-            if (isEnd) day.tip = this.endText
-            if (isBegin && isEnd) {
-              day.tip = this.startText + '-' + this.endText
-            }
-          }
-        }
-        // 当天样式
-        if (this.showBackToday && this.isSameDay(this.now, day)) {
-          day.nowStyle = {
-            color: this.todayActiveBorderColor,
-            border: '1px solid ' + this.todayActiveBorderColor,
-            borderRadius: this.getActiveBorderRadius
-          }
-        }
-        days.push(day)
-      }
-      return days
     }
   },
   watch: {
@@ -350,21 +250,6 @@ export default {
       }
       this.value && this.handleChange(initValue)
     },
-    isSameDay(day1, day2) {
-      return (
-        day1 &&
-        day2 &&
-        day1.year === day2.year &&
-        day1.month === day2.month &&
-        day1.date === day2.date
-      )
-    },
-    isDisabled(day) {
-      const isDisabled =
-        (this.getMinDate && day.timestamp < this.getMinDate.timestamp) ||
-        (this.getMaxDate && day.timestamp > this.getMaxDate.timestamp)
-      return isDisabled
-    },
     // 获取上个月最后一天
     getPreMonthLastDay() {
       let year = this.year
@@ -374,26 +259,6 @@ export default {
         month = 12
       }
       return new Date(year, month - 1, '0').getDate()
-    },
-    handleSelectDate(date) {
-      if (date.disabled) return
-      if (this.type === 'date') {
-        // 单选方式
-        this.handleChange(date)
-        return
-      }
-      // 处理范围选择方式
-      if (this.calendarValue.length === 2) {
-        // 如果选了两项，则重新开始选择范围
-        this.handleChange([date])
-      } else {
-        // 和第一项判断大小，小的放前面
-        if (date.timestamp > this.calendarValue[0].timestamp) {
-          this.handleChange([this.calendarValue[0], date])
-        } else {
-          this.handleChange([date, this.calendarValue[0]])
-        }
-      }
     },
     handleChangeMonth(change) {
       const month = this.month + change
@@ -408,6 +273,22 @@ export default {
       } else {
         this.month = month
       }
+    },
+    handlePrevMonth() {
+      if (this.currentTabIndex === 0) {
+        this.currentTabIndex = 2
+      } else {
+        this.currentTabIndex--
+      }
+      this.handleChangeMonth(-1)
+    },
+    handleNextMonth() {
+      if (this.currentTabIndex === 2) {
+        this.currentTabIndex = 0
+      } else {
+        this.currentTabIndex++
+      }
+      this.handleChangeMonth(1)
     },
     handleChangeYear(change) {
       if (change > 0 && this.isMaxYear) return
@@ -430,6 +311,22 @@ export default {
             )
           : this.$pi.date.formatDate(new Date(this.calendarValue.timestamp), this.dateFormat)
       this.handleEmitChange()
+    },
+    handleTabChange(e) {
+      const { source, current } = e.detail
+      if (source !== 'touch') return
+      const isRightMove = [1, -2].includes(current - this.currentTabIndex)
+      this.currentTabIndex = current
+      this.handleChangeMonth(isRightMove ? 1 : -1)
+    },
+    getCalandarMonth(tab) {
+      const changeMaps = [
+        [0, -1, 1],
+        [1, 0, 0],
+        [-1, 0, 0]
+      ]
+      const change = changeMaps[tab - 1][this.currentTabIndex]
+      return this.month + change
     }
   }
 }
