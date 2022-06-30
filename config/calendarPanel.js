@@ -20,5 +20,7 @@ export default {
   rangeBg: '#5A7DFF25', // 范围内日期背景色，默认（'#5A7DFF25'）
   startText: '开始', // type=range时生效，起始日期自定义文案，默认（'开始'）
   endText: '结束', // type=range时生效，结束日期自定义文案，默认（'结束'）
-  dateFormat: 'YYYY-MM-DD' // 已选择的时间格式化显示规则，默认（'YYYY-MM-DD'）
+  dateFormat: 'YYYY-MM-DD', // 已选择的时间格式化显示规则，默认（'YYYY-MM-DD'）
+  canChangeWeekView: false, // 是否可切换周视图，默认（false）
+  defalutWeekView: false // 是否默认显示周视图，默认（false）
 }

@@ -29,11 +29,11 @@
         {{ week }}
       </view>
     </view>
-    <view class="pi-square">
+    <view class="days-wrap" :class="{ 'pi-square': !weekView, 'week-view': weekView }">
       <!-- 固定日期面板正方形，避免高度变化造成界面抖动 -->
-      <view class="pi-rela">
+      <view class="pi-rela pi-flex-column pi-h-100P">
         <swiper
-          class="pi-w-100P pi-h-100P"
+          class="pi-w-100P pi-flex-sub"
           :current="currentTabIndex"
           circular
           @change="handleTabChange"
@@ -43,7 +43,10 @@
               :calendar-value="calendarValue"
               :year="year"
               :month="getCalandarMonth(tab)"
+              :week="getCalandaWeek(tab)"
               :type="type"
+              :min-date="minDate"
+              :max-date="maxDate"
               :today-active-border-color="todayActiveBorderColor"
               :active-color="activeColor"
               :active-bg="activeBg"
@@ -52,10 +55,23 @@
               :range-bg="rangeBg"
               :start-text="startText"
               :end-text="endText"
+              :week-view="weekView"
+              :show-back-today="showBackToday"
               @change="handleChange"
             />
           </swiper-item>
         </swiper>
+        <view
+          v-if="canChangeWeekView"
+          class="pi-justify-center pi-align-center pi-pd-bottom-12 pi-light-gray"
+          @tap="handleChangeWeekView"
+        >
+          <pi-icon
+            name="arrow-down_fill"
+            :custom-style="{ transform: `rotate(${weekView ? '0deg' : '180deg'})` }"
+          />
+          <text class="pi-fz-24 ">{{ weekView ? '展开' : '收起' }}</text>
+        </view>
       </view>
     </view>
   </view>
@@ -188,6 +204,18 @@ export default {
       type: String,
       // 'YYYY-MM-DD'
       default: calendarPanel.dateFormat
+    },
+    // 是否可切换周视图，默认（true）
+    canChangeWeekView: {
+      type: Boolean,
+      // true
+      default: calendarPanel.canChangeWeekView
+    },
+    // 是否默认显示周视图，默认（false）
+    defalutWeekView: {
+      type: Boolean,
+      // true
+      default: calendarPanel.defalutWeekView
     }
   },
   data() {
@@ -196,13 +224,18 @@ export default {
       now: now, // 当前时间
       year: '', // 年份
       month: '', // 月份
+      week: 1, // 当前周
       calendarValue: '',
-      currentTabIndex: 1 // 当前选中的tab索引
+      currentTabIndex: 1, // 当前选中的tab索引
+      weekView: this.defalutWeekView // 是否显示周视图
     }
   },
   computed: {
-    getActiveBorderRadius() {
-      return this.$pi.common.addUnit(this.activeBorderRadius)
+    // 第一天
+    firstDay() {
+      const preMonthLastDay = this.getPreMonthLastDay
+      const firstDay = new Date(`${this.year}/${this.month}/01 00:00:00`).getDay()
+      return this.$pi.common.generateArray(preMonthLastDay - firstDay + 1, preMonthLastDay)
     },
     weekDayZh() {
       return this.$pi.date.getWeekDayZh()
@@ -212,6 +245,16 @@ export default {
     },
     isMaxYear() {
       return this.year === parseInt(this.maxYear, 10)
+    },
+    // 获取上个月最后一天
+    getPreMonthLastDay() {
+      let year = this.year
+      let month = this.month
+      if (month === 1) {
+        year = year - 1
+        month = 12
+      }
+      return new Date(year, month - 1, '0').getDate()
     }
   },
   watch: {
@@ -249,16 +292,37 @@ export default {
         initValue = nowDate
       }
       this.value && this.handleChange(initValue)
-    },
-    // 获取上个月最后一天
-    getPreMonthLastDay() {
-      let year = this.year
-      let month = this.month
-      if (month === 1) {
-        year = year - 1
-        month = 12
+      if (this.canChangeWeekView) {
+        // 如果可以切换周视图，则初始化当前周
+        let targetDay = this.type === 'date' ? this.calendarValue : this.calendarValue[0]
+        if (!targetDay) {
+          targetDay = this.now
+        }
+        const startDate = targetDay.date + this.firstDay.length
+        this.week = Math.ceil(startDate / 7)
       }
-      return new Date(year, month - 1, '0').getDate()
+    },
+
+    handleChangeWeek(change) {
+      const week = this.week + change
+      if (week > 6) {
+        // 当月最后一天剩余周
+        const lastDay = new Date(this.year, this.month, '0').getDate()
+        const lastDayIndex = lastDay + this.firstDay.length
+        const remainWeek = 6 - Math.floor(lastDayIndex / 7)
+        // 下一月
+        this.handleChangeMonth(1)
+        this.week = remainWeek + (lastDayIndex % 7 === 0 ? 0 : 1)
+      } else if (week < 1) {
+        // 记录上个月的最后一天
+        const preMonthLastDay = this.getPreMonthLastDay
+        // 切换到上一月
+        this.handleChangeMonth(-1)
+        const week = Math.floor((preMonthLastDay + this.firstDay.length) / 7)
+        this.week = week
+      } else {
+        this.week = week
+      }
     },
     handleChangeMonth(change) {
       const month = this.month + change
@@ -317,16 +381,36 @@ export default {
       if (source !== 'touch') return
       const isRightMove = [1, -2].includes(current - this.currentTabIndex)
       this.currentTabIndex = current
-      this.handleChangeMonth(isRightMove ? 1 : -1)
+      if (this.weekView) {
+        this.handleChangeWeek(isRightMove ? 1 : -1)
+      } else {
+        this.handleChangeMonth(isRightMove ? 1 : -1)
+      }
     },
     getCalandarMonth(tab) {
+      if (this.weekView) {
+        return this.month
+      }
       const changeMaps = [
-        [0, -1, 1],
-        [1, 0, 0],
-        [-1, 0, 0]
+        [0, 1, -1],
+        [-1, 0, 0],
+        [1, 0, 0]
       ]
       const change = changeMaps[tab - 1][this.currentTabIndex]
       return this.month + change
+    },
+    getCalandaWeek(tab) {
+      // 向后翻有点问题
+      const changeMaps = [
+        [0, -1, 1],
+        [1, 0, -1],
+        [-1, 1, 0]
+      ]
+      const change = changeMaps[tab - 1][this.currentTabIndex]
+      return this.week + change
+    },
+    handleChangeWeekView() {
+      this.weekView = !this.weekView
     }
   }
 }
@@ -350,6 +434,18 @@ export default {
     white-space: nowrap;
     background: $pi-primary-color;
     border-radius: 50rpx 0 0 50rpx;
+  }
+  .days-wrap {
+    transition: all $pi-animation-duration $pi-animation-timing-function;
+    &.week-view {
+      height: 200rpx;
+      padding-bottom: initial;
+    }
+  }
+
+  // 图标动态效果
+  ::v-deep .icon-wrap view {
+    transition: all $pi-animation-duration $pi-animation-timing-function;
   }
 }
 </style>

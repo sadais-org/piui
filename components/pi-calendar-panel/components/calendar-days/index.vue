@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-06-28 16:53:54
- * @LastEditTime: 2022-06-29 09:33:59
+ * @LastEditTime: 2022-06-30 10:33:16
  * @LastEditors: zhangzhenfei
  * @Description: 日历日期数据
  * @FilePath: /hfmp-checkin-front/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-calendar-panel/components/calendar-days/index.vue
@@ -15,7 +15,7 @@
       class="date-item"
       style="cursor: pointer;"
       :style="[day.nowStyle, day.activeStyle]"
-      :class="{ 'pi-disabled': day.disabled }"
+      :class="{ 'pi-disabled': day.disabled || day.type === 'disabled' }"
       @tap.stop="handleSelectDate(day)"
     >
       <view class="pi-square">
@@ -29,14 +29,17 @@
     </view>
     <!-- 日历蒙层 -->
     <view
-      class="pi-abso-center pi-fw-500 pi-light-gray"
+      class="pi-abso-center pi-fw-500 pi-light-gray pi-text-nowrap"
       style="
               z-index: 1;
-              font-size: 300rpx;
               pointer-events: none;
-              opacity: 0.1;"
+              opacity: 0.2;"
+      :style="[
+        { fontSize: weekView ? '32rpx' : '300rpx' },
+        { marginTop: weekView ? '42rpx' : '0' }
+      ]"
     >
-      {{ month }}
+      {{ getBgTip }}
     </view>
   </view>
 </template>
@@ -60,6 +63,11 @@ export default {
       type: [String, Number],
       default: ''
     },
+    // 当前展示周
+    week: {
+      type: Number,
+      default: 0
+    },
     // 日历类型
     type: {
       // `'date'-单个日期`, `'range'-范围日期`
@@ -69,6 +77,24 @@ export default {
       validator: function(value) {
         return ['date', 'range'].includes(value)
       }
+    },
+    // 最小可选日期(不在范围内日期禁用不可选，默认''，不作限制)
+    minDate: {
+      type: [Number, String, Date],
+      // ''
+      default: calendarPanel.minDate
+    },
+    // 最大可选日期(不在范围内日期禁用不可选，默认''，不作限制)
+    maxDate: {
+      type: [Number, String, Date],
+      // ''
+      default: calendarPanel.maxDate
+    },
+    // 是否显示回到今日
+    showBackToday: {
+      type: Boolean,
+      // true
+      default: calendarPanel.showBackToday
     },
     // 今日日期激活边框颜色
     todayActiveBorderColor: {
@@ -117,17 +143,53 @@ export default {
       type: String,
       // '结束'
       default: calendarPanel.endText
+    },
+    weekView: {
+      type: Boolean,
+      // '是否显示周视图'
+      default: calendarPanel.defalutWeekView
+    }
+  },
+  data() {
+    const now = this.$pi.date.parseDate()
+    return {
+      now: now // 当前时间
     }
   },
   computed: {
     getActiveBorderRadius() {
       return this.$pi.common.addUnit(this.activeBorderRadius)
     },
+    // 获取上个月最后一天
+    getPreMonthLastDay() {
+      let year = this.year
+      let month = this.month - 1
+      if (month === 0) {
+        year = year - 1
+        month = 12
+      }
+      return new Date(year, month, '0')
+    },
+    getNexMonthFirstDay() {
+      let year = this.year
+      let month = this.month + 1
+      if (month === 13) {
+        year = year + 1
+        month = 1
+      }
+      return new Date(year, month - 1, '1')
+    },
     // 第一天
     firstDay() {
-      const preMonthLastDay = this.getPreMonthLastDay()
+      const firstDays = []
+      const preMonthLastDay = this.getPreMonthLastDay
+      const lastDay = preMonthLastDay.getDate()
       const firstDay = new Date(`${this.year}/${this.month}/01 00:00:00`).getDay()
-      return this.$pi.common.generateArray(preMonthLastDay - firstDay + 1, preMonthLastDay)
+      for (let i = 0; i < firstDay; i++) {
+        const day = preMonthLastDay.setDate(lastDay - firstDay + i + 1)
+        firstDays.push(new Date(day))
+      }
+      return firstDays
     },
     getMinDate() {
       return this.minDate ? this.$pi.date.parseDate(this.minDate) : ''
@@ -140,22 +202,30 @@ export default {
       const days = []
       const dayCount = 7 * 6 // 固定显示6周
       const monthDays = new Date(this.year, this.month, 0).getDate()
+      const firstDayCount = this.firstDay.length
+      const nextMonthFirstDay = this.getNexMonthFirstDay
       for (let i = 1; i <= dayCount; i++) {
         let day = {
           key: 'pi-calander-day-item-' + i,
           index: i
         }
-        const firstDayCount = this.firstDay.length
+
         // 上月数据
         if (i <= firstDayCount) {
-          day.date = this.firstDay[i - 1]
-          day.type = 'pre'
-          day.disabled = true
+          day = {
+            ...day,
+            ...this.$pi.date.parseDate(this.firstDay[i - 1]),
+            type: this.weekView ? '' : 'disabled'
+          }
         } else if (i > monthDays + firstDayCount) {
           // 下月数据
-          day.date = i - monthDays - firstDayCount
-          day.type = 'next'
-          day.disabled = true
+          day = {
+            ...day,
+            ...this.$pi.date.parseDate(
+              new Date(nextMonthFirstDay.setDate(i - monthDays - firstDayCount))
+            ),
+            type: this.weekView ? '' : 'disabled'
+          }
         } else {
           // 当月数据
           day = {
@@ -208,16 +278,31 @@ export default {
           }
         }
         // 当天样式
-        if (this.showBackToday && this.isSameDay(this.now, day)) {
-          day.nowStyle = {
-            color: this.todayActiveBorderColor,
-            border: '1px solid ' + this.todayActiveBorderColor,
-            borderRadius: this.getActiveBorderRadius
+        if (this.isSameDay(this.now, day)) {
+          day.today = true
+          if (this.showBackToday) {
+            day.nowStyle = {
+              color: this.todayActiveBorderColor,
+              border: '1px solid ' + this.todayActiveBorderColor,
+              borderRadius: this.getActiveBorderRadius
+            }
           }
         }
         days.push(day)
       }
+      if (this.weekView) {
+        days.splice(0, (this.week - 1) * 7)
+        days.splice(7, days.length - 7)
+      }
       return days
+    },
+    getBgTip() {
+      if (!this.days.length) return ''
+      const startDay = this.days[0]
+      const endDay = this.days[this.days.length - 1]
+      return this.weekView
+        ? `${startDay.month}月 ${startDay.date}日 - ${endDay.month}月 ${endDay.date}日`
+        : this.month
     }
   },
   methods: {
@@ -235,16 +320,6 @@ export default {
         (this.getMinDate && day.timestamp < this.getMinDate.timestamp) ||
         (this.getMaxDate && day.timestamp > this.getMaxDate.timestamp)
       return isDisabled
-    },
-    // 获取上个月最后一天
-    getPreMonthLastDay() {
-      let year = this.year
-      let month = this.month
-      if (month === 1) {
-        year = year - 1
-        month = 12
-      }
-      return new Date(year, month - 1, '0').getDate()
     },
     handleChange(value) {
       this.$emit('change', value)
