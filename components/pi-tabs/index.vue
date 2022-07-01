@@ -13,7 +13,7 @@
               activeIndex === index && activeTextColor ? { color: activeTextColor } : {},
               activeIndex === index && activeItemStyle ? activeItemStyle : {}
             ]"
-            class="pi-tab pi-align-center"
+            class="pi-tab pi-justify-center pi-align-center "
             :class="[
               {
                 disabled: item[disabledField],
@@ -356,7 +356,7 @@ export default {
     white-space: nowrap;
     .pi-tab {
       position: relative;
-      display: inline-block;
+      display: inline-flex;
       font-size: 30rpx;
       text-align: center;
       transition: all $pi-animation-duration $pi-animation-timing-function;

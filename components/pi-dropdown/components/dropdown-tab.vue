@@ -49,7 +49,6 @@ export default {
 
 <style lang="scss" scoped>
 .dropdown-tab-item {
-  font-size: 33rpx;
   &.opened {
     color: $pi-primary-color;
   }

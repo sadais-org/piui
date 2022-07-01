@@ -9,15 +9,18 @@
         :stretch="stretch"
         active-text-color="inherit"
       >
-        <view slot="item" slot-scope="{ item, index }">
-          <!-- 注意：slot内不能使用父组件data -->
-          <dropdown-tab :item="item" @click="handleClickTab(item, index)" />
-        </view>
+        <!-- 注意：slot内不能使用父组件data -->
+        <dropdown-tab
+          slot="item"
+          slot-scope="{ item, index }"
+          :item="item"
+          @click="handleClickTab(item, index)"
+        />
       </pi-tabs>
     </view>
     <!-- 展示dropdownItem下的数据 -->
     <view
-      class="pi-dropdown-content pi-mg-top-12"
+      class="pi-dropdown-content"
       :class="[contentClass, show ? 'pi-ani-slide-top-show' : 'pi-ani-slide-top-hide']"
       :style="[contentStyle, contentCombinationStyle]"
     >
@@ -27,12 +30,12 @@
     <!-- 遮罩层 -->
     <view
       v-if="!closed"
-      class="pi-abso pi-dropdown-mask"
+      class="pi-fixed pi-dropdown-mask"
       :class="[show ? getMask.animationShow : getMask.animationHide]"
       :style="[
         {
           'z-index': getMask.zIndex,
-          'top': maskAlignTop ? containerRect.top + 'px' : '-9999px',
+          'top': maskAlignTop ? containerRect.top + containerRect.height + 'px' : '-9999px',
           'background': getMask.background,
           'animation-duration': getDuration.css
         }
@@ -201,7 +204,7 @@ export default {
       return {
         top: `${containerRect.height}px`,
         left: `-${containerRect.left}px`,
-        width: `${$pi.system.systemInfo.windowWidth}px`,
+        width: `${this.$pi.system.systemInfo.windowWidth}px`,
         zIndex: !closed ? 101 : -1
       }
     },
@@ -244,7 +247,9 @@ export default {
             item.emitChange(this.val[index])
           }
         }
-        const currentOption = item.options?.find(opt => opt[item.getKeyField] === this.val[index])
+        const currentOption = item.options?.find(
+          opt => !opt.clearable && opt[item.getKeyField] === this.val[index]
+        )
         const newItem = {
           showIcon: item.showIcon,
           iconOption: item.getIconOption,
