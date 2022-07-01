@@ -29,7 +29,10 @@
         {{ week }}
       </view>
     </view>
-    <view class="pi-square days-wrap" :class="{ 'week-view': weekView }">
+    <view
+      class="pi-square days-wrap"
+      :class="{ 'week-view': weekView, 'can-change-week': canChangeWeekView }"
+    >
       <!-- 固定日期面板正方形，避免高度变化造成界面抖动 -->
       <view class="pi-rela pi-flex-column pi-h-100P">
         <swiper
@@ -400,7 +403,6 @@ export default {
       return this.month + change
     },
     getCalandaWeek(tab) {
-      // 向后翻有点问题
       const changeMaps = [
         [0, -1, 1],
         [1, 0, -1],
@@ -436,7 +438,11 @@ export default {
   }
   .pi-square {
     padding-bottom: 86%;
+    &.can-change-week {
+      padding-bottom: 90%;
+    }
   }
+
   .days-wrap {
     transition: all $pi-animation-duration $pi-animation-timing-function;
     &.week-view {
