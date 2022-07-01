@@ -29,11 +29,11 @@
         {{ week }}
       </view>
     </view>
-    <view class="days-wrap" :class="{ 'pi-square': !weekView, 'week-view': weekView }">
+    <view class="pi-square days-wrap" :class="{ 'week-view': weekView }">
       <!-- 固定日期面板正方形，避免高度变化造成界面抖动 -->
       <view class="pi-rela pi-flex-column pi-h-100P">
         <swiper
-          class="pi-w-100P pi-flex-sub"
+          class="pi-w-100P pi-flex-sub pi-h-100P"
           :current="currentTabIndex"
           circular
           @change="handleTabChange"
@@ -380,12 +380,12 @@ export default {
       const { source, current } = e.detail
       if (source !== 'touch') return
       const isRightMove = [1, -2].includes(current - this.currentTabIndex)
-      this.currentTabIndex = current
       if (this.weekView) {
         this.handleChangeWeek(isRightMove ? 1 : -1)
       } else {
         this.handleChangeMonth(isRightMove ? 1 : -1)
       }
+      this.currentTabIndex = current
     },
     getCalandarMonth(tab) {
       if (this.weekView) {
@@ -423,7 +423,6 @@ export default {
     position: relative;
     z-index: 2;
     width: calc(100% / 7);
-    margin-bottom: 12rpx;
     overflow: hidden;
   }
   .back-today {
@@ -435,14 +434,15 @@ export default {
     background: $pi-primary-color;
     border-radius: 50rpx 0 0 50rpx;
   }
+  .pi-square {
+    padding-bottom: 86%;
+  }
   .days-wrap {
     transition: all $pi-animation-duration $pi-animation-timing-function;
     &.week-view {
-      height: 200rpx;
-      padding-bottom: initial;
+      padding-bottom: 24%;
     }
   }
-
   // 图标动态效果
   ::v-deep .icon-wrap view {
     transition: all $pi-animation-duration $pi-animation-timing-function;

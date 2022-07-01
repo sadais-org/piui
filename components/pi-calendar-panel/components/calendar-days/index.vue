@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-06-28 16:53:54
- * @LastEditTime: 2022-06-30 10:33:16
+ * @LastEditTime: 2022-07-01 10:01:43
  * @LastEditors: zhangzhenfei
  * @Description: 日历日期数据
  * @FilePath: /hfmp-checkin-front/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-calendar-panel/components/calendar-days/index.vue
@@ -14,16 +14,20 @@
       :key="day.key"
       class="date-item"
       style="cursor: pointer;"
-      :style="[day.nowStyle, day.activeStyle]"
-      :class="{ 'pi-disabled': day.disabled || day.type === 'disabled' }"
+      :class="[{ 'pi-disabled': day.disabled || day.type === 'disabled' }, { range: day.range }]"
       @tap.stop="handleSelectDate(day)"
     >
       <view class="pi-square">
-        <view class="pi-rela pi-flex-column-center pi-lh-28">
-          <text>{{ day.date }}</text>
-          <text v-if="day.tip" class=" pi-text-nowrap pi-fz-18 pi-mg-top-6">
-            {{ day.tip }}
-          </text>
+        <view class="pi-rela date-item-inner">
+          <view
+            class="pi-w-100P pi-h-100P pi-flex-column-center pi-lh-28"
+            :style="[day.rangeStyle, day.nowStyle, day.activeStyle]"
+          >
+            <text>{{ day.date }}</text>
+            <text v-if="day.tip" class=" pi-text-nowrap pi-fz-18 pi-mg-top-6">
+              {{ day.tip }}
+            </text>
+          </view>
         </view>
       </view>
     </view>
@@ -31,12 +35,12 @@
     <view
       class="pi-abso-center pi-fw-500 pi-light-gray pi-text-nowrap"
       style="
-              z-index: 1;
+              z-index: -1;
               pointer-events: none;
-              opacity: 0.2;"
+              opacity: 0.15;"
       :style="[
         { fontSize: weekView ? '32rpx' : '300rpx' },
-        { marginTop: weekView ? '42rpx' : '0' }
+        { marginTop: weekView ? '30rpx' : '0' }
       ]"
     >
       {{ getBgTip }}
@@ -254,21 +258,22 @@ export default {
             const isEnd = this.isSameDay(end, day)
             const inRange =
               start && end && day.timestamp > start.timestamp && day.timestamp < end.timestamp
-            const activeStyle = {}
+            const rangeStyle = {}
             // 处理中间范围的样式
             if (inRange) {
-              activeStyle.color = this.rangeColor
-              activeStyle.background = this.rangeBg
+              rangeStyle.color = this.rangeColor
+              rangeStyle.background = this.rangeBg
             }
             // 处理两端
             if (isBegin || isEnd) {
-              activeStyle.color = this.activeColor
-              activeStyle.borderRadius = isBegin
-                ? `${this.getActiveBorderRadius} 0 0 ${this.getActiveBorderRadius}`
-                : `0 ${this.getActiveBorderRadius} ${this.getActiveBorderRadius} 0`
-              if (this.activeBg) activeStyle.background = this.activeBg
+              rangeStyle.color = this.activeColor
+              rangeStyle.borderRadius = isBegin
+                ? `${this.getActiveBorderRadius} 0 0 0`
+                : `0 0 ${this.getActiveBorderRadius} 0`
+              if (this.activeBg) rangeStyle.background = this.activeBg
             }
-            day.activeStyle = activeStyle
+            day.range = true
+            day.rangeStyle = rangeStyle
             // type 为 range 开始和结束的提示
             if (isBegin) day.tip = this.startText
             if (isEnd) day.tip = this.endText
@@ -353,7 +358,14 @@ export default {
   position: relative;
   z-index: 2;
   width: calc(100% / 7);
-  margin-bottom: 12rpx;
   overflow: hidden;
+  .date-item-inner {
+    padding: 8rpx;
+  }
+  &.range {
+    .date-item-inner {
+      padding: 6rpx 0rpx;
+    }
+  }
 }
 </style>
