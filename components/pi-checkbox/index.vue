@@ -3,13 +3,12 @@
     class="pi-check-wrap"
     :style="[customStyle]"
     :class="[getShape, getActiveMode, { disabled: getDisable }, { active: val }, customClass]"
-    @tap="handleCheckboxToggle(true)"
   >
     <view
       v-if="getShape !== 'text'"
       class="check-icon"
       :style="[checkStyle]"
-      @tap.stop="handleCheckboxToggle(false)"
+      @tap="handleCheckboxToggle(false)"
     >
       <view v-if="getShape === 'dot'" class="dot" :style="[dotStyle]" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />
@@ -19,6 +18,7 @@
       class="check-label"
       :class="{ text: getShape === 'text' }"
       :style="[textStyle]"
+      @tap="handleCheckboxToggle(true)"
     >
       <!-- checkbox 内容 -->
       <slot />

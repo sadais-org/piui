@@ -2,7 +2,7 @@
   <view class="dropdown-tab-item" :class="[{ opened: item.opened }]">
     <!-- 注意：slot内不能使用父组件data -->
     <view
-      class="pi-align-center"
+      class="pi-justify-center pi-align-center"
       :style="{ color: item.opened && item.activeColor ? item.activeColor : 'inherit' }"
       @tap.stop="handleClick"
     >
@@ -18,10 +18,10 @@
         :custom-class="`pi-mg-right-8 ${item.iconOption.customClass}`"
       />
 
-      <text class=" pi-pd-right-8 pi-fz-28">
+      <text class="pi-pd-right-12 pi-fz-28">
         {{ item.text }}
       </text>
-      <pi-icon :class="{ rotate: item.opened }" name="unfold" size="26" />
+      <pi-icon :class="{ rotate: item.opened }" name="arrow-down_fill" size="26" color="#999" />
     </view>
   </view>
 </template>

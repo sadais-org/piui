@@ -6,6 +6,7 @@
         :items="tabs"
         :show-slider-bar="false"
         show-item-split-line
+        :stretch="stretch"
         active-text-color="inherit"
       >
         <view slot="item" slot-scope="{ item, index }">
@@ -31,6 +32,7 @@
       :style="[
         {
           'z-index': getMask.zIndex,
+          'top': maskAlignTop ? containerRect.top + 'px' : '-9999px',
           'background': getMask.background,
           'animation-duration': getDuration.css
         }
@@ -158,10 +160,26 @@ export default {
     },
     // 选中checkbox配置
     selectedCheckbox: {
-      type: Object,
+      type: [Object, String],
       default() {
         // 参照checkbox
         return dropdown.selectedCheckbox
+      }
+    },
+    // 标签是否均分布局，可选值 `true`
+    stretch: {
+      type: Boolean,
+      // `false`
+      default() {
+        return dropdown.stretch
+      }
+    },
+    // 是否需要蒙层顶部对齐组件，可选值 `false`
+    maskAlignTop: {
+      type: Boolean,
+      // `true`
+      default() {
+        return dropdown.maskAlignTop
       }
     }
   },
@@ -182,8 +200,8 @@ export default {
       const { containerRect, closed } = this
       return {
         top: `${containerRect.height}px`,
-        left: 0,
-        width: `${containerRect.width}px`,
+        left: `-${containerRect.left}px`,
+        width: `${$pi.system.systemInfo.windowWidth}px`,
         zIndex: !closed ? 101 : -1
       }
     },
@@ -246,6 +264,10 @@ export default {
     // 显示当前Tab
     async handleClickTab(item) {
       if (item.disabled) return
+      if (this.show && item.id === this.activeItem.id) {
+        this.closeMask()
+        return
+      }
       // 更新打开的tab标志
       this.tabs = this.tabs.map(tab => {
         tab.opened = tab.id === item.id
@@ -304,10 +326,8 @@ export default {
   .pi-dropdown-content {
     position: absolute;
     background: #ffffff;
-    border-radius: 12rpx;
   }
   .pi-dropdown-mask {
-    top: -9999px;
     left: -9999px;
     right: -9999px;
     bottom: -9999px;

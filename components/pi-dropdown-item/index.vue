@@ -4,17 +4,21 @@
       <view
         v-for="item in options"
         :key="item[getKeyField]"
-        class="item-wrap pi-pd-tb-24 pi-pd-lr-32 pi-w-100P pi-justify-between pi-align-center"
-        :class="[customClass, item[getDisabledField] ? 'disabled' : '']"
+        class="item-wrap pi-pd-tb-24 pi-pd-lr-32 pi-w-100P pi-align-center"
+        :class="[
+          customClass,
+          item[getDisabledField] ? 'disabled' : '',
+          getSelectedCheckbox === 'none' ? 'pi-justify-center' : 'pi-justify-between'
+        ]"
         :style="[customStyle, getItemStyle]"
         @tap="handleSelectItem(item)"
       >
-        <view>
+        <view :class="[{ 'pi-primary': item[keyField] === val }]">
           {{ item[getDisplayField] }}
         </view>
         <!-- 如果配置了图片地址，使用图片 -->
         <pi-img
-          v-if="getSelectedImg.src && item.id === val"
+          v-if="getSelectedImg.src && item[keyField] === val"
           :src="getSelectedImg.src"
           :mode="getSelectedImg.mode"
           :width="getSelectedImg.width"
@@ -34,9 +38,9 @@
         />
         <!-- 默认使用复选框 -->
         <pi-checkbox
-          v-if="!getSelectedImg.src"
+          v-if="!getSelectedImg.src && getSelectedCheckbox !== 'none'"
           readonly
-          :value="item.id === val"
+          :value="item[keyField] === val"
           :name="getSelectedCheckbox.name"
           :shape="getSelectedCheckbox.shape"
           :border-radius="getSelectedCheckbox.borderRadius"
@@ -148,7 +152,7 @@ export default {
     },
     // 选中checkbox配置
     selectedCheckbox: {
-      type: Object,
+      type: [Object, String],
       default() {
         // 参照checkbox
         return dropdownItem.selectedCheckbox
@@ -185,6 +189,9 @@ export default {
       return this.$pi.lang.mergeDeep(selectedImg, this.selectedImg)
     },
     getSelectedCheckbox() {
+      if (this.inheritProps.selectedCheckbox === 'none') {
+        return this.inheritProps.selectedCheckbox
+      }
       const selectedCheckbox = this.inheritProps.selectedCheckbox || dropdownItem.selectedCheckbox
       return this.$pi.lang.mergeDeep(selectedCheckbox, this.selectedCheckbox)
     },

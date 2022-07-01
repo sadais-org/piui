@@ -17,5 +17,7 @@ export default {
   displayField: null, // 选项显示字段，默认为text
   disabledField: null, // 选项禁用字段，默认为disabled
   selectedImg: null, // 选中图标的配置
-  selectedCheckbox: null // 选中复选框配置
+  selectedCheckbox: null, // 选中复选框配置
+  stretch: false, // 标签是否均分布局，可选值 `true`
+  maskAlignTop: true // 是否需要蒙层顶部对齐组件，可选值 `false`
 }

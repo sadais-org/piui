@@ -10,13 +10,12 @@
       { stretch: getStretch },
       customClass
     ]"
-    @tap="handleRadioToggle(true)"
   >
     <view
       v-if="!['text', 'button'].includes(getShape)"
       class="radio-icon"
       :style="[radioStyle]"
-      @tap.stop="handleRadioToggle(false)"
+      @tap="handleRadioToggle(false)"
     >
       <view v-if="getShape === 'dot'" class="dot" />
       <pi-icon v-else name="blod-check" :size="getIconSize" />
@@ -26,6 +25,7 @@
       class="radio-label"
       :class="[getShape]"
       :style="[textStyle]"
+      @tap="handleRadioToggle(true)"
     >
       <slot />
     </view>
