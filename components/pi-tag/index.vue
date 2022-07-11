@@ -274,7 +274,7 @@ export default {
     },
     // 判断是否是图片
     isImg() {
-      return (value) => {
+      return value => {
         const newValue = value.split('?')[0]
         const IMAGE_REGEXP = /\.(jpeg|jpg|gif|png|svg|webp|jfif|bmp|dpg)/i
         return IMAGE_REGEXP.test(newValue)
