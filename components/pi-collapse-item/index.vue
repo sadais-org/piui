@@ -338,10 +338,9 @@ export default {
     height: 0;
 
     &__text {
-      padding: 12px 15px;
+      padding: 24rpx 30rpx;
       color: #606266;
-      font-size: 14px;
-      line-height: 18px;
+      line-height: 36rpx;
     }
   }
 }
