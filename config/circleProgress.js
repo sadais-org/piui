@@ -9,5 +9,8 @@ export default {
   type:'',//环形进度条的主题
   fontSize:'16px',//环形进度条中间显示文字的大小，字符串形式，默认值：'16px'
   text:'',//环形进度条中间显示的文字，字符串形式，默认值：''
- 
+ linearGradient:{
+  show:false,
+  colorStop:[]
+ }
 }
