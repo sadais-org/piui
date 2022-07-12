@@ -106,10 +106,14 @@ export default {
   },
   data() {
     return {
-      // elBgId: 'pCircleProgressBgId', // 微信小程序中不能使用this.$pi形式动态生成id值，否则会报错
-      // elId: 'pCircleProgressElId',
+        // #ifdef MP-WEIXIN
+      elBgId: 'pCircleProgressBgId', // 微信小程序中不能使用this.$pi形式动态生成id值，否则会报错
+      elId: 'pCircleProgressElId',
+      // #endif
+      // #ifndef MP-WEIXIN
       elBgId: this.$pi.guid(), // 支付宝等小程序 动态生产ID
       elId: this.$pi.guid(),
+      // #endif
       progressContext: null,
       // 开始的角度
       widthPx: uni.upx2px(this.width), // 转成px后的整个组件的背景宽度
@@ -236,16 +240,18 @@ export default {
         this.drawCircleByProgress(progress)
       }, time)
     },
-    createColorData() {
+     createColorData() {
       let canvas
+      let ctx
       // #ifndef MP-WEIXIN
       canvas = document.createElement('canvas')
       canvas.width = 256
       canvas.height = 1
-      let ctx = canvas.getContext('2d')
+      ctx = canvas.getContext('2d')
       // #endif
       // #ifdef MP-WEIXIN
       canvas = uni.createOffscreenCanvas({ type: '2d', width: 256, height: 1 })
+      ctx = canvas.getContext('2d')
       // #endif
       const linearGradient = ctx.createLinearGradient(0, 0, 256, 1)
       this.linearGradient.colorStop.forEach(color => {
