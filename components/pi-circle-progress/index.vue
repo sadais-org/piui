@@ -195,8 +195,8 @@ export default {
 
           ctx.setStrokeStyle(`rgba(${color[0]},${color[1]},${color[2]},${color[3] / 255})`)
           ctx.globalAlpha = color[3] / 255
-          let endAngle = ((2 * Math.PI) / 100) * i + this.startAngle
-          let startAngle = this.startAngle + ((2 * Math.PI) / 100) * (i - 1)
+          let endAngle = ((2 * Math.PI) / 100) * (i + 1) + this.startAngle
+          let startAngle = this.startAngle + ((2 * Math.PI) / 100) * i
           ctx.arc(radius, radius, radius - this.borderWidthPx, startAngle, endAngle, false)
           ctx.stroke()
         }
