@@ -5,7 +5,7 @@ export default {
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   items: [], // 选项列表，默认（[]）
   mode: 'dot', // 步骤条的类型，默认（'dot'）
-  activeColor: '', // 激活步骤的颜色
+  activeColor: '#5a7dff', // 激活步骤的颜色
   color: '#cccccc', // 未激活的颜色
   currentColor: '#666666', // 当前步骤的颜色
   direction: 'row', // 排列方向

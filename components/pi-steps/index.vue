@@ -8,42 +8,56 @@
       :class="[itemClass, item.mode, direction, { active: index < val }]"
     >
       <view class="step-icon pi-flex-row-center" :style="[item.style]">
-        <template v-if="item.mode === 'dot'">
-          <view class="item-dot pi-radius-round" :style="[item.dotStyle]" />
-        </template>
-        <!-- 数字-->
-        <template v-if="item.mode === 'number'">
-          <text v-if="index >= val">
-            {{ index + 1 }}
-          </text>
-          <pi-icon v-else name="check" color="#ffffff" />
-        </template>
-        <!-- 图标 -->
-        <pi-icon
-          v-if="item.mode === 'icon'"
-          :custom-style="item.icon.customStyle"
-          :custom-class="item.icon.customClass"
-          :name="item.icon.name"
-          :dot="item.icon.dot"
-          :dot-radius="item.icon.dotRadius"
-          :badge="item.icon.badge"
-          :color="item.icon.color"
-          :size="item.icon.size"
-          :class-prefix="item.icon.classPrefix"
-        />
+        <view class="step-icon-inner">
+          <template v-if="item.mode === 'dot'">
+            <view class="item-dot pi-radius-round" :style="[item.dotStyle]" />
+          </template>
+          <!-- 数字-->
+          <template v-if="item.mode === 'number'">
+            <text v-if="index >= val">
+              {{ index + 1 }}
+            </text>
+            <pi-icon v-else name="check" color="#ffffff" />
+          </template>
+          <!-- 图标 -->
+          <pi-icon
+            v-if="item.mode === 'icon'"
+            :custom-style="item.icon.customStyle"
+            :custom-class="item.icon.customClass"
+            :name="item.icon.name"
+            :dot="item.icon.dot"
+            :dot-radius="item.icon.dotRadius"
+            :badge="item.icon.badge"
+            :color="item.icon.color"
+            :size="item.icon.size"
+            :class-prefix="item.icon.classPrefix"
+          />
+        </view>
       </view>
 
       <!-- 文字 -->
       <view :class="['pi-steps-item-text']" :style="{ color: item.style.fontColor }">
         <slot name="item" :item="item" :index="index" :active="index < val">
           <view>{{ item.name }}</view>
-          <text class="pi-fz-20" style="word-break:break-all">{{ item.desc }}</text>
+          <text v-if="item.desc" class="pi-fz-20 pi-mg-top-10" style="word-break:break-all">
+            {{ item.desc }}
+          </text>
         </slot>
       </view>
 
       <!-- 中线 -->
-      <view v-if="index < items.length - 1" class="pi-steps-item-line" :style="[lineStyle]">
-        <pi-line :direction="direction" length="100%" :hair-line="false" :color="color" />
+      <view
+        v-if="index < items.length - 1"
+        class="pi-steps-item-line"
+        :style="[lineStyle, item.lineStyle]"
+      >
+        <pi-line
+          :direction="direction"
+          length="100%"
+          :hair-line="false"
+          :color="item.icon.color"
+          border-style="dashed"
+        />
       </view>
     </view>
   </view>
@@ -138,7 +152,10 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      iconsRect: [],
+      itemsRect: []
+    }
   },
   computed: {
     getDotMaxSize() {
@@ -191,16 +208,18 @@ export default {
           } else {
             style.backgroundColor = this.getCurrentColor
           }
+          item.icon.color = this.getCurrentColor
         } else if (index < this.val && this.activeColor) {
           // 已激活步骤
           style.fontColor = this.activeColor
           if (item.mode === 'icon') {
             style.color = this.activeColor
           } else if (item.mode === 'dot') {
-            item.dotStyle.backgroundColor = this.getCurrentColor
+            item.dotStyle.backgroundColor = this.activeColor
           } else {
             style.backgroundColor = this.activeColor
           }
+          item.icon.color = this.activeColor
         } else if (index > this.val) {
           // 未激活步骤
           style.fontColor = this.color
@@ -213,14 +232,47 @@ export default {
           if (item.mode === 'number') {
             style.backgroundColor = this.color
           }
+          item.icon.color = this.color
         }
         item.style = style
+        item.lineStyle = {}
+        if (
+          this.direction === 'column' &&
+          this.itemsRect.length &&
+          this.iconsRect.length &&
+          index < this.itemsRect.length - 1
+        ) {
+          // 动态计算线的位置和高度
+          item.lineStyle.top = `${this.iconsRect[index].top -
+            this.itemsRect[index].top +
+            this.iconsRect[index].height +
+            2}px`
+          item.lineStyle.height = `${this.itemsRect[index].height -
+            this.iconsRect[index + 1].height}px`
+        }
         return item
       })
     }
   },
-  watch: {},
-  methods: {}
+  watch: {
+    items: {
+      deep: true,
+      immediate: false,
+      handler(value) {
+        this.init()
+      }
+    }
+  },
+  mounted() {
+    this.init()
+  },
+  methods: {
+    async init() {
+      this.iconsRect = await this.$pi.common.queryRect(this, '.step-icon-inner', true)
+      this.itemsRect = await this.$pi.common.queryRect(this, '.pi-steps-item', true)
+      console.log(TAG, '计算.pi-steps布局', this.itemsRect, this.iconsRect)
+    }
+  }
 }
 </script>
 
@@ -256,7 +308,7 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
-      align-items: center;
+      align-items: baseline;
       min-height: 120rpx;
       .pi-steps-item-text {
         width: 95%;
@@ -266,15 +318,15 @@ export default {
       }
       .pi-steps-item-line {
         position: absolute;
-        top: 75%;
         z-index: 0;
-        height: 50%;
       }
     }
     .item-dot,
     .step-icon {
       border-radius: 50%;
       overflow: hidden;
+      position: relative;
+      z-index: 2;
     }
 
     &.active {
