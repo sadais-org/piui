@@ -212,6 +212,7 @@ export default {
       }
       ctx.beginPath()
       ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
       ctx.font = this.fontSize + ' Arial'
       ctx.fillText(this.text, radius, radius)
       ctx.stroke()
