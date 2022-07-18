@@ -21,7 +21,7 @@
     <!-- 展示dropdownItem下的数据 -->
     <view
       class="pi-dropdown-content"
-      :class="[contentClass, show ? 'pi-ani-slide-top-show' : 'pi-ani-slide-top-hide']"
+      :class="[contentClass, show ? 'pi-ani-slide-bottom-show' : 'pi-ani-slide-bottom-hide']"
       :style="[contentStyle, contentCombinationStyle]"
     >
       <slot />
@@ -239,13 +239,7 @@ export default {
         // 同步父子组件的值
         if (this.val[index] !== item.val) {
           console.log(TAG, 'Dropdown和DropdownItem绑定值不一致，即将同步')
-          if (item.val) {
-            // 以子组件的值为准
-            hasValueChange = true
-            val[index] = item.val
-          } else if (this.val[index]) {
-            item.emitChange(this.val[index])
-          }
+          item.emitChange(this.val[index])
         }
         const currentOption = item.options?.find(
           opt => !opt.clearable && opt[item.getKeyField] === this.val[index]

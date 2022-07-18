@@ -210,7 +210,7 @@ export default {
       if (item[this.getDisabledField]) {
         return
       }
-      this.emitChange(item.id)
+      this.emitChange(item[this.getKeyField])
       setTimeout(() => {
         this._parent.submit()
       }, 300) // 延迟 可见按钮点击动画
