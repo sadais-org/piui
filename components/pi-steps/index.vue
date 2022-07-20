@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-steps" :style="[customStyle, { flexDirection: direction }]" :class="customClass">
+  <view
+    class="pi-steps pi-of-hidden"
+    :style="[customStyle, { flexDirection: direction }]"
+    :class="customClass"
+  >
     <view
       v-for="(item, index) in getItems"
       :key="index"
@@ -37,7 +41,13 @@
 
       <!-- 文字 -->
       <view :class="['pi-steps-item-text']" :style="{ color: item.style.fontColor }">
-        <slot name="item" :item="item" :index="index" :active="index < val">
+        <slot
+          name="item"
+          :item="item"
+          :index="index"
+          :length="getItems.length"
+          :active="index < val"
+        >
           <view>{{ item.name }}</view>
           <text v-if="item.desc" class="pi-fz-20 pi-mg-top-10" style="word-break:break-all">
             {{ item.desc }}
@@ -47,7 +57,7 @@
 
       <!-- 中线 -->
       <view
-        v-if="index < items.length - 1"
+        v-if="items.length === 1 || index < items.length - 1"
         class="pi-steps-item-line"
         :style="[lineStyle, item.lineStyle]"
       >
@@ -167,7 +177,7 @@ export default {
     },
     lineStyle() {
       const style = {}
-      const size = this.getDotMaxSize / 2 + 'rpx'
+      const size = this.getDotMaxSize / 2 - 2 + 'rpx'
       this.direction === 'column' ? (style.left = size) : (style.top = size)
       return style
     },
@@ -240,15 +250,17 @@ export default {
           this.direction === 'column' &&
           this.itemsRect.length &&
           this.iconsRect.length &&
-          index < this.itemsRect.length - 1
+          (this.itemsRect.length === 1 || index < this.itemsRect.length - 1)
         ) {
           // 动态计算线的位置和高度
           item.lineStyle.top = `${this.iconsRect[index].top -
             this.itemsRect[index].top +
             this.iconsRect[index].height +
             2}px`
-          item.lineStyle.height = `${this.itemsRect[index].height -
-            this.iconsRect[index + 1].height}px`
+          const nextIconsRectHeight = this.iconsRect[index + 1]
+            ? this.iconsRect[index + 1].height
+            : 0
+          item.lineStyle.height = `${this.itemsRect[index].height - nextIconsRectHeight}px`
         }
         return item
       })
@@ -268,6 +280,7 @@ export default {
   },
   methods: {
     async init() {
+      if (!this.items?.length) return
       this.iconsRect = await this.$pi.common.queryRect(this, '.step-icon-inner', true)
       this.itemsRect = await this.$pi.common.queryRect(this, '.pi-steps-item', true)
       console.log(TAG, '计算.pi-steps布局', this.itemsRect, this.iconsRect)

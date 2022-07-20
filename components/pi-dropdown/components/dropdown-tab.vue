@@ -1,28 +1,27 @@
 <template>
-  <view class="dropdown-tab-item" :class="[{ opened: item.opened }]">
-    <!-- 注意：slot内不能使用父组件data -->
-    <view
-      class="pi-justify-center pi-align-center"
-      :style="{ color: item.opened && item.activeColor ? item.activeColor : 'inherit' }"
-      @tap.stop="handleClick"
-    >
-      <pi-icon
-        v-if="item.showIcon"
-        :name="item.iconOption.name"
-        :dot="item.iconOption.dot"
-        :badge="item.iconOption.badge"
-        :color="item.iconOption.color"
-        :size="item.iconOption.size"
-        :class-prefix="item.iconOption.classPrefix"
-        :custom-style="item.iconOption.customStyle"
-        :custom-class="`pi-mg-right-8 ${item.iconOption.customClass}`"
-      />
+  <!-- 注意：slot内不能使用父组件data -->
+  <view
+    class="dropdown-tab-item pi-justify-center pi-align-center"
+    :style="[getTabItemStyle]"
+    :class="[{ opened: item.opened }]"
+    @tap.stop="handleClick"
+  >
+    <pi-icon
+      v-if="item.showIcon"
+      :name="item.iconOption.name"
+      :dot="item.iconOption.dot"
+      :badge="item.iconOption.badge"
+      :color="item.iconOption.color"
+      :size="item.iconOption.size"
+      :class-prefix="item.iconOption.classPrefix"
+      :custom-style="item.iconOption.customStyle"
+      :custom-class="`pi-mg-right-8 ${item.iconOption.customClass}`"
+    />
 
-      <text class="pi-pd-right-12 pi-fz-28">
-        {{ item.text }}
-      </text>
-      <pi-icon :class="{ rotate: item.opened }" name="arrow-down_fill" size="26" color="#999" />
-    </view>
+    <text class="pi-pd-right-12 pi-fz-28">
+      {{ item.text }}
+    </text>
+    <pi-icon :class="{ rotate: item.opened }" name="arrow-down_fill" size="26" color="#999" />
   </view>
 </template>
 
@@ -39,6 +38,15 @@ export default {
       }
     }
   },
+  computed: {
+    getTabItemStyle() {
+      const styles = {}
+      if (this.item.opened && this.item.activeColor) {
+        styles.color = this.item.activeColor
+      }
+      return styles
+    }
+  },
   methods: {
     handleClick() {
       this.$emit('click', this.item)
@@ -49,6 +57,8 @@ export default {
 
 <style lang="scss" scoped>
 .dropdown-tab-item {
+  width: 100%;
+  height: 100%;
   &.opened {
     color: $pi-primary-color;
   }

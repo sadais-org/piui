@@ -498,6 +498,7 @@ export default {
   .form-label {
     font-weight: $pi-form-label-weight;
     color: $pi-form-label-color;
+    white-space: nowrap;
     &.border {
       @include pi-border;
       &::after {
@@ -507,6 +508,7 @@ export default {
     }
   }
   .content-wrap {
+    overflow: hidden;
     &.nowrap {
       margin-left: 24rpx;
     }
