@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2022-04-12 09:11:41
+ * @LastEditTime: 2022-07-20 20:34:26
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
- * @FilePath: \hfmp-checkin-frontc:\Users\feilin\workspace\sadais\piui-awesome\src\piui\components\pi-upload-img\index.vue
+ * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-upload-img/index.vue
 -->
 
 <template>
@@ -305,6 +305,9 @@ export default {
       return this.$pi.lang.isString(this.val)
     },
     getImgs() {
+      if (this.val === null || this.val === undefined) {
+        return []
+      }
       return this.isValString ? (this.val ? [this.val] : []) : this.val.filter(img => img)
     },
     getItemStyle() {
