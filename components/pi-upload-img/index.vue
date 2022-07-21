@@ -1,14 +1,14 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2022-07-20 20:34:26
+ * @LastEditTime: 2022-07-21 11:25:37
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-upload-img/index.vue
 -->
 
 <template>
-  <view class="pi-upload-img" :style="[customStyle]" :class="[customClass]">
+  <view class="pi-upload-img pi-pd-top-12" :style="[customStyle]" :class="[customClass]">
     <!-- 已上传图片展示 -->
     <view
       v-for="(img, index) in getImgs"
@@ -311,10 +311,23 @@ export default {
       return this.isValString ? (this.val ? [this.val] : []) : this.val.filter(img => img)
     },
     getItemStyle() {
-      return this.$pi.lang.mergeDeep(uploadImg.itemStyle, this.itemStyle)
+      const style = {
+        width: this.getSize,
+        height: this.getSize
+      }
+      const uploadStyle = this.$pi.lang.mergeDeep(uploadImg.itemStyle, this.itemStyle)
+      return this.$pi.lang.mergeDeep(style, uploadStyle)
+    },
+    getSize() {
+      return this.$pi.common.addUnit(this.size)
     },
     getUploadBtnStyle() {
-      return this.$pi.lang.mergeDeep(uploadImg.uploadBtnStyle, this.uploadBtnStyle)
+      const style = {
+        width: this.getSize,
+        height: this.getSize
+      }
+      const uploadBtnStyle = this.$pi.lang.mergeDeep(uploadImg.uploadBtnStyle, this.uploadBtnStyle)
+      return this.$pi.lang.mergeDeep(style, uploadBtnStyle)
     },
     getUploadIcon() {
       return this.$pi.lang.mergeDeep(uploadImg.uploadIcon, this.uploadIcon)

@@ -1,10 +1,10 @@
 /*
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:29:02
- * @LastEditTime: 2021-11-17 10:07:54
+ * @LastEditTime: 2022-07-21 11:20:15
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传
- * @FilePath: /piui-awesome/src/piui/config/upload-img.js
+ * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/config/uploadImg.js
  */
 import icon from './icon.js'
 import cropOption from './imgCropper.js'
@@ -18,18 +18,14 @@ export default {
   formData: {}, // 上传表单额外数据，对象形式（默认值：{}）
   name: 'file', // 上传的文件字段名
   itemStyle: {
-    width: '160rpx',
-    height: '160rpx',
     borderRadius: '8rpx'
   }, // 单个文件额外样式，对象形式（默认值：{}）
   uploadBtnStyle: {
-    width: '160rpx',
-    height: '160rpx',
     background: '#f3f3f3',
     borderRadius: '8rpx'
   },
   imageMode: 'aspectFill', // 上传图片模式，默认值：aspectFill
-  size: '80', // 上传区域尺寸（半径）
+  size: '160', // 上传区域尺寸（半径）
   previewFullImage: true, // 是否在点击预览图后展示全屏图片预览
   deletable: true, // 是否可以删除上传的文件
   disabled: false, // 是否禁用上传
