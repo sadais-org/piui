@@ -45,7 +45,7 @@
           name="item"
           :item="item"
           :index="index"
-          :length="getItems.length"
+          :length="getItemsLength"
           :active="index < val"
         >
           <view>{{ item.name }}</view>
@@ -250,7 +250,8 @@ export default {
           this.direction === 'column' &&
           this.itemsRect.length &&
           this.iconsRect.length &&
-          (this.itemsRect.length === 1 || index < this.itemsRect.length - 1)
+          (this.itemsRect.length === 1 || index < this.itemsRect.length - 1) &&
+          (this.iconsRect.length === 1 || index < this.iconsRect.length - 1)
         ) {
           // 动态计算线的位置和高度
           item.lineStyle.top = `${this.iconsRect[index].top -
@@ -264,6 +265,9 @@ export default {
         }
         return item
       })
+    },
+    getItemsLength() {
+      return this.items.length
     }
   },
   watch: {
@@ -283,7 +287,13 @@ export default {
       if (!this.items?.length) return
       this.iconsRect = await this.$pi.common.queryRect(this, '.step-icon-inner', true)
       this.itemsRect = await this.$pi.common.queryRect(this, '.pi-steps-item', true)
-      console.log(TAG, '计算.pi-steps布局', this.itemsRect, this.iconsRect)
+      if (this.iconsRect.length !== this.itemsRect.length) {
+        setTimeout(() => {
+          this.init()
+        }, 200)
+      } else {
+        console.log(TAG, '计算.pi-steps布局', this.itemsRect, this.iconsRect)
+      }
     }
   }
 }

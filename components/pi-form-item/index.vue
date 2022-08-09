@@ -263,7 +263,7 @@ export default {
   data() {
     return {
       initialValue: '', // 初始值
-      validateState: '', // 是否校验成功
+      validateState: 'success', // 是否校验成功
       validateMessage: '' // 校验失败的提示语
     }
   },
@@ -400,7 +400,7 @@ export default {
     // 从pi-form的rules属性中，取出当前pi-form-item的校验规则
     getRules() {
       // 父组件的所有规则
-      const parentRules = this._parent && (this._parent.validRules || this._parent.rules)
+      const parentRules = this._parent && this._parent.validRules
       const rules = parentRules ? parentRules[this.prop] : []
       return [].concat(rules || [])
     },
@@ -423,6 +423,9 @@ export default {
       return new Promise((resolve, reject) => {
         const rules = this.getFilteredRule(trigger)
         if (!this.prop || !rules || rules.length === 0) {
+          this.validateState = 'success'
+          this.validateMessage = ''
+          console.log(TAG, '字段无需校验', this.prop)
           return resolve(_getResolve())
         }
         const fieldValue = this._parent ? this._parent.model[this.prop] : undefined

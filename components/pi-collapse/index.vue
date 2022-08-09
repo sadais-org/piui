@@ -56,8 +56,12 @@ export default {
     }
   },
   watch: {
-    needInit() {
-      this.init()
+    needInit: {
+      deep: true,
+      immediate: false,
+      handler(value) {
+        this.init()
+      }
     },
     // 当父组件需要子组件需要共享的参数发生了变化，手动通知子组件
     parentData() {
@@ -75,9 +79,11 @@ export default {
   methods: {
     // 重新初始化一次内部的所有子元素
     init() {
-      this.children.map(child => {
-        child.init()
-      })
+      console.log('折叠面板初始化')
+      this.children &&
+        this.children.map(child => {
+          child.init()
+        })
     },
     /**
      * collapse-item被点击时触发，由collapse统一处理各子组件的状态
