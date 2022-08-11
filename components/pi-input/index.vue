@@ -1,5 +1,5 @@
 <template>
-  <view class="pi-input-wrap" :style="[getInputWrapStyle]">
+  <view class="pi-input-wrap" :style="[getInputWrapStyle]" :class="[{ disabled: getDisabled }]">
     <textarea
       v-if="type === 'textarea'"
       class="pi-input-textarea"
