@@ -1,60 +1,64 @@
 <template>
-  <scroll-view v-if="show" scroll-y class="pi-dropdown-item pi-w-100P">
-    <slot>
-      <view
-        v-for="item in options"
-        :key="item[getKeyField]"
-        class="item-wrap pi-pd-tb-24 pi-pd-lr-32 pi-w-100P pi-align-center"
-        :class="[
-          customClass,
-          item[getDisabledField] ? 'disabled' : '',
-          getSelectedCheckbox === 'none' ? 'pi-justify-center' : 'pi-justify-between'
-        ]"
-        :style="[customStyle, getItemStyle]"
-        @tap="handleSelectItem(item)"
-      >
-        <view :class="[{ 'pi-primary': item[keyField] === val }]">
-          {{ item[getDisplayField] }}
+  <view class="pi-dropdown-item pi-w-100P pi-flex-column" :class="[{ show }]">
+    <!-- extra slot -->
+    <slot name="extra" />
+    <scroll-view scroll-y class="pi-scroll">
+      <slot>
+        <view
+          v-for="item in options"
+          :key="item[getKeyField]"
+          class="item-wrap pi-pd-tb-24 pi-pd-lr-32 pi-w-100P pi-align-center"
+          :class="[
+            customClass,
+            item[getDisabledField] ? 'disabled' : '',
+            getSelectedCheckbox === 'none' ? 'pi-justify-center' : 'pi-justify-between'
+          ]"
+          :style="[customStyle, getItemStyle]"
+          @tap="handleSelectItem(item)"
+        >
+          <view :class="[{ 'pi-primary': item[keyField] === val }]">
+            {{ item[getDisplayField] }}
+          </view>
+          <!-- 如果配置了图片地址，使用图片 -->
+          <pi-img
+            v-if="getSelectedImg.src && item[keyField] === val"
+            :src="getSelectedImg.src"
+            :mode="getSelectedImg.mode"
+            :width="getSelectedImg.width"
+            :height="getSelectedImg.height"
+            :dot="getSelectedImg.dot"
+            :dot-radius="getSelectedImg.dotRadius"
+            :badge="getSelectedImg.badge"
+            :shape="getSelectedImg.shape"
+            :border-radius="getSelectedImg.borderRadius"
+            :show-loading="getSelectedImg.showLoading"
+            :loading-color="getSelectedImg.loadingColor"
+            :loading-type="getSelectedImg.loadingType"
+            :loading-size="getSelectedImg.loadingSize"
+            :show-error="getSelectedImg.showError"
+            :webp="getSelectedImg.webp"
+            custom-class="pi-mg-left-24"
+          />
+          <!-- 默认使用复选框 -->
+          <pi-checkbox
+            v-if="!getSelectedImg.src && getSelectedCheckbox !== 'none'"
+            readonly
+            :value="item[keyField] === val"
+            :name="getSelectedCheckbox.name"
+            :shape="getSelectedCheckbox.shape"
+            :border-radius="getSelectedCheckbox.borderRadius"
+            :border="getSelectedCheckbox.border"
+            :disabled="getSelectedCheckbox.disabled"
+            :size="getSelectedCheckbox.size"
+            :icon-size="getSelectedCheckbox.iconSize"
+            :active-color="getSelectedCheckbox.activeColor"
+            :active-mode="getSelectedCheckbox.activeMode"
+            custom-class="pi-mg-left-24"
+          />
         </view>
-        <!-- 如果配置了图片地址，使用图片 -->
-        <pi-img
-          v-if="getSelectedImg.src && item[keyField] === val"
-          :src="getSelectedImg.src"
-          :mode="getSelectedImg.mode"
-          :width="getSelectedImg.width"
-          :height="getSelectedImg.height"
-          :dot="getSelectedImg.dot"
-          :dot-radius="getSelectedImg.dotRadius"
-          :badge="getSelectedImg.badge"
-          :shape="getSelectedImg.shape"
-          :border-radius="getSelectedImg.borderRadius"
-          :show-loading="getSelectedImg.showLoading"
-          :loading-color="getSelectedImg.loadingColor"
-          :loading-type="getSelectedImg.loadingType"
-          :loading-size="getSelectedImg.loadingSize"
-          :show-error="getSelectedImg.showError"
-          :webp="getSelectedImg.webp"
-          custom-class="pi-mg-left-24"
-        />
-        <!-- 默认使用复选框 -->
-        <pi-checkbox
-          v-if="!getSelectedImg.src && getSelectedCheckbox !== 'none'"
-          readonly
-          :value="item[keyField] === val"
-          :name="getSelectedCheckbox.name"
-          :shape="getSelectedCheckbox.shape"
-          :border-radius="getSelectedCheckbox.borderRadius"
-          :border="getSelectedCheckbox.border"
-          :disabled="getSelectedCheckbox.disabled"
-          :size="getSelectedCheckbox.size"
-          :icon-size="getSelectedCheckbox.iconSize"
-          :active-color="getSelectedCheckbox.activeColor"
-          :active-mode="getSelectedCheckbox.activeMode"
-          custom-class="pi-mg-left-24"
-        />
-      </view>
-    </slot>
-  </scroll-view>
+      </slot>
+    </scroll-view>
+  </view>
 </template>
 
 <script>
@@ -223,7 +227,15 @@ export default {
 @import '../../scss/mixin.scss';
 
 .pi-dropdown-item {
-  max-height: 600rpx;
+  max-height: 0;
+  opacity: 0;
+  transition: opacity $pi-animation-duration $pi-animation-timing-function,
+    max-height $pi-animation-duration $pi-animation-timing-function;
+  &.show {
+    max-height: 600rpx;
+    height: 600rpx;
+    opacity: 1;
+  }
   .item-wrap {
     &:not(:last-child) {
       @include pi-border;

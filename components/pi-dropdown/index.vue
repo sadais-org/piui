@@ -21,7 +21,7 @@
     <!-- 展示dropdownItem下的数据 -->
     <view
       class="pi-dropdown-content"
-      :class="[contentClass, show ? 'pi-ani-slide-bottom-show' : 'pi-ani-slide-bottom-hide']"
+      :class="[contentClass]"
       :style="[contentStyle, contentCombinationStyle]"
     >
       <slot />
@@ -276,7 +276,7 @@ export default {
       // 每次点击都重新更新父容器的位置
       this.containerRect = await this.$pi.common.queryRect(this, '.pi-dropdown', false)
       this.openMask()
-      this._children.find(child => {
+      this._children.forEach(child => {
         child.show = child._uid === item.id
       })
     },
@@ -295,6 +295,9 @@ export default {
     closeMask() {
       if (!this.show || !this.showed) return
       console.log(TAG, '隐藏下拉菜单遮罩层')
+      this._children.forEach(child => {
+        child.show = false
+      })
       this.show = false
       this.showed = false
       this.tabs = this.tabs.map(tab => {
