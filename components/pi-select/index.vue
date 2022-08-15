@@ -39,8 +39,12 @@
         >
           <!-- 自定义列表项 -->
           <slot name="item" :item="item" :selected="item.isSelected" class="pi-w-100P">
-            <!-- item[displayField] -->
-            {{ item[displayField] }}
+            <view>
+              <view class="select-item-title">{{ item[displayField] }}</view>
+              <view v-if="item[descField]" class="pi-light-gray pi-fz-24 pi-mg-top-10 pi-lh-30">
+                {{ item[descField] }}
+              </view>
+            </view>
           </slot>
           <!-- 如果配置了图片地址，使用图片 -->
           <pi-img
@@ -60,7 +64,7 @@
             :loading-size="getSelectedImg.loadingSize"
             :show-error="getSelectedImg.showError"
             :webp="getSelectedImg.webp"
-            custom-class="pi-mg-left-24"
+            custom-class="pi-mg-left-32"
           />
           <!-- 默认使用复选框 -->
           <pi-checkbox
@@ -76,7 +80,7 @@
             :icon-size="getSelectedCheckbox.iconSize"
             :active-color="getSelectedCheckbox.activeColor"
             :active-mode="getSelectedCheckbox.activeMode"
-            custom-class="pi-mg-left-24"
+            custom-class="pi-mg-left-32"
           />
         </view>
       </scroll-view>
@@ -136,6 +140,12 @@ export default {
       type: String,
       // 'text'
       default: select.displayField
+    },
+    // 描述显示字段，默认为desc
+    descField: {
+      type: String,
+      // 'desc'
+      default: select.descField
     },
     // 默认值，单选是传Number, String, Object，多选时传Array
     defaultValue: {

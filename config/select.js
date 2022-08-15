@@ -8,6 +8,7 @@ export default {
   items: [], // 选项列表，默认（[]）
   keyField: 'id', // 选项id字段，默认为id
   displayField: 'text', // 选项显示字段，默认为text
+  descField: 'desc', // 描述显示字段，默认为desc
   keyDefaultValue: false, // 是否只绑定keyField的默认值，默认false
   defaultValue: null, // 默认值，单选是传Object，多选时传Array，默认null
   isMulti: false, // 是否多选，（默认：false）
