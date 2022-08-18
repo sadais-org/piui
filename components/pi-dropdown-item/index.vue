@@ -16,12 +16,12 @@
           :style="[customStyle, getItemStyle]"
           @tap="handleSelectItem(item)"
         >
-          <view :class="[{ 'pi-primary': item[keyField] === val }]">
+          <view :class="[{ 'pi-primary': item[getKeyField] === val }]">
             {{ item[getDisplayField] }}
           </view>
           <!-- 如果配置了图片地址，使用图片 -->
           <pi-img
-            v-if="getSelectedImg.src && item[keyField] === val"
+            v-if="getSelectedImg.src && item[getKeyField] === val"
             :src="getSelectedImg.src"
             :mode="getSelectedImg.mode"
             :width="getSelectedImg.width"
@@ -43,7 +43,7 @@
           <pi-checkbox
             v-if="!getSelectedImg.src && getSelectedCheckbox !== 'none'"
             readonly
-            :value="item[keyField] === val"
+            :value="item[getKeyField] === val"
             :name="getSelectedCheckbox.name"
             :shape="getSelectedCheckbox.shape"
             :border-radius="getSelectedCheckbox.borderRadius"

@@ -21,6 +21,10 @@ export default {
     },
     url: {
       type: String
+    },
+    autoAddTimestamp: {
+      type: Boolean,
+      default: () => true
     }
   },
   data() {
@@ -47,9 +51,11 @@ export default {
       }
       if (!this.url) return
       // H5 url 需要加时间戳，否则会有缓存问题
-      this.webviewURL = this.urlAddParam(this.url || '', {
-        sadaisTimestamp: new Date().getTime() + '-' + Math.round(Math.random(1) * 10000)
-      })
+      this.webviewURL = this.autoAddTimestamp
+        ? this.urlAddParam(this.url || '', {
+            sadaisTimestamp: new Date().getTime() + '-' + Math.round(Math.random(1) * 10000)
+          })
+        : this.url
       console.log('webview页面即将打开以下URL:', this.webviewURL)
       // #ifdef APP-PLUS
       const wv = plus.webview.create('', 'custom-webview', {
