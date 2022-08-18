@@ -7,6 +7,7 @@
         :show-slider-bar="false"
         show-item-split-line
         :stretch="stretch"
+        :height="tabHeight"
         active-text-color="inherit"
       >
         <!-- 注意：slot内不能使用父组件data -->
@@ -14,6 +15,7 @@
           slot="item"
           slot-scope="{ item, index }"
           :item="item"
+          class="pi-w-100P pi-h-100P"
           @click="handleClickTab(item, index)"
         />
       </pi-tabs>
@@ -128,6 +130,22 @@ export default {
         return dropdown.activeColor
       }
     },
+    // 标签是否均分布局，可选值 `true`
+    stretch: {
+      type: Boolean,
+      // `false`
+      default() {
+        return dropdown.stretch
+      }
+    },
+    // 标签的高度，单位rpx
+    tabHeight: {
+      type: [String, Number],
+      // `80`
+      default() {
+        return dropdown.tabHeight
+      }
+    },
     // -------------以下属性为子组件pi-dropdown-item继承用--------------
     // 行高 值为数字，则单位默认rpx
     itemHeight: {
@@ -167,14 +185,6 @@ export default {
       default() {
         // 参照checkbox
         return dropdown.selectedCheckbox
-      }
-    },
-    // 标签是否均分布局，可选值 `true`
-    stretch: {
-      type: Boolean,
-      // `false`
-      default() {
-        return dropdown.stretch
       }
     },
     // 是否需要蒙层顶部对齐组件，可选值 `false`

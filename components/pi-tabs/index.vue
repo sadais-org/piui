@@ -359,7 +359,6 @@ export default {
       display: inline-flex;
       font-size: 30rpx;
       text-align: center;
-      transition: all $pi-animation-duration $pi-animation-timing-function;
       &.active {
         color: $pi-primary-color;
       }
@@ -395,5 +394,12 @@ export default {
       }
     }
   }
+}
+</style>
+
+<style lang="scss">
+.pi-tabs scoped-slots-item {
+  width: 100%;
+  height: 100%;
 }
 </style>

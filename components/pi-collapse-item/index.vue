@@ -1,14 +1,10 @@
 <template>
-  <view
-    class="pi-collapse-item"
-    :class="[customClass]"
-    :style="[customStyle]"
-    @click="clickHandler"
-  >
+  <view class="pi-collapse-item" :class="[customClass]" :style="[customStyle]">
     <!-- 标题 -->
     <view
       class="pi-collapse-item__title pi-justify-between pi-align-center"
       :class="{ disabled: disabled, border: border }"
+      @tap="handleCollapseItemClick"
     >
       <!-- 左侧 -->
       <view class="pi-flex-column pi-lh-44">
@@ -32,7 +28,12 @@
       </view>
     </view>
     <!-- 内容 -->
-    <view ref="animation" class="pi-collapse-item__content" :animation="animationData">
+    <view
+      ref="animation"
+      class="pi-collapse-item__content"
+      :animation="animationData"
+      @tap="handleContentClick"
+    >
       <view :id="elId" :ref="elId" class="pi-collapse-item__content__text content-class">
         <slot />
       </view>
@@ -176,7 +177,7 @@ export default {
         this.expanded = (value || []).some(item => item == this.name)
       }
       // 设置组件的展开或收起状态
-      this.$nextTick(function () {
+      this.$nextTick(function() {
         this.setContentAnimate()
       })
     },
@@ -227,8 +228,11 @@ export default {
       })
       // #endif
     },
+    handleContentClick() {
+      this.$emit('content-click')
+    },
     // 点击collapsehead头部
-    clickHandler() {
+    handleCollapseItemClick() {
       if (this.disabled || this.animating) return
       // 设置本组件为相反的状态
       this.parent && this.parent.onChange(this)
