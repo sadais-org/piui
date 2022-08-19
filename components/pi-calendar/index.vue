@@ -39,6 +39,7 @@
         :start-text="getCalendarPanel.startText"
         :end-text="getCalendarPanel.endText"
         :date-format="getCalendarPanel.dateFormat"
+        @date-change="$emit('date-change', $event)"
       />
       <!-- footer -->
       <view class="pi-w-100P pi-align-center pi-pd-24 pi-solid-top-1">

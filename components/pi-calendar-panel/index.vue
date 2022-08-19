@@ -347,6 +347,10 @@ export default {
       } else {
         this.month = month
       }
+      this.$emit('date-change', {
+        year: this.year,
+        month: this.month
+      })
     },
     handlePrevMonth() {
       if (this.currentTabIndex === 0) {
@@ -368,6 +372,10 @@ export default {
       if (change > 0 && this.isMaxYear) return
       if (change < 0 && this.isMinYear) return
       this.year = this.year + change
+      this.$emit('date-change', {
+        year: this.year,
+        month: this.month
+      })
     },
     handleBackToday() {
       this.year = this.now.year
