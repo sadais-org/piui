@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-06-28 16:53:54
- * @LastEditTime: 2022-07-01 10:01:43
+ * @LastEditTime: 2022-08-19 17:25:53
  * @LastEditors: zhangzhenfei
  * @Description: 日历日期数据
- * @FilePath: /hfmp-checkin-front/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-calendar-panel/components/calendar-days/index.vue
+ * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-calendar-panel/components/calendar-days/index.vue
 -->
 
 <template>
@@ -14,14 +14,18 @@
       :key="day.key"
       class="date-item"
       style="cursor: pointer;"
-      :class="[{ 'pi-disabled': day.disabled || day.type === 'disabled' }, { range: day.range }]"
+      :class="[
+        { 'pi-disabled': day.disabled || day.type === 'disabled' },
+        { range: day.range },
+        { marked: day.marked }
+      ]"
       @tap.stop="handleSelectDate(day)"
     >
       <view class="pi-square">
         <view class="pi-rela date-item-inner">
           <view
             class="pi-w-100P pi-h-100P pi-flex-column-center pi-lh-28"
-            :style="[day.rangeStyle, day.nowStyle, day.activeStyle]"
+            :style="[day.nowStyle, day.activeStyle, day.rangeStyle]"
           >
             <text>{{ day.date }}</text>
             <text v-if="day.tip" class=" pi-text-nowrap pi-fz-18 pi-mg-top-6">
@@ -152,6 +156,12 @@ export default {
       type: Boolean,
       // '是否显示周视图'
       default: calendarPanel.defalutWeekView
+    },
+    // 日期标记，数组形式，默认（[]）
+    marks: {
+      type: Array,
+      // []
+      default: () => calendarPanel.marks
     }
   },
   data() {
@@ -200,6 +210,11 @@ export default {
     },
     getMaxDate() {
       return this.maxDate ? this.$pi.date.parseDate(this.maxDate) : ''
+    },
+    getMarks() {
+      return this.marks.map(item => {
+        return this.$pi.date.parseDate(item)
+      })
     },
     // 总天数
     days() {
@@ -282,6 +297,15 @@ export default {
             }
           }
         }
+        // 是否打点
+        if (this.getMarks.length) {
+          const mark = this.getMarks.find(item => {
+            return this.isSameDay(item, day)
+          })
+          if (mark) {
+            day.marked = mark
+          }
+        }
         // 当天样式
         if (this.isSameDay(this.now, day)) {
           day.today = true
@@ -359,6 +383,20 @@ export default {
   z-index: 2;
   width: calc(100% / 7);
   overflow: hidden;
+  &.marked {
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 18rpx;
+      left: 50%;
+      width: 8rpx;
+      height: 8rpx;
+      background: #ff0027;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      overflow: hidden;
+    }
+  }
   .date-item-inner {
     padding: 8rpx;
   }

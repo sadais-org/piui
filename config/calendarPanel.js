@@ -22,5 +22,6 @@ export default {
   endText: '结束', // type=range时生效，结束日期自定义文案，默认（'结束'）
   dateFormat: 'YYYY-MM-DD', // 已选择的时间格式化显示规则，默认（'YYYY-MM-DD'）
   canChangeWeekView: false, // 是否可切换周视图，默认（false）
-  defalutWeekView: false // 是否默认显示周视图，默认（false）
+  defalutWeekView: false, // 是否默认显示周视图，默认（false）
+  marks: [] // 日期标记，数组形式，默认（[]）
 }

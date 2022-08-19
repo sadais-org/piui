@@ -60,6 +60,7 @@
               :end-text="endText"
               :week-view="weekView"
               :show-back-today="showBackToday"
+              :marks="marks"
               @change="handleChange"
             />
           </swiper-item>
@@ -219,6 +220,12 @@ export default {
       type: Boolean,
       // true
       default: calendarPanel.defalutWeekView
+    },
+    // 日期标记，数组形式，默认（[]）
+    marks: {
+      type: Array,
+      // []
+      default: () => calendarPanel.marks
     }
   },
   data() {
