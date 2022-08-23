@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-06-28 16:53:54
- * @LastEditTime: 2022-08-19 17:25:53
+ * @LastEditTime: 2022-08-23 11:45:24
  * @LastEditors: zhangzhenfei
  * @Description: 日历日期数据
  * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-calendar-panel/components/calendar-days/index.vue
@@ -361,7 +361,7 @@ export default {
         return
       }
       // 处理范围选择方式
-      if (this.calendarValue.length === 2) {
+      if (this.calendarValue.length === 0 || this.calendarValue.length === 2) {
         // 如果选了两项，则重新开始选择范围
         this.handleChange([date])
       } else {

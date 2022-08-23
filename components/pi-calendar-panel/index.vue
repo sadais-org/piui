@@ -232,8 +232,8 @@ export default {
     const now = this.$pi.date.parseDate()
     return {
       now: now, // 当前时间
-      year: '', // 年份
-      month: '', // 月份
+      year: now.year, // 年份
+      month: now.month, // 月份
       week: 1, // 当前周
       calendarValue: '',
       currentTabIndex: 1, // 当前选中的tab索引
@@ -278,24 +278,25 @@ export default {
     this.init()
   },
   methods: {
-    valid() {
-      if (this.type === 'date') return true
-      if (this.type === 'range' && this.$pi.lang.isArray(this.value) && this.value.length === 2)
-        return true
-      return false
-    },
     init() {
       console.log(TAG, '组件初始化', this.value)
-      if (!this.valid()) return
       let initValue = this.value
       const nowDate = this.$pi.date.parseDate(this.type === 'date' ? this.value : this.value[0])
       if (this.type === 'range') {
-        const endDate = this.$pi.date.parseDate(this.value[1])
-        if (this.year !== endDate.year && this.month !== endDate.month) {
+        initValue = initValue || []
+        if (this.value[1]) {
+          const endDate = this.$pi.date.parseDate(this.value[1])
+
+          this.year = endDate.year
+          this.month = endDate.month
+
+          initValue = [nowDate, endDate]
+        } else if (initValue.length === 1) {
+          initValue = [nowDate]
+
           this.year = nowDate.year
           this.month = nowDate.month
         }
-        initValue = [nowDate, endDate]
       } else {
         this.year = nowDate.year
         this.month = nowDate.month
