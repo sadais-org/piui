@@ -68,7 +68,7 @@
                 </slot>
               </view>
               <pi-icon v-if="selectedIds.includes(item[keyField])" name="blod-check" />
-              <pi-icon v-if="item.children && item.children.length > 0" name="right" />
+              <pi-icon v-if="item[childrenField] && item[childrenField].length > 0" name="right" />
             </view>
           </scroll-view>
         </scroll-view>
@@ -345,12 +345,16 @@ export default {
         this.$nextTick(this.syncScrollLeft)
         return
       }
-      if (item?.children?.length && this.currentItem[this.keyField] !== item[this.keyField]) {
+      if (
+        item &&
+        item[this.childrenField]?.length &&
+        this.currentItem[this.keyField] !== item[this.keyField]
+      ) {
         this.currentItem = item
         this.$nextTick(this.syncScrollLeft)
         return
       }
-      if (item?.children?.length === 0) {
+      if (item && item[this.childrenField]?.length === 0) {
         // 点击的是叶子节点
         if (this.selectedIds.includes(item[this.keyField])) {
           this.handleRemoveItem(item[this.keyField])
