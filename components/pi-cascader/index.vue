@@ -36,7 +36,7 @@
             <view
               class="breadcrumb-item-title"
               :class="{
-                active: currentItem && currentItem.uid === item.uid
+                active: currentItem && currentItem[keyField] === item[keyField]
               }"
             >
               {{ item[displayField] }}
@@ -54,11 +54,11 @@
           >
             <view
               v-for="item in col"
-              :key="item.uid"
+              :key="item[keyField]"
               class="column-item pi-align-center"
               :class="{
-                active: activeIds.includes(item.uid),
-                selected: selectedIds.includes(item.uid)
+                active: activeIds.includes(item[keyField]),
+                selected: selectedIds.includes(item[keyField])
               }"
               @click="handleClickItem(item)"
             >
@@ -67,7 +67,7 @@
                   {{ item[displayField] || '' }}
                 </slot>
               </view>
-              <pi-icon v-if="selectedIds.includes(item.uid)" name="blod-check" />
+              <pi-icon v-if="selectedIds.includes(item[keyField])" name="blod-check" />
               <pi-icon v-if="item.children && item.children.length > 0" name="right" />
             </view>
           </scroll-view>
@@ -77,12 +77,12 @@
           <text>{{ `已选（${selectedIds.length}）` }}</text>
           <scroll-view class="scroll-area" scroll-x>
             <view
-              v-for="uid in selectedIds"
-              :key="uid"
+              v-for="id in selectedIds"
+              :key="id"
               class="cascader-item"
-              @tap="handleRemoveItem(uid)"
+              @tap="handleRemoveItem(id)"
             >
-              <text class="pi-mg-right-12">{{ itemsMap[uid][displayField] }}</text>
+              <text class="pi-mg-right-12">{{ itemsMap[id][displayField] }}</text>
               <pi-icon name="close" />
             </view>
           </scroll-view>
@@ -189,7 +189,6 @@ export default {
   },
   data() {
     const rootItem = {
-      uid: this.randomId(),
       [this.displayField]: '全部',
       [this.keyField]: ROOT_NODE
     }
@@ -259,7 +258,7 @@ export default {
       return this.columns.length === 1
     },
     activeIds() {
-      return this.pathItems.map(i => i.uid)
+      return this.pathItems.map(i => i[this.keyField])
     },
     pathItems() {
       const pathItems = []
@@ -288,40 +287,10 @@ export default {
       handler() {
         this.rebuildItems()
       }
-    },
-    val: {
-      handler(val) {
-        val && this.initSelectedIds()
-      }
-    },
-    syncIds: {
-      immediate: true,
-      handler() {
-        this.initSelectedIds()
-      }
     }
   },
 
   methods: {
-    randomId() {
-      // 用于为节点产生一个唯一的uid
-      return this.$pi.guid()
-    },
-    initSelectedIds() {
-      const items = Object.values(this.itemsMap)
-      // 将value转为对应的uid
-      // value为props，外部v-model传入的数组
-      // 值为选中节点的value的集合
-      const selectedIds = []
-      for (const val of this.defaultValue) {
-        const item = items.find(i => i[this.keyField] === val)
-        if (item) {
-          selectedIds.push(item.uid)
-        }
-      }
-      this.selectedIds = selectedIds
-      console.log(TAG, '初始化勾选项', selectedIds)
-    },
     rebuildItems() {
       /**
        * 以非递归的方式 深度拷贝items 且建立父子节点关系
@@ -339,8 +308,7 @@ export default {
         if (!item.pid) {
           item = {
             ...item,
-            level: 0,
-            uid: this.randomId()
+            level: 0
           }
           innerItems.push(item)
         }
@@ -350,11 +318,10 @@ export default {
           // 浅拷贝子孩子
           const subItem = {
             ...children[i],
-            level: item.level + 1,
-            uid: this.randomId()
+            level: item.level + 1
           }
           // 建立父子关系
-          subItem.pid = item.uid
+          subItem.pid = item[this.keyField]
           // 放置到新数组中
           newChilds.unshift(subItem)
           // 入栈 模拟递归效果 等待之后的while循环出栈进行处理
@@ -362,15 +329,15 @@ export default {
         }
         // 更新children 为新的数组
         item[this.childrenField] = newChilds
-        itemsMap[item.uid] = item
+        itemsMap[item[this.keyField]] = item
       }
       // 此时的innerItems无论怎么修改 均不影响items
       this.innerItems = innerItems
-      // 方便通过节点的uid 为key快速定位到对应的节点dto
+      // 方便通过节点的id 为key快速定位到对应的节点dto
       this.itemsMap = itemsMap
     },
-    handleRemoveItem(uid) {
-      this.selectedIds = this.selectedIds.filter(i => i !== uid)
+    handleRemoveItem(id) {
+      this.selectedIds = this.selectedIds.filter(i => i !== id)
     },
     handleClickItem(item) {
       if (item[this.keyField] === ROOT_NODE) {
@@ -378,19 +345,18 @@ export default {
         this.$nextTick(this.syncScrollLeft)
         return
       }
-      if (item?.children?.length && this.currentItem?.uid !== item.uid) {
+      if (item?.children?.length && this.currentItem[this.keyField] !== item[this.keyField]) {
         this.currentItem = item
         this.$nextTick(this.syncScrollLeft)
         return
       }
       if (item?.children?.length === 0) {
         // 点击的是叶子节点
-        if (this.selectedIds.includes(item.uid)) {
-          // 取消选中 其中uid是在rebuildItems方法中生成的
-          this.handleRemoveItem(item.uid)
+        if (this.selectedIds.includes(item[this.keyField])) {
+          this.handleRemoveItem(item[this.keyField])
         } else {
           // 选中
-          this.selectedIds.push(item.uid)
+          this.selectedIds.push(item[this.keyField])
         }
       }
     },
@@ -416,6 +382,13 @@ export default {
     },
     /**
      * @vuese
+     * 根据id获取item
+     */
+    getItemByKeyField(keyField) {
+      return this.itemsMap[keyField]
+    },
+    /**
+     * @vuese
      * 取消选择
      */
     handleCancel() {
@@ -427,15 +400,7 @@ export default {
      * 确认选择
      */
     handleConfirm() {
-      // 根据选中的uid转换为对应的value
-      const value = this.selectedIds.reduce((prev, i) => {
-        const item = this.itemsMap[i]
-        if (item) {
-          prev.push(item[this.keyField])
-        }
-        return prev
-      }, [])
-      this.$emit('confirm', value)
+      this.$emit('confirm', this.selectedIds)
       this.getPopupSelect.onConfirmClose && this.handlePopupClose()
     }
   }
