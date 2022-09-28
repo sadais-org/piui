@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import ValueSync from '../../mixin/value-sync'
 import { getConfig } from '../../config'
 const { collapse } = getConfig()
 /**
@@ -17,6 +18,8 @@ const { collapse } = getConfig()
  */
 export default {
   name: 'PiCollapse',
+  // 混入v-model
+  mixins: [ValueSync],
   props: {
     // 当前展开面板的name，非手风琴模式：[<string | number>]，手风琴模式：string | number
     value: {
@@ -110,7 +113,8 @@ export default {
         })
       })
       // 触发change事件
-      this.$emit('change', changeArr)
+      this.val = changeArr
+      this.handleEmitChange()
       this.$emit(target.expanded ? 'open' : 'close', target.name)
     }
   }

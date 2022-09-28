@@ -273,17 +273,21 @@ export default {
   watch: {
     items: {
       deep: true,
-      immediate: false,
+      immediate: true,
       handler(value) {
         this.init()
       }
     }
   },
   mounted() {
-    this.init()
+    // 防止在某些组件slot里面还没渲染，导致获取不到正确的宽高
+    setTimeout(() => {
+      this.init()
+    }, 200)
   },
   methods: {
     async init() {
+      console.log(TAG, '初始化计算步骤条')
       if (!this.items?.length) return
       this.iconsRect = await this.$pi.common.queryRect(this, '.step-icon-inner', true)
       this.itemsRect = await this.$pi.common.queryRect(this, '.pi-steps-item', true)

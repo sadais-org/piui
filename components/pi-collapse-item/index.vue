@@ -114,7 +114,7 @@ export default {
       // uni.createAnimation的导出数据
       animationData: {},
       // 是否展开状态
-      expanded: false,
+      expanded: true,
       // 根据expanded确定是否显示border，为了控制展开时，cell的下划线更好的显示效果，进行一定时间的延时
       showBorder: false,
       // 是否动画中，如果是则不允许继续触发点击
@@ -164,22 +164,23 @@ export default {
       if (!this.parent) {
         return console.error('pi-collapse-item必须要搭配pi-collapse组件使用')
       }
-      const { value, accordion } = this.parent
+      const { val, accordion } = this.parent
       if (accordion) {
-        if (this.$pi.lang.isArray(value)) {
+        if (this.$pi.lang.isArray(val)) {
           return console.error('手风琴模式下，pi-collapse组件的value参数不能为数组')
         }
-        this.expanded = this.name == value
+        this.expanded = this.name == val
       } else {
-        if (!this.$pi.lang.isArray(value) && value !== null) {
+        if (!this.$pi.lang.isArray(val) && val !== null) {
           return console.error('非手风琴模式下，pi-collapse组件的value参数必须为数组')
         }
-        this.expanded = (value || []).some(item => item == this.name)
+        this.expanded = (val || []).some(item => item == this.name)
       }
+      console.log('折叠面板item初始化', val, accordion, this.expanded)
       // 设置组件的展开或收起状态
-      this.$nextTick(function() {
+      setTimeout(() => {
         this.setContentAnimate()
-      })
+      }, 200)
     },
     updateParentData() {
       // 传组件Name给父组件，用于组件展开或收起时，改变父组件的值
@@ -339,7 +340,7 @@ export default {
   }
   &__content {
     overflow: hidden;
-    height: 0;
+    height: auto;
 
     &__text {
       padding: 24rpx 30rpx;
