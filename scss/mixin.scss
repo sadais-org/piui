@@ -16,7 +16,7 @@
 // boder
 @mixin pi-border {
   position: relative;
-  &::after {
+  &::before {
     @include pi-border-style;
   }
 }

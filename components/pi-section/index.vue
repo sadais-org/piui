@@ -209,7 +209,7 @@ export default {
   }
   &.border {
     @include pi-border;
-    &::after {
+    &::before {
       border: 0 solid $pi-section-border-color;
       border-bottom-width: $pi-section-border-width;
     }

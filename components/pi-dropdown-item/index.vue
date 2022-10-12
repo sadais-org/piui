@@ -239,7 +239,7 @@ export default {
   .item-wrap {
     &:not(:last-child) {
       @include pi-border;
-      &::after {
+      &::before {
         border: 0 solid $pi-list-border-color;
         border-bottom-width: $pi-list-border-width;
       }

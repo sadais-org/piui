@@ -493,7 +493,7 @@ export default {
   }
   &.border {
     @include pi-border;
-    &::after {
+    &::before {
       border: 0 solid $pi-form-border-color;
       border-bottom-width: $pi-form-border-width;
     }
@@ -504,7 +504,7 @@ export default {
     white-space: nowrap;
     &.border {
       @include pi-border;
-      &::after {
+      &::before {
         border: 0 solid $pi-form-border-color;
         border-bottom-width: $pi-form-border-width;
       }

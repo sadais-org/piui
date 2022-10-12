@@ -82,7 +82,7 @@ export default {
   }
   &.border {
     @include pi-border;
-    &::after {
+    &::before {
       border: 0 solid $pi-grid-border-color;
       border-top-width: $pi-grid-border-width;
       border-left-width: $pi-grid-border-width;

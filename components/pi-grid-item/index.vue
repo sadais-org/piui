@@ -192,21 +192,21 @@ export default {
   vertical-align: middle;
   &.border {
     @include pi-border;
-    &::after {
+    &::before {
       border: 0 solid $pi-grid-border-color;
       // 只生成右下边框
       border-right-width: $pi-grid-border-width;
       border-bottom-width: $pi-grid-border-width;
     }
-    &.gap::after {
+    &.gap::before {
       // 如果有间隔的情况下（边框全部生成）
       border-width: $pi-grid-border-width;
     }
-    &.first-row::after {
+    &.first-row::before {
       // 首行生成上边框
       border-top-width: $pi-grid-border-width;
     }
-    &.first-col::after {
+    &.first-col::before {
       // 首列生成左边框
       border-left-width: $pi-grid-border-width;
     }
