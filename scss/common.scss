@@ -100,42 +100,42 @@
 // 生成1-10的边框（实线/虚线）
 @for $i from 1 through 10 {
   // 实线
-  .pi-solid-#{$i}::after {
+  .pi-solid-#{$i}::before {
     border: 1px * $i solid $pi-line-color;
   }
-  .pi-solid-top-#{$i}::after {
+  .pi-solid-top-#{$i}::before {
     border-top: 1px * $i solid $pi-line-color;
   }
-  .pi-solid-right-#{$i}::after {
+  .pi-solid-right-#{$i}::before {
     border-right: 1px * $i solid $pi-line-color;
   }
-  .pi-solid-bottom-#{$i}::after {
+  .pi-solid-bottom-#{$i}::before {
     border-bottom: 1px * $i solid $pi-line-color;
   }
-  .pi-solid-left-#{$i}::after {
+  .pi-solid-left-#{$i}::before {
     border-left: 1px * $i solid $pi-line-color;
   }
   // 虚线
-  .pi-dashed-#{$i}::after {
+  .pi-dashed-#{$i}::before {
     border: 1px * $i dashed $pi-line-color;
   }
-  .pi-dashed-top-#{$i}::after {
+  .pi-dashed-top-#{$i}::before {
     border-top: 1px * $i dashed $pi-line-color;
   }
-  .pi-dashed-right-#{$i}::after {
+  .pi-dashed-right-#{$i}::before {
     border-right: 1px * $i dashed $pi-line-color;
   }
-  .pi-dashed-bottom-#{$i}::after {
+  .pi-dashed-bottom-#{$i}::before {
     border-bottom: 1px * $i dashed $pi-line-color;
   }
-  .pi-dashed-left-#{$i}::after {
+  .pi-dashed-left-#{$i}::before {
     border-left: 1px * $i dashed $pi-line-color;
   }
 }
 
 [class*='pi-solid-'],
 [class*='pi-dashed-'] {
-  &.pi-round::after {
+  &.pi-round::before {
     @extend .pi-round;
   }
 }
