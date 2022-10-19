@@ -1,16 +1,20 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2022-05-21 15:00:48
+ * @LastEditTime: 2022-10-19 19:25:39
  * @LastEditors: zhangzhenfei
  * @Description: 日历输入
- * @FilePath: /hfmp-checkin-front/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-calendar-input/index.vue
+ * @FilePath: \piui\components\pi-calendar-input\index.vue
 -->
 
 <template>
   <view class="pi-calendar-input">
     <!-- 输入框 -->
-    <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="show = true">
+    <view
+      v-if="$slots.default || $slots.$default"
+      class="pi-w-100P"
+      @click="show = true"
+    >
       <slot />
     </view>
     <pi-input
@@ -57,7 +61,7 @@
       :calendar-panel="{
         ...getCalendar.calendarPanel,
         dateFormat: getCalendar.dateFormat,
-        value: val
+        value: val,
       }"
       :popup="getCalendar.popup"
       @confirm="handleCalendarConfirm"
@@ -66,66 +70,66 @@
 </template>
 
 <script>
-import ValueSync from '../../mixin/value-sync'
-import { getConfig } from '../../config'
+import ValueSync from "../../mixin/value-sync";
+import { getConfig } from "../../config";
 
-const TAG = 'PiCalendarInput'
-const { calendarInput } = getConfig()
+const TAG = "PiCalendarInput";
+const { calendarInput } = getConfig();
 
-const PI_DEFAULT_FN_FLAG = 'PI_DEFAULT_FN_FLAG'
+const PI_DEFAULT_FN_FLAG = "PI_DEFAULT_FN_FLAG";
 
 export default {
-  name: 'PiCalendar',
+  name: "PiCalendar",
   // 混入v-model
   mixins: [ValueSync],
   props: {
     // 初始值
     value: {
-      required: false
+      required: false,
     },
     // 自定义样式，对象形式
     customStyle: {
       type: Object,
       // {}
       default() {
-        return calendarInput.customStyle
-      }
+        return calendarInput.customStyle;
+      },
     },
     // 自定义样式类，字符串形式
     customClass: {
       type: String,
       // ''
       default() {
-        return calendarInput.customClass
-      }
+        return calendarInput.customClass;
+      },
     },
     // input输入设置
     input: {
       type: Object,
       default() {
         // 参照calendar
-        return calendarInput.input
-      }
+        return calendarInput.input;
+      },
     },
     // 日历弹窗参数设置
     calendar: {
       type: Object,
       default() {
         // 参照calendar
-        return calendarInput.calendar
-      }
+        return calendarInput.calendar;
+      },
     },
     // 已选择的时间格式化显示规则，默认（'YYYY-MM-DD'）
     dateFormat: {
       type: String,
       // 'YYYY-MM-DD'
-      default: calendarInput.dateFormat
+      default: calendarInput.dateFormat,
     },
     // 范围选择时间分隔符，默认（'至'）
     rangeSplit: {
       type: String,
       // '至'
-      default: calendarInput.rangeSplit
+      default: calendarInput.rangeSplit,
     },
     // 解析值的方法，如果配置了，则读取该函数的返回值作为显示的内容
     parseValueFn: {
@@ -133,63 +137,73 @@ export default {
       default() {
         return {
           [PI_DEFAULT_FN_FLAG]: true,
-          fn: calendarInput.parseValueFn
-        }
-      }
-    }
+          fn: calendarInput.parseValueFn,
+        };
+      },
+    },
   },
   data() {
     return {
-      show: false
-    }
+      show: false,
+    };
+  },
+  watch: {
+    show(val) {
+      this.$emit("onShow", val);
+    },
   },
   computed: {
     getCalendar() {
-      return this.$pi.lang.mergeDeep(calendarInput.calendar, this.calendar)
+      return this.$pi.lang.mergeDeep(calendarInput.calendar, this.calendar);
     },
     getInputValue() {
       const parseValueFn = this.parseValueFn[PI_DEFAULT_FN_FLAG]
         ? this.parseValueFn.fn
-        : this.parseValueFn
+        : this.parseValueFn;
       if (this.$pi.lang.isFunction(parseValueFn)) {
-        const parseValue = parseValueFn(this.val)
-        return parseValue
+        const parseValue = parseValueFn(this.val);
+        return parseValue;
       }
       if (!this.dateFormat) {
-        console.warn('使用pi-calendar-input组件，请设置.dateFormat，否则无法正常显示')
+        console.warn(
+          "使用pi-calendar-input组件，请设置.dateFormat，否则无法正常显示"
+        );
       }
-      if (this.$pi.lang.isEmpty(this.val)) return ''
+      if (this.$pi.lang.isEmpty(this.val)) return "";
       // 常规字段正常返回
-      if (this.$pi.lang.isString(this.val) || this.$pi.lang.isNumber(this.val)) {
-        return this.val
+      if (
+        this.$pi.lang.isString(this.val) ||
+        this.$pi.lang.isNumber(this.val)
+      ) {
+        return this.val;
       }
       // 如果是日期对象，返回格式化后的日期
-      if (this.calendar.calendarPanel.type === 'date') {
-        return this.$pi.date.formatDate(new Date(this.val), this.dateFormat)
+      if (this.calendar.calendarPanel.type === "date") {
+        return this.$pi.date.formatDate(new Date(this.val), this.dateFormat);
       }
-      if (this.calendar.calendarPanel.type === 'range') {
+      if (this.calendar.calendarPanel.type === "range") {
         return this.val
-          .map(date => {
-            return this.$pi.date.formatDate(new Date(date), this.dateFormat)
+          .map((date) => {
+            return this.$pi.date.formatDate(new Date(date), this.dateFormat);
           })
-          .join(this.rangeSplit)
+          .join(this.rangeSplit);
       }
-      return ''
-    }
+      return "";
+    },
   },
   methods: {
     handlePopupClose() {
-      this.val = false
+      this.val = false;
       // 关闭
-      this.$emit('close')
-      this.handleEmitChange()
+      this.$emit("close");
+      this.handleEmitChange();
     },
     handleCalendarConfirm(value) {
-      this.val = value
-      this.handleEmitChange()
-    }
-  }
-}
+      this.val = value;
+      this.handleEmitChange();
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

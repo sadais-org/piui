@@ -19,7 +19,7 @@
         class="label pi-flex-row-center"
         :class="{
           fill: currentIndex >= index,
-          active: focus === true && index === currentIndex
+          active: focus === true && index === currentIndex,
         }"
         @tap="focus = true"
       >
@@ -31,7 +31,7 @@
           :item="arrCode[index]"
           :active="focus === true && index === currentIndex"
         >
-          {{ arrCode[index] ? codeFormat || arrCode[index] || '' : '' }}
+          {{ arrCode[index] ? codeFormat || arrCode[index] || "" : "" }}
         </slot>
       </view>
     </view>
@@ -39,105 +39,105 @@
 </template>
 
 <script>
-import ValueSync from '../../mixin/value-sync'
-import { getConfig } from '../../config'
-const { codeInput } = getConfig()
-const TAG = 'PiCodeInput'
+import ValueSync from "../../mixin/value-sync";
+import { getConfig } from "../../config";
+const { codeInput } = getConfig();
+const TAG = "PiCodeInput";
 
 const ALIGN_MAP = {
-  left: 'pi-justify-start',
-  right: 'pi-justify-end',
-  center: 'pi-justify-center'
-}
+  left: "pi-justify-start",
+  right: "pi-justify-end",
+  center: "pi-justify-center",
+};
 
 export default {
-  name: 'PiCodeInput',
+  name: "PiCodeInput",
   mixins: [ValueSync],
   props: {
     // 初始值，接收一个长度为length的内容
     value: {
       type: [String, Number],
-      required: false
+      required: false,
     },
     // 自定义样式，对象形式
     customStyle: {
       type: Object,
       // {}
       default() {
-        return codeInput.customStyle
-      }
+        return codeInput.customStyle;
+      },
     },
     // 自定义样式类，字符串形式
     customClass: {
       type: String,
       // ''
       default() {
-        return codeInput.customClass
-      }
+        return codeInput.customClass;
+      },
     },
     // 每项验证码样式，对象形式
     itemStyle: {
       type: Object,
       // {}
       default() {
-        return codeInput.customStyle
-      }
+        return codeInput.customStyle;
+      },
     },
     // 已填项验证码样式，对象形式
     fillStyle: {
       type: Object,
       // {}
       default() {
-        return codeInput.fillStyle
-      }
+        return codeInput.fillStyle;
+      },
     },
     // 长度
     length: {
       required: false,
       type: [String, Number],
       // 4
-      default: codeInput.length
+      default: codeInput.length,
     },
     // 自动拉起键盘
     autoFocus: {
       required: false,
       type: Boolean,
       // false
-      default: codeInput.autoFocus
+      default: codeInput.autoFocus,
     },
     // 自动拉起键盘延时
     autoFocusDelay: {
       required: false,
       type: [String, Number],
       // 350
-      default: codeInput.autoFocusDelay
+      default: codeInput.autoFocusDelay,
     },
     // 每项验证码是否均分宽度
     stretch: {
       type: Boolean,
       // false
       default() {
-        return codeInput.stretch
-      }
+        return codeInput.stretch;
+      },
     },
     // 验证码对齐方向，可选值：left、center、right
     align: {
       type: String,
       // left
       default() {
-        return codeInput.align
+        return codeInput.align;
       },
-      validator: function(value) {
-        return ['right', 'left', 'center'].includes(value)
-      }
+      validator: function (value) {
+        return ["right", "left", "center"].includes(value);
+      },
     },
     // 验证码显示格式化
     codeFormat: {
       type: String,
       default() {
-        return codeInput.codeFormat
-      }
-    }
+        return codeInput.codeFormat;
+      },
+    },
   },
   data() {
     return {
@@ -145,53 +145,58 @@ export default {
       disabled: false,
       data() {
         return {
-          val: this.value
-        }
-      }
-    }
+          val: this.value,
+        };
+      },
+    };
+  },
+  watch: {
+    show(val) {
+      this.$emit("onShow", val);
+    },
   },
   computed: {
     getLength() {
-      return parseInt(this.length, 10)
+      return parseInt(this.length, 10);
     },
     getAutoFocusDelay() {
-      return parseInt(this.autoFocusDelay, 10)
+      return parseInt(this.autoFocusDelay, 10);
     },
-    arrCode: function() {
-      return this.val ? this.val.toString().split('') : []
+    arrCode: function () {
+      return this.val ? this.val.toString().split("") : [];
     },
-    currentIndex: function() {
-      return this.val ? this.val.toString().length - 1 : 0
+    currentIndex: function () {
+      return this.val ? this.val.toString().length - 1 : 0;
     },
     getAlign() {
-      return ALIGN_MAP[this.align]
-    }
+      return ALIGN_MAP[this.align];
+    },
   },
   mounted() {
     if (this.autoFocus) {
       setTimeout(() => {
-        this.focus = true
-      }, this.getAutoFocusDelay)
+        this.focus = true;
+      }, this.getAutoFocusDelay);
     }
   },
   methods: {
     handleInput(e) {
-      const value = e.detail.value
-      const val = value.replace(/[^\d]/g, '') // 限制非数字
+      const value = e.detail.value;
+      const val = value.replace(/[^\d]/g, ""); // 限制非数字
       if (value.length <= this.getLength) {
-        this.val = val
-        this.handleEmitChange()
+        this.val = val;
+        this.handleEmitChange();
       }
       if (value.length === this.getLength) {
         /**
          * 当输入的数字位数与length属性相等时触发
          * @arg string 输入的数字
          */
-        this.$emit('end', this.val)
+        this.$emit("end", this.val);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -247,7 +252,7 @@ export default {
         width: 2rpx;
         height: 50%;
         // 伪类实现光标效果
-        content: '';
+        content: "";
         background: currentColor;
         transform: translate(-50%, -50%);
         animation: 1s flicker infinite;
