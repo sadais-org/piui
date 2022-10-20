@@ -15,6 +15,9 @@
     :z-index="getPopup.zIndex"
     :background="getPopup.background"
     @close="handlePopupClose"
+    @closed="$emit('closed', $event)"
+    @show="$emit('show', $event)"
+    @showed="$emit('showed', $event)"
   >
     <view class="pi-calendar" :style="[customStyle]" :class="[customClass]">
       <!-- 标题栏 -->

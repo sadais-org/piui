@@ -1,20 +1,16 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2022-10-19 19:21:43
+ * @LastEditTime: 2022-10-20 09:36:49
  * @LastEditors: zhangzhenfei
  * @Description: 日历输入
- * @FilePath: \piui\components\pi-regions-select-input\index.vue
+ * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-regions-select-input/index.vue
 -->
 
 <template>
   <view class="pi-regions-select-input">
     <!-- 输入框 -->
-    <view
-      v-if="$slots.default || $slots.$default"
-      class="pi-w-100P"
-      @click="show = true"
-    >
+    <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="show = true">
       <slot />
     </view>
     <pi-input
@@ -67,65 +63,69 @@
       :confirm-btn="getRegionsSelect.confirmBtn"
       :cancel-btn="getRegionsSelect.cancelBtn"
       @confirm="handleRegionsSelectConfirm"
+      @close="$emit('close', $event)"
+      @closed="$emit('closed', $event)"
+      @show="$emit('show', $event)"
+      @showed="$emit('showed', $event)"
     />
   </view>
 </template>
 
 <script>
-import ValueSync from "../../mixin/value-sync";
-import { getConfig } from "../../config";
+import ValueSync from '../../mixin/value-sync'
+import { getConfig } from '../../config'
 
-const TAG = "PiRegionsSelectInput";
-const { regionsSelectInput } = getConfig();
+const TAG = 'PiRegionsSelectInput'
+const { regionsSelectInput } = getConfig()
 
-const PI_DEFAULT_FN_FLAG = "PI_DEFAULT_FN_FLAG";
+const PI_DEFAULT_FN_FLAG = 'PI_DEFAULT_FN_FLAG'
 
 export default {
-  name: "PiRegionsSelectInput",
+  name: 'PiRegionsSelectInput',
   // 混入v-model
   mixins: [ValueSync],
   props: {
     // 初始值
     value: {
-      required: false,
+      required: false
     },
     // 自定义样式，对象形式
     customStyle: {
       type: Object,
       // {}
       default() {
-        return regionsSelectInput.customStyle;
-      },
+        return regionsSelectInput.customStyle
+      }
     },
     // 自定义样式类，字符串形式
     customClass: {
       type: String,
       // ''
       default() {
-        return regionsSelectInput.customClass;
-      },
+        return regionsSelectInput.customClass
+      }
     },
     // input输入设置
     input: {
       type: Object,
       default() {
         // 参照RegionsSelect
-        return regionsSelectInput.input;
-      },
+        return regionsSelectInput.input
+      }
     },
     // 日历弹窗参数设置
     regionsSelect: {
       type: Object,
       default() {
         // 参照RegionsSelect
-        return regionsSelectInput.RegionsSelect;
-      },
+        return regionsSelectInput.RegionsSelect
+      }
     },
     // 地区分隔符，默认（'/'）
     rangeSplit: {
       type: String,
       // '/'
-      default: regionsSelectInput.rangeSplit,
+      default: regionsSelectInput.rangeSplit
     },
     // 解析值的方法，如果配置了，则读取该函数的返回值作为显示的内容
     parseValueFn: {
@@ -133,71 +133,60 @@ export default {
       default() {
         return {
           [PI_DEFAULT_FN_FLAG]: true,
-          fn: regionsSelectInput.parseValueFn,
-        };
-      },
-    },
+          fn: regionsSelectInput.parseValueFn
+        }
+      }
+    }
   },
   data() {
     return {
-      show: false,
-    };
-  },
-  watch: {
-    show(val) {
-      this.$emit("onShow", val);
-    },
+      show: false
+    }
   },
   computed: {
     getRegionsSelect() {
-      return this.$pi.lang.mergeDeep(
-        regionsSelectInput.regionsSelect,
-        this.regionsSelect
-      );
+      return this.$pi.lang.mergeDeep(regionsSelectInput.regionsSelect, this.regionsSelect)
     },
     getInputValue() {
       const parseValueFn = this.parseValueFn[PI_DEFAULT_FN_FLAG]
         ? this.parseValueFn.fn
-        : this.parseValueFn;
+        : this.parseValueFn
       if (this.$pi.lang.isFunction(parseValueFn)) {
-        const parseValue = parseValueFn(this.val);
-        return parseValue;
+        const parseValue = parseValueFn(this.val)
+        return parseValue
       }
-      if (this.$pi.lang.isEmpty(this.val)) return "";
+      if (this.$pi.lang.isEmpty(this.val)) return ''
       // 常规字段正常返回
       const code = this.getRegionsSelect.keyDefaultValue
         ? this.val
-        : this.val[this.getRegionsSelect.keyField];
-      const regions = this.$pi.regions.parseRegions(
-        code,
-        this.getRegionsSelect.regionsData
-      );
-      return this.generateRegionsName(regions);
-    },
+        : this.val[this.getRegionsSelect.keyField]
+      const regions = this.$pi.regions.parseRegions(code, this.getRegionsSelect.regionsData)
+      return this.generateRegionsName(regions)
+    }
   },
   methods: {
     generateRegionsName(regions) {
-      const addressFields = ["province", "city", "county", "street"];
+      const addressFields = ['province', 'city', 'county', 'street']
       return addressFields
         .reduce((prev, curr) => {
-          const name = regions[curr][this.getRegionsSelect.displayField];
-          name && prev.push(name);
-          return prev;
+          const name = regions[curr][this.getRegionsSelect.displayField]
+          name && prev.push(name)
+          return prev
         }, [])
-        .join(this.rangeSplit);
+        .join(this.rangeSplit)
     },
     handlePopupClose() {
-      this.val = false;
+      this.val = false
       // 关闭
-      this.$emit("close");
-      this.handleEmitChange();
+      this.$emit('close')
+      this.handleEmitChange()
     },
     handleRegionsSelectConfirm(value) {
-      this.val = value;
-      this.handleEmitChange();
-    },
-  },
-};
+      this.val = value
+      this.handleEmitChange()
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

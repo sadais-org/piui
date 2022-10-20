@@ -279,10 +279,14 @@ export default {
       this.closed = false
       this.show = true
       this.showed = false
+      // 弹窗即将显示
+      this.$emit('show')
       this.handleEmitChange()
       uni.hideKeyboard()
       this.getMask.hideTabBar && uni.hideTabBar()
       setTimeout(() => {
+        // 弹窗已经显示
+        this.$emit('showed')
         this.showed = true
       }, this.getDuration.js)
       // #ifdef H5

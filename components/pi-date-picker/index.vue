@@ -16,6 +16,9 @@
     @close="handlePopupClose"
     @cancel="handleCancel"
     @confirm="handleConfirm"
+    @closed="$emit('closed', $event)"
+    @show="$emit('show', $event)"
+    @showed="$emit('showed', $event)"
   >
     <slot name="header" />
     <picker-view

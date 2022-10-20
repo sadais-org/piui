@@ -16,6 +16,9 @@
     @close="handlePopupClose"
     @cancel="handleCancel"
     @confirm="handleConfirm"
+    @closed="$emit('closed', $event)"
+    @show="$emit('show', $event)"
+    @showed="$emit('showed', $event)"
   >
     <view class="pi-select pi-h-100P pi-flex-column" :style="[customStyle]" :class="[customClass]">
       <slot name="header" />
