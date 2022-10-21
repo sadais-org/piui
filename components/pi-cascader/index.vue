@@ -64,10 +64,22 @@
             >
               <view class="pi-flex-sub pi-lh-36">
                 <slot name="item" :item="item">
+                  <pi-checkbox
+                    v-if="parentCanSelect"
+                    :value="selectedIds.includes(item[keyField])"
+                    shape="round"
+                    active-mode="fill-circle"
+                    class="pi-mg-right-16"
+                    @click.stop="handleChangeParentSelect(item)"
+                  />
                   {{ item[displayField] || '' }}
                 </slot>
               </view>
-              <pi-icon v-if="selectedIds.includes(item[keyField])" name="blod-check" />
+              <pi-icon
+                v-if="!parentCanSelect && selectedIds.includes(item[keyField])"
+                name="blod-check"
+                size="36"
+              />
               <pi-icon v-if="item[childrenField] && item[childrenField].length > 0" name="right" />
             </view>
           </scroll-view>
@@ -155,6 +167,12 @@ export default {
       type: String,
       // 'children'
       default: cascader.childrenField
+    },
+    // 父节点是否可选（默认：'false'）
+    parentCanSelect: {
+      type: Boolean,
+      // false
+      default: cascader.parentCanSelect
     },
     // 弹窗选择参数设置
     popupSelect: {
@@ -383,6 +401,14 @@ export default {
       // 关闭弹窗
       this.$emit('close')
       this.handleEmitChange()
+    },
+    handleChangeParentSelect(item, selected) {
+      if (this.selectedIds.includes(item[this.keyField])) {
+        this.handleRemoveItem(item[this.keyField])
+      } else {
+        // 选中
+        this.selectedIds.push(item[this.keyField])
+      }
     },
     /**
      * @vuese

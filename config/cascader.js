@@ -11,6 +11,7 @@ export default {
   itemHeight: 110, // 行高（默认：'110rpx'）
   showItemBottomBorder: false, // 是否显示item下边框（默认：'true'）
   itemStyle: {}, // 行样式（默认：'{}'）
+  parentCanSelect: false, // 父节点是否可选（默认：'false'）
   popupSelect: popupSelect, // popupSelect配置
   popup: popupSelect.popup, // 弹窗的配置，默认选项请参照popup
   confirmBtn: popupSelect.confirmBtn, // 确认按钮配置
