@@ -60,19 +60,22 @@
                 active: activeIds.includes(item[keyField]),
                 selected: selectedIds.includes(item[keyField])
               }"
-              @click="handleClickItem(item)"
             >
-              <view class="pi-flex-sub pi-lh-36">
+              <view class="pi-flex-sub">
                 <slot name="item" :item="item">
-                  <pi-checkbox
-                    v-if="parentCanSelect"
-                    :value="selectedIds.includes(item[keyField])"
-                    shape="round"
-                    active-mode="fill-circle"
-                    class="pi-mg-right-16"
-                    @click.stop="handleChangeParentSelect(item)"
-                  />
-                  {{ item[displayField] || '' }}
+                  <view class="pi-align-center">
+                    <pi-checkbox
+                      v-if="parentCanSelect"
+                      :value="selectedIds.includes(item[keyField])"
+                      shape="round"
+                      active-mode="fill-circle"
+                      class="pi-mg-right-16"
+                      @change="handleChangeParentSelect(item, $event)"
+                    />
+                    <text class="pi-lh-36 pi-flex-sub" @click="handleClickItem(item)">
+                      {{ item[displayField] || '' }}
+                    </text>
+                  </view>
                 </slot>
               </view>
               <pi-icon
@@ -80,7 +83,11 @@
                 name="blod-check"
                 size="36"
               />
-              <pi-icon v-if="item[childrenField] && item[childrenField].length > 0" name="right" />
+              <pi-icon
+                v-if="item[childrenField] && item[childrenField].length > 0"
+                name="right"
+                @click="handleClickItem(item)"
+              />
             </view>
           </scroll-view>
         </scroll-view>
@@ -358,28 +365,37 @@ export default {
       this.selectedIds = this.selectedIds.filter(i => i !== id)
     },
     handleClickItem(item) {
+      console.log(item)
+      // 点击全部
       if (item[this.keyField] === ROOT_NODE) {
         this.currentItem = cloneDeep(this.rootItem)
         this.$nextTick(this.syncScrollLeft)
         return
       }
-      if (
-        item &&
-        item[this.childrenField]?.length &&
-        this.currentItem[this.keyField] !== item[this.keyField]
-      ) {
+      const isLeafNode = !item[this.childrenField] || item[this.childrenField]?.length === 0
+      // 点击非叶子节点
+      if (item && !isLeafNode && this.currentItem[this.keyField] !== item[this.keyField]) {
         this.currentItem = item
         this.$nextTick(this.syncScrollLeft)
         return
       }
-      if (item && item[this.childrenField]?.length === 0) {
-        // 点击的是叶子节点
+      // 点击的是叶子节点
+      if (isLeafNode) {
         if (this.selectedIds.includes(item[this.keyField])) {
           this.handleRemoveItem(item[this.keyField])
         } else {
           // 选中
           this.selectedIds.push(item[this.keyField])
         }
+      }
+    },
+    handleChangeParentSelect(item, selected) {
+      if (this.selectedIds.includes(item[this.keyField])) {
+        this.handleRemoveItem(item[this.keyField])
+      } else {
+        // 选中
+        this.selectedIds.push(item[this.keyField])
+        console.log(this.selectedIds)
       }
     },
     async syncScrollLeft() {
@@ -401,14 +417,6 @@ export default {
       // 关闭弹窗
       this.$emit('close')
       this.handleEmitChange()
-    },
-    handleChangeParentSelect(item, selected) {
-      if (this.selectedIds.includes(item[this.keyField])) {
-        this.handleRemoveItem(item[this.keyField])
-      } else {
-        // 选中
-        this.selectedIds.push(item[this.keyField])
-      }
     },
     /**
      * @vuese
@@ -468,9 +476,15 @@ export default {
       &.active {
         color: $pi-primary-color;
         background: #ffffff;
+        ::v-deep .pi-icon-right {
+          color: #333333;
+        }
       }
       &.selected {
         color: $pi-primary-color;
+        ::v-deep .pi-icon-right {
+          color: #333333;
+        }
       }
     }
   }
