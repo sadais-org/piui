@@ -228,7 +228,6 @@ export default {
       this.$emit('load')
     },
     handleLoad() {
-      console.log(TAG, '图片加载成功')
       this.error = false
       this.loading = false
       this.$emit('load')
