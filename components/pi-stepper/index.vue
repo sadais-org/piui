@@ -327,7 +327,7 @@ export default {
         // target.value = tmpVal
         console.log(`tmpVal = ${tmpVal}`)
         this.val = 0
-        this.handleEmitChange()
+        // this.handleEmitChange()
         this.$nextTick(() => {
           let tmp = parseFloat(tmpVal)
           if (this.integer) {
