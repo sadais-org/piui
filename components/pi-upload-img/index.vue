@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2022-11-03 12:11:22
+ * @LastEditTime: 2022-11-09 09:37:45
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
- * @FilePath: \sadais-visitor-mp\node_modules\sadais-piui\components\pi-upload-img\index.vue
+ * @FilePath: \piui-awesome\src\piui\components\pi-upload-img\index.vue
 -->
 
 <template>
@@ -315,7 +315,7 @@ export default {
       if (this.val === null || this.val === undefined) {
         return []
       }
-      return this.isValString ? (this.val ? [this.val] : []) : this.val.filter(img => img)
+      return this.isValString ? (this.val ? [this.val] : []) : this.val.filter((img) => img)
     },
     getItemStyle() {
       const style = {
@@ -382,7 +382,7 @@ export default {
         current = this.val
         urls = [this.val]
       } else {
-        urls = this.imgField ? this.val.map(img => img[this.imgField]) : this.val
+        urls = this.imgField ? this.val.map((img) => img[this.imgField]) : this.val
         current = this.imgField ? img[this.imgField] : img
       }
 
@@ -507,7 +507,7 @@ export default {
           sourceType,
           crop
         })
-        const { errMsg, tempFilePaths } = result
+        let { errMsg, tempFilePaths } = result
         if (errMsg !== 'chooseImage:ok') {
           throw new Error(errMsg)
         }
@@ -525,7 +525,7 @@ export default {
         }
         this.handleUpload(tempFilePaths)
       } catch (error) {
-        console.log(TAG, '上传文件失败', e)
+        console.log(TAG, '上传文件失败', error)
         this.$emit('fail', error)
       }
     }
