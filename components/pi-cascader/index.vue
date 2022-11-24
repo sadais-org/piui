@@ -301,9 +301,6 @@ export default {
           [this.keyField]: 'ROOT'
         }
       ].concat(pathItems)
-    },
-    syncIds() {
-      return `${this.innerItems.length}-${this.defaultValue.length}`
     }
   },
   watch: {
@@ -311,6 +308,12 @@ export default {
       immediate: true,
       handler() {
         this.rebuildItems()
+      }
+    },
+    defaultValue: {
+      immediate: true,
+      handler(vals) {
+        this.selectedIds = [...vals]
       }
     }
   },
@@ -395,7 +398,6 @@ export default {
       } else {
         // 选中
         this.selectedIds.push(item[this.keyField])
-        console.log(this.selectedIds)
       }
     },
     async syncScrollLeft() {
@@ -431,6 +433,7 @@ export default {
      */
     handleCancel() {
       this.$emit('cancel')
+      this.selectedIds = [...this.defaultValue]
       this.getPopupSelect.onCancelClose && this.handlePopupClose()
     },
     /**

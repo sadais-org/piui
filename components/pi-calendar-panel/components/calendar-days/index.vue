@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-06-28 16:53:54
- * @LastEditTime: 2022-08-31 16:19:31
+ * @LastEditTime: 2022-11-24 10:35:53
  * @LastEditors: zhangzhenfei
  * @Description: 日历日期数据
  * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-calendar-panel/components/calendar-days/index.vue
@@ -198,7 +198,7 @@ export default {
       const firstDays = []
       const preMonthLastDay = this.getPreMonthLastDay
       const lastDay = preMonthLastDay.getDate()
-      const firstDay = new Date(`${this.year}-${this.month}-01 00:00:00`).getDay()
+      const firstDay = new Date(this.year, this.month - 1, '1').getDay()
       for (let i = 0; i < firstDay; i++) {
         const day = preMonthLastDay.setDate(lastDay - firstDay + i + 1)
         firstDays.push(new Date(day))
@@ -222,6 +222,7 @@ export default {
       const dayCount = 7 * 6 // 固定显示6周
       const monthDays = new Date(this.year, this.month, 0).getDate()
       const firstDayCount = this.firstDay.length
+      console.log(this.firstDay)
       const nextMonthFirstDay = this.getNextMonthFirstDay
       for (let i = 1; i <= dayCount; i++) {
         let day = {
@@ -247,10 +248,9 @@ export default {
           }
         } else {
           // 当月数据
-          const formatDay = `${this.year}-${this.month}-${i - firstDayCount}`
           day = {
             ...day,
-            ...this.$pi.date.parseDate(new Date(formatDay))
+            ...this.$pi.date.parseDate(new Date(this.year, this.month - 1, i - firstDayCount))
           }
           const isDisabled = this.isDisabled(day)
           // 禁用

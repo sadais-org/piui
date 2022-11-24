@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2022-11-09 09:37:45
+ * @LastEditTime: 2022-11-19 09:44:33
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
- * @FilePath: \piui-awesome\src\piui\components\pi-upload-img\index.vue
+ * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-upload-img/index.vue
 -->
 
 <template>
@@ -16,7 +16,7 @@
       class="pi-rela pi-flex-column-center"
       @tap="handlePreviewImage(img)"
     >
-      <view class="close" @tap.stop="handleDelete(index)">
+      <view v-if="!disabled" class="close" @tap.stop="handleDelete(index)">
         <pi-icon name="roundclosefill" color="#8e8e8e" size="36" />
       </view>
       <image
@@ -27,7 +27,7 @@
       />
     </view>
     <!-- 上传框 -->
-    <view v-if="getUploadMaxCount">
+    <view v-if="getUploadMaxCount && !disabled">
       <view :style="[getUploadBtnStyle]" class="pi-flex-column-center" @tap="handleChooseImage">
         <slot name="uploadBtn">
           <!-- 添加按钮 -->
@@ -315,7 +315,7 @@ export default {
       if (this.val === null || this.val === undefined) {
         return []
       }
-      return this.isValString ? (this.val ? [this.val] : []) : this.val.filter((img) => img)
+      return this.isValString ? (this.val ? [this.val] : []) : this.val.filter(img => img)
     },
     getItemStyle() {
       const style = {
@@ -382,7 +382,7 @@ export default {
         current = this.val
         urls = [this.val]
       } else {
-        urls = this.imgField ? this.val.map((img) => img[this.imgField]) : this.val
+        urls = this.imgField ? this.val.map(img => img[this.imgField]) : this.val
         current = this.imgField ? img[this.imgField] : img
       }
 
