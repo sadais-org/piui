@@ -18,7 +18,7 @@
     <!-- fixed时候的占位空间 -->
     <template v-if="fixed">
       <view class="pi-bottom-bar-placeholder" :style="[{ height: barHeight }]" />
-      <view v-if="safeArea" class="pi-safearea" />
+      <!-- <view v-if="safeArea" class="pi-safearea" /> -->
     </template>
   </view>
 </template>
