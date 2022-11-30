@@ -220,7 +220,7 @@ export default {
       return this.$pi.lang.mergeDeep(datePickerPopup, this.popup)
     },
     options() {
-      const watchs = ['startYear', 'endYear', 'field', 'defaultValue']
+      const watchs = ['val', 'startYear', 'endYear', 'field', 'defaultValue']
       const options = watchs
         .filter(d => this[d])
         .map(d => this[d].toString())
