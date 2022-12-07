@@ -290,21 +290,21 @@ $unactive-color: #cccccc;
   }
   .radio-label {
     flex: 1;
-    margin-left: 16rpx;
+    padding: 0 24rpx 0 16rpx;
     line-height: 1.5;
     word-wrap: break-word;
     transition: $pi-animation-duration $pi-animation-timing-function;
     transition-property: border, color, background-color;
     &.text {
       padding: 12rpx 24rpx;
-      margin-left: 0;
+
       color: $unactive-color;
       border-color: transparent;
       border-style: solid;
     }
     &.button {
       padding: 24rpx;
-      margin-left: 0;
+
       line-height: 1;
       color: $unactive-color;
       border-color: transparent;

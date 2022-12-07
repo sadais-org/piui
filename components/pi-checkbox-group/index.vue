@@ -182,7 +182,8 @@ export default {
     emitChange() {
       const vals = []
       this._children.forEach(child => {
-        if (child.val && child.name) vals.push(child.name)
+        console.log(child.val, child.name)
+        if (child.val && !this.$pi.lang.isEmpty(child.name)) vals.push(child.name)
       })
       this.val = vals
       this.handleEmitChange()
@@ -209,13 +210,6 @@ export default {
   &.horizontal {
     flex-direction: row;
     align-items: center;
-    ::v-deep .pi-check-wrap:not(:last-child) {
-      margin-right: 28rpx;
-    }
-    // 兼容小程序
-    ::v-deep pi-checkbox:not(:last-child) {
-      margin-right: 28rpx;
-    }
   }
 }
 </style>

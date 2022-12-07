@@ -271,10 +271,6 @@ export default {
   &.horizontal:not(.button) {
     flex-direction: row;
     align-items: center;
-    ::v-deep .pi-radio-wrap:not(:last-child),
-    ::v-deep pi-radio:not(:last-child) {
-      margin-right: 24rpx;
-    }
   }
 }
 </style>
