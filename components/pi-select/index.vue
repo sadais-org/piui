@@ -22,6 +22,23 @@
   >
     <view class="pi-select pi-h-100P pi-flex-column" :style="[customStyle]" :class="[customClass]">
       <slot name="header" />
+      <view
+        v-if="showSelectAll"
+        class="select-item pi-align-center pi-justify-end pi-pd-lr-32"
+        :style="[itemStyle, getItemStyle]"
+        @tap.stop="handleSelectAll"
+      >
+        <view>全选</view>
+        <view>
+          <pi-checkbox
+            :value="isSelectAll"
+            readonly
+            shape="round"
+            custom-class="pi-mg-left-32"
+            active-mode="fill-circle"
+          />
+        </view>
+      </view>
       <scroll-view
         scroll-y
         class="pi-scroll"
@@ -167,6 +184,12 @@ export default {
       // false
       default: select.isMulti
     },
+    // 是否显示全选（多选isMulti开启的情况下）
+    showSelectAll: {
+      type: Boolean,
+      // false
+      default: select.showSelectAll
+    },
     // 单选模式下，是否可取消选中
     singleCancel: {
       type: Boolean,
@@ -304,6 +327,9 @@ export default {
       const firstSelected = this.selected[0] || this.selected
       const firstSelectedId = firstSelected[this.keyField]
       return firstSelectedId ? `id-${firstSelected[this.keyField]}` : ''
+    },
+    isSelectAll() {
+      return this.getItems.every(item => item.isSelected)
     }
   },
   watch: {
@@ -456,6 +482,11 @@ export default {
       }
       this.$emit('confirm', selected, this.selected)
       this.getPopupSelect.onConfirmClose && this.handlePopupClose()
+    },
+    handleSelectAll() {
+      if (this.isMulti) {
+        this.selected = this.isSelectAll ? [] : [...this.items]
+      }
     }
   }
 }
