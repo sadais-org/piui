@@ -187,7 +187,9 @@ export default {
         regionsSelect.confirmBtn,
         this.popupSelect.confirmBtn
       )
-      return this.$pi.lang.mergeDeep(regionsSelectConfirmBtn, this.confirmBtn)
+      const mergeConfirmBtn = this.$pi.lang.mergeDeep(regionsSelectConfirmBtn, this.confirmBtn)
+      mergeConfirmBtn.disabled = !this.isCompleted
+      return mergeConfirmBtn
     },
     getCancelBtn() {
       const regionsSelectCancelBtn = this.$pi.lang.mergeDeep(
