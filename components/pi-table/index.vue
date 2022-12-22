@@ -165,7 +165,7 @@ $even-row-color: #f4f8fd;
 .head {
   display: table-cell;
   padding: 16rpx;
-  background: inherit;
+  background: $even-row-color;
   white-space: nowrap;
   text-align: center;
   font-size: 28rpx;
