@@ -18,7 +18,7 @@
               :class="{fixed: !!col.fixed}"
               :style="[leftMap[colIdx], rightMap[colIdx]]"
             >
-              <div class="cell-content-wrap-ph" :style="[{ width: col.style.width }]">
+              <div class="cell-content-wrap-ph" :style="[{ width: col.style.width, whiteSpace: col.whiteSpace || 'normal' }]">
                 <image v-if="col.slot && col.slot.type === 'img'" :src="row[col.prop]" :style="[col.slot.style]" />
                 <image v-else-if="col.slot && col.slot.type === 'rank' && idx < col.slot.condition" :src="row[col.prop]" :style="[col.slot.style]" />
                 <block v-else>{{ row[col.prop] }}</block>
@@ -157,7 +157,7 @@ $even-row-color: #f4f8fd;
 .row {
   display: table-row;
   border: none;
-  background: inherit;
+  background: #ffffff;
   &.odd {
     background: $even-row-color;
   }
