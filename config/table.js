@@ -1,0 +1,6 @@
+export default {
+  columns: [],
+  data: [],
+  emptyText: '暂无数据',
+  stripe: true
+}
