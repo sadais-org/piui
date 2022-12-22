@@ -240,6 +240,7 @@ $fixed-shadow: 0 0 40rpx rgba(11, 101, 209, 0.2);
       font-size: 36rpx;
       color: #888888;
       position: absolute;
+      white-space: nowrap;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
