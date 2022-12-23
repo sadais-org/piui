@@ -27,7 +27,7 @@
               :class="{ fixed: !!col.fixed }"
               :style="[leftMap[colIdx], rightMap[colIdx]]"
             >
-              <div
+              <view
                 class="cell-content-wrap-ph"
                 :style="[
                   {
@@ -50,9 +50,12 @@
                   :src="row[col.prop]"
                   :style="[col.slot.style]"
                 />
+                <view v-else-if="col.slot && col.slot.type === 'link'" class="pi-align-center">
+                  <text v-for="(link, linkIdx) in col.slot.links" :key="linkIdx" class="link" :style="[link.style]" @click="handleClickLink({ row, link, linkIdx, rowIdx: idx })">{{ link.name }}</text>
+                </view>
                 <block v-else>{{ row[col.prop] }}</block>
-              </div>
-              <div class="cell-content-wrap" :style="[cellContentWrapStyle]">
+              </view>
+              <view class="cell-content-wrap" :style="[cellContentWrapStyle]">
                 <image
                   v-if="col.slot && col.slot.type === 'img'"
                   :src="row[col.prop]"
@@ -67,8 +70,11 @@
                   :src="row[col.prop]"
                   :style="[col.slot.style]"
                 />
+                <view v-else-if="col.slot && col.slot.type === 'link'" class="pi-align-center">
+                  <text v-for="(link, linkIdx) in col.slot.links" :key="linkIdx" class="link" :style="[link.style]" @click="handleClickLink({ row, link, linkIdx, rowIdx: idx })">{{ link.name }}</text>
+                </view>
                 <block v-else>{{ row[col.prop] }}</block>
-              </div>
+              </view>
             </view>
           </view>
         </block>
@@ -245,6 +251,7 @@ $fixed-shadow: 0 0 40rpx rgba(11, 101, 209, 0.2);
   text-align: center;
   font-size: 28rpx;
   line-height: 1.5;
+  min-width: 80rpx;
 }
 .cell-content-wrap {
   position: absolute;
