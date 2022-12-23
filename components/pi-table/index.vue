@@ -2,30 +2,71 @@
   <view class="table-wrap">
     <view class="table">
       <view class="row">
-        <view v-for="(col, idx) in cols" :key="idx" class="head"
-        :class="{fixed: !!col.fixed}" 
-        :style="[col.style, cellStyle, leftMap[idx], rightMap[idx]]">
+        <view
+          v-for="(col, idx) in cols"
+          :key="idx"
+          class="head"
+          :class="{ fixed: !!col.fixed }"
+          :style="[col.style, cellStyle, leftMap[idx], rightMap[idx]]"
+        >
           {{ col.name }}
         </view>
       </view>
       <view class="table-body" :data-empty-text="emptyText">
         <block v-if="data.length > 0">
-          <view v-for="(row, idx) in data" :key="idx" class="row" :class="{ odd: stripe && idx % 2 > 0 }">
+          <view
+            v-for="(row, idx) in data"
+            :key="idx"
+            class="row"
+            :class="{ odd: stripe && idx % 2 > 0 }"
+          >
             <view
               v-for="(col, colIdx) in cols"
               :key="colIdx"
               class="cell"
-              :class="{fixed: !!col.fixed}"
+              :class="{ fixed: !!col.fixed }"
               :style="[leftMap[colIdx], rightMap[colIdx]]"
             >
-              <div class="cell-content-wrap-ph" :style="[{ width: col.style.width, whiteSpace: col.whiteSpace || 'normal' }]">
-                <image v-if="col.slot && col.slot.type === 'img'" :src="row[col.prop]" :style="[col.slot.style]" />
-                <image v-else-if="col.slot && col.slot.type === 'rank' && idx < col.slot.condition" :src="row[col.prop]" :style="[col.slot.style]" />
+              <div
+                class="cell-content-wrap-ph"
+                :style="[
+                  {
+                    width: col.style.width,
+                    whiteSpace: col.whiteSpace || 'normal',
+                  },
+                ]"
+              >
+                <image
+                  v-if="col.slot && col.slot.type === 'img'"
+                  :src="row[col.prop]"
+                  :style="[col.slot.style]"
+                />
+                <image
+                  v-else-if="
+                    col.slot &&
+                    col.slot.type === 'rank' &&
+                    idx < col.slot.condition
+                  "
+                  :src="row[col.prop]"
+                  :style="[col.slot.style]"
+                />
                 <block v-else>{{ row[col.prop] }}</block>
               </div>
               <div class="cell-content-wrap" :style="[cellContentWrapStyle]">
-                <image v-if="col.slot && col.slot.type === 'img'" :src="row[col.prop]" :style="[col.slot.style]" />
-                <image v-else-if="col.slot && col.slot.type === 'rank' && idx < col.slot.condition" :src="row[col.prop]" :style="[col.slot.style]" />
+                <image
+                  v-if="col.slot && col.slot.type === 'img'"
+                  :src="row[col.prop]"
+                  :style="[col.slot.style]"
+                />
+                <image
+                  v-else-if="
+                    col.slot &&
+                    col.slot.type === 'rank' &&
+                    idx < col.slot.condition
+                  "
+                  :src="row[col.prop]"
+                  :style="[col.slot.style]"
+                />
                 <block v-else>{{ row[col.prop] }}</block>
               </div>
             </view>
@@ -37,106 +78,105 @@
 </template>
 
 <script>
-import { getConfig } from '../../config'
-const { table: tableConfig } = getConfig()
+import { getConfig } from "../../config";
+const { table: tableConfig } = getConfig();
 export default {
-  name: 'PiTable',
+  name: "PiTable",
   props: {
     // 列配置项
     columns: {
       type: Array,
       // `[]`
-      default: () => tableConfig.columns
+      default: () => tableConfig.columns,
     },
     // 表格数据源
     data: {
       type: Array,
       // `[]`
-      default: () => tableConfig.data
+      default: () => tableConfig.data,
     },
     // 无数据提示语
     emptyText: {
       // `'暂无数据'`
-      default: tableConfig.emptyText
+      default: tableConfig.emptyText,
     },
     // 是否条纹显示
     stripe: {
       // `true`
-      default: tableConfig.stripe
-    }
+      default: tableConfig.stripe,
+    },
   },
   data() {
     return {
       cellPadding: 16,
       leftMap: {},
-      rightMap: {}
-    }
+      rightMap: {},
+    };
   },
   computed: {
     cellStyle() {
       return {
-        padding: `${this.cellPadding}rpx`
-      }
+        padding: `${this.cellPadding}rpx`,
+      };
     },
     cellContentWrapStyle() {
       return {
-        left: `${this.cellPadding}rpx`,
-        width: `calc(100% - ${this.cellPadding * 2}rpx)`
-      }
+        padding: `${this.cellPadding}rpx`,
+      };
     },
     cols() {
-      const list = (this.columns || []).map(i => {
-        const t = { ...i }
-        const w = (t.width && `${t.width}rpx`) || 'auto'
-        t.style = { width: w }
-        return t
-      })
-      return list
+      const list = (this.columns || []).map((i) => {
+        const t = { ...i };
+        const w = (t.width && `${t.width}rpx`) || "auto";
+        t.style = { width: w };
+        return t;
+      });
+      return list;
     },
     reCompute() {
-      return this.cols.length + this.data.length
-    }
+      return this.cols.length + this.data.length;
+    },
   },
   watch: {
     reCompute: {
       immediate: true,
       handler() {
         this.$nextTick(() => {
-          this.computeColumnWidth()
-        })
-      }
-    }
+          this.computeColumnWidth();
+        });
+      },
+    },
   },
   methods: {
     computeColumnWidth() {
-      const query = uni.createSelectorQuery().in(this)
+      const query = uni.createSelectorQuery().in(this);
       query
-        .selectAll('.head')
+        .selectAll(".head")
         .boundingClientRect()
-        .exec(res => {
-          const list = res[0] || []
-          let left = 0
-          const isLeft = i => i.fixed === true || i.fixed === 'left'
-          const isRight = i => i.fixed === 'right'
-          const leftMap = {}
+        .exec((res) => {
+          const list = res[0] || [];
+          let left = 0;
+          const isLeft = (i) => i.fixed === true || i.fixed === "left";
+          const isRight = (i) => i.fixed === "right";
+          const leftMap = {};
           for (let i = 0; i < list.length; i++) {
-            const col = this.cols[i]
-            leftMap[i] = { left: isLeft(col) ? `${left}px` : 'auto' }
-            left += isLeft(col) ? list[i].width : 0
+            const col = this.cols[i];
+            leftMap[i] = { left: isLeft(col) ? `${left}px` : "auto" };
+            left += isLeft(col) ? list[i].width : 0;
           }
-          const rightMap = {}
-          let right = 0
+          const rightMap = {};
+          let right = 0;
           for (let i = list.length - 1; i >= 0; i--) {
-            const col = this.cols[i]
-            rightMap[i] = { right: isRight(col) ? `${right}px` : 'auto' }
-            right += isRight(col) ? list[i].width : 0
+            const col = this.cols[i];
+            rightMap[i] = { right: isRight(col) ? `${right}px` : "auto" };
+            right += isRight(col) ? list[i].width : 0;
           }
-          this.leftMap = leftMap
-          this.rightMap = rightMap
-        })
-    }
-  }
-}
+          this.leftMap = leftMap;
+          this.rightMap = rightMap;
+        });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -209,7 +249,7 @@ $fixed-shadow: 0 0 40rpx rgba(11, 101, 209, 0.2);
 .cell-content-wrap {
   position: absolute;
   top: 0;
-  left: 16rpx;
+  left: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -229,7 +269,7 @@ $fixed-shadow: 0 0 40rpx rgba(11, 101, 209, 0.2);
   &:empty {
     &::before {
       display: table-row;
-      content: '';
+      content: "";
       height: 200rpx;
       width: 100%;
     }
