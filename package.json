@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/sadais-org/piui/issues"
   },
-  "homepage": "https://github.com/sadais-org/piui#readme"
+  "homepage": "https://github.com/sadais-org/piui#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }
