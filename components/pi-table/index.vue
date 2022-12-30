@@ -51,25 +51,13 @@
                   :style="[col.slot.style]"
                 />
                 <view v-else-if="col.slot && col.slot.type === 'link'" class="pi-align-center">
-                  <text v-for="(link, linkIdx) in col.slot.links" :key="linkIdx" class="link" :style="[link.style]" @click="handleClickLink({ row, link, linkIdx, rowIdx: idx })">{{ link.name }}</text>
+                  <text v-for="(link, linkIdx) in col.slot.links" :key="linkIdx" class="link" :style="[link.style]">{{ link.name }}</text>
                 </view>
                 <block v-else>{{ row[col.prop] }}</block>
               </view>
               <view class="cell-content-wrap" :style="[cellContentWrapStyle]">
-                <image
-                  v-if="col.slot && col.slot.type === 'img'"
-                  :src="row[col.prop]"
-                  :style="[col.slot.style]"
-                />
-                <image
-                  v-else-if="
-                    col.slot &&
-                    col.slot.type === 'rank' &&
-                    idx < col.slot.condition
-                  "
-                  :src="row[col.prop]"
-                  :style="[col.slot.style]"
-                />
+                <image v-if="col.slot && col.slot.type === 'img'" :src="row[col.prop]" :style="[col.slot.style]" />
+                <image v-else-if="col.slot && col.slot.type === 'rank' && idx < col.slot.condition" :src="row[col.prop]" :style="[col.slot.style]" />
                 <view v-else-if="col.slot && col.slot.type === 'link'" class="pi-align-center">
                   <text v-for="(link, linkIdx) in col.slot.links" :key="linkIdx" class="link" :style="[link.style]" @click="handleClickLink({ row, link, linkIdx, rowIdx: idx })">{{ link.name }}</text>
                 </view>
@@ -177,12 +165,15 @@ export default {
             rightMap[i] = { right: isRight(col) ? `${right}px` : "auto" };
             right += isRight(col) ? list[i].width : 0;
           }
-          this.leftMap = leftMap;
-          this.rightMap = rightMap;
-        });
+          this.leftMap = leftMap
+          this.rightMap = rightMap
+        })
     },
-  },
-};
+    handleClickLink(info) {
+      this.$emit('link', info)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
