@@ -14,7 +14,7 @@
         'animation-duration': getDuration.css
       }
     ]"
-    @touchmove.stop.prevent="() => {}"
+   
     @tap.stop.prevent="handleCloseMask"
   >
     <view
