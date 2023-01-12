@@ -5,4 +5,5 @@ export default {
   stripe: true,
   headStyle: {},
   cellStyle: {},
+  bounce: false
 }

@@ -1,5 +1,5 @@
 <template>
-  <view class="table-wrap">
+  <view class="table-wrap" :class="{ bounce }">
     <view class="table">
       <view class="row">
         <view
@@ -116,6 +116,13 @@ const { table: tableConfig } = getConfig();
 export default {
   name: "PiTable",
   props: {
+    // 是否开启滚动反弹效果
+    bounce: {
+      // `Boolean`
+      type: Boolean,
+      // `false`
+      default: tableConfig.bounce,
+    },
     // 列配置项
     columns: {
       type: Array,
@@ -232,6 +239,10 @@ export default {
   position: relative;
   width: 100%;
   overflow: auto hidden;
+  overscroll-behavior: none;
+  &.bounce {
+    overscroll-behavior: auto;
+  }
 }
 .table {
   display: table;
