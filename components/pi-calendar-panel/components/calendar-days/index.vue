@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-06-28 16:53:54
- * @LastEditTime: 2022-11-24 10:35:53
+ * @LastEditTime: 2023-02-02 09:58:06
  * @LastEditors: zhangzhenfei
  * @Description: 日历日期数据
  * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-calendar-panel/components/calendar-days/index.vue
@@ -222,7 +222,6 @@ export default {
       const dayCount = 7 * 6 // 固定显示6周
       const monthDays = new Date(this.year, this.month, 0).getDate()
       const firstDayCount = this.firstDay.length
-      console.log(this.firstDay)
       const nextMonthFirstDay = this.getNextMonthFirstDay
       for (let i = 1; i <= dayCount; i++) {
         let day = {
@@ -252,6 +251,7 @@ export default {
             ...day,
             ...this.$pi.date.parseDate(new Date(this.year, this.month - 1, i - firstDayCount))
           }
+
           const isDisabled = this.isDisabled(day)
           // 禁用
           if (isDisabled) {
