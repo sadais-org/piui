@@ -205,7 +205,8 @@ export default {
 
       show: false, // 是否显示节点
       showed: false, // 是否显示动画执行完毕
-      closed: true // 是否已关闭（用来防止val为false的情况，动画无法执行）
+      closed: true, // 是否已关闭（用来防止val为false的情况，动画无法执行）
+      submiting: false // 正在更新值（防止快速切换提交）
     }
   },
   computed: {
@@ -273,6 +274,7 @@ export default {
     // 显示当前Tab
     async handleClickTab(item) {
       if (item.disabled) return
+      if (this.submiting) return console.log(TAG, '你点得太快了')
       if (this.show && item.id === this.activeItem.id) {
         this.closeMask()
         return
@@ -316,11 +318,13 @@ export default {
       })
       setTimeout(() => {
         this.closed = true
+        this.submiting = false
         this.getMask.hideTabBar && uni.showTabBar()
       }, this.getDuration.js)
     },
     // 关闭弹窗并返回结果
     submit() {
+      this.submiting = true
       this.closeMask()
       setTimeout(() => {
         // 延迟执行，防止父子组件的值同步不上
