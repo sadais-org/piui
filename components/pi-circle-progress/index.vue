@@ -1,7 +1,7 @@
 <!--
  * @Author: zhouxianpan
  * @Date: 2021-09-06 10:07:33
- * @LastEditTime: 2021-11-23 16:45:30
+ * @LastEditTime: 2023-03-20 19:57:47
  * @LastEditors: zhangzhenfei
  * @Description: 
  * @FilePath: \piui-awesome\src\piui\components\pi-circle-progress\index.vue
@@ -10,9 +10,10 @@
   <view
     class="circle-progress"
     :style="{
-      width: widthPx + 'px',
-      height: widthPx + 'px',
-      backgroundColor: bgColor
+      width: parentWidthPx + 'px',
+      height: parentWidthPx + 'px',
+      backgroundColor: getType.bgColor,
+      borderRadius: '50%'
     }"
   >
     <canvas
@@ -84,7 +85,17 @@ export default {
     // 主题类型
     type: {
       type: String,
-      default: circleProgress.type
+      default: circleProgress.type,
+      validator: function(value) {
+        return ['success', 'error', 'info', 'primary', 'warning'].includes(value)
+      }
+    },
+    // 主题列表
+    typeList: {
+      type: Object,
+      default() {
+        return circleProgress.typeList
+      }
     },
 
     // 字体大小
@@ -106,7 +117,7 @@ export default {
   },
   data() {
     return {
-        // #ifdef MP-WEIXIN
+      // #ifdef MP-WEIXIN
       elBgId: 'pCircleProgressBgId', // 微信小程序中不能使用this.$pi形式动态生成id值，否则会报错
       elId: 'pCircleProgressElId',
       // #endif
@@ -117,6 +128,7 @@ export default {
       progressContext: null,
       // 开始的角度
       widthPx: uni.upx2px(this.width), // 转成px后的整个组件的背景宽度
+      parentWidthPx: uni.upx2px(this.width - this.borderWidth), // 转成px后容器的宽度
       borderWidthPx: uni.upx2px(this.borderWidth), // 转成px后的圆环的宽度
       startAngle: -Math.PI / 2, // canvas画圆的起始角度，默认为3点钟方向，定位到12点钟方向
       newPercent: 0, // 当动态修改进度值的时候，保存进度值的变化前后值，用于比较用
@@ -124,12 +136,24 @@ export default {
     }
   },
   computed: {
-    // 有type主题时，优先起作用
-    circleColor() {
-      if (['success', 'error', 'info', 'primary', 'warning'].indexOf(this.type) >= 0)
-        return this.$u.color[this.type]
-      else return this.activeColor
+    /**
+     * 默认使用type配套样式success
+     * 如果有传入 进度条底部颜色、进度条颜色、背景颜色时就使用它们的
+     */
+    getType() {
+      let typeData = this.$pi.lang.mergeDeep(this.typeList[this.type], this.typeList[this.type])
+      if (this.inactiveColor) typeData.inactiveColor = this.inactiveColor
+      if (this.activeColor) typeData.activeColor = this.activeColor
+      if (this.bgColor) typeData.bgColor = this.bgColor
+
+      return typeData
     }
+    // 有type主题时，优先起作用（弃用）
+    // circleColor() {
+    //   if (['success', 'error', 'info', 'primary', 'warning'].indexOf(this.type) >= 0)
+    //     return this.$u.color[this.type]
+    //   else return this.activeColor
+    // }
   },
   watch: {
     // 深度监听进度
@@ -160,10 +184,11 @@ export default {
   },
   methods: {
     drawProgressBg() {
-      console.log(this)
+      // console.log(this)
       let ctx = uni.createCanvasContext(this.elBgId, this)
       ctx.setLineWidth(this.borderWidthPx) // 设置圆环宽度
-      ctx.setStrokeStyle(this.inactiveColor) // 线条颜色
+      // ctx.setStrokeStyle(this.inactiveColor) // 线条颜色
+      ctx.setStrokeStyle(this.getType.inactiveColor) // 线条颜色
       ctx.beginPath() // 开描绘路径
       // 设置一个原点(110,110)，半径为100的圆的路径到当前路径
       let radius = this.widthPx / 2
@@ -205,7 +230,8 @@ export default {
           ctx.stroke()
         }
       } else {
-        ctx.setStrokeStyle(this.circleColor)
+        // ctx.setStrokeStyle(this.circleColor)
+        ctx.setStrokeStyle(this.getType.activeColor)
         // 结束角的计算依据为：将2π分为100份，乘以当前的进度值，得出终止点的弧度值，加起始角，为整个圆从默认的
         // 3点钟方向开始画图，转为更好理解的12点钟方向开始作图，这需要起始角和终止角同时加上this.startAngle值
         let endAngle = ((2 * Math.PI) / 100) * progress + this.startAngle
@@ -240,7 +266,7 @@ export default {
         this.drawCircleByProgress(progress)
       }, time)
     },
-     createColorData() {
+    createColorData() {
       let canvas
       let ctx
       // #ifndef MP-WEIXIN
