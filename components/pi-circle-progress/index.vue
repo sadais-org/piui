@@ -1,7 +1,7 @@
 <!--
  * @Author: zhouxianpan
  * @Date: 2021-09-06 10:07:33
- * @LastEditTime: 2023-03-20 19:57:47
+ * @LastEditTime: 2023-03-21 12:43:29
  * @LastEditors: zhangzhenfei
  * @Description: 
  * @FilePath: \piui-awesome\src\piui\components\pi-circle-progress\index.vue
@@ -141,11 +141,12 @@ export default {
      * 如果有传入 进度条底部颜色、进度条颜色、背景颜色时就使用它们的
      */
     getType() {
-      let typeData = this.$pi.lang.mergeDeep(this.typeList[this.type], this.typeList[this.type])
-      if (this.inactiveColor) typeData.inactiveColor = this.inactiveColor
-      if (this.activeColor) typeData.activeColor = this.activeColor
-      if (this.bgColor) typeData.bgColor = this.bgColor
-
+      const { type, inactiveColor, activeColor, bgColor } = this
+      const typeData = this.$pi.lang.mergeDeep({}, this.typeList[type], {
+        inactiveColor,
+        activeColor,
+        bgColor
+      })
       return typeData
     }
     // 有type主题时，优先起作用（弃用）
