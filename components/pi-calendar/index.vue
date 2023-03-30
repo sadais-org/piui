@@ -41,6 +41,7 @@
         :range-bg="getCalendarPanel.rangeBg"
         :start-text="getCalendarPanel.startText"
         :end-text="getCalendarPanel.endText"
+        :marks="getCalendarPanel.marks"
         :date-format="getCalendarPanel.dateFormat"
         @date-change="$emit('date-change', $event)"
       />
