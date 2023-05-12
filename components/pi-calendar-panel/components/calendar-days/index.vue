@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-06-28 16:53:54
- * @LastEditTime: 2023-02-02 09:58:06
+ * @LastEditTime: 2023-05-12 16:02:29
  * @LastEditors: zhangzhenfei
  * @Description: 日历日期数据
- * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-calendar-panel/components/calendar-days/index.vue
+ * @FilePath: /piui-awesome/src/piui/components/pi-calendar-panel/components/calendar-days/index.vue
 -->
 
 <template>
@@ -251,51 +251,51 @@ export default {
             ...day,
             ...this.$pi.date.parseDate(new Date(this.year, this.month - 1, i - firstDayCount))
           }
+        }
 
-          const isDisabled = this.isDisabled(day)
-          // 禁用
-          if (isDisabled) {
-            day.disabled = true
+        const isDisabled = this.isDisabled(day)
+        // 禁用
+        if (isDisabled) {
+          day.disabled = true
+        }
+        // 单选选中样式
+        if (this.type === 'date' && this.isSameDay(this.calendarValue, day)) {
+          const activeStyle = {
+            color: this.activeColor,
+            borderRadius: this.getActiveBorderRadius
           }
-          // 单选选中样式
-          if (this.type === 'date' && this.isSameDay(this.calendarValue, day)) {
-            const activeStyle = {
-              color: this.activeColor,
-              borderRadius: this.getActiveBorderRadius
-            }
-            if (this.activeBg) activeStyle.background = this.activeBg
-            day.activeStyle = activeStyle
+          if (this.activeBg) activeStyle.background = this.activeBg
+          day.activeStyle = activeStyle
+        }
+        // 范围选中样式
+        if (this.type === 'range') {
+          const start = this.calendarValue[0]
+          const end = this.calendarValue[1]
+          const isBegin = this.isSameDay(start, day)
+          const isEnd = this.isSameDay(end, day)
+          const inRange =
+            start && end && day.timestamp > start.timestamp && day.timestamp < end.timestamp
+          const rangeStyle = {}
+          // 处理中间范围的样式
+          if (inRange) {
+            rangeStyle.color = this.rangeColor
+            rangeStyle.background = this.rangeBg
           }
-          // 范围选中样式
-          if (this.type === 'range') {
-            const start = this.calendarValue[0]
-            const end = this.calendarValue[1]
-            const isBegin = this.isSameDay(start, day)
-            const isEnd = this.isSameDay(end, day)
-            const inRange =
-              start && end && day.timestamp > start.timestamp && day.timestamp < end.timestamp
-            const rangeStyle = {}
-            // 处理中间范围的样式
-            if (inRange) {
-              rangeStyle.color = this.rangeColor
-              rangeStyle.background = this.rangeBg
-            }
-            // 处理两端
-            if (isBegin || isEnd) {
-              rangeStyle.color = this.activeColor
-              rangeStyle.borderRadius = isBegin
-                ? `${this.getActiveBorderRadius} 0 0 0`
-                : `0 0 ${this.getActiveBorderRadius} 0`
-              if (this.activeBg) rangeStyle.background = this.activeBg
-            }
-            day.range = true
-            day.rangeStyle = rangeStyle
-            // type 为 range 开始和结束的提示
-            if (isBegin) day.tip = this.startText
-            if (isEnd) day.tip = this.endText
-            if (isBegin && isEnd) {
-              day.tip = this.startText + '-' + this.endText
-            }
+          // 处理两端
+          if (isBegin || isEnd) {
+            rangeStyle.color = this.activeColor
+            rangeStyle.borderRadius = isBegin
+              ? `${this.getActiveBorderRadius} 0 0 0`
+              : `0 0 ${this.getActiveBorderRadius} 0`
+            if (this.activeBg) rangeStyle.background = this.activeBg
+          }
+          day.range = true
+          day.rangeStyle = rangeStyle
+          // type 为 range 开始和结束的提示
+          if (isBegin) day.tip = this.startText
+          if (isEnd) day.tip = this.endText
+          if (isBegin && isEnd) {
+            day.tip = this.startText + '-' + this.endText
           }
         }
         // 是否打点
