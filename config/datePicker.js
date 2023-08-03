@@ -11,6 +11,11 @@ export default {
   endYear, // 结束年份（默认当前年份）
   field: 'day', // 选择器的粒度 year、month、day、hour、minute、second
   dateType: 'datetime', // 日期类型，date、datetime、time（默认值：datetime）
+  yearOptions: [], // 年份选项（默认值：[]）
+  monthOptions: [], // 月份选项（默认值：[]）
+  dayOptions: [], // 日期选项（默认值：[]）
+  hourOptions: [], // 小时选项（默认值：[]）
+  minuteOptions: [], // 分钟选项（默认值：[]）
   defaultValue: '', // 日期默认值
   units: ['年', '月', '日', '时', '分', '秒'], // 单位数组，默认值：['年', '月', '日', '时', '分', '秒']
   format: '', // 返回的日期格式，为空的时候，返回的是日期对象

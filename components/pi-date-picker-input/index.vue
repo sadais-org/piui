@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2022-10-20 09:34:58
- * @LastEditors: zhangzhenfei
+ * @LastEditTime: 2023-08-03 16:19:44
+ * @LastEditors: liujun
  * @Description: 日历输入
- * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-date-picker-input/index.vue
+ * @FilePath: \dt-opt-manage-consoled:\project-liujun\piui-awesome\src\piui\components\pi-date-picker-input\index.vue
 -->
 
 <template>
@@ -55,6 +55,11 @@
       :end-year="getDatePicker.endYear"
       :field="getDatePicker.field"
       :date-type="getDatePicker.dateType"
+      :year-options="getDatePicker.yearOptions"
+      :month-options="getDatePicker.monthOptions"
+      :day-options="getDatePicker.dayOptions"
+      :hour-options="getDatePicker.hourOptions"
+      :minute-options="getDatePicker.minuteOptions"
       :format="dateFormat"
       :item-height="getDatePicker.itemHeight"
       :item-style="getDatePicker.itemStyle"

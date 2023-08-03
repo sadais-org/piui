@@ -116,6 +116,46 @@ export default {
         return datePicker.dateType
       }
     },
+    // 年份选项
+    yearOptions: {
+      type: Array,
+      default() {
+        // []
+        return datePicker.yearOptions
+      }
+    },
+    // 月份选项
+    monthOptions: {
+      type: Array,
+      default() {
+        // []
+        return datePicker.monthOptions
+      }
+    },
+    // 日期选项
+    dayOptions: {
+      type: Array,
+      default() {
+        // []
+        return datePicker.dayOptions
+      }
+    },
+    // 小时选项
+    hourOptions: {
+      type: Array,
+      default() {
+        // []
+        return datePicker.hourOptions
+      }
+    },
+    // 分钟选项
+    minuteOptions: {
+      type: Array,
+      default() {
+        // []
+        return datePicker.minuteOptions
+      }
+    },
     // 日期默认值
     defaultValue: {
       type: [Number, String, Date],
@@ -244,29 +284,59 @@ export default {
         }
       })
     },
-    columns() {
+    getYearOptions() {
+      if (this.yearOptions && this.yearOptions.length > 0) {
+        return this.yearOptions
+      }
+      return this.$pi.common.generateArray(this.startYear, this.endYear)
+    },
+    getMonthOptions() {
+      if (this.monthOptions && this.monthOptions.length > 0) {
+        return this.monthOptions
+      }
+      return this.$pi.common.generateArray(1, 12)
+    },
+    getDayOptions() {
+      if (this.dayOptions && this.dayOptions.length > 0) {
+        return this.dayOptions
+      }
       const monthDays = new Date(this.date.year, this.date.month, 0).getDate()
+      return this.$pi.common.generateArray(1, monthDays)
+    },
+    getHourOptions() {
+      if (this.hourOptions && this.hourOptions.length > 0) {
+        return this.hourOptions
+      }
+      return this.$pi.common.generateArray(0, 23)
+    },
+    getMinuteOptions() {
+      if (this.minuteOptions && this.minuteOptions.length > 0) {
+        return this.minuteOptions
+      }
+      return this.$pi.common.generateArray(0, 59)
+    },
+    columns() {
       let columns = [
         {
           field: 'year',
           unit: this.getUnits[0],
           key: 'year',
           setMethod: 'setYear',
-          items: this.$pi.common.generateArray(this.startYear, this.endYear)
+          items: this.getYearOptions
         },
         {
           field: 'month',
           unit: this.getUnits[1],
           key: 'month',
           setMethod: 'setMonth',
-          items: this.$pi.common.generateArray(1, 12)
+          items: this.getMonthOptions
         },
         {
           field: 'day',
           unit: this.getUnits[2],
           key: 'date',
           setMethod: 'setDate',
-          items: this.$pi.common.generateArray(1, monthDays)
+          items: this.getDayOptions
         },
         {
           field: 'hour',
@@ -274,7 +344,7 @@ export default {
           key: 'hour',
           setMethod: 'setHours',
           type: 'time',
-          items: this.$pi.common.generateArray(0, 23)
+          items: this.getHourOptions
         },
         {
           field: 'minute',
@@ -282,7 +352,7 @@ export default {
           key: 'minute',
           setMethod: 'setMinutes',
           type: 'time',
-          items: this.$pi.common.generateArray(0, 59)
+          items: this.getMinuteOptions
         },
         {
           field: 'second',
