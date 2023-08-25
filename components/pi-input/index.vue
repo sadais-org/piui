@@ -1,5 +1,10 @@
 <template>
-  <view class="pi-input-wrap" :style="[getInputWrapStyle]" :class="[{ disabled: getDisabled }]">
+  <view
+    class="pi-input-wrap"
+    :style="[getInputWrapStyle]"
+    :class="[{ disabled: getDisabled }]"
+    @tap="handleItemClick"
+  >
     <view
       v-if="type === 'textarea' && readonly"
       class="pi-input-textarea"
@@ -18,7 +23,7 @@
       :placeholder="placeholder"
       :placeholder-style="placeholderStyle"
       :placeholder-class="placeholderClass"
-      :disabled="getDisabled"
+      :readonly="getDisabled"
       :maxlength="maxlength"
       :cursor-spacing="cursorSpacing"
       :focus="focus"
@@ -32,7 +37,6 @@
       :show-confirm-bar="showConfirmbar"
       :auto-height="autoHeight"
       :disable-default-padding="disableDefaultPadding"
-      @tap="handleItemClick"
       @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"
@@ -51,7 +55,7 @@
       :placeholder="placeholder"
       :placeholder-style="placeholderStyle"
       :placeholder-class="placeholderClass"
-      :disabled="getDisabled"
+      :readonly="getDisabled"
       :maxlength="maxlength"
       :cursor-spacing="cursorSpacing"
       :focus="focus"
@@ -62,7 +66,6 @@
       :adjust-position="adjustPosition"
       :hold-keyboard="holdKeyboard"
       :auto-blur="autoBlur"
-      @tap="handleItemClick"
       @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"
@@ -81,7 +84,7 @@
       :color="clearIcon.color"
       :size="clearIcon.size"
       :class-prefix="clearIcon.classPrefix"
-      @tap="handleChange('')"
+      @tap.stop="handleChange('')"
     />
   </view>
 </template>
