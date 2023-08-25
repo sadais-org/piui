@@ -26,7 +26,6 @@ export default {
   fixed: false, // 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true
   disableDefaultPadding: false, // 是否去掉 iOS 下的默认内边距
   clearable: false, // 是否可以清空
-  readonly: false, // 是否只读
   clearIcon: {
     // 清空图标设置
     ...icon,
