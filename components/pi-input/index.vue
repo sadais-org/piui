@@ -5,11 +5,16 @@
     :class="[{ disabled: getDisabled }]"
     @tap="handleItemClick"
   >
-    <!-- 当disabled，增加一个abso的蒙层，为了触发click事件 -->
-    <view v-if="getDisabled" class="pi-input-mask pi-abso-full" />
-
+    <view
+      v-if="type === 'textarea' && readonly"
+      class="pi-input-textarea"
+      :style="[customStyle, readonlyStyle]"
+      :class="[customClass, readonlyClass]"
+    >
+      {{ val || placeholder }}
+    </view>
     <textarea
-      v-if="type === 'textarea'"
+      v-else-if="type === 'textarea'"
       class="pi-input-textarea"
       :style="[customStyle]"
       :class="[customClass]"
@@ -18,10 +23,10 @@
       :placeholder="placeholder"
       :placeholder-style="placeholderStyle"
       :placeholder-class="placeholderClass"
+      :readonly="getDisabled"
       :maxlength="maxlength"
       :cursor-spacing="cursorSpacing"
       :focus="focus"
-      :disabled="getDisabled"
       :confirm-hold="confirmHold"
       :cursor="cursor"
       :selection-start="selectionStart"
@@ -50,10 +55,10 @@
       :placeholder="placeholder"
       :placeholder-style="placeholderStyle"
       :placeholder-class="placeholderClass"
+      :readonly="getDisabled"
       :maxlength="maxlength"
       :cursor-spacing="cursorSpacing"
       :focus="focus"
-      :disabled="getDisabled"
       :confirm-hold="confirmHold"
       :cursor="cursor"
       :selection-start="selectionStart"
@@ -79,7 +84,7 @@
       :color="clearIcon.color"
       :size="clearIcon.size"
       :class-prefix="clearIcon.classPrefix"
-      @tap.stop="handleChange('')"
+      @tap="handleChange('')"
     />
   </view>
 </template>
@@ -272,6 +277,10 @@ export default {
       default() {
         return input.clearIcon
       }
+    },
+    readonly: {
+      type: Boolean,
+      default: input.readonly || false
     }
   },
   data() {
@@ -280,6 +289,12 @@ export default {
     }
   },
   computed: {
+    readonlyClass() {
+      return this.val ? '' : this.placeholderClass
+    },
+    readonlyStyle() {
+      return this.val ? '' : this.placeholderStyle
+    },
     getDisabled() {
       const parentFormItem = this.$pi.parent(this, 'PiFormItem')
       const disabled = this.disabled || (parentFormItem && parentFormItem.getDisabled)
@@ -301,7 +316,6 @@ export default {
   },
   methods: {
     handleItemClick(e) {
-      console.log(123)
       this.$emit('click', e)
     },
     handleInput: debounce(function(e) {
@@ -344,18 +358,13 @@ export default {
 
 <style lang="scss" scoped>
 .pi-input-wrap {
-  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
   .pi-input,
   .pi-input-textarea {
     width: 100%;
-  }
-
-  .pi-input-mask {
-    background: transparent;
-    z-index: 101;
+    flex: 1;
   }
 }
 </style>
