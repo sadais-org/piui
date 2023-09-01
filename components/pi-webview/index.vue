@@ -2,7 +2,7 @@
   <view class="pi-scroll-container">
     <!-- #ifndef MP -->
     <slot name="title">
-      <pi-navbar :show-home="false">{{ title }}</pi-navbar>
+      <pi-navbar :show-home="showHome">{{ title }}</pi-navbar>
     </slot>
     <!-- #endif -->
     <!-- #ifndef APP-PLUS -->
@@ -18,6 +18,10 @@ export default {
   props: {
     title: {
       type: String
+    },
+    showHome: {
+      type: Boolean,
+      default: () => false
     },
     url: {
       type: String
