@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2022-10-20 09:36:49
+ * @LastEditTime: 2023-09-02 11:40:33
  * @LastEditors: zhangzhenfei
  * @Description: 日历输入
- * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-regions-select-input/index.vue
+ * @FilePath: \piui-awesome\src\piui\components\pi-regions-select-input\index.vue
 -->
 
 <template>
@@ -17,32 +17,33 @@
       v-else
       type="text"
       :value="getInputValue"
-      :custom-class="input.customClass"
-      :custom-style="input.customStyle"
-      :placeholder="input.placeholder"
-      :placeholder-style="input.placeholderStyle"
-      :placeholder-class="input.placeholderClass"
-      :disabled="input.disabled"
-      :border="input.border"
-      :maxlength="input.maxlength"
-      :password="input.password"
-      :cursor-spacing="input.cursorSpacing"
-      :focus="input.focus"
-      :confirm-type="input.confirmType"
-      :confirm-hold="input.confirmHold"
-      :cursor="input.cursor"
-      :selection-start="input.selectionStart"
-      :selection-end="input.selectionEnd"
-      :adjust-position="input.adjustPosition"
-      :hold-keyboard="input.holdKeyboard"
-      :auto-blur="input.autoBlur"
-      :show-confirmbar="input.showConfirmbar"
-      :auto-height="input.autoHeight"
-      :fixed="input.fixed"
-      :disable-default-padding="input.disableDefaultPadding"
-      :clearable="input.clearable"
-      :clear-icon="input.clearIcon"
+      :custom-class="getInput.customClass"
+      :custom-style="getInput.customStyle"
+      :placeholder="getInput.placeholder"
+      :placeholder-style="getInput.placeholderStyle"
+      :placeholder-class="getInput.placeholderClass"
+      :disabled="getInput.disabled"
+      :border="getInput.border"
+      :maxlength="getInput.maxlength"
+      :password="getInput.password"
+      :cursor-spacing="getInput.cursorSpacing"
+      :focus="getInput.focus"
+      :confirm-type="getInput.confirmType"
+      :confirm-hold="getInput.confirmHold"
+      :cursor="getInput.cursor"
+      :selection-start="getInput.selectionStart"
+      :selection-end="getInput.selectionEnd"
+      :adjust-position="getInput.adjustPosition"
+      :hold-keyboard="getInput.holdKeyboard"
+      :auto-blur="getInput.autoBlur"
+      :show-confirmbar="getInput.showConfirmbar"
+      :auto-height="getInput.autoHeight"
+      :fixed="getInput.fixed"
+      :disable-default-padding="getInput.disableDefaultPadding"
+      :clearable="getInput.clearable"
+      :clear-icon="getInput.clearIcon"
       @click="show = true"
+      @clear="handleClearValue"
     />
 
     <!-- 地区弹出框 -->
@@ -144,6 +145,9 @@ export default {
     }
   },
   computed: {
+    getInput() {
+      return this.$pi.lang.mergeDeep(regionsSelectInput.input, this.input)
+    },
     getRegionsSelect() {
       return this.$pi.lang.mergeDeep(regionsSelectInput.regionsSelect, this.regionsSelect)
     },
@@ -184,6 +188,9 @@ export default {
     handleRegionsSelectConfirm(value) {
       this.val = value
       this.handleEmitChange()
+    },
+    handleClearValue() {
+      this.handleRegionsSelectConfirm(null)
     }
   }
 }

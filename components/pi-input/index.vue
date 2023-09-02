@@ -1,12 +1,12 @@
 <template>
-  <view
-    class="pi-input-wrap"
-    :style="[getInputWrapStyle]"
-    :class="[{ disabled: getDisabled }]"
-    @tap="handleItemClick"
-  >
+  <view class="pi-input-wrap" :style="[getInputWrapStyle]" :class="[{ disabled: getDisabled }]">
     <!-- 当disabled，增加一个abso的蒙层，为了触发click事件 -->
-    <view v-if="getDisabled" class="pi-input-mask pi-abso-full" />
+    <view
+      v-if="getDisabled"
+      class="pi-input-mask"
+      :style="{ width: `calc(100% - ${closeIconWidth}px)` }"
+      @tap="handleItemClick"
+    />
 
     <textarea
       v-if="type === 'textarea'"
@@ -38,6 +38,7 @@
       @confirm="handleConfirm"
       @keyboardheightchange="$emit('keyboardheightchange', $event)"
       @linechange="$emit('linechange', $event)"
+      @tap="handleItemClick"
     />
     <input
       v-else
@@ -66,21 +67,24 @@
       @blur="handleBlur"
       @confirm="handleConfirm"
       @keyboardheightchange="$emit('keyboardheightchange', $event)"
+      @tap="handleItemClick"
     />
     <!-- 清空icon -->
-    <pi-icon
-      v-if="clearable && val"
-      :custom-style="clearIcon.customStyle"
-      :custom-class="`pi-pd-left-8 ${clearIcon.customClass}`"
-      :name="clearIcon.name"
-      :dot="clearIcon.dot"
-      :dot-radius="clearIcon.dotRadius"
-      :badge="clearIcon.badge"
-      :color="clearIcon.color"
-      :size="clearIcon.size"
-      :class-prefix="clearIcon.classPrefix"
-      @tap="handleChange('')"
-    />
+    <view class="pi-input-close-icon">
+      <pi-icon
+        v-if="showClearIcon"
+        :custom-style="clearIcon.customStyle"
+        :custom-class="`pi-pd-left-12 ${clearIcon.customClass}`"
+        :name="clearIcon.name"
+        :dot="clearIcon.dot"
+        :dot-radius="clearIcon.dotRadius"
+        :badge="clearIcon.badge"
+        :color="clearIcon.color"
+        :size="clearIcon.size"
+        :class-prefix="clearIcon.classPrefix"
+        @click="handleClearInput"
+      />
+    </view>
   </view>
 </template>
 
@@ -276,7 +280,8 @@ export default {
   },
   data() {
     return {
-      focused: this.focus
+      focused: this.focus,
+      closeIconWidth: 0
     }
   },
   computed: {
@@ -297,11 +302,27 @@ export default {
         }
       }
       return style
+    },
+    showClearIcon() {
+      return this.clearable && this.val
+    }
+  },
+  watch: {
+    showClearIcon() {
+      this.$nextTick(() => {
+        this.init()
+      })
     }
   },
   methods: {
+    async init() {
+      const closeIconRect = await this.$pi.common.queryRect(this, '.pi-input-close-icon', false)
+      if (closeIconRect) {
+        this.closeIconWidth = closeIconRect.width
+      }
+      console.log(TAG, '计算.pi-icon宽度', this.closeIconWidth)
+    },
     handleItemClick(e) {
-      console.log(123)
       this.$emit('click', e)
     },
     handleInput: debounce(function(e) {
@@ -323,6 +344,10 @@ export default {
       setTimeout(() => {
         this.dispatch('PiFormItem', 'form-blur', e.detail.value)
       }, 40)
+    },
+    handleClearInput() {
+      this.handleChange('')
+      this.$emit('clear')
     },
     /**
      * @vuese
@@ -354,6 +379,10 @@ export default {
   }
 
   .pi-input-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
     background: transparent;
     z-index: 101;
   }

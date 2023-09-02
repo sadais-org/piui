@@ -29,7 +29,8 @@ export default {
   clearIcon: {
     // 清空图标设置
     ...icon,
+    size: 36,
     name: 'close-line',
-    color: '#cccccc'
+    color: '#999999'
   }
 }
