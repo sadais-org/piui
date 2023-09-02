@@ -314,13 +314,18 @@ export default {
       })
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
     async init() {
-      const closeIconRect = await this.$pi.common.queryRect(this, '.pi-input-close-icon', false)
-      if (closeIconRect) {
-        this.closeIconWidth = closeIconRect.width
+      if (!this.closeIconWidth) {
+        const closeIconRect = await this.$pi.common.queryRect(this, '.pi-input-close-icon', false)
+        if (closeIconRect && closeIconRect.width) {
+          this.closeIconWidth = closeIconRect.width
+        }
+        console.log(TAG, '计算.pi-icon宽度', this.closeIconWidth)
       }
-      console.log(TAG, '计算.pi-icon宽度', this.closeIconWidth)
     },
     handleItemClick(e) {
       this.$emit('click', e)
