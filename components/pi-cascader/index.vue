@@ -101,7 +101,9 @@
               class="cascader-item"
               @tap="handleRemoveItem(id)"
             >
-              <text class="pi-mg-right-12">{{ itemsMap[id][displayField] }}</text>
+              <text class="pi-mg-right-12">
+                {{ itemsMap && itemsMap[id] && itemsMap[id][displayField] }}
+              </text>
               <pi-icon name="close" />
             </view>
           </scroll-view>
@@ -154,7 +156,7 @@ export default {
       }
     },
     defaultValue: {
-      type: Array,
+      type: [Array, String, Number],
       default: () => []
     },
     // 列表选项的唯一标识
@@ -180,6 +182,12 @@ export default {
       type: Boolean,
       // false
       default: cascader.parentCanSelect
+    },
+    // 是否单选（默认：'false'）
+    isSingle: {
+      type: Boolean,
+      // false
+      default: cascader.isSingle
     },
     // 弹窗选择参数设置
     popupSelect: {
@@ -313,7 +321,7 @@ export default {
     defaultValue: {
       immediate: true,
       handler(vals) {
-        this.selectedIds = [...vals]
+        this.selectedIds = this.isSingle ? [vals] : vals
       }
     }
   },
@@ -363,12 +371,19 @@ export default {
       this.innerItems = innerItems
       // 方便通过节点的id 为key快速定位到对应的节点dto
       this.itemsMap = itemsMap
+      if (this.currentItem[this.keyField] === ROOT_NODE) {
+        if (this.isSingle && this.defaultValue) {
+          this.currentItem = this.getItemByKeyField(this.defaultValue)
+        }
+        if (!this.isSingle && this.defaultValue.length > 0) {
+          this.currentItem = this.getItemByKeyField(this.defaultValue[0])
+        }
+      }
     },
     handleRemoveItem(id) {
       this.selectedIds = this.selectedIds.filter(i => i !== id)
     },
     handleClickItem(item) {
-      console.log(item)
       // 点击全部
       if (item[this.keyField] === ROOT_NODE) {
         this.currentItem = cloneDeep(this.rootItem)
@@ -388,7 +403,11 @@ export default {
           this.handleRemoveItem(item[this.keyField])
         } else {
           // 选中
-          this.selectedIds.push(item[this.keyField])
+          if (this.isSingle) {
+            this.selectedIds = [item[this.keyField]]
+          } else {
+            this.selectedIds.push(item[this.keyField])
+          }
         }
       }
     },
@@ -433,7 +452,7 @@ export default {
      */
     handleCancel() {
       this.$emit('cancel')
-      this.selectedIds = [...this.defaultValue]
+      this.selectedIds = this.isSingle ? [this.defaultValue] : [...this.defaultValue]
       this.getPopupSelect.onCancelClose && this.handlePopupClose()
     },
     /**
@@ -441,7 +460,7 @@ export default {
      * 确认选择
      */
     handleConfirm() {
-      this.$emit('confirm', this.selectedIds)
+      this.$emit('confirm', this.isSingle ? this.selectedIds[0] || '' : this.selectedIds)
       this.getPopupSelect.onConfirmClose && this.handlePopupClose()
     }
   }
