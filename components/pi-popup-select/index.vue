@@ -14,6 +14,7 @@
     :append-to-body="getPopup.appendToBody"
     :z-index="getPopup.zIndex"
     :background="getPopup.background"
+    @show="$emit('show')"
     @close="handlePopupClose"
   >
     <view class="pi-popup-select pi-flex-column" :style="[customStyle]" :class="[customClass]">
