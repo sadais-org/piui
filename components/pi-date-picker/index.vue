@@ -227,13 +227,15 @@ export default {
     }
   },
   data() {
-    const date = this.$pi.date.parseDate(this.defaultValue)
+    let date = this.$pi.date.parseDate(this.defaultValue)
     if(this.field === 'halfday') {
+      const time = date.time
       if(date.hour < 12){
-        date.hour = 0
+        time.setHours(0)
       } else {
-        date.hour = 12
+        time.setHours(12)
       }
+      date = this.$pi.date.parseDate(time)
     }
     return {
       date,
@@ -423,11 +425,13 @@ export default {
     init() {
       this.date = this.$pi.date.parseDate(this.defaultValue)
       if(this.field === 'halfday') {
+      const time = this.date.time
       if(this.date.hour < 12){
-        this.date.hour = 0
+        time.setHours(0)
       } else {
-        this.date.hour = 12
+        time.setHours(12)
       }
+      this.date = this.$pi.date.parseDate(time)
     }
     },
     handlePickstart() {
