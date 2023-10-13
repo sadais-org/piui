@@ -478,6 +478,12 @@ export default {
      */
     handleConfirm() {
       // 提交
+      if(this.field === 'halfday'){
+        const time = this.date.time
+        time.setMinutes(0)
+        time.setSeconds(0)
+        this.date = this.$pi.date.parseDate(time)
+      }
       const value = this.format ? this.date.format(this.format) : this.date
       this.$emit('confirm', value)
       this.onConfirmClose && this.handlePopupClose()
