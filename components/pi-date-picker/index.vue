@@ -48,7 +48,7 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiDatePicker'
 const { datePicker } = getConfig()
-const FIELDS = ['year', 'month', 'day', 'hour', 'minute', 'second']
+const FIELDS = ['year', 'month', 'day','halfday', 'hour', 'minute', 'second' ]
 
 export default {
   name: 'PiDatePicker',
@@ -228,6 +228,13 @@ export default {
   },
   data() {
     const date = this.$pi.date.parseDate(this.defaultValue)
+    if(this.field === 'halfday') {
+      if(date.hour < 12){
+        date.hour = 0
+      } else {
+        date.hour = 12
+      }
+    }
     return {
       date,
       scrolling: false // picker是否在滚动中，小程序在scrolling中点确定，选择的项目不正确
@@ -339,6 +346,13 @@ export default {
           items: this.getDayOptions
         },
         {
+          field: 'halfday',
+          unit: '',
+          key: 'hour',
+          setMethod: 'setHours',
+          items: ['上午','下午']
+        },
+        {
           field: 'hour',
           unit: this.getUnits[3],
           key: 'hour',
@@ -362,12 +376,14 @@ export default {
           type: 'time',
           items: this.$pi.common.generateArray(0, 59)
         }
-      ]
+      ] 
 
       columns = columns.filter((col, index) => {
         return FIELDS.slice(index).includes(this.field)
       })
-
+      if(this.field !== 'halfday'){
+        columns = columns.filter(col => col.field !== 'halfday')
+      }
       if (this.dateType === 'time') {
         columns = columns.filter(col => col.type === 'time')
       }
@@ -381,9 +397,14 @@ export default {
         const value = this.date[col.key]
         if (value !== null) {
           // 查找当前picker中索引对应的真实值
-          const intValue = parseInt(value, 10)
-          const val = col.items.findIndex(m => m === intValue)
-          pickerValue.push(val)
+          if(col.field === 'halfday'){
+            const val = value < 12 ? 0 : 1
+            pickerValue.push(val)
+          } else {
+            const intValue = parseInt(value, 10)
+            const val = col.items.findIndex(m => m === intValue)
+            pickerValue.push(val)
+          }
         }
       })
       return pickerValue
@@ -401,6 +422,13 @@ export default {
   methods: {
     init() {
       this.date = this.$pi.date.parseDate(this.defaultValue)
+      if(this.field === 'halfday') {
+      if(this.date.hour < 12){
+        this.date.hour = 0
+      } else {
+        this.date.hour = 12
+      }
+    }
     },
     handlePickstart() {
       this.scrolling = true
@@ -424,6 +452,7 @@ export default {
           const col = this.columns[index]
           let val = col.items[value] // 取出对应picker值
           if (col.field === 'month') val--
+          if(col.field === 'halfday') val = value === 0 ? 0 : 12
           time[col.setMethod](val) // 调用原生date方法赋值
         }
       })
