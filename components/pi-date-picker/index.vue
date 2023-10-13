@@ -486,6 +486,7 @@ export default {
         const time = this.date.time
         time.setMinutes(0)
         time.setSeconds(0)
+        time.setMilliseconds(0)
         this.date = this.$pi.date.parseDate(time)
       }
       const value = this.format ? this.date.format(this.format) : this.date
