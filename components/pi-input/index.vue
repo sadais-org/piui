@@ -324,7 +324,7 @@ export default {
         if (closeIconRect && closeIconRect.width) {
           this.closeIconWidth = closeIconRect.width
         }
-        console.log(TAG, '计算.pi-icon宽度', this.closeIconWidth)
+        // console.log(TAG, '计算.pi-icon宽度', this.closeIconWidth)
       }
     },
     handleItemClick(e) {
