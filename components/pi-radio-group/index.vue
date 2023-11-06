@@ -204,6 +204,24 @@ export default {
     }
   }
 
+  &.text {
+    /*  #ifndef  MP */
+    ::v-deep .pi-radio-wrap {
+      .radio-label.text {
+        margin-right: 24rpx;
+      }
+    }
+    /*  #endif  */
+    /*  #ifdef  MP */
+    ::v-deep pi-radio {
+      /* stylint-disable */
+      &:not(:last-child) {
+        margin-right: 24rpx;
+      }
+    }
+    /*  #endif  */
+  }
+
   // 按钮样式
   &.button {
     flex-direction: row;
