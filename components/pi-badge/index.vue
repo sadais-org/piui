@@ -2,7 +2,13 @@
   <view class="badge-wrap" :style="[customStyle]" :class="[customClass]" @tap="handleClick">
     <view
       class="badge"
-      :class="[{ dot, abso: $slots.default || $slots.$default }]"
+      :class="[
+        {
+          dot,
+          'abso': $slots.default || $slots.$default,
+          'hide-border': !dot && !getContent && !($slots.content || $slots.$content)
+        }
+      ]"
       :style="[badgeStyle]"
     >
       <slot name="content">
@@ -118,6 +124,10 @@ export default {
     background-color: #ee0a24;
     border: 1px solid #ffffff;
     border-radius: 16px;
+
+    &.hide-border {
+      border: none;
+    }
 
     &.dot {
       min-width: 0;

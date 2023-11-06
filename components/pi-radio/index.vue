@@ -222,6 +222,7 @@ export default {
         borderRadius: this.getBorderRadius,
         borderWidth: this.getBorder
       }
+
       if (this.getActiveColor && this.val) {
         style.borderColor = this.getActiveColor
         if (['text', 'button'].includes(this.getShape) && this.getActiveMode === 'fill') {
@@ -297,10 +298,9 @@ $unactive-color: #cccccc;
     transition-property: border, color, background-color;
     &.text {
       padding: 12rpx 24rpx;
-
-      color: $unactive-color;
       border-color: transparent;
       border-style: solid;
+      background-color: #f5f5f5;
     }
     &.button {
       padding: 24rpx;
@@ -331,9 +331,6 @@ $unactive-color: #cccccc;
     }
   }
   &.line {
-    .radio-label.text {
-      border-color: $unactive-color;
-    }
     .radio-label.button {
       border-color: $unactive-color;
     }
