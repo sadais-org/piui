@@ -16,6 +16,7 @@
     @close="handlePopupClose"
     @cancel="handleCancel"
     @confirm="handleConfirm"
+    @showed="handlePopupShow"
   >
     <view
       class="pi-cascader pi-h-100P pi-flex-column"
@@ -27,7 +28,7 @@
         <!-- 顶部面包屑 -->
         <scroll-view class="node-breadcrumb pi-solid-bottom-1" scroll-x>
           <view
-            v-for="(item, index) in pathItems"
+            v-for="(item, index) in allPathItems"
             :key="index"
             class="breadcrumb-item"
             @click="handleClickItem(item)"
@@ -92,7 +93,7 @@
           </scroll-view>
         </scroll-view>
         <!-- 已选区域 -->
-        <view class="cascader-area">
+        <view v-if="!isSingle" class="cascader-area">
           <text>{{ `已选（${selectedIds.length}）` }}</text>
           <scroll-view class="scroll-area" scroll-x>
             <view
@@ -105,6 +106,31 @@
                 {{ itemsMap && itemsMap[id] && itemsMap[id][displayField] }}
               </text>
               <pi-icon name="close" />
+            </view>
+          </scroll-view>
+        </view>
+        <view v-else class="cascader-area">
+          <text>已选：</text>
+          <scroll-view
+            class="node-breadcrumb pi-solid-bottom-1"
+            scroll-x
+            style="flex: 1;padding-left: 0;overflow: hidden;"
+          >
+            <view
+              v-for="(item, index) in pathItems"
+              :key="index"
+              class="breadcrumb-item"
+              @click="handleClickItem(item)"
+            >
+              <pi-icon v-if="index > 0" name="right" custom-class="pi-mg-lr-6" />
+              <view
+                class="breadcrumb-item-title"
+                :class="{
+                  active: currentItem && currentItem[keyField] === item[keyField]
+                }"
+              >
+                {{ item[displayField] }}
+              </view>
             </view>
           </scroll-view>
         </view>
@@ -230,7 +256,7 @@ export default {
       innerItems: [],
       itemsMap: {}, // 已选数据id索引
       selectedIds: [], // 已选数据
-      cascaderWidth: 0, // 容器宽度
+      cascaderWidth: this.$pi.system.systemInfo.screenWidth, // 容器宽度
       scrollLeft: 0 // 视图左侧滚动区域，自动对齐到选择的栏目
     }
   },
@@ -302,12 +328,15 @@ export default {
           p = this.itemsMap[p.pid]
         }
       }
+      return pathItems
+    },
+    allPathItems() {
       return [
         {
           [this.displayField]: '全部',
           [this.keyField]: 'ROOT'
         }
-      ].concat(pathItems)
+      ].concat(this.pathItems)
     }
   },
   watch: {
@@ -385,7 +414,7 @@ export default {
     handleClickItem(item) {
       // 点击全部
       if (item[this.keyField] === ROOT_NODE) {
-        this.currentItem = cloneDeep(this.rootItem)
+        this.currentItem = this.$pi.lang.cloneDeep(this.rootItem)
         this.$nextTick(this.syncScrollLeft)
         return
       }
@@ -418,11 +447,16 @@ export default {
         this.selectedIds.push(item[this.keyField])
       }
     },
+    handlePopupShow() {
+      this.$emit('showd')
+      this.syncScrollLeft()
+    },
     async syncScrollLeft() {
       // 调用此方法的时候，必须使用$nextTick，因为column是动态变化的，需要等待界面更新渲染后，才能正确设置scrollLeft的位置
       let scrollLeft = 0
       if (this.cascaderWidth === 0) {
-        const srollWrapRect = await this.$pi.common.queryRect(this, '.pi-cascader', false)
+        const srollWrapRect = await this.$pi.common.queryRect(this, '.cascader-wrap', false)
+        console.log(this, srollWrapRect)
         if (srollWrapRect) {
           this.cascaderWidth = srollWrapRect.width
         }
@@ -514,6 +548,7 @@ export default {
 .node-breadcrumb {
   width: 100%;
   padding-left: 32rpx;
+  padding-right: 32rpx;
   background: #ffffff;
   white-space: nowrap;
   .breadcrumb-item {

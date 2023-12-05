@@ -15,6 +15,7 @@
     :z-index="getPopup.zIndex"
     :background="getPopup.background"
     @show="$emit('show')"
+    @showed="$emit('showed')"
     @close="handlePopupClose"
   >
     <view class="pi-popup-select pi-flex-column" :style="[customStyle]" :class="[customClass]">
