@@ -17,7 +17,7 @@
     @cancel="handleCancel"
     @confirm="handleConfirm"
     @closed="$emit('closed', $event)"
-    @show="$emit('show', $event)"
+    @show="handleShowEvent"
     @showed="$emit('showed', $event)"
   >
     <view class="pi-select pi-h-100P pi-flex-column" :style="[customStyle]" :class="[customClass]">
@@ -39,11 +39,23 @@
           />
         </view>
       </view>
+      <view v-if="getRemoteSearchConfig.enable && getRemoteSearchConfig.filter" class="pi-pd-lr-24">
+        <pi-search
+          v-model="keyword"
+          :placeholder="getRemoteSearchConfig.filterPlaceholder"
+          show-action
+          :action-text="getRemoteSearchConfig.filterAction"
+          @search="handleKeywordSearch"
+          @clear="handleKeywordSearch"
+          @action="handleKeywordSearch"
+        />
+      </view>
       <scroll-view
         scroll-y
         class="pi-scroll"
         :scroll-into-view="getFirstSelectedId"
         scroll-with-animation
+        @scrolltolower="handleScrolltolower"
       >
         <view
           v-for="item in getItems"
@@ -115,6 +127,8 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiSelect'
 const { select } = getConfig()
+
+const PI_DEFAULT_FN_FLAG = 'PI_DEFAULT_FN_FLAG'
 
 export default {
   name: 'PiSelect',
@@ -267,12 +281,34 @@ export default {
         // 参照popup
         return select.popup
       }
+    },
+    // 远程搜索配置
+    remoteSearchConfig: {
+      type: Object,
+      default() {
+        return select.remoteSearchConfig
+      }
+    },
+    // 远程搜索结果解析钩子
+    parseRemoteSearchResult: {
+      type: [Object, Function],
+      default() {
+        return {
+          [PI_DEFAULT_FN_FLAG]: true,
+          fn: select.parseRemoteSearchResult
+        }
+      }
     }
   },
   data() {
     return {
       // 当前选中的值
-      selected: {}
+      selected: {},
+      keyword: '',
+      remoteItems: [],
+      remoteLoading: false,
+      pageNo: 1,
+      isEnd: false
     }
   },
   computed: {
@@ -281,6 +317,9 @@ export default {
     },
     getSelectedCheckbox() {
       return this.$pi.lang.mergeDeep(select.selectedCheckbox, this.selectedCheckbox)
+    },
+    getRemoteSearchConfig() {
+      return this.$pi.lang.mergeDeep(select.remoteSearchConfig, this.remoteSearchConfig)
     },
     getPopupSelect() {
       const popupSelect = this.$pi.lang.mergeDeep(select.popupSelect, this.popupSelect)
@@ -310,7 +349,8 @@ export default {
       }
     },
     getItems() {
-      return this.items.map(item => {
+      const targetItems = this.remoteSearchConfig.enable ? this.remoteItems : this.items
+      return targetItems.map(item => {
         let isSelected = false
         if (this.isMulti) {
           isSelected =
@@ -487,6 +527,55 @@ export default {
       if (this.isMulti) {
         this.selected = this.isSelectAll ? [] : [...this.items]
       }
+    },
+    handleShowEvent() {
+      console.log('打开窗口', this.getRemoteSearchConfig.enable)
+      this.$emit('show')
+      if (!this.getRemoteSearchConfig.enable) return
+      this.keyword = ''
+      this.handleResetRemoteSearch()
+      this.handleRemoteSearch()
+    },
+    handleResetRemoteSearch() {
+      this.pageNo = 1
+      this.isEnd = false
+      this.remoteItems = []
+    },
+    handleKeywordSearch() {
+      this.handleResetRemoteSearch()
+      this.handleRemoteSearch()
+    },
+    handleScrolltolower() {
+      console.log('滚动触底了', this.getRemoteSearchConfig.enable, this.isEnd)
+      if (!this.getRemoteSearchConfig.enable) return
+      if (this.isEnd) return
+      this.handleRemoteSearch()
+    },
+    async handleRemoteSearch() {
+      if (this.remoteLoading) return
+      const parseRemoteSearchResult = this.parseRemoteSearchResult[PI_DEFAULT_FN_FLAG]
+        ? this.parseRemoteSearchResult.fn
+        : this.parseRemoteSearchResult
+      this.remoteLoading = true
+      this.$loading()
+      const items = await parseRemoteSearchResult(
+        this.pageNo,
+        this.getRemoteSearchConfig.pageSize,
+        this.keyword
+      )
+      this.remoteLoading = false
+      this.$hideLoading()
+      if (!this.$pi.lang.isArray(items)) {
+        console.error(TAG, items, '远程搜索结果必须为数组类型')
+        return
+      }
+      console.log('远程搜索结果', items)
+      this.pageNo++
+      // 判断页码
+      if (items?.length < this.getRemoteSearchConfig.pageSize) {
+        this.isEnd = true
+      }
+      this.remoteItems = this.remoteItems.concat(items)
     }
   }
 }

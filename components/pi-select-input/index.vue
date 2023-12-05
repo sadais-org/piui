@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2023-09-02 11:40:02
+ * @LastEditTime: 2023-12-05 09:41:08
  * @LastEditors: zhangzhenfei
  * @Description: 选择输入
- * @FilePath: \piui-awesome\src\piui\components\pi-select-input\index.vue
+ * @FilePath: /piui-awesome/src/piui/components/pi-select-input/index.vue
 -->
 
 <template>
@@ -48,6 +48,7 @@
 
     <!-- 选择弹出框 -->
     <pi-select
+      ref="pi-select"
       v-model="show"
       :default-value="val"
       :key-default-value="getSelect.keyDefaultValue"
@@ -68,6 +69,8 @@
       :popup="getSelect.popup"
       :confirm-btn="getSelect.confirmBtn"
       :cancel-btn="getSelect.cancelBtn"
+      :remote-search-config="getSelect.remoteSearchConfig"
+      :parse-remote-search-result="getSelect.parseRemoteSearchResult"
       @confirm="handleSelectConfirm"
       @close="$emit('close', $event)"
       @closed="$emit('closed', $event)"
@@ -165,27 +168,28 @@ export default {
         return parseValue
       }
       if (this.$pi.lang.isEmpty(this.val)) return ''
+      const getItems = this.$refs['pi-select']?.getItems || this.getSelect.items
       if (this.getSelect.keyDefaultValue) {
         if (this.getSelect.isMulti) {
-          return this.getSelect.items
+          return getItems
             .filter(item => this.val.includes(item[this.getSelect.keyField]))
             .map(item => item[this.getSelect.displayField])
             .join(this.rangeSplit)
         } else {
-          const val = this.getSelect.items.find(item => item[this.getSelect.keyField] === this.val)
+          const val = getItems.find(item => item[this.getSelect.keyField] === this.val)
           return val ? val[this.getSelect.displayField] : ''
         }
       } else {
         // 这里需要从items再次获取，防止用户设置的默认值没有设置displayField的情况
         if (this.getSelect.isMulti) {
-          return this.getSelect.items
+          return getItems
             .filter(item =>
               this.val.some(v => v[this.getSelect.keyField] === item[this.getSelect.keyField])
             )
             .map(item => item[this.getSelect.displayField])
             .join(this.rangeSplit)
         } else {
-          const val = this.getSelect.items.find(
+          const val = getItems.find(
             item => item[this.getSelect.keyField] === this.val[this.getSelect.keyField]
           )
           return val ? val[this.getSelect.displayField] : ''

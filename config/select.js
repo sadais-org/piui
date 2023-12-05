@@ -27,5 +27,15 @@ export default {
   popupSelect: popupSelect, // popupSelect配置
   popup: popupSelect.popup, // 弹窗的配置，默认选项请参照popup
   confirmBtn: popupSelect.confirmBtn, // 确认按钮配置
-  cancelBtn: popupSelect.cancelBtn // 取消按钮配置
+  cancelBtn: popupSelect.cancelBtn, // 取消按钮配置
+  remoteSearchConfig: {
+    // 远程搜索配置
+    enable: false, // 是否开启远程搜索
+    filter: false, // 是否支持筛选
+    filterPlaceholder: '请输入关键字', // 筛选框占位符
+    filterAction: '搜索',
+    filterKey: 'name', // 筛选字段
+    pageSize: 20 // 每页数量
+  },
+  parseRemoteSearchResult: null // 远程搜索结果解析钩子
 }

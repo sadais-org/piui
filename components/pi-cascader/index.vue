@@ -116,7 +116,6 @@
 
 <script>
 import ValueSync from '../../mixin/value-sync'
-import cloneDeep from 'lodash/cloneDeep'
 import { getConfig } from '../../config'
 
 const TAG = 'PiCascader'
@@ -227,7 +226,7 @@ export default {
     }
     return {
       rootItem,
-      currentItem: cloneDeep(rootItem),
+      currentItem: this.$pi.lang.cloneDeep(rootItem),
       innerItems: [],
       itemsMap: {}, // 已选数据id索引
       selectedIds: [], // 已选数据
