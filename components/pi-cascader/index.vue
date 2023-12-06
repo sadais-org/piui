@@ -28,7 +28,7 @@
         <!-- 顶部面包屑 -->
         <scroll-view class="node-breadcrumb pi-solid-bottom-1" scroll-x>
           <view
-            v-for="(item, index) in allPathItems"
+            v-for="(item, index) in pathItems"
             :key="index"
             class="breadcrumb-item"
             @click="handleClickItem(item)"
@@ -117,18 +117,13 @@
             style="flex: 1;padding-left: 0;overflow: hidden;"
           >
             <view
-              v-for="(item, index) in pathItems"
+              v-for="(item, index) in currentPathItems"
               :key="index"
               class="breadcrumb-item"
               @click="handleClickItem(item)"
             >
               <pi-icon v-if="index > 0" name="right" custom-class="pi-mg-lr-6" />
-              <view
-                class="breadcrumb-item-title"
-                :class="{
-                  active: currentItem && currentItem[keyField] === item[keyField]
-                }"
-              >
+              <view class="breadcrumb-item-title">
                 {{ item[displayField] }}
               </view>
             </view>
@@ -328,15 +323,24 @@ export default {
           p = this.itemsMap[p.pid]
         }
       }
-      return pathItems
-    },
-    allPathItems() {
       return [
         {
           [this.displayField]: '全部',
           [this.keyField]: 'ROOT'
         }
-      ].concat(this.pathItems)
+      ].concat(pathItems)
+    },
+    currentPathItems() {
+      const pathItems = []
+      if (this.isSingle) {
+        // 往上找构建完整路径
+        let p = this.itemsMap[this.selectedIds[0]]
+        while (p) {
+          pathItems.unshift(p)
+          p = this.itemsMap[p.pid]
+        }
+      }
+      return pathItems
     }
   },
   watch: {
@@ -521,10 +525,10 @@ export default {
     }
     .column-item {
       position: relative;
-      height: 100rpx;
+      min-height: 100rpx;
       width: 100%;
       white-space: initial;
-      padding: 0 16rpx 0 32rpx;
+      padding: 16rpx 32rpx;
       font-size: 28rpx;
       color: #333333;
       overflow: hidden;
