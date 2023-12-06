@@ -346,6 +346,7 @@ export default {
   watch: {
     items: {
       immediate: true,
+      deep: true,
       handler() {
         this.rebuildItems()
       }
@@ -360,12 +361,14 @@ export default {
 
   methods: {
     rebuildItems() {
+      console.log('重建innerItems')
       /**
        * 以非递归的方式 深度拷贝items 且建立父子节点关系
        * 目的为了不影响外部传入的prop: items
        * 写成非递归的目的 是为了防止树的层次太深，
        * 递归调用太多次，导致栈溢出
        */
+      this.currentItem = this.$pi.lang.cloneDeep(this.rootItem)
       const innerItems = []
       // 初始化堆栈 为items的根节点
       const stack = [...this.items]
