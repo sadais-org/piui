@@ -62,9 +62,9 @@
                 selected: selectedIds.includes(item[keyField])
               }"
             >
-              <view class="pi-flex-sub">
+              <view class="pi-flex-sub column-item-inner">
                 <slot name="item" :item="item">
-                  <view class="pi-align-center">
+                  <view class="pi-align-center column-item-inner">
                     <pi-checkbox
                       v-if="parentCanSelect"
                       :value="selectedIds.includes(item[keyField])"
@@ -73,9 +73,9 @@
                       class="pi-mg-right-16"
                       @change="handleChangeParentSelect(item, $event)"
                     />
-                    <text class="pi-lh-36 pi-flex-sub" @click="handleClickItem(item)">
+                    <view class="pi-align-center pi-lh-36 pi-flex-sub column-item-inner" @click="handleClickItem(item)">
                       {{ item[displayField] || '' }}
-                    </text>
+                    </view>
                   </view>
                 </slot>
               </view>
@@ -123,7 +123,9 @@
               @click="handleClickItem(item)"
             >
               <pi-icon v-if="index > 0" name="right" custom-class="pi-mg-lr-6" />
-              <view class="breadcrumb-item-title">
+              <view
+                class="breadcrumb-item-title"
+              >
                 {{ item[displayField] }}
               </view>
             </view>
@@ -531,10 +533,13 @@ export default {
       min-height: 100rpx;
       width: 100%;
       white-space: initial;
-      padding: 16rpx 32rpx;
+      padding:  16rpx  32rpx;
       font-size: 28rpx;
       color: #333333;
       overflow: hidden;
+      .column-item-inner {
+        min-height: 100rpx;
+      }
       &.active {
         color: $pi-primary-color;
         background: #ffffff;

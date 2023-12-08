@@ -212,7 +212,7 @@ export default {
       if (this.getSelect.isMulti) {
         this.handleSelectConfirm([])
       } else {
-        $pi.lang.isObject(this.val)
+        this.$pi.lang.isObject(this.val)
           ? this.handleSelectConfirm({ [this.getSelect.keyField]: '' })
           : this.handleSelectConfirm('')
       }
