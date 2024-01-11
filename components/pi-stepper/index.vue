@@ -15,7 +15,7 @@
       @tap="handleChange(-1)"
     />
     <input
-      :value="value"
+      :value="val"
       type="digit"
       class="step-input"
       :disabled="disabled || disableInput"
