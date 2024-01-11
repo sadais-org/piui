@@ -49,6 +49,9 @@ import { parseDuration } from '@sadais/piui-tool/tools/common'
 const TAG = 'PiTabs'
 const { tabs } = getConfig()
 
+let MAX_RETRY = 10
+let timer = null
+
 export default {
   name: 'PiTabs',
   // 混入v-model
@@ -328,14 +331,37 @@ export default {
   mounted() {
     this.init()
   },
+  beforeDestroy() {
+    this.clearTimer()
+  },
   methods: {
+    clearTimer() {
+      if (timer) {
+        clearTimeout(timer)
+        timer = null
+        MAX_RETRY = 10
+      }
+    },
     async init() {
       const srollWrapRect = await this.$pi.common.queryRect(this, '.pi-tabs', false)
       if (srollWrapRect) {
         this.tabsWidth = srollWrapRect.width
       }
+      this.clearTimer()
+      timer = setInterval(() => {
+        this.initTabRects()
+      }, 200)
+    },
+    async initTabRects() {
+      MAX_RETRY--
       this.tabRects = await this.$pi.common.queryRect(this, '.pi-tab', true)
       console.log(TAG, '计算.pi-tab布局', this.tabRects)
+      const tabWidth = this.tabRects.reduce((previous, current) => {
+        return previous + current.width
+      }, 0)
+      if (tabWidth || MAX_RETRY <= 0) {
+        this.clearTimer()
+      }
     },
     handleSelectItem(item) {
       if (item[this.disabledField]) return
