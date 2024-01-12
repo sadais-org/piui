@@ -266,13 +266,14 @@ export default {
         left: 0,
         width: 0
       }
-      if (!this.tabRects.length) return rect
-      const activeIndex =
-        this.activeIndex >= this.tabRects.length ? this.tabRects.length - 1 : this.activeIndex
-      rect.left = this.tabRects.slice(0, activeIndex).reduce((previous, current) => {
-        return previous + current.width
-      }, 0)
-      rect.width = this.tabRects[activeIndex].width
+      if (this.tabRects.length) {
+        const activeIndex =
+          this.activeIndex >= this.tabRects.length ? this.tabRects.length - 1 : this.activeIndex
+        rect.left = this.tabRects.slice(0, activeIndex).reduce((previous, current) => {
+          return previous + current.width
+        }, 0)
+        rect.width = this.tabRects[activeIndex].width
+      }
       return rect
     },
     scrollLeft() {
@@ -287,6 +288,7 @@ export default {
         height: this.getSliderBarHeight,
         borderRadius: this.getSliderBarRadius,
         transitionDuration: duration.css,
+        transform: `translate(${this.activeRect.left}px, -25%)`,
         ...this.sliderBarStyle
       }
       let sliderScrollLeft = this.activeRect.left
@@ -337,7 +339,7 @@ export default {
   methods: {
     clearTimer() {
       if (timer) {
-        clearTimeout(timer)
+        clearInterval(timer)
         timer = null
         MAX_RETRY = 10
       }
@@ -347,6 +349,7 @@ export default {
       if (srollWrapRect) {
         this.tabsWidth = srollWrapRect.width
       }
+      this.initTabRects()
       this.clearTimer()
       timer = setInterval(() => {
         this.initTabRects()
@@ -354,11 +357,12 @@ export default {
     },
     async initTabRects() {
       MAX_RETRY--
-      this.tabRects = await this.$pi.common.queryRect(this, '.pi-tab', true)
-      console.log(TAG, '计算.pi-tab布局', this.tabRects)
+      const tabRects = await this.$pi.common.queryRect(this, '.pi-tab', true)
       const tabWidth = this.tabRects.reduce((previous, current) => {
         return previous + current.width
       }, 0)
+      this.tabRects = tabRects
+      this.$forceUpdate()
       if (tabWidth || MAX_RETRY <= 0) {
         this.clearTimer()
       }
