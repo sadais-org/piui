@@ -1,16 +1,20 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2023-12-05 09:41:08
+ * @LastEditTime: 2024-01-12 11:09:10
  * @LastEditors: zhangzhenfei
  * @Description: 选择输入
- * @FilePath: /piui-awesome/src/piui/components/pi-select-input/index.vue
+ * @FilePath: /piui/components/pi-select-input/index.vue
 -->
 
 <template>
   <view class="pi-select-input">
     <!-- 输入框 -->
-    <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="show = true">
+    <view
+      v-if="$slots.default || $slots.$default"
+      class="pi-w-100P"
+      @click="show = true"
+    >
       <slot />
     </view>
     <pi-input
@@ -81,60 +85,60 @@
 </template>
 
 <script>
-import ValueSync from '../../mixin/value-sync'
-import { getConfig } from '../../config'
+import ValueSync from "../../mixin/value-sync";
+import { getConfig } from "../../config";
 
-const TAG = 'PiSelectInput'
-const { selectInput } = getConfig()
+const TAG = "PiSelectInput";
+const { selectInput } = getConfig();
 
-const PI_DEFAULT_FN_FLAG = 'PI_DEFAULT_FN_FLAG'
+const PI_DEFAULT_FN_FLAG = "PI_DEFAULT_FN_FLAG";
 
 export default {
-  name: 'PiSelectInput',
+  name: "PiSelectInput",
   // 混入v-model
   mixins: [ValueSync],
   props: {
     // 初始值
     value: {
-      required: false
+      required: false,
     },
     // 自定义样式，对象形式
     customStyle: {
       type: Object,
       // {}
       default() {
-        return selectInput.customStyle
-      }
+        return selectInput.customStyle;
+      },
     },
     // 自定义样式类，字符串形式
     customClass: {
       type: String,
       // ''
       default() {
-        return selectInput.customClass
-      }
+        return selectInput.customClass;
+      },
     },
     // input输入设置
     input: {
       type: Object,
       default() {
         // 参照select
-        return selectInput.input
-      }
+        return selectInput.input;
+      },
     },
     // 日历弹窗参数设置
     select: {
       type: Object,
       default() {
         // 参照select
-        return selectInput.select
-      }
+        return selectInput.select;
+      },
     },
     // 范围选择时间分隔符，默认（','）
     rangeSplit: {
       type: String,
       // ','
-      default: selectInput.rangeSplit
+      default: selectInput.rangeSplit,
     },
     // 解析值的方法，如果配置了，则读取该函数的返回值作为显示的内容
     parseValueFn: {
@@ -142,83 +146,106 @@ export default {
       default() {
         return {
           [PI_DEFAULT_FN_FLAG]: true,
-          fn: selectInput.parseValueFn
-        }
-      }
-    }
+          fn: selectInput.parseValueFn,
+        };
+      },
+    },
   },
   data() {
     return {
-      show: false
-    }
+      show: false,
+    };
   },
   computed: {
     getSelect() {
-      return this.$pi.lang.mergeDeep(selectInput.select, this.select)
+      return this.$pi.lang.mergeDeep(selectInput.select, this.select);
     },
     getInput() {
-      return this.$pi.lang.mergeDeep(selectInput.input, this.input)
+      return this.$pi.lang.mergeDeep(selectInput.input, this.input);
     },
     getInputValue() {
       const parseValueFn = this.parseValueFn[PI_DEFAULT_FN_FLAG]
         ? this.parseValueFn.fn
-        : this.parseValueFn
+        : this.parseValueFn;
       if (this.$pi.lang.isFunction(parseValueFn)) {
-        const parseValue = parseValueFn(this.val)
-        return parseValue
+        const parseValue = parseValueFn(this.val);
+        return parseValue;
       }
-      if (this.$pi.lang.isEmpty(this.val)) return ''
-      const getItems = this.$refs['pi-select']?.getItems || this.getSelect.items
+      if (this.$pi.lang.isEmpty(this.val)) return "";
+      const getItems =
+        this.$refs["pi-select"]?.getItems || this.getSelect.items || [];
       if (this.getSelect.keyDefaultValue) {
         if (this.getSelect.isMulti) {
           return getItems
-            .filter(item => this.val.includes(item[this.getSelect.keyField]))
-            .map(item => item[this.getSelect.displayField])
-            .join(this.rangeSplit)
+            .filter((item) => this.val.includes(item[this.getSelect.keyField]))
+            .map((item) => item[this.getSelect.displayField])
+            .join(this.rangeSplit);
         } else {
-          const val = getItems.find(item => item[this.getSelect.keyField] === this.val)
-          return val ? val[this.getSelect.displayField] : ''
+          const val = getItems.find(
+            (item) => item[this.getSelect.keyField] === this.val
+          );
+          return val ? val[this.getSelect.displayField] : "";
         }
       } else {
         // 这里需要从items再次获取，防止用户设置的默认值没有设置displayField的情况
         if (this.getSelect.isMulti) {
           return getItems
-            .filter(item =>
-              this.val.some(v => v[this.getSelect.keyField] === item[this.getSelect.keyField])
+            .filter((item) =>
+              this.val.some(
+                (v) =>
+                  v[this.getSelect.keyField] === item[this.getSelect.keyField]
+              )
             )
-            .map(item => item[this.getSelect.displayField])
-            .join(this.rangeSplit)
+            .map((item) => item[this.getSelect.displayField])
+            .join(this.rangeSplit);
         } else {
           const val = getItems.find(
-            item => item[this.getSelect.keyField] === this.val[this.getSelect.keyField]
-          )
-          return val ? val[this.getSelect.displayField] : ''
+            (item) =>
+              item[this.getSelect.keyField] ===
+              this.val[this.getSelect.keyField]
+          );
+          return val ? val[this.getSelect.displayField] : "";
         }
       }
-    }
+    },
+  },
+  created() {
+    this.initRemoteSelectData();
   },
   methods: {
+    initRemoteSelectData() {
+      // 如果开启了远程搜索 则在创建之初 先触发一次搜索 让代码触发到用户自定义的parseRemoteSearchResult方法中
+      // 目的为了回显数据
+      if (
+        this.getSelect.remoteSearchConfig.enable &&
+        this.getSelect.parseRemoteSearchResult
+      ) {
+        this.$nextTick(() => {
+          this.$refs["pi-select"].handleRemoteSearch();
+        });
+      }
+    },
     handlePopupClose() {
-      this.val = false
+      this.val = false;
       // 关闭
-      this.$emit('close')
-      this.handleEmitChange()
+      this.$emit("close");
+      this.handleEmitChange();
     },
     handleSelectConfirm(value) {
-      this.val = value
-      this.handleEmitChange()
+      this.val = value;
+      this.handleEmitChange();
     },
     handleClearValue() {
       if (this.getSelect.isMulti) {
-        this.handleSelectConfirm([])
+        this.handleSelectConfirm([]);
       } else {
         this.$pi.lang.isObject(this.val)
-          ? this.handleSelectConfirm({ [this.getSelect.keyField]: '' })
-          : this.handleSelectConfirm('')
+          ? this.handleSelectConfirm({ [this.getSelect.keyField]: "" })
+          : this.handleSelectConfirm("");
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
