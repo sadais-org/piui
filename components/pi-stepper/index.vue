@@ -304,17 +304,18 @@ export default {
     handleInputChange(e) {
       let val = e.detail.value;
       const reg = /^-?\d*\.?\d+$/;
-      const result = val.match(reg);
       const decimal = this.decimal;
-      if (!result) {
+      if (!reg.test(val)) {
         // 说明开头就不是数字 直接初始化为0
         this.val = this.min != null ? this.min : 0;
         this.handleEmitChange();
       } else {
+        const result = val.split(".");
+        const dot = ".";
         // 分离出 小数点、及其左右2边的数字
-        const left = result[1];
-        const dot = result[2];
-        const right = result[3];
+        const left = result?.[0] || "";
+        // const dot = result[2]
+        const right = result?.[1] || "";
         let tmpVal = "";
 
         if (!dot || !right) {
