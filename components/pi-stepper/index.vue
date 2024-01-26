@@ -7,7 +7,6 @@
     <view
       v-if="showAdd"
       class="pi-stepper-icon pi-icon-subtract"
-      :class="[{ disabled: disableSubtract }]"
       hover-class="pi-hover-class"
       :hover-start-time="10"
       :hover-stay-time="100"
@@ -15,17 +14,16 @@
       @tap="handleChange(-1)"
     />
     <input
-      :value="val"
+      v-model="val"
       type="digit"
       class="step-input"
       :disabled="disabled || disableInput"
       :style="[inputStyle, { width: getInputWidth }]"
-      @input="handleInputChange"
+      @blur="handleOnBlur"
     />
     <view
       v-if="showSubtract"
       class="pi-stepper-icon pi-icon-add"
-      :class="[{ disabled: disableAdd }]"
       hover-class="pi-hover-class"
       :hover-start-time="10"
       :hover-stay-time="100"
@@ -193,7 +191,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      oldVal: 0,
+    };
   },
   computed: {
     disableAdd() {
@@ -301,14 +301,25 @@ export default {
       }
       this.handleInputChange({ detail: { value: `${val}` } });
     },
+    handleOnBlur() {
+      this.handleInputChange({ detail: { value: `${this.val}` } });
+    },
     handleInputChange(e) {
       let val = e.detail.value;
       const reg = /^-?\d*\.?\d+$/;
       const decimal = this.decimal;
-      if (!reg.test(val)) {
+      if (!val || !reg.test(val)) {
         // 说明开头就不是数字 直接初始化为0
-        this.val = this.min != null ? this.min : 0;
-        this.handleEmitChange();
+        this.val = 0;
+        this.$nextTick(() => {
+          if (Number.isNaN(Number(val))) {
+            this.val = this.oldVal != null ? this.oldVal : 0;
+          } else {
+            this.val = Number(val);
+          }
+          this.oldVal = Number(this.val);
+          this.handleEmitChange();
+        });
       } else {
         const result = val.split(".");
         const dot = ".";
@@ -329,7 +340,7 @@ export default {
           // 若小数点右边不是以数字开头
           tmpVal = `${left}${dot}`;
         }
-        this.val = 0;
+        // this.val = 0
         this.$nextTick(() => {
           let tmp = parseFloat(tmpVal);
           if (this.integer) {
@@ -338,6 +349,7 @@ export default {
           tmp = tmp <= this.max ? tmp : this.max;
           tmp = tmp >= this.min ? tmp : this.min;
           this.val = tmp;
+          this.oldVal = Number(this.val);
           this.handleEmitChange();
         });
       }
