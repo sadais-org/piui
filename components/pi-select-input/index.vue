@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2024-01-15 14:50:23
+ * @LastEditTime: 2024-01-29 15:44:16
  * @LastEditors: zhangzhenfei
  * @Description: 选择输入
  * @FilePath: /piui/components/pi-select-input/index.vue
@@ -10,7 +10,11 @@
 <template>
   <view class="pi-select-input">
     <!-- 输入框 -->
-    <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="show = true">
+    <view
+      v-if="$slots.default || $slots.$default"
+      class="pi-w-100P"
+      @click="show = true"
+    >
       <slot />
     </view>
     <pi-input
@@ -71,6 +75,7 @@
       :cancel-btn="getSelect.cancelBtn"
       :remote-search-config="getSelect.remoteSearchConfig"
       :parse-remote-search-result="getSelect.parseRemoteSearchResult"
+      :remote-method="getSelect.remoteMethod"
       @confirm="handleSelectConfirm"
       @close="$emit('close', $event)"
       @closed="$emit('closed', $event)"
@@ -169,13 +174,9 @@ export default {
   },
   methods: {
     initRemoteSelectData() {
-      // 如果开启了远程搜索 则在创建之初 先触发一次搜索 让代码触发到用户自定义的parseRemoteSearchResult方法中
+      // 如果开启了远程搜索 则在创建之初 先触发一次搜索 让代码触发到用户自定义的remoteMethod or parseRemoteSearchResult方法中
       // 目的为了回显数据
-      if (
-        this.getSelect.remoteSearchConfig.enable &&
-        this.getSelect.parseRemoteSearchResult &&
-        this.val
-      ) {
+      if (this.getSelect.remoteSearchConfig.enable && this.val) {
         this.$nextTick(async () => {
           await this.$refs['pi-select'].handleRemoteSearch()
           this.remoteVal = this.handleGetInputValue()
@@ -191,7 +192,8 @@ export default {
         return parseValue
       }
       if (this.$pi.lang.isEmpty(this.val)) return ''
-      const getItems = this.$refs['pi-select']?.getItems || this.getSelect.items || []
+      const getItems =
+        this.$refs['pi-select']?.getItems || this.getSelect.items || []
       if (this.getSelect.keyDefaultValue) {
         if (this.getSelect.isMulti) {
           return getItems
@@ -199,7 +201,9 @@ export default {
             .map(item => item[this.getSelect.displayField])
             .join(this.rangeSplit)
         } else {
-          const val = getItems.find(item => item[this.getSelect.keyField] === this.val)
+          const val = getItems.find(
+            item => item[this.getSelect.keyField] === this.val
+          )
           return val ? val[this.getSelect.displayField] : ''
         }
       } else {
@@ -207,13 +211,18 @@ export default {
         if (this.getSelect.isMulti) {
           return getItems
             .filter(item =>
-              this.val.some(v => v[this.getSelect.keyField] === item[this.getSelect.keyField])
+              this.val.some(
+                v =>
+                  v[this.getSelect.keyField] === item[this.getSelect.keyField]
+              )
             )
             .map(item => item[this.getSelect.displayField])
             .join(this.rangeSplit)
         } else {
           const val = getItems.find(
-            item => item[this.getSelect.keyField] === this.val[this.getSelect.keyField]
+            item =>
+              item[this.getSelect.keyField] ===
+              this.val[this.getSelect.keyField]
           )
           return val ? val[this.getSelect.displayField] : ''
         }

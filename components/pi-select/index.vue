@@ -20,7 +20,11 @@
     @show="handleShowEvent"
     @showed="$emit('showed', $event)"
   >
-    <view class="pi-select pi-h-100P pi-flex-column" :style="[customStyle]" :class="[customClass]">
+    <view
+      class="pi-select pi-h-100P pi-flex-column"
+      :style="[customStyle]"
+      :class="[customClass]"
+    >
       <slot name="header" />
       <view
         v-if="showSelectAll"
@@ -39,7 +43,10 @@
           />
         </view>
       </view>
-      <view v-if="getRemoteSearchConfig.enable && getRemoteSearchConfig.filter" class="pi-pd-lr-24">
+      <view
+        v-if="getRemoteSearchConfig.enable && getRemoteSearchConfig.filter"
+        class="pi-pd-lr-24"
+      >
         <pi-search
           v-model="keyword"
           :placeholder="getRemoteSearchConfig.filterPlaceholder"
@@ -70,10 +77,18 @@
           @tap.stop="handleSelectItem(item)"
         >
           <!-- 自定义列表项 -->
-          <slot name="item" :item="item" :selected="item.isSelected" class="pi-w-100P">
+          <slot
+            name="item"
+            :item="item"
+            :selected="item.isSelected"
+            class="pi-w-100P"
+          >
             <view>
               <view class="select-item-title">{{ item[displayField] }}</view>
-              <view v-if="item[descField]" class="pi-light-gray pi-fz-24 pi-mg-top-10 pi-lh-30">
+              <view
+                v-if="item[descField]"
+                class="pi-light-gray pi-fz-24 pi-mg-top-10 pi-lh-30"
+              >
                 {{ item[descField] }}
               </view>
             </view>
@@ -298,6 +313,11 @@ export default {
           fn: select.parseRemoteSearchResult
         }
       }
+    },
+    // 兼容微信小程序无法属性传递function的问题 传递方法名进来
+    remoteMethod: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -316,13 +336,22 @@ export default {
       return this.$pi.lang.mergeDeep(select.selectedImg, this.selectedImg)
     },
     getSelectedCheckbox() {
-      return this.$pi.lang.mergeDeep(select.selectedCheckbox, this.selectedCheckbox)
+      return this.$pi.lang.mergeDeep(
+        select.selectedCheckbox,
+        this.selectedCheckbox
+      )
     },
     getRemoteSearchConfig() {
-      return this.$pi.lang.mergeDeep(select.remoteSearchConfig, this.remoteSearchConfig)
+      return this.$pi.lang.mergeDeep(
+        select.remoteSearchConfig,
+        this.remoteSearchConfig
+      )
     },
     getPopupSelect() {
-      const popupSelect = this.$pi.lang.mergeDeep(select.popupSelect, this.popupSelect)
+      const popupSelect = this.$pi.lang.mergeDeep(
+        select.popupSelect,
+        this.popupSelect
+      )
       if (!this.singleCancel && this.singleConfirm) {
         popupSelect.toolbarPosition = 'none'
       }
@@ -336,11 +365,17 @@ export default {
       return this.$pi.lang.mergeDeep(selectConfirmBtn, this.confirmBtn)
     },
     getCancelBtn() {
-      const selectCancelBtn = this.$pi.lang.mergeDeep(select.cancelBtn, this.popupSelect.cancelBtn)
+      const selectCancelBtn = this.$pi.lang.mergeDeep(
+        select.cancelBtn,
+        this.popupSelect.cancelBtn
+      )
       return this.$pi.lang.mergeDeep(selectCancelBtn, this.cancelBtn)
     },
     getPopup() {
-      const selectPopup = this.$pi.lang.mergeDeep(select.popup, this.popupSelect.popup)
+      const selectPopup = this.$pi.lang.mergeDeep(
+        select.popup,
+        this.popupSelect.popup
+      )
       return this.$pi.lang.mergeDeep(selectPopup, this.popup)
     },
     getItemStyle() {
@@ -349,13 +384,17 @@ export default {
       }
     },
     getItems() {
-      const targetItems = this.remoteSearchConfig.enable ? this.remoteItems : this.items
+      const targetItems = this.remoteSearchConfig.enable
+        ? this.remoteItems
+        : this.items
       return targetItems.map(item => {
         let isSelected = false
         if (this.isMulti) {
           isSelected =
             this.$pi.lang.isArray(this.selected) &&
-            this.selected.findIndex(s => s[this.keyField] === item[this.keyField]) !== -1
+            this.selected.findIndex(
+              s => s[this.keyField] === item[this.keyField]
+            ) !== -1
         } else {
           isSelected = this.selected[this.keyField] === item[this.keyField]
         }
@@ -389,24 +428,40 @@ export default {
             return this.$pi.lang.isObject(item)
           })
           if (this.keyDefaultValue && isArrayObject) {
-            console.error(TAG, 'keyDefaultValue模式下defaultValue不能为对象数组类型')
+            console.error(
+              TAG,
+              'keyDefaultValue模式下defaultValue不能为对象数组类型'
+            )
             return false
           }
           if (!this.keyDefaultValue && !isArrayObject) {
-            console.error(TAG, '非keyDefaultValue模式下defaultValue必须为对象数组类型')
+            console.error(
+              TAG,
+              '非keyDefaultValue模式下defaultValue必须为对象数组类型'
+            )
             return false
           }
         }
         if (!this.isMulti) {
-          if (this.keyDefaultValue && this.$pi.lang.isObject(this.defaultValue)) {
-            console.error(TAG, 'keyDefaultValue模式下defaultValue不能为对象类型')
+          if (
+            this.keyDefaultValue &&
+            this.$pi.lang.isObject(this.defaultValue)
+          ) {
+            console.error(
+              TAG,
+              'keyDefaultValue模式下defaultValue不能为对象类型'
+            )
             return false
           }
           if (
             !this.keyDefaultValue &&
-            (!this.$pi.lang.isObject(this.defaultValue) || this.$pi.lang.isArray(this.defaultValue))
+            (!this.$pi.lang.isObject(this.defaultValue) ||
+              this.$pi.lang.isArray(this.defaultValue))
           ) {
-            console.error(TAG, '非keyDefaultValue模式下defaultValue必须为对象类型')
+            console.error(
+              TAG,
+              '非keyDefaultValue模式下defaultValue必须为对象类型'
+            )
             return false
           }
         }
@@ -468,9 +523,13 @@ export default {
       }
       // 多选
       const hasSelected =
-        this.selected.findIndex(s => s[this.keyField] === item[this.keyField]) !== -1
+        this.selected.findIndex(
+          s => s[this.keyField] === item[this.keyField]
+        ) !== -1
       if (hasSelected) {
-        this.selected = this.selected.filter(s => s[this.keyField] !== item[this.keyField])
+        this.selected = this.selected.filter(
+          s => s[this.keyField] !== item[this.keyField]
+        )
       } else {
         this.selected.push(item)
       }
@@ -491,7 +550,10 @@ export default {
       const toggleSelect = this.items.filter(item => {
         let toggleNode = true
         if (nodes.length) {
-          toggleNode = nodes.findIndex(node => node[this.keyField] === item[this.keyField]) !== -1
+          toggleNode =
+            nodes.findIndex(
+              node => node[this.keyField] === item[this.keyField]
+            ) !== -1
         }
         return toggleNode && !item.disabled
       })
@@ -553,17 +615,36 @@ export default {
     },
     async handleRemoteSearch() {
       if (this.remoteLoading) return
-      const parseRemoteSearchResult = this.parseRemoteSearchResult[PI_DEFAULT_FN_FLAG]
-        ? this.parseRemoteSearchResult.fn
-        : this.parseRemoteSearchResult
-      this.remoteLoading = true
-      this.$loading()
+      let parseRemoteSearchResult = null
+      if (this.remoteMethod) {
+        let node = this.$parent
+        while (node && !node[this.remoteMethod]) {
+          node = node.$parent
+        }
+        parseRemoteSearchResult = node?.[this.remoteMethod]
+        if (!parseRemoteSearchResult) {
+          console.error(`pi-select 找不到remoteMethod=${this.remoteMethod}`)
+        }
+      }
+      if (!parseRemoteSearchResult) {
+        parseRemoteSearchResult = this.parseRemoteSearchResult[
+          PI_DEFAULT_FN_FLAG
+        ]
+          ? this.parseRemoteSearchResult.fn
+          : this.parseRemoteSearchResult
+        if (!parseRemoteSearchResult) {
+          console.error(`pi-select parseRemoteSearchResult不存在`)
+        }
+      }
+      if (!parseRemoteSearchResult) {
+        return
+      }
+      this.remoteLoading = false
       const items = await parseRemoteSearchResult(
         this.pageNo,
         this.getRemoteSearchConfig.pageSize,
         this.keyword
       )
-      this.remoteLoading = false
       this.$hideLoading()
       if (!this.$pi.lang.isArray(items)) {
         console.error(TAG, items, '远程搜索结果必须为数组类型')
