@@ -1,16 +1,20 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2023-09-02 11:40:33
+ * @LastEditTime: 2024-03-19 18:23:46
  * @LastEditors: zhangzhenfei
  * @Description: 日历输入
- * @FilePath: \piui-awesome\src\piui\components\pi-regions-select-input\index.vue
+ * @FilePath: /piui-awesome/src/piui/components/pi-regions-select-input/index.vue
 -->
 
 <template>
   <view class="pi-regions-select-input">
     <!-- 输入框 -->
-    <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="show = true">
+    <view
+      v-if="$slots.default || $slots.$default"
+      class="pi-w-100P"
+      @click="show = true"
+    >
       <slot />
     </view>
     <pi-input
@@ -149,7 +153,13 @@ export default {
       return this.$pi.lang.mergeDeep(regionsSelectInput.input, this.input)
     },
     getRegionsSelect() {
-      return this.$pi.lang.mergeDeep(regionsSelectInput.regionsSelect, this.regionsSelect)
+      return {
+        ...this.$pi.lang.mergeDeep(
+          regionsSelectInput.regionsSelect,
+          this.regionsSelect
+        ),
+        regionsData: this.regionsSelect.regionsData
+      }
     },
     getInputValue() {
       const parseValueFn = this.parseValueFn[PI_DEFAULT_FN_FLAG]
@@ -164,7 +174,10 @@ export default {
       const code = this.getRegionsSelect.keyDefaultValue
         ? this.val
         : this.val[this.getRegionsSelect.keyField]
-      const regions = this.$pi.regions.parseRegions(code, this.getRegionsSelect.regionsData)
+      const regions = this.$pi.regions.parseRegions(
+        code,
+        this.getRegionsSelect.regionsData
+      )
       return this.generateRegionsName(regions)
     }
   },
