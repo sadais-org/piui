@@ -88,6 +88,7 @@
               <view
                 v-if="item[descField]"
                 class="pi-light-gray pi-fz-24 pi-mg-top-10 pi-lh-30"
+                :style="[item.descStyle || {}]"
               >
                 {{ item[descField] }}
               </view>

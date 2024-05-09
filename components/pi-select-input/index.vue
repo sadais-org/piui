@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2022-05-18 11:08:49
- * @LastEditTime: 2024-01-29 15:44:16
+ * @LastEditTime: 2024-05-09 16:23:43
  * @LastEditors: zhangzhenfei
  * @Description: 选择输入
- * @FilePath: /piui/components/pi-select-input/index.vue
+ * @FilePath: /piui-awesome/src/piui/components/pi-select-input/index.vue
 -->
 
 <template>
@@ -61,6 +61,7 @@
       :items="getSelect.items"
       :key-field="getSelect.keyField"
       :display-field="getSelect.displayField"
+      :desc-field="getSelect.descField"
       :is-multi="getSelect.isMulti"
       :single-cancel="getSelect.singleCancel"
       :single-confirm="getSelect.singleConfirm"

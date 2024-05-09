@@ -1,14 +1,18 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2022-11-19 09:44:33
+ * @LastEditTime: 2024-05-09 15:30:31
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
- * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/components/pi-upload-img/index.vue
+ * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
 -->
 
 <template>
-  <view class="pi-upload-img pi-pd-top-12" :style="[customStyle]" :class="[customClass]">
+  <view
+    class="pi-upload-img pi-pd-top-12"
+    :style="[customStyle]"
+    :class="[customClass]"
+  >
     <!-- 已上传图片展示 -->
     <view
       v-for="(img, index) in getImgs"
@@ -20,15 +24,36 @@
         <pi-icon name="roundclosefill" color="#8e8e8e" size="36" />
       </view>
       <image
+        v-if="type === 'image'"
         :style="[getItemStyle]"
         class="pi-of-hidden"
         :mode="imageMode"
         :src="imgField ? img[imgField] : img"
       />
+      <view
+        v-else
+        class="pi-rela pi-of-hidden pi-radius-8"
+        :style="[getItemStyle]"
+      >
+        <view class="file-mask">
+          <pi-icon
+            :name="type === 'video' ? 'videofill' : 'activity-fill'"
+            size="48"
+            color="#0C6DF4"
+          />
+          <view class="pi-mg-top-12 pi-fz-22">
+            {{ getFileType(imgField ? img[imgField] : img) }}
+          </view>
+        </view>
+      </view>
     </view>
     <!-- 上传框 -->
     <view v-if="getUploadMaxCount && !disabled">
-      <view :style="[getUploadBtnStyle]" class="pi-flex-column-center" @tap="handleChooseImage">
+      <view
+        :style="[getUploadBtnStyle]"
+        class="pi-flex-column-center"
+        @tap="handleChoose"
+      >
         <slot name="uploadBtn">
           <!-- 添加按钮 -->
           <pi-icon
@@ -43,11 +68,17 @@
             :class-prefix="getUploadIcon.classPrefix"
           />
         </slot>
-        <view v-if="uploadText" class="pi-mg-top-6 pi-fz-24 pi-light-gray">{{ uploadText }}</view>
+        <view v-if="uploadText" class="pi-mg-top-6 pi-fz-24 pi-light-gray">{{
+          uploadText
+        }}</view>
       </view>
     </view>
     <!-- 剪裁弹窗 -->
-    <pi-mask v-model="showCrop" :mask-closeable="false" background="rgba(0, 0, 0, .9)">
+    <pi-mask
+      v-model="showCrop"
+      :mask-closeable="false"
+      background="rgba(0, 0, 0, .9)"
+    >
       <view class="pi-abso-full pi-flex-column">
         <view class="pi-flex-sub">
           <pi-img-cropper
@@ -71,7 +102,9 @@
           :background="getCropMaskBackground"
           :safe-area-bg-color="getCropMaskBackground"
         >
-          <view class="pi-justify-between pi-align-center pi-pd-tb-32 pi-pd-lr-24 pi-fz-32">
+          <view
+            class="pi-justify-between pi-align-center pi-pd-tb-32 pi-pd-lr-24 pi-fz-32"
+          >
             <view class="pi-white" @tap="handleCancelCrop">取消</view>
             <view class="pi-primary" @tap="handleCompelteCrop">完成</view>
           </view>
@@ -298,6 +331,10 @@ export default {
       default() {
         return uploadImg.compressOption
       }
+    },
+    type: {
+      type: String,
+      default: 'image' // 'all', 'image', 'video'
     }
   },
   data() {
@@ -315,14 +352,21 @@ export default {
       if (this.val === null || this.val === undefined) {
         return []
       }
-      return this.isValString ? (this.val ? [this.val] : []) : this.val.filter(img => img)
+      return this.isValString
+        ? this.val
+          ? [this.val]
+          : []
+        : this.val.filter(img => img)
     },
     getItemStyle() {
       const style = {
         width: this.getSize,
         height: this.getSize
       }
-      const uploadStyle = this.$pi.lang.mergeDeep(uploadImg.itemStyle, this.itemStyle)
+      const uploadStyle = this.$pi.lang.mergeDeep(
+        uploadImg.itemStyle,
+        this.itemStyle
+      )
       return this.$pi.lang.mergeDeep(style, uploadStyle)
     },
     getSize() {
@@ -333,7 +377,10 @@ export default {
         width: this.getSize,
         height: this.getSize
       }
-      const uploadBtnStyle = this.$pi.lang.mergeDeep(uploadImg.uploadBtnStyle, this.uploadBtnStyle)
+      const uploadBtnStyle = this.$pi.lang.mergeDeep(
+        uploadImg.uploadBtnStyle,
+        this.uploadBtnStyle
+      )
       return this.$pi.lang.mergeDeep(style, uploadBtnStyle)
     },
     getUploadIcon() {
@@ -341,9 +388,13 @@ export default {
     },
     getChooseImageOpts() {
       // 以覆盖的方式合并数组
-      return this.$pi.lang.mergeDeep(uploadImg.chooseImageOpts, this.chooseImageOpts, {
-        arrayMerge: (target, source) => source
-      })
+      return this.$pi.lang.mergeDeep(
+        uploadImg.chooseImageOpts,
+        this.chooseImageOpts,
+        {
+          arrayMerge: (target, source) => source
+        }
+      )
     },
     getUploadMaxCount() {
       const maxCount = parseInt(this.maxCount, 10)
@@ -357,6 +408,24 @@ export default {
     }
   },
   methods: {
+    getFileType(file) {
+      if (!file) return ''
+      const ext = file.split('.').pop()
+      return ext.toLocaleUpperCase()
+    },
+    isRightType(selectFile) {
+      const { extension } = this.getChooseImageOpts
+      let isRightType = false
+      extension.forEach(ext => {
+        if (selectFile.name.endsWith(ext)) {
+          isRightType = true
+        }
+      })
+      if (!isRightType) {
+        this.$toast(`请选择${extension}文件上传`)
+      }
+      return isRightType
+    },
     async handleDelete(index) {
       let val = null
       const beforeRemove = this.beforeRemove[PI_DEFAULT_FN_FLAG]
@@ -374,44 +443,71 @@ export default {
     },
     // 预览图片
     handlePreviewImage(img) {
-      if (!this.previewFullImage) return
-      let urls = []
-      let current = ''
+      console.log(TAG, '文件预览', img)
+      if (this.type === 'image') {
+        if (!this.previewFullImage) return
+        let urls = []
+        let current = ''
 
-      if (this.isValString) {
-        current = this.val
-        urls = [this.val]
-      } else {
-        urls = this.imgField ? this.val.map(img => img[this.imgField]) : this.val
-        current = this.imgField ? img[this.imgField] : img
-      }
-
-      // eslint-disable-next-line no-undef
-      uni.previewImage({
-        urls,
-        current,
-        indicator: 'default',
-        success: () => {
-          this.$emit('preview', current, urls)
+        if (this.isValString) {
+          current = this.val
+          urls = [this.val]
+        } else {
+          urls = this.imgField
+            ? this.val.map(img => img[this.imgField])
+            : this.val
+          current = this.imgField ? img[this.imgField] : img
         }
-      })
+
+        // eslint-disable-next-line no-undef
+        uni.previewImage({
+          urls,
+          current,
+          indicator: 'default',
+          success: () => {
+            this.$emit('preview', current, urls)
+          }
+        })
+      } else if (this.type === 'video') {
+        // 视频文件自行处理
+        this.$emit('previewVideo', img)
+      } else {
+        // 文件预览
+        uni.downloadFile({
+          url: img,
+          success: res => {
+            const filePath = res.tempFilePath
+            // fileType 文件类型，指定文件类型打开文件，有效值 doc, xls, ppt, pdf, docx, xlsx, pptx，支付宝小程序仅支持pdf
+            // 支付宝小程序必填，其他平台非必填
+            uni.openDocument({
+              filePath,
+              complete: res => {
+                console.log('文件预览', res)
+              }
+            })
+          }
+        })
+      }
     },
     async handleUpload(paths) {
       const beforeUpload = this.beforeUpload[PI_DEFAULT_FN_FLAG]
         ? this.beforeUpload.fn
         : this.beforeUpload
-      const onProgress = this.onProgress[PI_DEFAULT_FN_FLAG] ? this.onProgress.fn : this.onProgress
+      const onProgress = this.onProgress[PI_DEFAULT_FN_FLAG]
+        ? this.onProgress.fn
+        : this.onProgress
       const parseResultFn = this.parseResultFn[PI_DEFAULT_FN_FLAG]
         ? this.parseResultFn.fn
         : this.parseResultFn
       try {
         for await (const filePath of paths) {
           // ---------- 上传之前的钩子 ----------
+          const file = filePath
 
           let beforeUploadResult = true
           if (this.$pi.lang.isFunction(beforeUpload)) {
             console.log(TAG, '调用文件上传前钩子')
-            beforeUploadResult = await beforeUpload(filePath)
+            beforeUploadResult = await beforeUpload(file)
           }
           if (!beforeUploadResult) {
             console.log(TAG, '文件上传前钩子返回false，跳过上传')
@@ -423,7 +519,7 @@ export default {
           let uploadResult = null
           const params = {
             url: this.action,
-            filePath: filePath,
+            filePath: file,
             name: this.name,
             formData: this.formData,
             header: this.headers
@@ -477,7 +573,11 @@ export default {
           ...this.compressOption
         })
         const { errMsg, tempFilePath } = result
-        if (errMsg == 'compressImage:ok' && tempFilePath && typeof tempFilePath == 'string') {
+        if (
+          errMsg == 'compressImage:ok' &&
+          tempFilePath &&
+          typeof tempFilePath == 'string'
+        ) {
           compressUrls.push(tempFilePath)
           console.log(TAG, '压缩图片成功', tempFilePath, 'src=' + url)
         } else {
@@ -487,10 +587,88 @@ export default {
       }
       return compressUrls
     },
+    handleChoose() {
+      if (this.type === 'image') {
+        this.handleChooseImage()
+        return
+      }
+      // #ifndef MP-WEIXIN
+      this.handleChooseFile()
+      // #endif
+      // #ifdef MP-WEIXIN
+      this.handleSelectMessageFile()
+      // #endif
+    },
+    async handleChooseFile() {
+      if (this.disabled || !this.getUploadMaxCount) return
+      // 检查上传地址
+      const onProgress = this.onProgress[PI_DEFAULT_FN_FLAG]
+        ? this.onProgress.fn
+        : this.onProgress
+      if (!onProgress && !this.action) {
+        this.$toast('请配置上传地址')
+        return
+      }
+      if (this.$pi.lang.isEmpty(this.headers)) {
+        console.log(TAG, '当前图片上传headers为空，请检查是否需要配置授权信息')
+      }
+      const { sizeType, extension, sourceType, crop } = this.getChooseImageOpts
+      try {
+        const [, result] = await uni.chooseFile({
+          count: this.getUploadMaxCount,
+          sizeType,
+          extension,
+          sourceType,
+          crop
+        })
+        let { errMsg, tempFiles } = result
+        console.log(TAG, '选择文件', result)
+        if (errMsg !== 'chooseFile:ok') {
+          throw new Error(errMsg)
+        }
+        this.handleUpload(tempFiles)
+      } catch (error) {
+        console.log(TAG, '上传文件失败', error)
+        this.$emit('fail', error)
+      }
+    },
+    // 从微信聊天会话中选择文件
+    async handleSelectMessageFile() {
+      // #ifndef MP-WEIXIN
+      this.$toast('请在微信小程序中使用')
+      // #endif
+
+      // #ifdef MP-WEIXIN
+      this.showSheet = false
+      try {
+        const [, result] = await uni.chooseMessageFile({
+          count: 1,
+          type: 'file'
+        })
+        if (!result) {
+          return
+        }
+        let { errMsg, tempFiles } = result
+        console.log(TAG, '选择微信聊天记录文件', result)
+        if (errMsg !== 'chooseMessageFile:ok') {
+          throw new Error(errMsg)
+        }
+        const selectFile = tempFiles[0]
+        if (!this.isRightType(selectFile)) {
+          return
+        }
+        this.handleUpload(tempFiles)
+      } catch (error) {
+        console.log(error)
+      }
+      // #endif
+    },
     async handleChooseImage() {
       if (this.disabled || !this.getUploadMaxCount) return
       // 检查上传地址
-      const onProgress = this.onProgress[PI_DEFAULT_FN_FLAG] ? this.onProgress.fn : this.onProgress
+      const onProgress = this.onProgress[PI_DEFAULT_FN_FLAG]
+        ? this.onProgress.fn
+        : this.onProgress
       if (!onProgress && !this.action) {
         this.$toast('请配置上传地址')
         return
@@ -513,11 +691,18 @@ export default {
         }
         // #ifndef H5
         // 压缩图片
-        if (this.compressOption && this.$pi.system.systemInfo.platform !== 'devtools') {
+        if (
+          this.compressOption &&
+          this.$pi.system.systemInfo.platform !== 'devtools'
+        ) {
           tempFilePaths = await this.handleCompressImgs(tempFilePaths)
         }
         // #endif
-        if (this.getUploadMaxCount === 1 && this.crop && tempFilePaths.length === 1) {
+        if (
+          this.getUploadMaxCount === 1 &&
+          this.crop &&
+          tempFilePaths.length === 1
+        ) {
           // 单张图片设置了剪裁
           this.showCrop = true
           this.cropPic = tempFilePaths[0]
@@ -556,6 +741,18 @@ export default {
   & > view {
     margin-right: 24rpx;
     margin-bottom: 24rpx;
+  }
+  .file-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
   }
 }
 </style>

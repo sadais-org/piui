@@ -1,10 +1,10 @@
 /*
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:29:02
- * @LastEditTime: 2022-07-21 11:20:15
+ * @LastEditTime: 2024-05-08 17:13:22
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传
- * @FilePath: /dt-weitibao-console/Users/feilin/workspace/piui/piui-awesome/src/piui/config/uploadImg.js
+ * @FilePath: /piui-awesome/src/piui/config/uploadImg.js
  */
 import icon from './icon.js'
 import cropOption from './imgCropper.js'
@@ -50,7 +50,10 @@ export default {
     try {
       return JSON.parse(result.data)?.data.url
     } catch (error) {
-      console.error('解析上传结果失败，请使用自定义解析函数 parseResultFn ', error)
+      console.error(
+        '解析上传结果失败，请使用自定义解析函数 parseResultFn ',
+        error
+      )
     }
   },
   beforeUpload: null, // 上传之前的钩子
