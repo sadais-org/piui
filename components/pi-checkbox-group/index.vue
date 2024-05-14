@@ -126,7 +126,9 @@ export default {
       // `''`
       default: checkboxGroup.activeMode,
       validator: function(value) {
-        return ['', 'line', 'line-circle', 'fill', 'fill-circle'].includes(value)
+        return ['', 'line', 'line-circle', 'fill', 'fill-circle'].includes(
+          value
+        )
       }
     },
     // 是否点击图标才能选中，默认点击整行都能选中
@@ -143,6 +145,8 @@ export default {
   },
   watch: {
     val: {
+      deep: true,
+      immediate: true,
       handler(value) {
         this.handleValChange()
       }
@@ -154,7 +158,9 @@ export default {
       this._children.forEach(child => {
         // 对设置了name属性的checkbox才做同步
         if (child.name) {
-          child.val = this.val.includes(child.name)
+          setTimeout(() => {
+            child.val = this.val.includes(child.name)
+          }, 50)
         }
       })
     },
@@ -183,7 +189,8 @@ export default {
       const vals = []
       this._children.forEach(child => {
         console.log(child.val, child.name)
-        if (child.val && !this.$pi.lang.isEmpty(child.name)) vals.push(child.name)
+        if (child.val && !this.$pi.lang.isEmpty(child.name))
+          vals.push(child.name)
       })
       this.val = vals
       this.handleEmitChange()
