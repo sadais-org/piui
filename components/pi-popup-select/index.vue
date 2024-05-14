@@ -18,7 +18,11 @@
     @showed="$emit('showed')"
     @close="handlePopupClose"
   >
-    <view class="pi-popup-select pi-flex-column" :style="[customStyle]" :class="[customClass]">
+    <view
+      class="pi-popup-select pi-flex-column"
+      :style="[customStyle]"
+      :class="[customClass]"
+    >
       <!-- 标题栏 -->
       <view
         v-if="showTitle"
@@ -245,6 +249,7 @@ export default {
     },
     getPopupCustomStyle() {
       return {
+        ...(this.getPopup.customStyle || {}),
         width: this.$pi.common.addUnit(this.width),
         height: this.$pi.common.addUnit(this.height)
       }

@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2024-05-09 15:30:31
+ * @LastEditTime: 2024-05-13 19:08:30
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -18,7 +18,7 @@
       v-for="(img, index) in getImgs"
       :key="index"
       class="pi-rela pi-flex-column-center"
-      @tap="handlePreviewImage(img)"
+      @tap="handlePreview(img)"
     >
       <view v-if="!disabled" class="close" @tap.stop="handleDelete(index)">
         <pi-icon name="roundclosefill" color="#8e8e8e" size="36" />
@@ -126,6 +126,16 @@ const TAG = 'PiUploadImg'
 const { uploadImg } = getConfig()
 
 const PI_DEFAULT_FN_FLAG = 'PI_DEFAULT_FN_FLAG'
+
+function isImageFilename(filename) {
+  const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|tiff|webp)$/i
+  return imageExtensions.test(filename)
+}
+
+function isVideoFilename(filename) {
+  const videoExtensions = /\.(mp4|avi|mov|wmv|mpg|flv|mkv)$/i
+  return videoExtensions.test(filename)
+}
 
 export default {
   name: 'PiUploadImg',
@@ -265,14 +275,7 @@ export default {
         return uploadImg.uploadIcon
       }
     },
-    // 调用uniapp.chooseImageOpts参数
-    chooseImageOpts: {
-      type: Object,
-      default() {
-        return uploadImg.chooseImageOpts
-      }
-    },
-    // 当maxCount设置为1的时候，可开启裁剪
+    // 当maxCount设置为1的时候，且type为‘image’，可开启裁剪
     crop: {
       type: Boolean,
       // `false`
@@ -332,9 +335,33 @@ export default {
         return uploadImg.compressOption
       }
     },
+    // 文件类型
     type: {
       type: String,
-      default: 'image' // 'all', 'image', 'video'
+      default() {
+        return uploadImg.type // 'all', 'image', 'video'
+      }
+    },
+    // 当type为 "all"时生效，调用uni.chooseFile参数
+    chooseFileOpts: {
+      type: Object,
+      default() {
+        return uploadImg.chooseFileOpts
+      }
+    },
+    // 当type为 "image"时生效，调用uni.chooseImage参数
+    chooseImageOpts: {
+      type: Object,
+      default() {
+        return uploadImg.chooseImageOpts
+      }
+    },
+    // 当type为 "video"时生效，调用uniapp.chooseVideo参数
+    chooseVideoOpts: {
+      type: Object,
+      default() {
+        return uploadImg.chooseVideoOpts
+      }
     }
   },
   data() {
@@ -396,6 +423,18 @@ export default {
         }
       )
     },
+    getChooseFileOpts() {
+      return this.$pi.lang.mergeDeep(
+        uploadImg.chooseFileOpts,
+        this.chooseFileOpts
+      )
+    },
+    getChooseVideoOpts() {
+      return this.$pi.lang.mergeDeep(
+        uploadImg.chooseVideoOpts,
+        this.chooseVideoOpts
+      )
+    },
     getUploadMaxCount() {
       const maxCount = parseInt(this.maxCount, 10)
       return maxCount - this.getImgs.length
@@ -441,53 +480,57 @@ export default {
       this.val = val
       this.handleEmitChange()
     },
+    handlePreview(img) {
+      const file = this.imgField ? img[this.imgField] : img
+      if (isImageFilename(file)) {
+        this.handlePreviewImage(file)
+        return
+      }
+      if (isVideoFilename(file)) {
+        this.$emit('previewVideo', file)
+        return
+      }
+      // 文件预览
+      uni.downloadFile({
+        url: file,
+        success: res => {
+          const filePath = res.tempFilePath
+          // fileType 文件类型，指定文件类型打开文件，有效值 doc, xls, ppt, pdf, docx, xlsx, pptx，支付宝小程序仅支持pdf
+          // 支付宝小程序必填，其他平台非必填
+          uni.openDocument({
+            filePath,
+            complete: res => {
+              console.log('文件预览', res)
+            }
+          })
+        }
+      })
+    },
     // 预览图片
     handlePreviewImage(img) {
-      console.log(TAG, '文件预览', img)
-      if (this.type === 'image') {
-        if (!this.previewFullImage) return
-        let urls = []
-        let current = ''
+      if (!this.previewFullImage) return
+      let urls = []
+      let current = ''
 
-        if (this.isValString) {
-          current = this.val
-          urls = [this.val]
-        } else {
-          urls = this.imgField
-            ? this.val.map(img => img[this.imgField])
-            : this.val
-          current = this.imgField ? img[this.imgField] : img
-        }
-
-        // eslint-disable-next-line no-undef
-        uni.previewImage({
-          urls,
-          current,
-          indicator: 'default',
-          success: () => {
-            this.$emit('preview', current, urls)
-          }
-        })
-      } else if (this.type === 'video') {
-        // 视频文件自行处理
-        this.$emit('previewVideo', img)
+      if (this.isValString) {
+        current = this.val
+        urls = [this.val]
       } else {
-        // 文件预览
-        uni.downloadFile({
-          url: img,
-          success: res => {
-            const filePath = res.tempFilePath
-            // fileType 文件类型，指定文件类型打开文件，有效值 doc, xls, ppt, pdf, docx, xlsx, pptx，支付宝小程序仅支持pdf
-            // 支付宝小程序必填，其他平台非必填
-            uni.openDocument({
-              filePath,
-              complete: res => {
-                console.log('文件预览', res)
-              }
-            })
-          }
-        })
+        urls = this.imgField
+          ? this.val.map(img => img[this.imgField])
+          : this.val
+        current = this.imgField ? img[this.imgField] : img
       }
+
+      // eslint-disable-next-line no-undef
+      uni.previewImage({
+        urls,
+        current,
+        indicator: 'default',
+        success: () => {
+          this.$emit('preview', current, urls)
+        }
+      })
     },
     async handleUpload(paths) {
       const beforeUpload = this.beforeUpload[PI_DEFAULT_FN_FLAG]
@@ -532,6 +575,7 @@ export default {
             const [, uploadFileResult] = await uni.uploadFile(params)
             uploadResult = uploadFileResult
           }
+          console.log(TAG, '上传文件结果', uploadResult)
 
           // ---------- 解析上传结果 ----------
           this.$emit('uploaded', uploadResult)
@@ -588,18 +632,6 @@ export default {
       return compressUrls
     },
     handleChoose() {
-      if (this.type === 'image') {
-        this.handleChooseImage()
-        return
-      }
-      // #ifndef MP-WEIXIN
-      this.handleChooseFile()
-      // #endif
-      // #ifdef MP-WEIXIN
-      this.handleSelectMessageFile()
-      // #endif
-    },
-    async handleChooseFile() {
       if (this.disabled || !this.getUploadMaxCount) return
       // 检查上传地址
       const onProgress = this.onProgress[PI_DEFAULT_FN_FLAG]
@@ -612,6 +644,35 @@ export default {
       if (this.$pi.lang.isEmpty(this.headers)) {
         console.log(TAG, '当前图片上传headers为空，请检查是否需要配置授权信息')
       }
+      console.log('当前上传文件类型累：', this.type)
+      if (this.type === 'all') {
+        // #ifndef MP-WEIXIN
+        this.handleChooseFile()
+        // #endif
+
+        // #ifdef MP-WEIXIN
+        this.handleSelectMessageFile()
+        // #endif
+
+        return
+      }
+      if (this.type === 'image') {
+        this.handleChooseImage()
+        return
+      }
+      if (this.type === 'video') {
+        // #ifndef MP-WEIXIN
+        this.handleChooseVideo()
+        // #endif
+
+        // #ifdef MP-WEIXIN
+        this.handleChooseMedia()
+        // #endif
+
+        return
+      }
+    },
+    async handleChooseFile() {
       const { sizeType, extension, sourceType, crop } = this.getChooseImageOpts
       try {
         const [, result] = await uni.chooseFile({
@@ -622,7 +683,7 @@ export default {
           crop
         })
         let { errMsg, tempFiles } = result
-        console.log(TAG, '选择文件', result)
+        console.log(TAG, '上传文件结果', result)
         if (errMsg !== 'chooseFile:ok') {
           throw new Error(errMsg)
         }
@@ -642,7 +703,7 @@ export default {
       this.showSheet = false
       try {
         const [, result] = await uni.chooseMessageFile({
-          count: 1,
+          count: this.getUploadMaxCount,
           type: 'file'
         })
         if (!result) {
@@ -653,10 +714,10 @@ export default {
         if (errMsg !== 'chooseMessageFile:ok') {
           throw new Error(errMsg)
         }
-        const selectFile = tempFiles[0]
-        if (!this.isRightType(selectFile)) {
-          return
-        }
+        // const selectFile = tempFiles[0]
+        // if (!this.isRightType(selectFile)) {
+        //   return
+        // }
         this.handleUpload(tempFiles)
       } catch (error) {
         console.log(error)
@@ -664,18 +725,6 @@ export default {
       // #endif
     },
     async handleChooseImage() {
-      if (this.disabled || !this.getUploadMaxCount) return
-      // 检查上传地址
-      const onProgress = this.onProgress[PI_DEFAULT_FN_FLAG]
-        ? this.onProgress.fn
-        : this.onProgress
-      if (!onProgress && !this.action) {
-        this.$toast('请配置上传地址')
-        return
-      }
-      if (this.$pi.lang.isEmpty(this.headers)) {
-        console.log(TAG, '当前图片上传headers为空，请检查是否需要配置授权信息')
-      }
       const { sizeType, extension, sourceType, crop } = this.getChooseImageOpts
       try {
         const [, result] = await uni.chooseImage({
@@ -713,6 +762,79 @@ export default {
         console.log(TAG, '上传文件失败', error)
         this.$emit('fail', error)
       }
+    },
+    async handleChooseVideo() {
+      const { sourceType, maxDuration, camera } = this.getChooseVideoOpts
+      try {
+        const [, result] = await uni.chooseVideo({
+          sourceType,
+          maxDuration,
+          camera
+        })
+        let { errMsg, tempFilePath, tempFile } = result
+        if (errMsg !== 'chooseVideo:ok') {
+          throw new Error(errMsg)
+        }
+        tempFile.path = tempFilePath
+        console.log(TAG, '上传视频结果', result)
+        this.handleUpload([tempFile])
+      } catch (error) {
+        console.log(TAG, '上传视频失败', error)
+        this.$emit('fail', error)
+      }
+    },
+    async handleChooseMedia() {
+      const { sourceType, maxDuration, camera } = this.getChooseVideoOpts
+      try {
+        const [, result] = await uni.chooseMedia({
+          mediaType: ['video'],
+          sourceType,
+          maxDuration,
+          camera
+        })
+        let { errMsg, tempFiles } = result
+        if (errMsg !== 'chooseMedia:ok') {
+          throw new Error(errMsg)
+        }
+        console.log(TAG, '上传视频结果', result)
+
+        // #ifndef H5
+        // 非H5端/开发者工具，上传视频，执行压缩视频操作
+        if (this.$pi.system.systemInfo.platform !== 'devtools') {
+          const compressTempFiles = []
+          for await (const tempFile of tempFiles) {
+            const tempFilePath = await this.handleCompressVideo(
+              tempFile.tempFilePath
+            )
+            compressTempFiles.push(tempFilePath)
+          }
+          this.handleUpload(compressTempFiles)
+          return
+        }
+        // #endif
+
+        this.handleUpload(tempFiles.map(file => file.tempFilePath))
+      } catch (error) {
+        console.log(TAG, '上传视频失败', error)
+        this.$emit('fail', error)
+      }
+    },
+    // 压缩视频接口
+    async handleCompressVideo(tempUrl) {
+      console.log('视频压缩中')
+      uni.showLoading({
+        title: '视频压缩中...'
+      })
+      const [, result] = await uni.compressVideo({
+        src: tempUrl,
+        quality: 'high' // 压缩质量 支持low, medium, high
+      })
+      uni.hideLoading()
+      const { errMsg, tempFilePath } = result
+      if (errMsg == 'compressVideo:ok') {
+        return tempFilePath
+      }
+      return tempUrl
     }
   }
 }
