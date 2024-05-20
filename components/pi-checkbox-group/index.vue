@@ -155,7 +155,7 @@ export default {
   methods: {
     handleValChange() {
       // 同步checkbox子组件
-      this._children.forEach(child => {
+      this._children?.forEach(child => {
         // 对设置了name属性的checkbox才做同步
         if (child.name) {
           setTimeout(() => {

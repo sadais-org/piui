@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2024-05-13 19:08:30
+ * @LastEditTime: 2024-05-20 12:18:03
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -24,7 +24,7 @@
         <pi-icon name="roundclosefill" color="#8e8e8e" size="36" />
       </view>
       <image
-        v-if="type === 'image'"
+        v-if="isImageFilename(imgField ? img[imgField] : img)"
         :style="[getItemStyle]"
         class="pi-of-hidden"
         :mode="imageMode"
@@ -111,6 +111,15 @@
         </pi-bottom-bar>
       </view>
     </pi-mask>
+    <!-- 上传视频操作面板（小程序专用） -->
+    <pi-action-sheet
+      v-model="showActionSheet"
+      :items="actionSheetItems"
+      :popup="{
+        borderRadius: 0
+      }"
+      @select="handleActionSheetSelect"
+    />
   </view>
 </template>
 
@@ -368,10 +377,23 @@ export default {
     return {
       showCrop: false, // 是否显示裁剪工具
       cropPic: '', // 需要剪裁的图片
-      cropedPic: '' // 剪裁后的图片
+      cropedPic: '', // 剪裁后的图片
+      showActionSheet: false // 是否显示上传视频操作面板
     }
   },
   computed: {
+    actionSheetItems() {
+      return [
+        {
+          id: 1,
+          text: '选择媒体图片/视频'
+        },
+        {
+          id: 2,
+          text: '选择微信聊天文件'
+        }
+      ]
+    },
     isValString() {
       return this.$pi.lang.isString(this.val)
     },
@@ -447,6 +469,7 @@ export default {
     }
   },
   methods: {
+    isImageFilename,
     getFileType(file) {
       if (!file) return ''
       const ext = file.split('.').pop()
@@ -651,7 +674,7 @@ export default {
         // #endif
 
         // #ifdef MP-WEIXIN
-        this.handleSelectMessageFile()
+        this.showActionSheet = true
         // #endif
 
         return
@@ -673,7 +696,7 @@ export default {
       }
     },
     async handleChooseFile() {
-      const { sizeType, extension, sourceType, crop } = this.getChooseImageOpts
+      const { sizeType, extension, sourceType, crop } = this.getChooseFileOpts
       try {
         const [, result] = await uni.chooseFile({
           count: this.getUploadMaxCount,
@@ -699,6 +722,8 @@ export default {
       this.$toast('请在微信小程序中使用')
       // #endif
 
+      console.log('从微信聊天会话中选择文件')
+
       // #ifdef MP-WEIXIN
       this.showSheet = false
       try {
@@ -714,10 +739,6 @@ export default {
         if (errMsg !== 'chooseMessageFile:ok') {
           throw new Error(errMsg)
         }
-        // const selectFile = tempFiles[0]
-        // if (!this.isRightType(selectFile)) {
-        //   return
-        // }
         this.handleUpload(tempFiles)
       } catch (error) {
         console.log(error)
@@ -784,10 +805,12 @@ export default {
       }
     },
     async handleChooseMedia() {
-      const { sourceType, maxDuration, camera } = this.getChooseVideoOpts
+      const { sourceType, maxDuration, camera } =
+        this.type === 'video' ? this.getChooseVideoOpts : this.getChooseFileOpts
       try {
         const [, result] = await uni.chooseMedia({
-          mediaType: ['video'],
+          count: this.getUploadMaxCount,
+          mediaType: this.type === 'video' ? ['video'] : ['video', 'image'],
           sourceType,
           maxDuration,
           camera
@@ -796,17 +819,25 @@ export default {
         if (errMsg !== 'chooseMedia:ok') {
           throw new Error(errMsg)
         }
-        console.log(TAG, '上传视频结果', result)
+        console.log(TAG, '上传媒体结果', result)
 
         // #ifndef H5
         // 非H5端/开发者工具，上传视频，执行压缩视频操作
         if (this.$pi.system.systemInfo.platform !== 'devtools') {
           const compressTempFiles = []
           for await (const tempFile of tempFiles) {
-            const tempFilePath = await this.handleCompressVideo(
-              tempFile.tempFilePath
-            )
-            compressTempFiles.push(tempFilePath)
+            const tempFilePath = tempFile.tempFilePath
+            let filePath = ''
+            if (isImageFilename(tempFilePath)) {
+              const filePaths = await this.handleCompressImgs([
+                tempFile.tempFilePath
+              ])
+              filePath = filePaths[0]
+            } else {
+              filePath = await this.handleCompressVideo(tempFile.tempFilePath)
+            }
+
+            compressTempFiles.push(filePath)
           }
           this.handleUpload(compressTempFiles)
           return
@@ -835,6 +866,13 @@ export default {
         return tempFilePath
       }
       return tempUrl
+    },
+    handleActionSheetSelect(type) {
+      if (type.id === 1) {
+        this.handleChooseMedia()
+      } else {
+        this.handleSelectMessageFile()
+      }
     }
   }
 }

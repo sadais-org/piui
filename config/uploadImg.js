@@ -1,7 +1,7 @@
 /*
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:29:02
- * @LastEditTime: 2024-05-13 11:36:14
+ * @LastEditTime: 2024-05-20 12:11:59
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传
  * @FilePath: /piui-awesome/src/piui/config/uploadImg.js
@@ -43,18 +43,20 @@ export default {
   type: 'image', // 上传文件类型，可选值为image、video、all
   // 当type为 "all"时生效，调用uni.chooseFile参数
   chooseFileOpts: {
-    sourceType: ['album', 'camera'], // （仅在type为image或video时可用）album 从相册选图，camera 使用相机，默认二者都有。如需直接开相机或直接选相册，请只使用一个选项
-    extension: [] // 允许上传的文件类型，不填则不限制
+    sourceType: [], // （仅在type为image或video时可用）album 从相册选图，camera 使用相机，默认二者都有。如需直接开相机或直接选相册，请只使用一个选项
+    extension: [], // 允许上传的文件类型，不填则不限制
+    maxDuration: 60, // 拍摄视频最长拍摄时间，单位秒，默认60
+    camera: 'back' // 前置或后置摄像头，默认back
   },
   // 当type为 "image"时生效，调用uni.chooseImage参数
   chooseImageOpts: {
-    sourceType: ['album', 'camera'], // album 从相册选图，camera 使用相机，默认album
+    sourceType: [], // album 从相册选图，camera 使用相机，默认album
     sizeType: ['original', 'compressed'], // original 原图，compressed 压缩图，默认compressed
     crop: {} // 图像裁剪参数，设置后 sizeType 失效
   },
   // 当type为 "video"时生效，调用uniapp.chooseVideo参数
   chooseVideoOpts: {
-    sourceType: ['album', 'camera'], // album 从相册选视频，camera 使用相机拍摄，默认二者都有
+    sourceType: [], // album 从相册选视频，camera 使用相机拍摄，默认二者都有
     compressed: true, // 是否压缩视频，默认true
     maxDuration: 60, // 拍摄视频最长拍摄时间，单位秒，默认60
     camera: 'back', // 前置或后置摄像头，默认back
