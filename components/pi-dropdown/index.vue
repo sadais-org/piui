@@ -194,6 +194,10 @@ export default {
       default() {
         return dropdown.maskAlignTop
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: dropdown.disabled
     }
   },
   data() {
@@ -273,7 +277,7 @@ export default {
     },
     // 显示当前Tab
     async handleClickTab(item) {
-      if (item.disabled) return
+      if (this.disabled || item.disabled) return
       if (this.submiting) return console.log(TAG, '你点得太快了')
       if (this.show && item.id === this.activeItem.id) {
         this.closeMask()

@@ -20,7 +20,7 @@
       class="pi-rela pi-flex-column-center"
       @tap="handlePreview(img)"
     >
-      <view v-if="!disabled" class="close" @tap.stop="handleDelete(index)">
+      <view v-if="!getDisabled" class="close" @tap.stop="handleDelete(index)">
         <pi-icon name="roundclosefill" color="#8e8e8e" size="36" />
       </view>
       <image
@@ -48,7 +48,7 @@
       </view>
     </view>
     <!-- 上传框 -->
-    <view v-if="getUploadMaxCount && !disabled">
+    <view v-if="getUploadMaxCount && !getDisabled">
       <view
         :style="[getUploadBtnStyle]"
         class="pi-flex-column-center"
@@ -382,6 +382,10 @@ export default {
     }
   },
   computed: {
+    getDisabled() {
+      const parent = this.$pi.parent(this, 'PiFormItem')
+      return this.disabled || (parent && parent.getDisabled)
+    },
     actionSheetItems() {
       return [
         {

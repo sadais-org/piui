@@ -94,6 +94,10 @@ export default {
     align: {
       type: String,
       default: config.align
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -196,6 +200,9 @@ export default {
   },
   methods: {
     handlePrev() {
+      if (this.disabled) {
+        return
+      }
       this.val -= 1
       if (this.val <= 0) {
         this.val = 1
@@ -203,6 +210,9 @@ export default {
       this.handleEmitChange()
     },
     handleNext() {
+      if (this.disabled) {
+        return
+      }
       this.val += 1
       if (this.val > this.totalPage) {
         this.val = this.totalPage
@@ -210,6 +220,9 @@ export default {
       this.handleEmitChange()
     },
     handleClickPage(page) {
+      if (this.disabled) {
+        return
+      }
       if (page !== '...') {
         this.val = page
         this.handleEmitChange()

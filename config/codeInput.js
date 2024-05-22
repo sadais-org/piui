@@ -8,5 +8,6 @@ export default {
   autoFocusDelay: 350, // 自动拉起键盘延时
   stretch: false, // 每项验证码是否均分宽度
   align: 'left', // 验证码对齐方向，可选值：left、center、right
-  codeFormat: '' // 验证码显示格式化
+  codeFormat: '', // 验证码显示格式化
+  disabled: false
 }

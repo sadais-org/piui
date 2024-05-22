@@ -13,7 +13,7 @@
     <view
       v-if="$slots.default || $slots.$default"
       class="pi-w-100P"
-      @click="show = true"
+      @click="handleShow()"
     >
       <slot />
     </view>
@@ -46,7 +46,7 @@
       :disable-default-padding="getInput.disableDefaultPadding"
       :clearable="getInput.clearable"
       :clear-icon="getInput.clearIcon"
-      @click="show = true"
+      @click="handleShow()"
       @clear="handleClearValue"
     />
 
@@ -151,6 +151,10 @@ export default {
           fn: selectInput.parseValueFn
         }
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: selectInput.disabled
     }
   },
   data() {
@@ -168,12 +172,22 @@ export default {
     },
     getInputValue() {
       return this.handleGetInputValue()
+    },
+    getDisabled() {
+      const parent = this.$pi.parent(this, 'PiFormItem')
+      return this.disabled || (parent && parent.getDisabled)
     }
   },
   created() {
     this.initRemoteSelectData()
   },
   methods: {
+    handleShow() {
+      if (this.getDisabled) {
+        return
+      }
+      this.show = true
+    },
     initRemoteSelectData() {
       // 如果开启了远程搜索 则在创建之初 先触发一次搜索 让代码触发到用户自定义的remoteMethod or parseRemoteSearchResult方法中
       // 目的为了回显数据

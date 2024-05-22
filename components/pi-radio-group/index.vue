@@ -36,7 +36,7 @@ export default {
       'borderRadius',
       'stretch',
       'border',
-      'disabled',
+      'getDisabled',
       'size',
       'iconSize',
       'activeColor',
@@ -160,6 +160,12 @@ export default {
       type: [Boolean, null],
       // null
       default: radioGroup.onlyIconSelect
+    }
+  },
+  computed: {
+    getDisabled() {
+      const parent = this.$pi.parent(this, 'PiFormItem')
+      return this.disabled || (parent && parent.getDisabled)
     }
   },
   methods: {

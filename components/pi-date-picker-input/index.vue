@@ -10,7 +10,7 @@
 <template>
   <view class="pi-datePicker-input">
     <!-- 输入框 -->
-    <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="show = true">
+    <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="handleShow()">
       <slot />
     </view>
     <pi-input
@@ -42,7 +42,7 @@
       :disable-default-padding="getInput.disableDefaultPadding"
       :clearable="getInput.clearable"
       :clear-icon="getInput.clearIcon"
-      @click="show = true"
+      @click="handleShow()"
       @clear="handleClearValue"
     />
 
@@ -149,6 +149,10 @@ export default {
           fn: datePickerInput.parseValueFn
         }
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: datePickerInput.disabled
     }
   },
   data() {
@@ -177,9 +181,20 @@ export default {
       if (this.$pi.lang.isEmpty(this.val)) return ''
       const date = this.$pi.date.parseDate(this.val)
       return date.format(this.dateFormat)
-    }
+    },
+    getDisabled() {
+      const parentFormItem = this.$pi.parent(this, 'PiFormItem')
+      const disabled = this.disabled || (parentFormItem && parentFormItem.getDisabled)
+      return disabled
+    },
   },
   methods: {
+    handleShow() {
+      if (this.getDisabled) {
+        return
+      }
+      this.show = true
+    },
     handlePopupClose() {
       this.val = false
       // 关闭

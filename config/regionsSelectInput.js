@@ -24,5 +24,6 @@ export default {
     keyDefaultValue: true
   },
   rangeSplit: '/', // 地区分隔符，默认（'/'）
-  parseValueFn: null // 解析值的方法，如果配置了，则读取该函数的返回值作为显示的内容
+  parseValueFn: null, // 解析值的方法，如果配置了，则读取该函数的返回值作为显示的内容
+  disabled: false
 }

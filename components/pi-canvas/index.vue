@@ -1,5 +1,5 @@
 <template>
-  <view ref="root" :class="[customClass, 'wrapper']" :style="[customStyle]">
+  <view ref="root" :class="['wrapper',customClass, {disabled}]" :style="[customStyle]">
     <canvas
       ref="canvas"
       :style="[canvasStyle]"
@@ -72,6 +72,10 @@ export default {
       type: Number,
       // `1`
       default: 1
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -385,6 +389,9 @@ export default {
   width: 100%;
   height: 100%;
   border: 1px solid #aaaaaa;
+  &.disabled {
+    pointer-events: none;
+  }
 }
 
 .content {

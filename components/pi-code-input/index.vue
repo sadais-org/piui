@@ -5,7 +5,7 @@
       type="number"
       :value="val"
       :focus="focus"
-      :disabled="disabled"
+      :disabled="getDisabled"
       :maxlength="getLength"
       @focus="focus = true"
       @blur="focus = false"
@@ -137,12 +137,15 @@ export default {
       default() {
         return codeInput.codeFormat
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: codeInput.disabled
     }
   },
   data() {
     return {
       focus: false,
-      disabled: false,
       data() {
         return {
           val: this.value
@@ -165,7 +168,12 @@ export default {
     },
     getAlign() {
       return ALIGN_MAP[this.align]
-    }
+    },
+    getDisabled() {
+      const parentFormItem = this.$pi.parent(this, 'PiFormItem')
+      const disabled = this.disabled || (parentFormItem && parentFormItem.getDisabled)
+      return disabled
+    },
   },
   mounted() {
     if (this.autoFocus) {

@@ -171,7 +171,7 @@ export default {
         : this.$pi.common.addUnit(this.border)
     },
     getDisable() {
-      return this.inheritProps.disabled || this.disabled
+      return this.inheritProps.getDisabled || this.disabled
     },
     getActiveMode() {
       return this.inheritProps.activeMode || this.activeMode

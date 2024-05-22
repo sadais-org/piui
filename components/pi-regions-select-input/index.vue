@@ -13,7 +13,7 @@
     <view
       v-if="$slots.default || $slots.$default"
       class="pi-w-100P"
-      @click="show = true"
+      @click="handleShow()"
     >
       <slot />
     </view>
@@ -46,7 +46,7 @@
       :disable-default-padding="getInput.disableDefaultPadding"
       :clearable="getInput.clearable"
       :clear-icon="getInput.clearIcon"
-      @click="show = true"
+      @click="handleShow()"
       @clear="handleClearValue"
     />
 
@@ -141,6 +141,10 @@ export default {
           fn: regionsSelectInput.parseValueFn
         }
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: regionsSelectInput.disabled
     }
   },
   data() {
@@ -179,9 +183,19 @@ export default {
         this.getRegionsSelect.regionsData
       )
       return this.generateRegionsName(regions)
+    },
+    getDisabled() {
+      const parent = this.$pi.parent(this, 'PiFormItem')
+      return this.disabled || (parent && parent.getDisabled)
     }
   },
   methods: {
+    handleShow() {
+      if (this.getDisabled) {
+        return
+      }
+      this.show = true
+    },
     generateRegionsName(regions) {
       const addressFields = ['province', 'city', 'county', 'street']
       return addressFields

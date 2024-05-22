@@ -10,7 +10,7 @@
 <template>
   <view class="pi-calendar-input">
     <!-- 输入框 -->
-    <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="show = true">
+    <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="handleShow()">
       <slot />
     </view>
     <pi-input
@@ -42,7 +42,7 @@
       :disable-default-padding="getInput.disableDefaultPadding"
       :clearable="getInput.clearable"
       :clear-icon="getInput.clearIcon"
-      @click="show = true"
+      @click="handleShow()"
       @clear="handleClearValue"
     />
 
@@ -141,6 +141,10 @@ export default {
           fn: calendarInput.parseValueFn
         }
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: calendarInput.disabled
     }
   },
   data() {
@@ -183,9 +187,20 @@ export default {
           .join(this.rangeSplit)
       }
       return ''
-    }
+    },
+    getDisabled() {
+      const parentFormItem = this.$pi.parent(this, 'PiFormItem')
+      const disabled = this.disabled || (parentFormItem && parentFormItem.getDisabled)
+      return disabled
+    },
   },
   methods: {
+    handleShow() {
+      if (this.getDisabled) {
+        return
+      }
+      this.show = true
+    },
     handlePopupClose() {
       this.val = false
       // 关闭

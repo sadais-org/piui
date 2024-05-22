@@ -132,6 +132,10 @@ export default {
     }
   },
   computed: {
+    getDisabled() {
+      const parent = this.$pi.parent(this, 'PiFormItem')
+      return this.disabled || (parent && parent.getDisabled)
+    },
     getSize() {
       return this.$pi.common.addUnit(this.size)
     },
@@ -177,7 +181,7 @@ export default {
   methods: {
     handleSwitchToggle() {
       // 禁用开关
-      if (this.disabled) return
+      if (this.getDisabled) return
       this.val = this.val === this.activeValue ? this.inactiveValue : this.activeValue
       if (this.vibrateShort) uni.vibrateShort()
       this.handleEmitChange()

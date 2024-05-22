@@ -13,5 +13,6 @@ export default {
   // 日期弹窗的配置，默认选项请参照datePicker
   datePicker,
   dateFormat: 'YYYY-MM-DD', // 已选择的时间格式化显示规则，默认（'YYYY-MM-DD'）
-  parseValueFn: null // 解析值的方法，如果配置了，则读取该函数的返回值作为显示的内容
+  parseValueFn: null, // 解析值的方法，如果配置了，则读取该函数的返回值作为显示的内容
+  disabled: false
 }
