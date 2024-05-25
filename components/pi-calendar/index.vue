@@ -21,7 +21,10 @@
   >
     <view class="pi-calendar" :style="[customStyle]" :class="[customClass]">
       <!-- 标题栏 -->
-      <view class="pi-justify-center pi-fz-32 pi-fw-500" :style="[{ padding: getTitlePadding }]">
+      <view
+        class="pi-justify-center pi-fz-32 pi-fw-500"
+        :style="[{ padding: getTitlePadding }]"
+      >
         <slot v-if="$slots.title" name="title" />
         <template v-else>{{ title }}</template>
       </view>
@@ -47,8 +50,16 @@
       />
       <!-- footer -->
       <view class="pi-w-100P pi-align-center pi-pd-24 pi-solid-top-1">
-        <view class="pi-flex-sub pi-fz-30 pi-fw-500">{{ getDisplayValue }}</view>
-        <pi-button type="primary" size="medium" @click="handleConfirm">确定</pi-button>
+        <view class="pi-flex-sub pi-fz-30 pi-fw-500">{{
+          getDisplayValue
+        }}</view>
+        <pi-button
+          type="primary"
+          size="medium"
+          :disabled="confirmDisabled"
+          @click="handleConfirm"
+          >确定</pi-button
+        >
       </view>
     </view>
   </pi-popup>
@@ -122,7 +133,10 @@ export default {
     }
   },
   data() {
-    const mergeCalendarPanel = this.$pi.lang.mergeDeep(calendar.calendarPanel, this.calendarPanel)
+    const mergeCalendarPanel = this.$pi.lang.mergeDeep(
+      calendar.calendarPanel,
+      this.calendarPanel
+    )
     return {
       calendarValue: mergeCalendarPanel.value
     }
@@ -139,6 +153,12 @@ export default {
     },
     getDisplayValue() {
       return [].concat(this.calendarValue).join(' - ')
+    },
+    confirmDisabled() {
+      if (this.getCalendarPanel.type === 'range') {
+        return this.calendarValue.length !== 2
+      }
+      return !this.calendarValue
     }
   },
   watch: {

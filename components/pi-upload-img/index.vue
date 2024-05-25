@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2024-05-20 12:18:03
+ * @LastEditTime: 2024-05-24 15:19:19
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -37,7 +37,11 @@
       >
         <view class="file-mask">
           <pi-icon
-            :name="type === 'video' ? 'videofill' : 'activity-fill'"
+            :name="
+              isVideoFilename(imgField ? img[imgField] : img)
+                ? 'videofill'
+                : 'activity-fill'
+            "
             size="48"
             color="#0C6DF4"
           />
@@ -445,20 +449,26 @@ export default {
         uploadImg.chooseImageOpts,
         this.chooseImageOpts,
         {
-          arrayMerge: (target, source) => source
+          arrayMerge: (_target, source) => source
         }
       )
     },
     getChooseFileOpts() {
       return this.$pi.lang.mergeDeep(
         uploadImg.chooseFileOpts,
-        this.chooseFileOpts
+        this.chooseFileOpts,
+        {
+          arrayMerge: (_target, source) => source
+        }
       )
     },
     getChooseVideoOpts() {
       return this.$pi.lang.mergeDeep(
         uploadImg.chooseVideoOpts,
-        this.chooseVideoOpts
+        this.chooseVideoOpts,
+        {
+          arrayMerge: (_target, source) => source
+        }
       )
     },
     getUploadMaxCount() {
@@ -474,6 +484,7 @@ export default {
   },
   methods: {
     isImageFilename,
+    isVideoFilename,
     getFileType(file) {
       if (!file) return ''
       const ext = file.split('.').pop()
@@ -678,7 +689,12 @@ export default {
         // #endif
 
         // #ifdef MP-WEIXIN
-        this.showActionSheet = true
+        const { fromWxMessage } = this.getChooseFileOpts
+        if (fromWxMessage) {
+          this.showActionSheet = true
+        } else {
+          this.handleChooseMedia()
+        }
         // #endif
 
         return
@@ -809,12 +825,13 @@ export default {
       }
     },
     async handleChooseMedia() {
-      const { sourceType, maxDuration, camera } =
+      const { sourceType, extension, maxDuration, camera } =
         this.type === 'video' ? this.getChooseVideoOpts : this.getChooseFileOpts
       try {
         const [, result] = await uni.chooseMedia({
           count: this.getUploadMaxCount,
-          mediaType: this.type === 'video' ? ['video'] : ['video', 'image'],
+          mediaType: this.type === 'video' ? ['video'] : ['mix'],
+          extension,
           sourceType,
           maxDuration,
           camera
