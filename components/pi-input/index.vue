@@ -331,9 +331,8 @@ export default {
       this.$emit('click', e)
     },
     handleInput: debounce(function(e) {
-      let value = e.detail.value
-      // 输入内容
-      this.handleChange(value)
+      const value = e.detail.value
+      this.$emit('input', value)
     }, 50),
     handleFocus() {
       this.focused = true
@@ -341,11 +340,13 @@ export default {
       this.$emit('focus')
     },
     handleBlur(e) {
+      const value = e.detail.value
       setTimeout(() => {
         this.focused = false
       }, 100)
       // 失去焦点
-      this.$emit('blur', e.detail.value)
+      this.handleChange(value)
+      this.$emit('blur', value)
       setTimeout(() => {
         this.dispatch('PiFormItem', 'form-blur', e.detail.value)
       }, 40)
