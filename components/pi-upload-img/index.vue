@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2024-05-24 15:19:19
+ * @LastEditTime: 2024-05-29 10:35:00
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -557,8 +557,11 @@ export default {
         urls = this.imgField
           ? this.val.map(img => img[this.imgField])
           : this.val
-        current = this.imgField ? img[this.imgField] : img
+        current = img
       }
+
+      // 过滤出图片类型的文件
+      urls = urls.filter(url => isImageFilename(url))
 
       // eslint-disable-next-line no-undef
       uni.previewImage({
@@ -759,6 +762,11 @@ export default {
         if (errMsg !== 'chooseMessageFile:ok') {
           throw new Error(errMsg)
         }
+        // chooseMessageFile 没有扩展名限制，这里自己做过滤
+        tempFiles = tempFiles.filter(file => {
+          const ext = file.name.split('.').pop()
+          return this.getChooseFileOpts.extension.includes(ext)
+        })
         this.handleUpload(tempFiles)
       } catch (error) {
         console.log(error)
