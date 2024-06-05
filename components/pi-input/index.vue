@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-input-wrap" :style="[getInputWrapStyle]" :class="[{ disabled: getDisabled }]">
+  <view
+    class="pi-input-wrap"
+    :style="[getInputWrapStyle]"
+    :class="[{ disabled: getDisabled }]"
+  >
     <!-- 当disabled，增加一个abso的蒙层，为了触发click事件 -->
     <view
       v-if="getDisabled"
@@ -18,7 +22,7 @@
       :placeholder="placeholder"
       :placeholder-style="placeholderStyle"
       :placeholder-class="placeholderClass"
-      :maxlength="maxlength"
+      :maxlength="parseInt(maxlength, 10)"
       :cursor-spacing="cursorSpacing"
       :focus="focus"
       :disabled="getDisabled"
@@ -32,7 +36,6 @@
       :show-confirm-bar="showConfirmbar"
       :auto-height="autoHeight"
       :disable-default-padding="disableDefaultPadding"
-      @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"
       @confirm="handleConfirm"
@@ -51,7 +54,7 @@
       :placeholder="placeholder"
       :placeholder-style="placeholderStyle"
       :placeholder-class="placeholderClass"
-      :maxlength="maxlength"
+      :maxlength="parseInt(maxlength, 10)"
       :cursor-spacing="cursorSpacing"
       :focus="focus"
       :disabled="getDisabled"
@@ -62,7 +65,6 @@
       :adjust-position="adjustPosition"
       :hold-keyboard="holdKeyboard"
       :auto-blur="autoBlur"
-      @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"
       @confirm="handleConfirm"
@@ -287,7 +289,8 @@ export default {
   computed: {
     getDisabled() {
       const parentFormItem = this.$pi.parent(this, 'PiFormItem')
-      const disabled = this.disabled || (parentFormItem && parentFormItem.getDisabled)
+      const disabled =
+        this.disabled || (parentFormItem && parentFormItem.getDisabled)
       return disabled
     },
     getInputWrapStyle() {
@@ -320,20 +323,19 @@ export default {
   methods: {
     async init() {
       if (!this.closeIconWidth) {
-        const closeIconRect = await this.$pi.common.queryRect(this, '.pi-input-close-icon', false)
+        const closeIconRect = await this.$pi.common.queryRect(
+          this,
+          '.pi-input-close-icon',
+          false
+        )
         if (closeIconRect && closeIconRect.width) {
           this.closeIconWidth = closeIconRect.width
         }
-        // console.log(TAG, '计算.pi-icon宽度', this.closeIconWidth)
       }
     },
     handleItemClick(e) {
       this.$emit('click', e)
     },
-    handleInput: debounce(function(e) {
-      const value = e.detail.value
-      this.$emit('input', value)
-    }, 50),
     handleFocus() {
       this.focused = true
       // 获得焦点
@@ -341,14 +343,13 @@ export default {
     },
     handleBlur(e) {
       const value = e.detail.value
+      this.handleChange(value)
       setTimeout(() => {
         this.focused = false
       }, 100)
-      // 失去焦点
-      this.handleChange(value)
       this.$emit('blur', value)
       setTimeout(() => {
-        this.dispatch('PiFormItem', 'form-blur', e.detail.value)
+        this.dispatch('PiFormItem', 'form-blur', value)
       }, 40)
     },
     handleClearInput() {
