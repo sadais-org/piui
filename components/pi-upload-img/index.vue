@@ -506,7 +506,7 @@ export default {
             : [])
         ]
       }
-      return extension.filter(ext => !!ext)
+      return extension?.filter(ext => !!ext)
     }
   },
   methods: {

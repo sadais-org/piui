@@ -53,6 +53,7 @@ export default {
   // 当type为 "image"时生效，调用uni.chooseImage参数
   chooseImageOpts: {
     sourceType: ['album', 'camera'], // album 从相册选图，camera 使用相机，默认album
+    extension: [], // 允许上传的文件类型，不填则不限制
     sizeType: ['original', 'compressed'], // original 原图，compressed 压缩图，默认compressed
     crop: {} // 图像裁剪参数，设置后 sizeType 失效
   },
