@@ -37,6 +37,7 @@
       :auto-height="autoHeight"
       :disable-default-padding="disableDefaultPadding"
       @focus="handleFocus"
+      @input="handleInput"
       @blur="handleBlur"
       @confirm="handleConfirm"
       @keyboardheightchange="$emit('keyboardheightchange', $event)"
@@ -66,6 +67,7 @@
       :hold-keyboard="holdKeyboard"
       :auto-blur="autoBlur"
       @focus="handleFocus"
+      @input="handleInput"
       @blur="handleBlur"
       @confirm="handleConfirm"
       @keyboardheightchange="$emit('keyboardheightchange', $event)"
@@ -278,6 +280,12 @@ export default {
       default() {
         return input.clearIcon
       }
+    },
+    // 是否失去焦点更新v-model
+    updateOnBlur: {
+      type: Boolean,
+      // true
+      default: input.updateOnBlur
     }
   },
   data() {
@@ -336,6 +344,12 @@ export default {
     handleItemClick(e) {
       this.$emit('click', e)
     },
+    handleInput: debounce(function(e) {
+      if (this.updateOnBlur) return
+      let value = e.detail.value
+      // 输入内容
+      this.handleChange(value)
+    }, 50),
     handleFocus() {
       this.focused = true
       // 获得焦点
@@ -343,7 +357,9 @@ export default {
     },
     handleBlur(e) {
       const value = e.detail.value
-      this.handleChange(value)
+      if (this.updateOnBlur) {
+        this.handleChange(value)
+      }
       setTimeout(() => {
         this.focused = false
       }, 100)
