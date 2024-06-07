@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2024-05-29 10:35:00
+ * @LastEditTime: 2024-06-07 12:06:47
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -355,6 +355,13 @@ export default {
         return uploadImg.type // 'all', 'image', 'video'
       }
     },
+    // 当 type 为 all 时生效，允许上传的文件类型是否包含 video 和 image
+    fileTypes: {
+      type: Array,
+      default() {
+        return uploadImg.fileTypes
+      }
+    },
     // 当type为 "all"时生效，调用uni.chooseFile参数
     chooseFileOpts: {
       type: Object,
@@ -480,6 +487,26 @@ export default {
     },
     getCropOption() {
       return this.$pi.lang.mergeDeep(uploadImg.cropOption, this.cropOption)
+    },
+    getExtension() {
+      let extension = []
+      if (this.type === 'image') {
+        extension = this.getChooseImageOpts.extension
+      } else if (this.type === 'video') {
+        extension = this.getChooseVideoOpts.extension
+      } else {
+        // all
+        extension = [
+          ...this.getChooseFileOpts.extension,
+          ...(this.fileTypes.includes('image')
+            ? this.getChooseImageOpts.extension
+            : []),
+          ...(this.fileTypes.includes('video')
+            ? this.getChooseVideoOpts.extension
+            : [])
+        ]
+      }
+      return extension.filter(ext => !!ext)
     }
   },
   methods: {
@@ -491,15 +518,20 @@ export default {
       return ext.toLocaleUpperCase()
     },
     isRightType(selectFile) {
-      const { extension } = this.getChooseImageOpts
-      let isRightType = false
-      extension.forEach(ext => {
-        if (selectFile.name.endsWith(ext)) {
-          isRightType = true
-        }
-      })
+      const isRightType = this.getExtension.some(ext =>
+        selectFile.name.endsWith(ext)
+      )
+      console.log(
+        TAG,
+        '当前文件扩展名配置为：',
+        this.getExtension,
+        '当前选择文件：',
+        selectFile.name,
+        '是否符合：',
+        isRightType
+      )
       if (!isRightType) {
-        this.$toast(`请选择${extension}文件上传`)
+        this.$toast(`请选择${this.getExtension.join('/')}文件上传`)
       }
       return isRightType
     },
@@ -719,12 +751,12 @@ export default {
       }
     },
     async handleChooseFile() {
-      const { sizeType, extension, sourceType, crop } = this.getChooseFileOpts
+      const { sizeType, sourceType, crop } = this.getChooseFileOpts
       try {
         const [, result] = await uni.chooseFile({
           count: this.getUploadMaxCount,
           sizeType,
-          extension,
+          extension: this.getExtension,
           sourceType,
           crop
         })
@@ -752,7 +784,10 @@ export default {
       try {
         const [, result] = await uni.chooseMessageFile({
           count: this.getUploadMaxCount,
-          type: 'file'
+          type:
+            this.fileTypes.includes('video') || this.fileTypes.includes('video')
+              ? 'all'
+              : 'file'
         })
         if (!result) {
           return
@@ -764,9 +799,9 @@ export default {
         }
         // chooseMessageFile 没有扩展名限制，这里自己做过滤
         tempFiles = tempFiles.filter(file => {
-          const ext = file.name.split('.').pop()
-          return this.getChooseFileOpts.extension.includes(ext)
+          return this.isRightType(file)
         })
+        console.log(TAG, '过滤后的文件列表：', tempFiles)
         this.handleUpload(tempFiles)
       } catch (error) {
         console.log(error)
@@ -774,12 +809,12 @@ export default {
       // #endif
     },
     async handleChooseImage() {
-      const { sizeType, extension, sourceType, crop } = this.getChooseImageOpts
+      const { sizeType, sourceType, crop } = this.getChooseImageOpts
       try {
         const [, result] = await uni.chooseImage({
           count: this.getUploadMaxCount,
           sizeType,
-          extension,
+          extension: this.getExtension,
           sourceType,
           crop
         })
@@ -833,13 +868,13 @@ export default {
       }
     },
     async handleChooseMedia() {
-      const { sourceType, extension, maxDuration, camera } =
+      const { sourceType, maxDuration, camera } =
         this.type === 'video' ? this.getChooseVideoOpts : this.getChooseFileOpts
       try {
         const [, result] = await uni.chooseMedia({
           count: this.getUploadMaxCount,
           mediaType: this.type === 'video' ? ['video'] : ['mix'],
-          extension,
+          extension: this.getExtension,
           sourceType,
           maxDuration,
           camera

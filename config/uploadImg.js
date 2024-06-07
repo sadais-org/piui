@@ -1,10 +1,10 @@
 /*
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:29:02
- * @LastEditTime: 2024-05-24 15:18:10
+ * @LastEditTime: 2024-06-07 11:07:10
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传
- * @FilePath: /piui-awesome/src/piui/config/uploadImg.js
+ * @FilePath: /dt-weitibao-mp/node_modules/sadais-piui/config/uploadImg.js
  */
 import icon from './icon.js'
 import cropOption from './imgCropper.js'
@@ -41,6 +41,7 @@ export default {
     color: '#999999'
   },
   type: 'image', // 上传文件类型，可选值为image、video、all
+  fileTypes: [], // 当 type 为 all 时生效，允许上传的文件类型是否包含 video 和 image
   // 当type为 "all"时生效，调用uni.chooseFile参数
   chooseFileOpts: {
     sourceType: ['album', 'camera'], // （仅在type为image或video时可用）album 从相册选图，camera 使用相机，默认二者都有。如需直接开相机或直接选相册，请只使用一个选项
