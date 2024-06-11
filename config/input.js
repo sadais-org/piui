@@ -32,6 +32,5 @@ export default {
     size: 36,
     name: 'close-line',
     color: '#999999'
-  },
-  updateOnBlur: true // 为false时，输入时更新 v-model，为true时，失焦时更新 v-model
+  }
 }

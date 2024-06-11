@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-align-center pi-w-100P" :style="[customStyle]" :class="[customClass]">
+  <view
+    class="pi-align-center pi-w-100P"
+    :style="[customStyle]"
+    :class="[customClass]"
+  >
     <view v-if="searchLabel" class="pi-pd-right-18" :style="[searchLabelStyle]">
       {{ searchLabel }}
     </view>
@@ -67,7 +71,11 @@
           @focus="handleInputFocus"
         />
         <!-- clear action -->
-        <view v-if="clearable && val" class="pi-pd-lr-18" @tap="handleClearInput">
+        <view
+          v-if="clearable && val"
+          class="pi-pd-lr-18"
+          @tap="handleClearInput"
+        >
           <view class="pi-icon-roundclosefill" :style="[clearIconStyle]" />
         </view>
       </view>
@@ -130,7 +138,7 @@ export default {
       type: String,
       // `'round'`
       default: search.shape,
-      validator: function (value) {
+      validator: function(value) {
         return ['square', 'round'].includes(value)
       }
     },
@@ -251,7 +259,7 @@ export default {
       type: String,
       // `'left'`
       default: search.searchIconPosition,
-      validator: function (value) {
+      validator: function(value) {
         return ['left', 'right'].includes(value)
       }
     },

@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2024-06-07 12:06:47
+ * @LastEditTime: 2024-06-11 09:52:29
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -491,9 +491,9 @@ export default {
     getExtension() {
       let extension = []
       if (this.type === 'image') {
-        extension = this.getChooseImageOpts.extension
+        extension = this.getChooseImageOpts.extension || []
       } else if (this.type === 'video') {
-        extension = this.getChooseVideoOpts.extension
+        extension = this.getChooseVideoOpts.extension || []
       } else {
         // all
         extension = [

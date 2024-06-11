@@ -280,12 +280,6 @@ export default {
       default() {
         return input.clearIcon
       }
-    },
-    // 是否失去焦点更新v-model
-    updateOnBlur: {
-      type: Boolean,
-      // true
-      default: input.updateOnBlur
     }
   },
   data() {
@@ -344,22 +338,16 @@ export default {
     handleItemClick(e) {
       this.$emit('click', e)
     },
-    handleInput: debounce(function(e) {
-      if (this.updateOnBlur) return
-      let value = e.detail.value
-      // 输入内容
+    handleInput(e) {
+      const value = e.detail.value
       this.handleChange(value)
-    }, 50),
+    },
     handleFocus() {
       this.focused = true
       // 获得焦点
       this.$emit('focus')
     },
-    handleBlur(e) {
-      const value = e.detail.value
-      if (this.updateOnBlur) {
-        this.handleChange(value)
-      }
+    handleBlur() {
       setTimeout(() => {
         this.focused = false
       }, 100)
