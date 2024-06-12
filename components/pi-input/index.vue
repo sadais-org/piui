@@ -280,6 +280,12 @@ export default {
       default() {
         return input.clearIcon
       }
+    },
+    // 是否失去焦点更新v-model
+    updateOnBlur: {
+      type: Boolean,
+      // true
+      default: input.updateOnBlur
     }
   },
   data() {
@@ -347,14 +353,16 @@ export default {
       // 获得焦点
       this.$emit('focus')
     },
-    handleBlur() {
-      setTimeout(() => {
-        this.focused = false
-      }, 100)
+    handleBlur(e) {
+      const value = e.detail.value
+      if (this.updateOnBlur) {
+        this.handleChange(value)
+      }
       this.$emit('blur', value)
       setTimeout(() => {
+        this.focused = false
         this.dispatch('PiFormItem', 'form-blur', value)
-      }, 40)
+      }, 100)
     },
     handleClearInput() {
       this.handleChange('')

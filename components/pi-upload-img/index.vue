@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2024-06-11 09:52:29
+ * @LastEditTime: 2024-06-11 11:39:08
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -9,9 +9,9 @@
 
 <template>
   <view
-    class="pi-upload-img pi-pd-top-12"
+    class="pi-upload-img"
     :style="[customStyle]"
-    :class="[customClass]"
+    :class="[customClass, { 'pi-pd-top-12': !getDisabled }]"
   >
     <!-- 已上传图片展示 -->
     <view
@@ -756,7 +756,6 @@ export default {
         const [, result] = await uni.chooseFile({
           count: this.getUploadMaxCount,
           sizeType,
-          extension: this.getExtension,
           sourceType,
           crop
         })
@@ -814,7 +813,6 @@ export default {
         const [, result] = await uni.chooseImage({
           count: this.getUploadMaxCount,
           sizeType,
-          extension: this.getExtension,
           sourceType,
           crop
         })
