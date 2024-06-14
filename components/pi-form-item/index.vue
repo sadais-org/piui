@@ -413,7 +413,7 @@ export default {
     },
     getFieldValue(obj, keypath) {
       if (obj) {
-        return keypath.split('.').reduce((prev, key) => {
+        return keypath.split('-').reduce((prev, key) => {
           let tmpKey = key
           if (/^\[\d+\]$/.test(key)) {
              tmpKey = tmpKey.slice(1, -1)
