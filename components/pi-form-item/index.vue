@@ -411,6 +411,19 @@ export default {
       if (!triggerType) return rules
       return rules.filter(res => res.trigger && res.trigger.indexOf(triggerType) !== -1)
     },
+    getFieldValue(obj, keypath) {
+      if (obj) {
+        return keypath.split('.').reduce((prev, key) => {
+          let tmpKey = key
+          if (/^\[\d+\]$/.test(key)) {
+             tmpKey = tmpKey.slice(1, -1)
+          }
+          prev = prev && prev[tmpKey]
+          return prev
+        }, obj)
+      }
+      return undefined
+    },
     // 校验数据
     validation(trigger) {
       const _getResolve = () => {
@@ -428,7 +441,7 @@ export default {
           console.log(TAG, '字段无需校验', this.prop)
           return resolve(_getResolve())
         }
-        const fieldValue = this._parent ? this._parent.model[this.prop] : undefined
+        const fieldValue = this._parent ? this.getFieldValue(this._parent.model, this.prop) : undefined
         // 设置当前的装填，标识为校验中
         this.validateState = 'validating'
         // 调用async-validator的方法
