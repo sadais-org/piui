@@ -24,23 +24,23 @@
 // full-height $include-tabbar: 高度是否包含tabbar
 @mixin full-height($include-tabbar: false) {
   @if $include-tabbar {
-    height: 100vh;
+    height: 99.99vh;
 
     /*  #ifdef  H5  */
 
     /* 修复safari下100vh不生效的问题 */
-    height: calc(var(--vh, 1vh) * 100);
+    height: calc(var(--vh, 1vh) * 99.99);
 
     /*  #endif  */
   }
 
   @else {
-    height: calc(100vh - var(--window-bottom));
+    height: calc(99.99vh - var(--window-bottom));
 
     /*  #ifdef  H5  */
 
     /* 修复safari下100vh不生效的问题 */
-    height: calc(var(--vh, 1vh) * 100 - var(--window-bottom));
+    height: calc(var(--vh, 1vh) * 99.99 - var(--window-bottom));
 
     /*  #endif  */
   }
