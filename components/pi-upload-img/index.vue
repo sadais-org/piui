@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2024-06-11 11:39:08
+ * @LastEditTime: 2024-07-11 10:50:24
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -479,6 +479,8 @@ export default {
       )
     },
     getUploadMaxCount() {
+      // 如果 maxCount 为 0 或者 undefined，则不限制上传数量
+      if (!this.maxCount) return 9
       const maxCount = parseInt(this.maxCount, 10)
       return maxCount - this.getImgs.length
     },
