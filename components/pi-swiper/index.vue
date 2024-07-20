@@ -268,10 +268,12 @@ export default {
   methods: {
     handleSwiperChange(e) {
       const current = e.detail.current
-      setTimeout(() => {
+      const source = e.detail.source
+      if (source === 'autoplay' || source === 'touch') {
+        // 只有在自动轮播和用户主动触发才去改变current值
         this.val = current
         this.handleEmitChange()
-      }, 50)
+      }
     },
     handleSwiperClick(index) {
       // 点击时触发 |	index, 当前页的索引
