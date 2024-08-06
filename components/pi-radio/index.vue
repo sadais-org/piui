@@ -190,7 +190,9 @@ export default {
         : this.$pi.common.addUnit(this.iconSize)
     },
     getCanCancel() {
-      return this.inheritProps.canCancel !== null ? this.inheritProps.canCancel : this.canCancel
+      return this.inheritProps.canCancel !== null
+        ? this.inheritProps.canCancel
+        : this.canCancel
     },
     getOnlyIconSelect() {
       return this.inheritProps.onlyIconSelect !== null
@@ -225,7 +227,10 @@ export default {
 
       if (this.getActiveColor && this.val) {
         style.borderColor = this.getActiveColor
-        if (['text', 'button'].includes(this.getShape) && this.getActiveMode === 'fill') {
+        if (
+          ['text', 'button'].includes(this.getShape) &&
+          this.getActiveMode === 'fill'
+        ) {
           style.backgroundColor = this.getActiveColor
         } else {
           style.color = this.getActiveColor
@@ -322,7 +327,6 @@ $unactive-color: #cccccc;
     }
   }
   &.disabled {
-    cursor: not-allowed;
     .radio-icon {
       opacity: $pi-disabled-opacity;
     }

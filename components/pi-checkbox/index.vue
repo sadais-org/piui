@@ -2,7 +2,13 @@
   <view
     class="pi-check-wrap"
     :style="[customStyle]"
-    :class="[getShape, getActiveMode, { disabled: getDisable }, { active: val }, customClass]"
+    :class="[
+      getShape,
+      getActiveMode,
+      { disabled: getDisable },
+      { active: val },
+      customClass
+    ]"
   >
     <view
       v-if="getShape !== 'text'"
@@ -321,7 +327,6 @@ $unactive-color: #cccccc;
     }
   }
   &.disabled {
-    cursor: not-allowed;
     opacity: $pi-disabled-opacity;
   }
   &.active {

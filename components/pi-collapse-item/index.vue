@@ -34,7 +34,11 @@
       :animation="animationData"
       @tap="handleContentClick"
     >
-      <view :id="elId" :ref="elId" class="pi-collapse-item__content__text content-class">
+      <view
+        :id="elId"
+        :ref="elId"
+        class="pi-collapse-item__content__text content-class"
+      >
         <slot />
       </view>
     </view>
@@ -167,12 +171,16 @@ export default {
       const { val, accordion } = this.parent
       if (accordion) {
         if (this.$pi.lang.isArray(val)) {
-          return console.error('手风琴模式下，pi-collapse组件的value参数不能为数组')
+          return console.error(
+            '手风琴模式下，pi-collapse组件的value参数不能为数组'
+          )
         }
         this.expanded = this.name == val
       } else {
         if (!this.$pi.lang.isArray(val) && val !== null) {
-          return console.error('非手风琴模式下，pi-collapse组件的value参数必须为数组')
+          return console.error(
+            '非手风琴模式下，pi-collapse组件的value参数必须为数组'
+          )
         }
         this.expanded = (val || []).some(item => item == this.name)
       }
@@ -274,7 +282,8 @@ export default {
       this.parent = this.$pi.parent(this, parentName)
       if (this.parent.children) {
         // 如果父组件的children不存在本组件的实例，才将本实例添加到父组件的children中
-        this.parent.children.indexOf(this) === -1 && this.parent.children.push(this)
+        this.parent.children.indexOf(this) === -1 &&
+          this.parent.children.push(this)
       }
       if (this.parent && this.parentData) {
         // 历遍parentData中的属性，将parent中的同名属性赋值给parentData
@@ -331,7 +340,6 @@ export default {
       }
     }
     &.disabled {
-      cursor: not-allowed;
       .text,
       .icon {
         color: #cccccc;
