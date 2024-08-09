@@ -12,6 +12,7 @@
         :lazy-load="lazyLoad"
         :style="[rectStyle, imageStyle]"
         :show-menu-by-longpress="showMenuByLongpress"
+        :webp="webp"
         @error="handleError"
         @load="handleLoad"
       />
@@ -32,11 +33,16 @@
         <template v-if="src && error">
           <!-- 加载失败样式 -->
           <slot v-if="$slots.error" name="error" />
-          <view class="pi-icon-pic" />
+          <view v-else class="pi-icon-pic" />
         </template>
       </view>
     </view>
-    <view v-if="badge || dot" class="img-badge" :class="{ dot }" :style="[badgeStyle]">
+    <view
+      v-if="badge || dot"
+      class="img-badge"
+      :class="{ dot }"
+      :style="[badgeStyle]"
+    >
       {{ badge }}
     </view>
     <view v-if="dot" />
@@ -212,7 +218,10 @@ export default {
     imageStyle() {
       return {
         overflow: 'hidden',
-        borderRadius: this.shape === 'round' ? '50%' : this.$pi.common.addUnit(this.borderRadius)
+        borderRadius:
+          this.shape === 'round'
+            ? '50%'
+            : this.$pi.common.addUnit(this.borderRadius)
       }
     }
   },
