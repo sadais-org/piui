@@ -2,11 +2,13 @@
   <view class="pi-scroll-container">
     <!-- #ifndef MP -->
     <slot name="title">
-      <pi-navbar :show-home="showHome">{{ title }}</pi-navbar>
+      <pi-navbar :show-home="showHome" :fixed="false">{{ title }}</pi-navbar>
     </slot>
     <!-- #endif -->
     <!-- #ifndef APP-PLUS -->
-    <web-view v-if="webviewURL" :progress="true" :src="webviewURL" class="pi-scroll pi-safearea" />
+    <view class="pi-scroll pi-safearea">
+      <web-view v-if="webviewURL" :progress="true" :src="webviewURL" />
+    </view>
     <!-- #endif -->
   </view>
 </template>
@@ -57,7 +59,8 @@ export default {
       // H5 url 需要加时间戳，否则会有缓存问题
       this.webviewURL = this.autoAddTimestamp
         ? this.urlAddParam(this.url || '', {
-            sadaisTimestamp: new Date().getTime() + '-' + Math.round(Math.random(1) * 10000)
+            sadaisTimestamp:
+              new Date().getTime() + '-' + Math.round(Math.random(1) * 10000)
           })
         : this.url
       console.log('webview页面即将打开以下URL:', this.webviewURL)
