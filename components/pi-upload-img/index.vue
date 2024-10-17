@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2024-07-11 10:50:24
+ * @LastEditTime: 2024-10-15 16:45:22
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -409,6 +409,9 @@ export default {
         }
       ]
     },
+    selectOnlyFile() {
+      return this.type === 'all' && this.fileTypes.length === 0
+    },
     isValString() {
       return this.$pi.lang.isString(this.val)
     },
@@ -719,7 +722,7 @@ export default {
       if (this.$pi.lang.isEmpty(this.headers)) {
         console.log(TAG, '当前图片上传headers为空，请检查是否需要配置授权信息')
       }
-      console.log('当前上传文件类型累：', this.type)
+      console.log('当前上传文件类型：', this.type)
       if (this.type === 'all') {
         // #ifndef MP-WEIXIN
         this.handleChooseFile()
@@ -728,6 +731,11 @@ export default {
         // #ifdef MP-WEIXIN
         const { fromWxMessage } = this.getChooseFileOpts
         if (fromWxMessage) {
+          if (this.selectOnlyFile) {
+            this.handleSelectMessageFile()
+            return
+          }
+          this.$emit('show-actions')
           this.showActionSheet = true
         } else {
           this.handleChooseMedia()
@@ -786,7 +794,7 @@ export default {
         const [, result] = await uni.chooseMessageFile({
           count: this.getUploadMaxCount,
           type:
-            this.fileTypes.includes('video') || this.fileTypes.includes('video')
+            this.fileTypes.includes('image') || this.fileTypes.includes('video')
               ? 'all'
               : 'file'
         })
