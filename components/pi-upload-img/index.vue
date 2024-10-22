@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2024-10-15 16:45:22
+ * @LastEditTime: 2024-10-22 10:42:41
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
  * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
@@ -35,8 +35,10 @@
         class="pi-rela pi-of-hidden pi-radius-8"
         :style="[getItemStyle]"
       >
-        <view class="file-mask">
-          <pi-icon
+        <view class="file-mask" :class="[{'no-bg': fileIconMap[getFileType(imgField ? img[imgField] : img)]}]">
+            <image v-if="fileIconMap[getFileType(imgField ? img[imgField] : img)]" :src="fileIconMap[getFileType(imgField ? img[imgField] : img)]" mode="widthFix" style="width: 100%;"/>
+          <template v-else>
+            <pi-icon
             :name="
               isVideoFilename(imgField ? img[imgField] : img)
                 ? 'videofill'
@@ -48,6 +50,7 @@
           <view class="pi-mg-top-12 pi-fz-22">
             {{ getFileType(imgField ? img[imgField] : img) }}
           </view>
+          </template>
         </view>
       </view>
     </view>
@@ -381,6 +384,13 @@ export default {
       type: Object,
       default() {
         return uploadImg.chooseVideoOpts
+      }
+    },
+    // 文件类型和图标映射关系，对象形式（{PDF: 'https://xxx'}）
+    fileIconMap: {
+      type: Object,
+      default() {
+        return uploadImg.fileIconMap
       }
     }
   },
@@ -985,6 +995,9 @@ export default {
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.3);
+    &.no-bg {
+      background: transparent;
+    }
   }
 }
 </style>
