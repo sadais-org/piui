@@ -12,7 +12,12 @@
       :style="[computedLabelStyle, getLabelStyle]"
       :class="[{ border: getWrap && getLabelWrapBorder }]"
     >
-      <view v-if="required" style="color: #ed2235;" class="pi-mg-right-12" :style="[requiredStyle]">
+      <view
+        v-if="required"
+        style="color: #ed2235;"
+        class="pi-mg-right-12"
+        :style="[requiredStyle]"
+      >
         *
       </view>
       <!-- 表单项label -->
@@ -28,7 +33,11 @@
       :class="[
         { 'pi-flex-sub': !getWrap },
         getInputAlign,
-        { 'wrap': getWrap, 'nowrap': !getWrap, 'wrap-bottom': getWrap && getWrapBottomGap }
+        {
+          'wrap': getWrap,
+          'nowrap': !getWrap,
+          'wrap-bottom': getWrap && getWrapBottomGap
+        }
       ]"
       :style="[contentWrapStyle]"
     >
@@ -41,7 +50,11 @@
         <slot />
       </view>
       <view
-        v-if="getErrorType === 'message' && validateState === 'error' && validateMessage"
+        v-if="
+          getErrorType === 'message' &&
+            validateState === 'error' &&
+            validateMessage
+        "
         class="form-valid"
       >
         <view class="form-valid-item">{{ validateMessage }}</view>
@@ -262,6 +275,7 @@ export default {
   },
   data() {
     return {
+      componentDestroy: false,
       initialValue: '', // 初始值
       validateState: 'success', // 是否校验成功
       validateMessage: '' // 校验失败的提示语
@@ -269,10 +283,16 @@ export default {
   },
   computed: {
     getShowRightIcon() {
-      return this.$pi.expand.getPropValue(this.inheritProps.showRightIcon, this.showRightIcon)
+      return this.$pi.expand.getPropValue(
+        this.inheritProps.showRightIcon,
+        this.showRightIcon
+      )
     },
     getRightIcon() {
-      const rightIcon = this.$pi.lang.mergeDeep(this.inheritProps.rightIcon, this.rightIcon)
+      const rightIcon = this.$pi.lang.mergeDeep(
+        this.inheritProps.rightIcon,
+        this.rightIcon
+      )
       return this.$pi.lang.mergeDeep(formItem.rightIcon, rightIcon)
     },
     getBorder() {
@@ -282,7 +302,10 @@ export default {
       return this.$pi.expand.getPropValue(this.inheritProps.wrap, this.wrap)
     },
     getWrapBottomGap() {
-      return this.$pi.expand.getPropValue(this.inheritProps.wrapBottomGap, this.wrapBottomGap)
+      return this.$pi.expand.getPropValue(
+        this.inheritProps.wrapBottomGap,
+        this.wrapBottomGap
+      )
     },
     getLabelWrapBorder() {
       return this.inheritProps.labelWrapBorder !== null
@@ -293,23 +316,38 @@ export default {
       return this.$pi.expand.getPropValue(this.inheritProps.colon, this.colon)
     },
     getDisabled() {
-      return this.$pi.expand.getPropValue(this.inheritProps.disabled, this.disabled)
+      return this.$pi.expand.getPropValue(
+        this.inheritProps.disabled,
+        this.disabled
+      )
     },
     getLabelAlign() {
-      return this.$pi.expand.getPropValue(this.inheritProps.labelAlign, this.labelAlign)
+      return this.$pi.expand.getPropValue(
+        this.inheritProps.labelAlign,
+        this.labelAlign
+      )
     },
     getInputAlign() {
-      return this.$pi.expand.getPropValue(this.inheritProps.inputAlign, this.inputAlign)
+      return this.$pi.expand.getPropValue(
+        this.inheritProps.inputAlign,
+        this.inputAlign
+      )
     },
     getErrorType() {
       return this.inheritProps.errorType
     },
     getPadding() {
-      const padding = this.$pi.expand.getPropValue(this.inheritProps.padding, this.padding)
+      const padding = this.$pi.expand.getPropValue(
+        this.inheritProps.padding,
+        this.padding
+      )
       return this.$pi.common.addUnit(padding)
     },
     getHeight() {
-      const height = this.$pi.expand.getPropValue(this.inheritProps.height, this.height)
+      const height = this.$pi.expand.getPropValue(
+        this.inheritProps.height,
+        this.height
+      )
       return this.$pi.common.addUnit(height)
     },
     itemStyle() {
@@ -320,7 +358,10 @@ export default {
       return style
     },
     getLabelStyle() {
-      return this.$pi.expand.getPropValue(this.inheritProps.labelStyle, this.labelStyle)
+      return this.$pi.expand.getPropValue(
+        this.inheritProps.labelStyle,
+        this.labelStyle
+      )
     },
     getItemVerticalAlign() {
       return this.$pi.expand.getPropValue(
@@ -374,6 +415,12 @@ export default {
   mounted() {
     this.initRulesValidation()
   },
+  created() {
+    this.componentDestroy = false
+  },
+  beforeDestroy() {
+    this.componentDestroy = true
+  },
   methods: {
     handleItemClick(e) {
       this.$emit('click', e)
@@ -409,14 +456,16 @@ export default {
       let rules = this.getRules()
       // 整体验证表单时，triggerType为空字符串
       if (!triggerType) return rules
-      return rules.filter(res => res.trigger && res.trigger.indexOf(triggerType) !== -1)
+      return rules.filter(
+        res => res.trigger && res.trigger.indexOf(triggerType) !== -1
+      )
     },
     getFieldValue(obj, keypath) {
       if (obj) {
         return keypath.split('-').reduce((prev, key) => {
           let tmpKey = key
           if (/^\[\d+\]$/.test(key)) {
-             tmpKey = tmpKey.slice(1, -1)
+            tmpKey = tmpKey.slice(1, -1)
           }
           prev = prev && prev[tmpKey]
           return prev
@@ -435,13 +484,20 @@ export default {
       }
       return new Promise((resolve, reject) => {
         const rules = this.getFilteredRule(trigger)
-        if (!this.prop || !rules || rules.length === 0) {
+        if (
+          this.componentDestroy ||
+          !this.prop ||
+          !rules ||
+          rules.length === 0
+        ) {
           this.validateState = 'success'
           this.validateMessage = ''
           console.log(TAG, '字段无需校验', this.prop)
           return resolve(_getResolve())
         }
-        const fieldValue = this._parent ? this.getFieldValue(this._parent.model, this.prop) : undefined
+        const fieldValue = this._parent
+          ? this.getFieldValue(this._parent.model, this.prop)
+          : undefined
         // 设置当前的装填，标识为校验中
         this.validateState = 'validating'
         // 调用async-validator的方法
@@ -465,7 +521,12 @@ export default {
             resolve(_getResolve())
           })
           .catch(({ errors, fields }) => {
-            console.log(TAG, '表单校验失败', `字段名：${this.prop}，字段值：${fieldValue}`)
+            console.log('thisthisthis', this)
+            console.log(
+              TAG,
+              '表单校验失败',
+              `字段名：${this.prop}，字段值：${fieldValue}`
+            )
             console.log(TAG, '字段值：', fieldValue)
             console.log(TAG, '错误信息', errors)
             console.log(TAG, '校验规则', fields)
