@@ -13,7 +13,7 @@
       :previous-margin="effect3d ? effect3dPreviousMargin + 'rpx' : '0'"
       :next-margin="effect3d ? effect3dPreviousMargin + 'rpx' : '0'"
       :style="[swiperStyle]"
-      @change="handleSwiperChange"
+      @animationfinish="handleSwiperChange"
     >
       <swiper-item
         v-for="(img, index) in imgs"
