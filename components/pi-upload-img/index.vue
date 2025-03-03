@@ -35,21 +35,33 @@
         class="pi-rela pi-of-hidden pi-radius-8"
         :style="[getItemStyle]"
       >
-        <view class="file-mask" :class="[{'no-bg': fileIconMap[getFileType(imgField ? img[imgField] : img)]}]">
-            <image v-if="fileIconMap[getFileType(imgField ? img[imgField] : img)]" :src="fileIconMap[getFileType(imgField ? img[imgField] : img)]" mode="widthFix" style="width: 100%;"/>
+        <view
+          class="file-mask"
+          :class="[
+            {
+              'no-bg': fileIconMap[getFileType(imgField ? img[imgField] : img)]
+            }
+          ]"
+        >
+          <image
+            v-if="fileIconMap[getFileType(imgField ? img[imgField] : img)]"
+            :src="fileIconMap[getFileType(imgField ? img[imgField] : img)]"
+            mode="widthFix"
+            style="width: 100%;"
+          />
           <template v-else>
             <pi-icon
-            :name="
-              isVideoFilename(imgField ? img[imgField] : img)
-                ? 'videofill'
-                : 'activity-fill'
-            "
-            size="48"
-            color="#0C6DF4"
-          />
-          <view class="pi-mg-top-12 pi-fz-22">
-            {{ getFileType(imgField ? img[imgField] : img) }}
-          </view>
+              :name="
+                isVideoFilename(imgField ? img[imgField] : img)
+                  ? 'videofill'
+                  : 'activity-fill'
+              "
+              size="48"
+              color="#0C6DF4"
+            />
+            <view class="pi-mg-top-12 pi-fz-22">
+              {{ getFileType(imgField ? img[imgField] : img) }}
+            </view>
           </template>
         </view>
       </view>
@@ -584,6 +596,7 @@ export default {
           // 支付宝小程序必填，其他平台非必填
           uni.openDocument({
             filePath,
+            showMenu: true, // 右上角是否有可以转发分享的功能
             complete: res => {
               console.log('文件预览', res)
             }
