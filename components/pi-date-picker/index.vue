@@ -48,7 +48,7 @@ import { getConfig } from '../../config'
 
 const TAG = 'PiDatePicker'
 const { datePicker } = getConfig()
-const FIELDS = ['year', 'month', 'day','halfday', 'hour', 'minute', 'second' ]
+const FIELDS = ['year', 'month', 'day', 'halfday', 'hour', 'minute', 'second']
 
 export default {
   name: 'PiDatePicker',
@@ -228,9 +228,9 @@ export default {
   },
   data() {
     let date = this.$pi.date.parseDate(this.defaultValue)
-    if(this.field === 'halfday') {
+    if (this.field === 'halfday') {
       const time = date.time
-      if(date.hour < 12){
+      if (date.hour < 12) {
         time.setHours(0)
       } else {
         time.setHours(12)
@@ -251,7 +251,10 @@ export default {
         datePicker.confirmBtn,
         this.popupSelect.confirmBtn
       )
-      const mergeConfirmBtn = this.$pi.lang.mergeDeep(datePickerConfirmBtn, this.confirmBtn)
+      const mergeConfirmBtn = this.$pi.lang.mergeDeep(
+        datePickerConfirmBtn,
+        this.confirmBtn
+      )
       if (!mergeConfirmBtn.disabled) {
         mergeConfirmBtn.disabled = this.scrolling
       }
@@ -265,7 +268,10 @@ export default {
       return this.$pi.lang.mergeDeep(datePickerCancelBtn, this.cancelBtn)
     },
     getPopup() {
-      const datePickerPopup = this.$pi.lang.mergeDeep(datePicker.popup, this.popupSelect.popup)
+      const datePickerPopup = this.$pi.lang.mergeDeep(
+        datePicker.popup,
+        this.popupSelect.popup
+      )
       return this.$pi.lang.mergeDeep(datePickerPopup, this.popup)
     },
     options() {
@@ -352,7 +358,7 @@ export default {
           unit: '',
           key: 'hour',
           setMethod: 'setHours',
-          items: ['上午','下午']
+          items: ['上午', '下午']
         },
         {
           field: 'hour',
@@ -378,12 +384,12 @@ export default {
           type: 'time',
           items: this.$pi.common.generateArray(0, 59)
         }
-      ] 
+      ]
 
       columns = columns.filter((col, index) => {
         return FIELDS.slice(index).includes(this.field)
       })
-      if(this.field !== 'halfday'){
+      if (this.field !== 'halfday') {
         columns = columns.filter(col => col.field !== 'halfday')
       }
       if (this.dateType === 'time') {
@@ -399,7 +405,7 @@ export default {
         const value = this.date[col.key]
         if (value !== null) {
           // 查找当前picker中索引对应的真实值
-          if(col.field === 'halfday'){
+          if (col.field === 'halfday') {
             const val = value < 12 ? 0 : 1
             pickerValue.push(val)
           } else {
@@ -424,15 +430,15 @@ export default {
   methods: {
     init() {
       this.date = this.$pi.date.parseDate(this.defaultValue)
-      if(this.field === 'halfday') {
-      const time = this.date.time
-      if(this.date.hour < 12){
-        time.setHours(0)
-      } else {
-        time.setHours(12)
+      if (this.field === 'halfday') {
+        const time = this.date.time
+        if (this.date.hour < 12) {
+          time.setHours(0)
+        } else {
+          time.setHours(12)
+        }
+        this.date = this.$pi.date.parseDate(time)
       }
-      this.date = this.$pi.date.parseDate(time)
-    }
     },
     handlePickstart() {
       this.scrolling = true
@@ -456,12 +462,14 @@ export default {
           const col = this.columns[index]
           let val = col.items[value] // 取出对应picker值
           if (col.field === 'month') val--
-          if(col.field === 'halfday') val = value === 0 ? 0 : 12
+          if (col.field === 'halfday') val = value === 0 ? 0 : 12
           time[col.setMethod](val) // 调用原生date方法赋值
         }
       })
       // 重新解析
       this.date = this.$pi.date.parseDate(time)
+
+      this.$emit('scrollend', this.date)
     },
     /**
      * @vuese
@@ -482,7 +490,7 @@ export default {
      */
     handleConfirm() {
       // 提交
-      if(this.field === 'halfday'){
+      if (this.field === 'halfday') {
         const time = this.date.time
         time.setMinutes(0)
         time.setSeconds(0)
