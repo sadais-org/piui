@@ -39,9 +39,11 @@
       >
         <slot v-if="$slots.toolbar" name="toolbar" />
         <template v-else>
-          <view class="item-btn" @tap.stop="handlePopupClose">取消</view>
+          <view class="item-btn" @tap.stop="handlePopupClose">
+            {{ getCancelBtn.text }}
+          </view>
           <view class="item-btn pi-primary" @tap.stop="handleConfirm">
-            确定
+            {{ getConfirmBtn.text }}
           </view>
         </template>
       </view>
