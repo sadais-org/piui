@@ -379,8 +379,6 @@ export default {
     handleChange(value) {
       this.val = value
       this.handleEmitChange()
-      this.dispatch('PiForm', 'form-change', this.val)
-      this.dispatch('PiFormItem', 'form-change', this.val)
     }
   }
 }

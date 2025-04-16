@@ -25,7 +25,14 @@ export default {
   methods: {
     dispatch(componentName, eventName, params) {
       let parent = this.$parent || this.$root
-      let name = parent.$options.componentName
+      let name
+      // #ifdef H5
+      name = parent.$options.componentName
+      // #endif
+
+      // #ifndef H5
+      name = parent.$options.name
+      // #endif
 
       while (parent && (!name || name !== componentName)) {
         parent = parent.$parent

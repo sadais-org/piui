@@ -3,7 +3,9 @@
  * 提供v-model双向绑定
  * 提供传入value属性，将同步到val中
  */
+import Emitter from './emitter'
 export default {
+  mixins: [Emitter],
   model: {
     prop: 'value',
     event: 'input'
@@ -27,6 +29,9 @@ export default {
     handleEmitChange() {
       this.$emit('input', this.val)
       this.$emit('change', this.val)
+
+      this.dispatch('PiForm', 'form-change', this.val)
+      this.dispatch('PiFormItem', 'form-change', this.val)
     }
   }
 }
