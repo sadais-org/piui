@@ -9,7 +9,11 @@
     @mousewheel.stop.prevent="() => {}"
   >
     <view class="inner-wrap" :class="direction" :style="[animate]">
-      <view v-for="(marqueeItems, index) in getItems" :key="index" class="inner">
+      <view
+        v-for="(marqueeItems, index) in getItems"
+        :key="index"
+        class="inner"
+      >
         <view
           v-for="(item, idx) in marqueeItems"
           :key="idx"
@@ -132,7 +136,12 @@ export default {
     },
     items: {
       immediate: true,
-      handler() {
+      handler(value) {
+        // 如果是一样的，则不进行处理
+        if (JSON.stringify(value) === JSON.stringify(this.items)) {
+          return
+        }
+
         this.handlePause()
         this.init()
         this.handleStart()
@@ -172,7 +181,11 @@ export default {
     },
     init() {
       this.$nextTick(async () => {
-        const rect = await this.$pi.common.queryRect(this, '.marquee-container', false)
+        const rect = await this.$pi.common.queryRect(
+          this,
+          '.marquee-container',
+          false
+        )
         this.containerWidth = rect.width
         const containerHeight = rect.height
         const inner = await this.$pi.common.queryRect(this, '.inner', false)
