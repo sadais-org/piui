@@ -1,10 +1,10 @@
 <!--
  * @Author: zhangzhenfei
  * @Date: 2021-08-13 11:31:57
- * @LastEditTime: 2024-10-22 10:42:41
+ * @LastEditTime: 2025-04-18 16:28:01
  * @LastEditors: zhangzhenfei
  * @Description: 图片上传组件
- * @FilePath: /piui-awesome/src/piui/components/pi-upload-img/index.vue
+ * @FilePath: \piui\components\pi-upload-img\index.vue
 -->
 
 <template>
@@ -415,6 +415,11 @@ export default {
     }
   },
   computed: {
+   //  判断是否为企业微信
+   isQYWX() {
+      const ua = navigator.userAgent.toLowerCase()
+      return ua.indexOf('wxwork') !== -1
+    },
     getDisabled() {
       const parent = this.$pi.parent(this, 'PiFormItem')
       return this.disabled || (parent && parent.getDisabled)
@@ -588,6 +593,16 @@ export default {
         return
       }
       // 文件预览
+      // 判断是企业微信
+      if (this.isQYWX) {
+        const form = document.createElement('form')
+        form.action = file
+        form.method = 'GET'
+        form.target = '_blank'
+        document.body.appendChild(form)
+        form.submit()
+        return
+      }
       uni.downloadFile({
         url: file,
         success: res => {
