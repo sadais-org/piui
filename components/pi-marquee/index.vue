@@ -136,9 +136,8 @@ export default {
     },
     items: {
       immediate: true,
-      handler(value) {
-        // 如果是一样的，则不进行处理
-        if (JSON.stringify(value) === JSON.stringify(this.items)) {
+      handler(newValue, oldValue) {
+        if (JSON.stringify(newValue) === JSON.stringify(oldValue)) {
           return
         }
 
