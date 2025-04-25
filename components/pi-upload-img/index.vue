@@ -415,10 +415,14 @@ export default {
     }
   },
   computed: {
-   //  判断是否为企业微信
-   isQYWX() {
+    // 判断是否为企业微信
+    isQYWX() {
+      let isQYWX = false
+      // #ifdef H5
       const ua = navigator.userAgent.toLowerCase()
-      return ua.indexOf('wxwork') !== -1
+      isQYWX = ua.indexOf('wxwork') !== -1
+      // #endif
+      return isQYWX
     },
     getDisabled() {
       const parent = this.$pi.parent(this, 'PiFormItem')
