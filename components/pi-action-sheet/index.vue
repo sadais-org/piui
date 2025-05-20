@@ -30,7 +30,12 @@
       v-for="item in items"
       :id="`id-${item[keyField]}`"
       :key="item[keyField]"
-      :style="[itemStyle, getItemStyle, getItemAlignStyle, { color: item.color }]"
+      :style="[
+        itemStyle,
+        getItemStyle,
+        getItemAlignStyle,
+        { color: item.color }
+      ]"
       :class="{
         'pi-solid-bottom-1': showItemBottomBorder,
         'pi-disabled': item.disabled
@@ -193,7 +198,10 @@ export default {
       return this.$pi.lang.mergeDeep(actionSheet.popupSelect, this.popupSelect)
     },
     getPopup() {
-      const actionSheetPopup = this.$pi.lang.mergeDeep(actionSheet.popup, this.popupSelect.popup)
+      const actionSheetPopup = this.$pi.lang.mergeDeep(
+        actionSheet.popup,
+        this.popupSelect.popup
+      )
       return this.$pi.lang.mergeDeep(actionSheetPopup, this.popup)
     },
     getItemAlignStyle() {
@@ -226,6 +234,14 @@ export default {
      */
     handleCancel() {
       this.$emit('cancel')
+      this.getPopupSelect.onCancelClose && this.handlePopupClose()
+    },
+    /**
+     * @vuese
+     * 确认选择
+     */
+    handleConfirm() {
+      this.$emit('confirm')
       this.getPopupSelect.onConfirmClose && this.handlePopupClose()
     },
     /**
@@ -241,7 +257,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.pi-action-sheet {
-}
-</style>
+<style lang="scss" scoped></style>

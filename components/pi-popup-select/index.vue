@@ -280,7 +280,7 @@ export default {
      * 确认选择
      */
     handleConfirm() {
-      this.$emit('confirm', this.popupSelected)
+      this.$emit('confirm')
       this.onConfirmClose && this.handlePopupClose()
     }
   }

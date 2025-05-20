@@ -30,7 +30,11 @@
       @change="handlePickerChange"
     >
       <picker-view-column v-for="(column, index) in columns" :key="index">
-        <view v-for="item in column" :key="item[keyField]" :style="indicatorStyle">
+        <view
+          v-for="item in column"
+          :key="item[keyField]"
+          :style="indicatorStyle"
+        >
           {{ item[displayField] }}
         </view>
       </picker-view-column>
@@ -184,18 +188,27 @@ export default {
         picker.confirmBtn,
         this.popupSelect.confirmBtn
       )
-      const mergeConfirmBtn = this.$pi.lang.mergeDeep(pickerConfirmBtn, this.confirmBtn)
+      const mergeConfirmBtn = this.$pi.lang.mergeDeep(
+        pickerConfirmBtn,
+        this.confirmBtn
+      )
       if (!mergeConfirmBtn.disabled) {
         mergeConfirmBtn.disabled = this.scrolling
       }
       return mergeConfirmBtn
     },
     getCancelBtn() {
-      const pickerCancelBtn = this.$pi.lang.mergeDeep(picker.cancelBtn, this.popupSelect.cancelBtn)
+      const pickerCancelBtn = this.$pi.lang.mergeDeep(
+        picker.cancelBtn,
+        this.popupSelect.cancelBtn
+      )
       return this.$pi.lang.mergeDeep(pickerCancelBtn, this.cancelBtn)
     },
     getPopup() {
-      const pickerPopup = this.$pi.lang.mergeDeep(picker.popup, this.popupSelect.popup)
+      const pickerPopup = this.$pi.lang.mergeDeep(
+        picker.popup,
+        this.popupSelect.popup
+      )
       return this.$pi.lang.mergeDeep(pickerPopup, this.popup)
     },
     getItemStyle() {
@@ -275,7 +288,9 @@ export default {
       if (this.type === 'multi-auto') {
         // 如果是多列联动，pickerValue的值需要重新生成
         // 第几列发生变化
-        let columnIndex = this.pickerValue.findIndex((p, i) => pickerValue[i] !== p)
+        let columnIndex = this.pickerValue.findIndex(
+          (p, i) => pickerValue[i] !== p
+        )
         pickerValue = pickerValue.slice(0, columnIndex + 1)
         let columnValue = pickerValue[columnIndex]
         let columns = this.columns[columnIndex]
