@@ -157,10 +157,7 @@ const PI_DEFAULT_FN_FLAG = 'PI_DEFAULT_FN_FLAG'
 
 function isImageFilename(filename) {
   const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|tiff|webp)$/i
-  return (
-    imageExtensions.test(filename) ||
-    filename.startsWith('data:image/jpeg;base64,')
-  )
+  return imageExtensions.test(filename) || filename.startsWith('data:')
 }
 
 function isVideoFilename(filename) {
