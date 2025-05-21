@@ -404,6 +404,13 @@ export default {
       default() {
         return uploadImg.fileIconMap
       }
+    },
+    // 自定义上传参数，对象形式
+    customUploadParams: {
+      type: Object,
+      default() {
+        return uploadImg.customUploadParams
+      }
     }
   },
   data() {
@@ -670,7 +677,10 @@ export default {
           let beforeUploadResult = true
           if (this.$pi.lang.isFunction(beforeUpload)) {
             console.log(TAG, '调用文件上传前钩子')
-            beforeUploadResult = await beforeUpload(file)
+            beforeUploadResult = await beforeUpload(
+              file,
+              this.customUploadParams
+            )
           }
           if (!beforeUploadResult) {
             console.log(TAG, '文件上传前钩子返回false，跳过上传')
@@ -690,7 +700,7 @@ export default {
           if (this.$pi.lang.isFunction(onProgress)) {
             console.log(TAG, '使用自定义上传函数')
             // 上传之前的钩子， 如果定义了则使用钩子上传文件
-            uploadResult = await onProgress(params)
+            uploadResult = await onProgress(params, this.customUploadParams)
           } else {
             const [, uploadFileResult] = await uni.uploadFile(params)
             uploadResult = uploadFileResult
@@ -699,7 +709,10 @@ export default {
 
           // ---------- 解析上传结果 ----------
           this.$emit('uploaded', uploadResult)
-          const item = await parseResultFn(uploadResult)
+          const item = await parseResultFn(
+            uploadResult,
+            this.customUploadParams
+          )
           if (item) {
             this.isValString ? (this.val = item) : this.val.push(item)
             this.handleEmitChange()
