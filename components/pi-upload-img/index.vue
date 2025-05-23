@@ -818,12 +818,18 @@ export default {
     async handleChooseFile() {
       const { sizeType, sourceType, crop } = this.getChooseFileOpts
       try {
-        const [, result] = await uni.chooseFile({
+        const [cancel, result] = await uni.chooseFile({
           count: this.getUploadMaxCount,
           sizeType,
           sourceType,
           crop
         })
+
+        if (cancel && cancel?.errMsg === 'chooseFile:fail cancel') {
+          console.log(TAG, '用户取消选择文件')
+          return
+        }
+
         let { errMsg, tempFiles } = result
         console.log(TAG, '上传文件结果', result)
         if (errMsg !== 'chooseFile:ok') {
@@ -846,16 +852,18 @@ export default {
       // #ifdef MP-WEIXIN
       this.showSheet = false
       try {
-        const [, result] = await uni.chooseMessageFile({
+        const [cancel, result] = await uni.chooseMessageFile({
           count: this.getUploadMaxCount,
           type:
             this.fileTypes.includes('image') || this.fileTypes.includes('video')
               ? 'all'
               : 'file'
         })
-        if (!result) {
+        if (cancel && cancel?.errMsg === 'chooseMessageFile:fail cancel') {
+          console.log(TAG, '用户取消选择聊天文件')
           return
         }
+
         let { errMsg, tempFiles } = result
         console.log(TAG, '选择微信聊天记录文件', result)
         if (errMsg !== 'chooseMessageFile:ok') {
@@ -875,12 +883,18 @@ export default {
     async handleChooseImage() {
       const { sizeType, sourceType, crop } = this.getChooseImageOpts
       try {
-        const [, result] = await uni.chooseImage({
+        const [cancel, result] = await uni.chooseImage({
           count: this.getUploadMaxCount,
           sizeType,
           sourceType,
           crop
         })
+
+        if (cancel && cancel?.errMsg === 'chooseImage:fail cancel') {
+          console.log(TAG, '用户取消选择图片')
+          return
+        }
+
         let { errMsg, tempFilePaths } = result
         if (errMsg !== 'chooseImage:ok') {
           throw new Error(errMsg)
@@ -913,11 +927,17 @@ export default {
     async handleChooseVideo() {
       const { sourceType, maxDuration, camera } = this.getChooseVideoOpts
       try {
-        const [, result] = await uni.chooseVideo({
+        const [cancel, result] = await uni.chooseVideo({
           sourceType,
           maxDuration,
           camera
         })
+
+        if (cancel && cancel?.errMsg === 'chooseVideo:fail cancel') {
+          console.log(TAG, '用户取消选择视频')
+          return
+        }
+
         let { errMsg, tempFilePath, tempFile } = result
         if (errMsg !== 'chooseVideo:ok') {
           throw new Error(errMsg)
@@ -934,7 +954,7 @@ export default {
       const { sourceType, maxDuration, camera } =
         this.type === 'video' ? this.getChooseVideoOpts : this.getChooseFileOpts
       try {
-        const [, result] = await uni.chooseMedia({
+        const [cancel, result] = await uni.chooseMedia({
           count: this.getUploadMaxCount,
           mediaType: this.type === 'video' ? ['video'] : ['mix'],
           extension: this.getExtension,
@@ -942,6 +962,12 @@ export default {
           maxDuration,
           camera
         })
+
+        if (cancel && cancel?.errMsg === 'chooseMedia:fail cancel') {
+          console.log(TAG, '用户取消选择媒体')
+          return
+        }
+
         let { errMsg, tempFiles } = result
         if (errMsg !== 'chooseMedia:ok') {
           throw new Error(errMsg)
