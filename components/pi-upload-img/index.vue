@@ -67,7 +67,11 @@
       </view>
     </view>
     <!-- 上传框 -->
-    <view v-if="getUploadMaxCount && !getDisabled">
+    <view
+      v-if="
+        getUploadMaxCount && (!getDisabled || (getDisabled && !getImgs.length))
+      "
+    >
       <view
         :style="[getUploadBtnStyle]"
         class="pi-flex-column-center"
