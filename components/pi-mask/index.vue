@@ -20,7 +20,7 @@
     @tap.stop.prevent="handleCloseMask"
   >
     <!-- 遮罩层内区域插槽 -->
-    <view class="pi-w-100P pi-h-100P" @tap.stop.prevent="() => {}">
+    <view class="pi-w-100P pi-h-100P">
       <slot />
     </view>
   </view>
