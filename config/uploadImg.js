@@ -78,6 +78,7 @@ export default {
   beforeUpload: null, // 上传之前的钩子
   onProgress: null, // 文件上传时的钩子
   beforeRemove: null, // 删除之前的钩子
+  customTakePhoto: false, // 是否自定义拍照（如果为true，则不调用相机，通过事件自己实现拍照上传）
   fileIconMap: {}, // 文件类型和图标映射关系，对象形式（{PDF: 'https://xxx'}）
   customUploadParams: {} // 自定义上传参数，对象形式
 }

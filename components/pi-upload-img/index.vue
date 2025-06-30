@@ -47,7 +47,7 @@
             v-if="fileIconMap[getFileType(imgField ? img[imgField] : img)]"
             :src="fileIconMap[getFileType(imgField ? img[imgField] : img)]"
             mode="widthFix"
-            style="width: 100%;"
+            style="width: 100%"
           />
           <template v-else>
             <pi-icon
@@ -142,6 +142,26 @@
         borderRadius: 0
       }"
       @select="handleActionSheetSelect"
+    />
+
+    <!-- 自定义拍照操作面板（小程序专用） -->
+    <pi-select
+      v-model="showCustomTakePhoto"
+      :items="customTakePhotoItems"
+      :single-cancel="false"
+      single-confirm
+      :item-style="{
+        padding: '32rpx'
+      }"
+      :popup="{
+        borderRadius: 0
+      }"
+      :popup-select="{
+        showTitle: true,
+        title: '请选择拍摄方式'
+      }"
+      item-height="auto"
+      @confirm="handleCustomTakePhotoSelect"
     />
   </view>
 </template>
@@ -415,6 +435,13 @@ export default {
       default() {
         return uploadImg.customUploadParams
       }
+    },
+    // 是否自定义拍照（如果为true，则不调用相机，通过事件自己实现拍照上传）
+    customTakePhoto: {
+      type: Boolean,
+      default() {
+        return uploadImg.customTakePhoto
+      }
     }
   },
   data() {
@@ -422,7 +449,9 @@ export default {
       showCrop: false, // 是否显示裁剪工具
       cropPic: '', // 需要剪裁的图片
       cropedPic: '', // 剪裁后的图片
-      showActionSheet: false // 是否显示上传视频操作面板
+      showActionSheet: false, // 是否显示上传视频操作面板
+      showCustomTakePhoto: false, // 是否显示自定义拍照操作面板
+      currentSourceType: ['camera', 'album'] // 当前选择的拍照方式
     }
   },
   computed: {
@@ -450,6 +479,38 @@ export default {
           text: '选择微信聊天文件'
         }
       ]
+    },
+    customTakePhotoItems() {
+      // currentSourceType 当前选择的拍照方式 ['camera', 'album']
+      let sourceType = this.currentSourceType || ['camera', 'album']
+      if (sourceType.length === 0) {
+        sourceType = ['camera', 'album']
+      }
+      const items = [
+        {
+          id: 'takePhoto',
+          text: '拍摄',
+          desc: '拍摄完成后上传图片（信号良好下使用）',
+          show: sourceType.includes('camera')
+        },
+        {
+          id: 'takePhotoOffline',
+          text: '离线拍摄',
+          desc: '拍摄完成后缓存到相册，待网络良好时上传（信号较差时使用）',
+          show: sourceType.includes('camera')
+        },
+        {
+          id: 'chooseFromAlbum',
+          text: '从手机相册选择',
+          show: sourceType.includes('album')
+        },
+        {
+          id: 'chooseFromCacheAlbum',
+          text: '从缓存相册选择',
+          show: true
+        }
+      ]
+      return items.filter(item => item.show)
     },
     selectOnlyFile() {
       return this.type === 'all' && this.fileTypes.length === 0
@@ -886,6 +947,17 @@ export default {
     },
     async handleChooseImage() {
       const { sizeType, sourceType, crop } = this.getChooseImageOpts
+
+      this.currentSourceType = sourceType
+
+      if (this.customTakePhoto) {
+        this.showCustomTakePhoto = true
+        return
+      }
+
+      this.handleUniChooseImage(sizeType, sourceType, crop)
+    },
+    async handleUniChooseImage(sizeType, sourceType, crop) {
       try {
         const [cancel, result] = await uni.chooseImage({
           count: this.getUploadMaxCount,
@@ -930,6 +1002,14 @@ export default {
     },
     async handleChooseVideo() {
       const { sourceType, maxDuration, camera } = this.getChooseVideoOpts
+
+      this.currentSourceType = sourceType
+
+      if (this.customTakePhoto) {
+        this.showCustomTakePhoto = true
+        return
+      }
+
       try {
         const [cancel, result] = await uni.chooseVideo({
           sourceType,
@@ -957,6 +1037,14 @@ export default {
     async handleChooseMedia() {
       const { sourceType, maxDuration, camera } =
         this.type === 'video' ? this.getChooseVideoOpts : this.getChooseFileOpts
+
+      this.currentSourceType = sourceType
+
+      if (this.customTakePhoto) {
+        this.showCustomTakePhoto = true
+        return
+      }
+
       try {
         const [cancel, result] = await uni.chooseMedia({
           count: this.getUploadMaxCount,
@@ -1029,6 +1117,25 @@ export default {
         this.handleChooseMedia()
       } else {
         this.handleSelectMessageFile()
+      }
+    },
+    handleEmitTakePhoto(takeType) {
+      this.$emit('customTakePhoto', {
+        takeType,
+        uploadType: this.type,
+        compressOption: this.compressOption,
+        chooseImageOpts: this.getChooseImageOpts,
+        chooseVideoOpts: this.getChooseVideoOpts,
+        chooseFileOpts: this.getChooseFileOpts
+      })
+    },
+    handleCustomTakePhotoSelect(type) {
+      if (type.id === 'chooseFromAlbum') {
+        // 从手机相册选择
+        const { sizeType, crop } = this.getChooseImageOpts
+        this.handleUniChooseImage(sizeType, ['album'], crop)
+      } else {
+        this.handleEmitTakePhoto(type.id)
       }
     }
   }
