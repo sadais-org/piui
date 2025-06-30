@@ -16,7 +16,11 @@
     :background="getPopup.background"
     @close="handlePopupClose"
   >
-    <view class="pi-modal" :style="[customStyle, modalStyle]" :class="[customClass]">
+    <view
+      class="pi-modal"
+      :style="[customStyle, modalStyle]"
+      :class="[customClass]"
+    >
       <!-- 标题栏 -->
       <view
         v-if="showTitle"
@@ -28,7 +32,10 @@
         <template v-else>{{ title }}</template>
       </view>
       <!-- 内容区域 -->
-      <view class="pi-flex-column-center modal-content" :style="[getContentStyle]">
+      <view
+        class="pi-flex-column-center modal-content"
+        :style="[getContentStyle]"
+      >
         <!-- 内容插槽 -->
         <slot v-if="$slots.default || $slots.$default" />
         <view v-else>{{ content }}</view>
@@ -112,6 +119,7 @@
           </view>
         </template>
       </view>
+      <slot v-if="$slots.customFooter" name="customFooter" />
     </view>
   </pi-popup>
 </template>
