@@ -493,22 +493,22 @@ export default {
           desc: '拍摄完成后上传图片（信号良好下使用）',
           show: sourceType.includes('camera')
         },
-        {
-          id: 'takePhotoOffline',
-          text: '离线拍摄',
-          desc: '拍摄完成后缓存到相册，待网络良好时上传（信号较差时使用）',
-          show: sourceType.includes('camera')
-        },
+        // {
+        //   id: 'takePhotoOffline',
+        //   text: '离线拍摄',
+        //   desc: '拍摄完成后缓存到相册，待网络良好时上传（信号较差时使用）',
+        //   show: sourceType.includes('camera')
+        // },
         {
           id: 'chooseFromAlbum',
           text: '从手机相册选择',
           show: sourceType.includes('album')
-        },
-        {
-          id: 'chooseFromCacheAlbum',
-          text: '从缓存相册选择',
-          show: true
         }
+        // {
+        //   id: 'chooseFromCacheAlbum',
+        //   text: '从缓存相册选择',
+        //   show: true
+        // }
       ]
       return items.filter(item => item.show)
     },
