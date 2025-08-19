@@ -521,7 +521,6 @@ export default {
             resolve(_getResolve())
           })
           .catch(({ errors, fields }) => {
-            console.log('thisthisthis', this)
             console.log(
               TAG,
               '表单校验失败',
