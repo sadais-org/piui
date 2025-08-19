@@ -442,6 +442,13 @@ export default {
       default() {
         return uploadImg.customTakePhoto
       }
+    },
+    // 文件大小限制，单位为字节，null表示不限制
+    fileLimit: {
+      type: [Number, String, null],
+      default() {
+        return uploadImg.fileLimit
+      }
     }
   },
   data() {
@@ -724,6 +731,135 @@ export default {
         }
       })
     },
+    // 检查文件大小限制
+    checkFileSize(files) {
+      if (!this.fileLimit) return { valid: true, files }
+
+      const limitBytes = this.parseFileSize(this.fileLimit)
+      const validFiles = []
+      const oversizedFiles = []
+
+      for (const file of files) {
+        // 对于不同的文件对象，获取文件大小的方式可能不同
+        let fileSize = 0
+        if (file && file.size !== undefined) {
+          // 标准的 File 对象或有 size 属性的对象
+          fileSize = file.size
+        } else if (file && file.tempFile && file.tempFile.size !== undefined) {
+          // uni-app 的 tempFile 格式
+          fileSize = file.tempFile.size
+        } else if (typeof file === 'string') {
+          // 如果是纯路径字符串，无法获取文件大小，跳过检查
+          validFiles.push(file)
+          continue
+        } else {
+          // 如果无法获取文件大小，跳过检查
+          validFiles.push(file)
+          continue
+        }
+
+        if (fileSize > limitBytes) {
+          oversizedFiles.push({
+            file,
+            size: fileSize,
+            humanSize: this.formatFileSize(fileSize)
+          })
+        } else {
+          validFiles.push(file)
+        }
+      }
+
+      if (oversizedFiles.length > 0) {
+        const limitHumanSize = this.formatFileSize(limitBytes)
+        const message =
+          oversizedFiles.length === 1
+            ? `文件限制大小: ${limitHumanSize}`
+            : `有 ${oversizedFiles.length} 个文件限制: ${limitHumanSize}`
+
+        this.$toast(message)
+        return { valid: false, files: validFiles, oversizedFiles }
+      }
+
+      return { valid: true, files: validFiles }
+    },
+    // 解析文件大小字符串或数字为字节数
+    parseFileSize(size) {
+      if (typeof size === 'number') return size
+      if (typeof size === 'string') {
+        const units = {
+          B: 1,
+          KB: 1024,
+          MB: 1024 * 1024,
+          GB: 1024 * 1024 * 1024
+        }
+
+        const regex = /^(\d+(?:\.\d+)?)\s*(B|KB|MB|GB)$/i
+        const match = size.trim().match(regex)
+
+        if (match) {
+          const value = parseFloat(match[1])
+          const unit = match[2].toUpperCase()
+          return value * units[unit]
+        }
+
+        // 如果没有单位，默认为字节
+        const numSize = parseInt(size, 10)
+        return isNaN(numSize) ? 0 : numSize
+      }
+      return 0
+    },
+    // 格式化文件大小显示
+    formatFileSize(bytes) {
+      if (bytes === 0) return '0 B'
+
+      const units = ['B', 'KB', 'MB', 'GB']
+      let size = bytes
+      let unitIndex = 0
+
+      while (size >= 1024 && unitIndex < units.length - 1) {
+        size /= 1024
+        unitIndex++
+      }
+
+      return `${size.toFixed(unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`
+    },
+    // 获取文件路径的文件信息（包含大小）
+    async getFileInfoForPaths(filePaths) {
+      const fileInfos = []
+
+      for (const filePath of filePaths) {
+        try {
+          // #ifdef APP-PLUS || H5
+          // uni.getFileInfo 在 app 和 h5 中可用
+          const [, fileInfo] = await uni.getFileInfo({
+            filePath: filePath
+          })
+
+          if (fileInfo && fileInfo.size !== undefined) {
+            fileInfos.push({
+              path: filePath,
+              size: fileInfo.size
+            })
+          } else {
+            // 如果无法获取文件信息，保持原路径（跳过大小检查）
+            fileInfos.push(filePath)
+          }
+          // #endif
+
+          // #ifndef APP-PLUS || H5
+          // 在小程序环境中，由于安全限制，可能无法获取文件大小
+          // 这种情况下跳过文件大小检查
+          fileInfos.push(filePath)
+          // #endif
+        } catch (error) {
+          console.log(TAG, '获取文件信息失败', error)
+          // 如果获取文件信息失败，保持原路径（跳过大小检查）
+          fileInfos.push(filePath)
+        }
+      }
+
+      return fileInfos
+    },
     async handleUpload(paths) {
       const beforeUpload = this.beforeUpload[PI_DEFAULT_FN_FLAG]
         ? this.beforeUpload.fn
@@ -799,11 +935,19 @@ export default {
       this.showCrop = false
       this.cropPic = ''
     },
-    handleCompelteCrop() {
+    async handleCompelteCrop() {
       console.log(TAG, '完成剪裁')
       this.$emit('croped', [this.cropedPic])
       this.showCrop = false
-      this.handleUpload([this.cropedPic])
+
+      // 剪裁完成后也要检查文件大小
+      const tempFilesWithSize = await this.getFileInfoForPaths([this.cropedPic])
+      const sizeCheckResult = this.checkFileSize(tempFilesWithSize)
+
+      if (sizeCheckResult.valid && sizeCheckResult.files.length > 0) {
+        const validPaths = sizeCheckResult.files.map(file => file.path || file)
+        this.handleUpload(validPaths)
+      }
     },
     async handleCompressImgs(tempFilePaths) {
       const compressUrls = []
@@ -900,7 +1044,12 @@ export default {
         if (errMsg !== 'chooseFile:ok') {
           throw new Error(errMsg)
         }
-        this.handleUpload(tempFiles)
+
+        // 检查文件大小限制
+        const sizeCheckResult = this.checkFileSize(tempFiles)
+        if (sizeCheckResult.valid && sizeCheckResult.files.length > 0) {
+          this.handleUpload(sizeCheckResult.files)
+        }
       } catch (error) {
         console.log(TAG, '上传文件失败', error)
         this.$emit('fail', error)
@@ -939,7 +1088,12 @@ export default {
           return this.isRightType(file)
         })
         console.log(TAG, '过滤后的文件列表：', tempFiles)
-        this.handleUpload(tempFiles)
+
+        // 检查文件大小限制
+        const sizeCheckResult = this.checkFileSize(tempFiles)
+        if (sizeCheckResult.valid && sizeCheckResult.files.length > 0) {
+          this.handleUpload(sizeCheckResult.files)
+        }
       } catch (error) {
         console.log(error)
       }
@@ -989,12 +1143,25 @@ export default {
           this.crop &&
           tempFilePaths.length === 1
         ) {
-          // 单张图片设置了剪裁
+          // 单张图片设置了剪裁，暂时不进行文件大小检查，在剪裁完成后再检查
           this.showCrop = true
           this.cropPic = tempFilePaths[0]
           return
         }
-        this.handleUpload(tempFilePaths)
+
+        // 对于选择的图片路径，我们需要构造合适的文件对象进行大小检查
+        // uni-app 的 chooseImage 返回的 tempFilePaths 不包含文件大小信息
+        // 所以我们需要获取文件信息
+        const tempFilesWithSize = await this.getFileInfoForPaths(tempFilePaths)
+        const sizeCheckResult = this.checkFileSize(tempFilesWithSize)
+
+        if (sizeCheckResult.valid && sizeCheckResult.files.length > 0) {
+          // 恢复为路径数组格式传递给 handleUpload
+          const validPaths = sizeCheckResult.files.map(
+            file => file.path || file
+          )
+          this.handleUpload(validPaths)
+        }
       } catch (error) {
         console.log(TAG, '上传文件失败', error)
         this.$emit('fail', error)
@@ -1028,7 +1195,12 @@ export default {
         }
         tempFile.path = tempFilePath
         console.log(TAG, '上传视频结果', result)
-        this.handleUpload([tempFile])
+
+        // 检查文件大小限制
+        const sizeCheckResult = this.checkFileSize([tempFile])
+        if (sizeCheckResult.valid && sizeCheckResult.files.length > 0) {
+          this.handleUpload(sizeCheckResult.files)
+        }
       } catch (error) {
         console.log(TAG, '上传视频失败', error)
         this.$emit('fail', error)
@@ -1089,7 +1261,13 @@ export default {
         }
         // #endif
 
-        this.handleUpload(tempFiles.map(file => file.tempFilePath))
+        // 检查文件大小限制
+        const sizeCheckResult = this.checkFileSize(tempFiles)
+        if (sizeCheckResult.valid && sizeCheckResult.files.length > 0) {
+          this.handleUpload(
+            sizeCheckResult.files.map(file => file.tempFilePath || file)
+          )
+        }
       } catch (error) {
         console.log(TAG, '上传视频失败', error)
         this.$emit('fail', error)

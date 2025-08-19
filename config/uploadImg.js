@@ -80,5 +80,6 @@ export default {
   beforeRemove: null, // 删除之前的钩子
   customTakePhoto: false, // 是否自定义拍照（如果为true，则不调用相机，通过事件自己实现拍照上传）
   fileIconMap: {}, // 文件类型和图标映射关系，对象形式（{PDF: 'https://xxx'}）
-  customUploadParams: {} // 自定义上传参数，对象形式
+  customUploadParams: {}, // 自定义上传参数，对象形式
+  fileLimit: null // 文件大小限制，单位为字节，null表示不限制
 }
