@@ -26,8 +26,7 @@
           :style="[
             {
               borderRadius: `${borderRadius}rpx`,
-              transform:
-                effect3d && val !== index ? 'scaleY(0.9)' : 'scaleY(1)',
+              transform: effect3d && val !== index ? 'scale(0.9)' : 'scale(1)',
               padding: effect3d && val !== index ? '0 20rpx' : 0
             }
           ]"

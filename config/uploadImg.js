@@ -75,6 +75,27 @@ export default {
       )
     }
   },
+  compressOption: {
+    quality: 100,
+    width: 'auto',
+    height: 'auto',
+    // 智能压缩配置
+    smartCompress: true, // 是否启用智能压缩，默认启用
+    // 智能压缩策略配置
+    smartCompressConfig: {
+      // 基础分辨率阈值，当图片最长边小于等于此值时保持原分辨率
+      baseThreshold: 1080,
+      // 不同比例区间的压缩策略
+      ratioStrategies: {
+        // 比例范围 (1:1~9:16)：压缩后最长边不超过 1664px
+        normal: { maxSide: 1664, ratioRange: [1, 9 / 16] },
+        // 比例范围 (9:16~1:2)：压缩后最长边不超过 1440px
+        portrait: { maxSide: 1440, ratioRange: [9 / 16, 1 / 2] },
+        // 比例范围 (1:2~1:∞)：压缩后最长边不超过 1280px
+        extreme: { maxSide: 1280, ratioRange: [1 / 2, Infinity] }
+      }
+    }
+  }, // 压缩配置
   beforeUpload: null, // 上传之前的钩子
   onProgress: null, // 文件上传时的钩子
   beforeRemove: null, // 删除之前的钩子

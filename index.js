@@ -3,8 +3,18 @@ import { getConfig, setConfig } from './config'
 
 const logStyle = 'color:#ff6a00;'
 
+// overwriteMerge 函数实现
+function overwriteMerge(target, source, options) {
+  // 直接返回 source 数组，完全覆盖 target
+  return source.map(function(element) {
+    return options.cloneUnlessOtherwiseSpecified(element, options)
+  })
+}
+
 const install = function(Vue, config = {}) {
-  const piConfig = tools.lang.mergeDeep(getConfig(), config)
+  const piConfig = tools.lang.mergeDeep(getConfig(), config, {
+    arrayMerge: overwriteMerge
+  })
   setConfig(piConfig)
   Vue.prototype.$piConfig = piConfig
   Vue.prototype.$pi = tools
@@ -30,7 +40,10 @@ const install = function(Vue, config = {}) {
   // #ifndef APP-PLUS
   console.group && console.group('piui')
 
-  console.log('%cpiui 已安装，教程：https://piui.sadais.com/docs/components/Config.html', logStyle)
+  console.log(
+    '%cpiui 已安装，教程：https://piui.sadais.com/docs/components/Config.html',
+    logStyle
+  )
   console.log('%cpiui 组件全局配置：', logStyle, piConfig)
   console.log('%cpiui tools 已挂载，使用方式 this.$pi.xxx：', logStyle, tools)
 
