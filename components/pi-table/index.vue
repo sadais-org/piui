@@ -12,7 +12,7 @@
             cellPaddingStyle,
             headStyle,
             leftMap[idx],
-            rightMap[idx],
+            rightMap[idx]
           ]"
         >
           {{ col.name }}
@@ -38,8 +38,8 @@
                 :style="[
                   {
                     width: col.style.width,
-                    whiteSpace: col.whiteSpace || 'normal',
-                  },
+                    whiteSpace: col.whiteSpace || 'normal'
+                  }
                 ]"
               >
                 <image
@@ -50,8 +50,8 @@
                 <image
                   v-else-if="
                     col.slot &&
-                    col.slot.type === 'rank' &&
-                    idx < col.slot.condition
+                      col.slot.type === 'rank' &&
+                      idx < col.slot.condition
                   "
                   :src="row[col.prop]"
                   :style="[col.slot.style]"
@@ -79,8 +79,8 @@
                 <image
                   v-else-if="
                     col.slot &&
-                    col.slot.type === 'rank' &&
-                    idx < col.slot.condition
+                      col.slot.type === 'rank' &&
+                      idx < col.slot.condition
                   "
                   :src="row[col.prop]"
                   :style="[col.slot.style]"
@@ -111,127 +111,127 @@
 </template>
 
 <script>
-import { getConfig } from "../../config";
-const { table: tableConfig } = getConfig();
+import { getConfig } from '../../config'
+const { table: tableConfig } = getConfig()
 export default {
-  name: "PiTable",
+  name: 'PiTable',
   props: {
     // 是否开启滚动反弹效果
     bounce: {
       // `Boolean`
       type: Boolean,
       // `false`
-      default: tableConfig.bounce,
+      default: tableConfig.bounce
     },
     // 列配置项
     columns: {
       type: Array,
       // `[]`
-      default: () => tableConfig.columns,
+      default: () => tableConfig.columns
     },
     // 表格数据源
     data: {
       type: Array,
       // `[]`
-      default: () => tableConfig.data,
+      default: () => tableConfig.data
     },
     // 无数据提示语
     emptyText: {
       // `'暂无数据'`
-      default: tableConfig.emptyText,
+      default: tableConfig.emptyText
     },
     // 是否条纹显示
     stripe: {
       // `true`
-      default: tableConfig.stripe,
+      default: tableConfig.stripe
     },
     // 头部样式
     headStyle: {
       type: Object,
       // `{}`
-      default: () => tableConfig.headStyle,
+      default: () => tableConfig.headStyle
     },
     // 单元格样式
     cellStyle: {
       type: Object,
       // `{}`
-      default: () => tableConfig.cellStyle,
-    },
+      default: () => tableConfig.cellStyle
+    }
   },
   data() {
     return {
       cellPadding: 16,
       leftMap: {},
-      rightMap: {},
-    };
+      rightMap: {}
+    }
   },
   computed: {
     cellPaddingStyle() {
       return {
-        padding: `${this.cellPadding}rpx`,
-      };
+        padding: `${this.cellPadding}rpx`
+      }
     },
     cellContentWrapStyle() {
       return {
-        padding: `${this.cellPadding}rpx`,
-      };
+        padding: `${this.cellPadding}rpx`
+      }
     },
     cols() {
-      const list = (this.columns || []).map((i) => {
-        const t = { ...i };
-        const w = (t.width && `${t.width}rpx`) || "auto";
-        t.style = { width: w };
-        return t;
-      });
-      return list;
+      const list = (this.columns || []).map(i => {
+        const t = { ...i }
+        const w = (t.width && `${t.width}rpx`) || 'auto'
+        t.style = { width: w }
+        return t
+      })
+      return list
     },
     reCompute() {
-      return this.cols.length + this.data.length;
-    },
+      return this.cols.length + this.data.length
+    }
   },
   watch: {
     reCompute: {
       immediate: true,
       handler() {
         this.$nextTick(() => {
-          this.computeColumnWidth();
-        });
-      },
-    },
+          this.computeColumnWidth()
+        })
+      }
+    }
   },
   methods: {
     computeColumnWidth() {
-      const query = uni.createSelectorQuery().in(this);
+      const query = uni.createSelectorQuery().in(this)
       query
-        .selectAll(".head")
+        .selectAll('.head')
         .boundingClientRect()
-        .exec((res) => {
-          const list = res[0] || [];
-          let left = 0;
-          const isLeft = (i) => i.fixed === true || i.fixed === "left";
-          const isRight = (i) => i.fixed === "right";
-          const leftMap = {};
+        .exec(res => {
+          const list = res[0] || []
+          let left = 0
+          const isLeft = i => i.fixed === true || i.fixed === 'left'
+          const isRight = i => i.fixed === 'right'
+          const leftMap = {}
           for (let i = 0; i < list.length; i++) {
-            const col = this.cols[i];
-            leftMap[i] = { left: isLeft(col) ? `${left}px` : "auto" };
-            left += isLeft(col) ? list[i].width : 0;
+            const col = this.cols[i]
+            leftMap[i] = { left: isLeft(col) ? `${left}px` : 'auto' }
+            left += isLeft(col) ? list[i].width : 0
           }
-          const rightMap = {};
-          let right = 0;
+          const rightMap = {}
+          let right = 0
           for (let i = list.length - 1; i >= 0; i--) {
-            const col = this.cols[i];
-            rightMap[i] = { right: isRight(col) ? `${right}px` : "auto" };
-            right += isRight(col) ? list[i].width : 0;
+            const col = this.cols[i]
+            rightMap[i] = { right: isRight(col) ? `${right}px` : 'auto' }
+            right += isRight(col) ? list[i].width : 0
           }
-          this.leftMap = leftMap;
-          this.rightMap = rightMap;
-        });
+          this.leftMap = leftMap
+          this.rightMap = rightMap
+        })
     },
     handleClickLink(info) {
-      this.$emit("link", info);
-    },
-  },
-};
+      this.$emit('link', info)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -329,7 +329,7 @@ $fixed-shadow: 0 0 40rpx rgba(11, 101, 209, 0.2);
   &:empty {
     &::before {
       display: table-row;
-      content: "";
+      content: '';
       height: 200rpx;
       width: 100%;
     }

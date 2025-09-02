@@ -146,7 +146,9 @@ export default {
       // 'line'
       default: radioGroup.activeMode,
       validator: function(value) {
-        return ['', 'line', 'line-circle', 'fill', 'fill-circle'].includes(value)
+        return ['', 'line', 'line-circle', 'fill', 'fill-circle'].includes(
+          value
+        )
       }
     },
     // 能否取消选中状态

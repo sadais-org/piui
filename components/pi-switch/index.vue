@@ -159,7 +159,11 @@ export default {
         fontSize: this.getSize
       }
       if (this.type === 'line') style.padding = '4rpx'
-      if (this.val === this.activeValue && this.activeColor && this.type === 'fill') {
+      if (
+        this.val === this.activeValue &&
+        this.activeColor &&
+        this.type === 'fill'
+      ) {
         style.backgroundColor = this.activeColor
         style.borderColor = this.activeColor
       }
@@ -172,7 +176,11 @@ export default {
         lineHeight: this.getSize
       }
       if (this.type === 'line') style.boxShadow = 'unset'
-      if (this.val === this.activeValue && this.activeColor && this.type === 'line') {
+      if (
+        this.val === this.activeValue &&
+        this.activeColor &&
+        this.type === 'line'
+      ) {
         style.backgroundColor = this.activeColor
       }
       return style
@@ -182,7 +190,8 @@ export default {
     handleSwitchToggle() {
       // 禁用开关
       if (this.getDisabled) return
-      this.val = this.val === this.activeValue ? this.inactiveValue : this.activeValue
+      this.val =
+        this.val === this.activeValue ? this.inactiveValue : this.activeValue
       if (this.vibrateShort) uni.vibrateShort()
       this.handleEmitChange()
     }
@@ -204,8 +213,8 @@ export default {
     background: #ffffff;
     border-radius: 50%;
     /* stylelint-disable */
-    box-shadow: -2rpx 4rpx 4rpx 0 rgba(0, 0, 0, 0.1), 0 4rpx 23rpx 0 rgba(0, 0, 0, 0.08),
-      0 0 4rpx 0 rgba(0, 0, 0, 0.2);
+    box-shadow: -2rpx 4rpx 4rpx 0 rgba(0, 0, 0, 0.1),
+      0 4rpx 23rpx 0 rgba(0, 0, 0, 0.08), 0 0 4rpx 0 rgba(0, 0, 0, 0.2);
     transition: all cubic-bezier(0.3, 1.05, 0.4, 1.05) $pi-animation-duration;
   }
 

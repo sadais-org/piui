@@ -21,7 +21,12 @@
     <text class="pi-pd-right-12 pi-fz-28">
       {{ item.text }}
     </text>
-    <pi-icon :class="{ rotate: item.opened }" name="arrow-down_fill" size="26" color="#999" />
+    <pi-icon
+      :class="{ rotate: item.opened }"
+      name="arrow-down_fill"
+      size="26"
+      color="#999"
+    />
   </view>
 </template>
 

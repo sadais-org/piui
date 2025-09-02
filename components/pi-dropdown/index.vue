@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-dropdown pi-rela pi-w-100P" :class="[customClass]" :style="[customStyle]">
+  <view
+    class="pi-dropdown pi-rela pi-w-100P"
+    :class="[customClass]"
+    :style="[customStyle]"
+  >
     <view>
       <pi-tabs
         :value="activeItem"
@@ -37,7 +41,9 @@
       :style="[
         {
           'z-index': getMask.zIndex,
-          'top': maskAlignTop ? containerRect.top + containerRect.height + 'px' : '-9999px',
+          'top': maskAlignTop
+            ? containerRect.top + containerRect.height + 'px'
+            : '-9999px',
           'background': getMask.background,
           'animation-duration': getDuration.css
         }
@@ -263,7 +269,9 @@ export default {
           showIcon: item.showIcon,
           iconOption: item.getIconOption,
           id: item._uid,
-          text: currentOption ? currentOption[item.getDisplayField] : item.title,
+          text: currentOption
+            ? currentOption[item.getDisplayField]
+            : item.title,
           disabled: item.disabled,
           opened: false,
           activeColor: this.activeColor
@@ -290,7 +298,11 @@ export default {
       })
       this.activeItem = item
       // 每次点击都重新更新父容器的位置
-      this.containerRect = await this.$pi.common.queryRect(this, '.pi-dropdown', false)
+      this.containerRect = await this.$pi.common.queryRect(
+        this,
+        '.pi-dropdown',
+        false
+      )
       this.openMask()
       this._children.forEach(child => {
         child.show = child._uid === item.id

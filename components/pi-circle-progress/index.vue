@@ -87,7 +87,9 @@ export default {
       type: String,
       default: circleProgress.type,
       validator: function(value) {
-        return ['success', 'error', 'info', 'primary', 'warning'].includes(value)
+        return ['success', 'error', 'info', 'primary', 'warning'].includes(
+          value
+        )
       }
     },
     // 主题列表
@@ -198,7 +200,14 @@ export default {
       // 设置一个原点(110,110)，半径为100的圆的路径到当前路径
       let radius = this.widthPx / 2
       //  用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
-      ctx.arc(radius, radius, radius - this.borderWidthPx, 0, 2 * Math.PI, false)
+      ctx.arc(
+        radius,
+        radius,
+        radius - this.borderWidthPx,
+        0,
+        2 * Math.PI,
+        false
+      )
       ctx.stroke() // 对路径进行描绘
       ctx.draw()
     },
@@ -227,11 +236,20 @@ export default {
           const color = colorData.slice(index * 4, index * 4 + 4)
           ctx.beginPath()
 
-          ctx.setStrokeStyle(`rgba(${color[0]},${color[1]},${color[2]},${color[3] / 255})`)
+          ctx.setStrokeStyle(
+            `rgba(${color[0]},${color[1]},${color[2]},${color[3] / 255})`
+          )
           ctx.globalAlpha = color[3] / 255
           let endAngle = ((2 * Math.PI) / 100) * (i + 1) + this.startAngle
           let startAngle = this.startAngle + ((2 * Math.PI) / 100) * i
-          ctx.arc(radius, radius, radius - this.borderWidthPx, startAngle, endAngle, false)
+          ctx.arc(
+            radius,
+            radius,
+            radius - this.borderWidthPx,
+            startAngle,
+            endAngle,
+            false
+          )
           ctx.stroke()
         }
       } else {
@@ -242,7 +260,14 @@ export default {
         let endAngle = ((2 * Math.PI) / 100) * progress + this.startAngle
         ctx.beginPath()
         // 半径为整个canvas宽度的一半
-        ctx.arc(radius, radius, radius - this.borderWidthPx, this.startAngle, endAngle, false)
+        ctx.arc(
+          radius,
+          radius,
+          radius - this.borderWidthPx,
+          this.startAngle,
+          endAngle,
+          false
+        )
         ctx.stroke()
       }
       ctx.beginPath()

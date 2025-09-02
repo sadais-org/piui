@@ -10,7 +10,11 @@
 <template>
   <view class="pi-calendar-input">
     <!-- 输入框 -->
-    <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="handleShow()">
+    <view
+      v-if="$slots.default || $slots.$default"
+      class="pi-w-100P"
+      @click="handleShow()"
+    >
       <slot />
     </view>
     <pi-input
@@ -168,11 +172,16 @@ export default {
         return parseValue
       }
       if (!this.dateFormat) {
-        console.warn('使用pi-calendar-input组件，请设置.dateFormat，否则无法正常显示')
+        console.warn(
+          '使用pi-calendar-input组件，请设置.dateFormat，否则无法正常显示'
+        )
       }
       if (this.$pi.lang.isEmpty(this.val)) return ''
       // 常规字段正常返回
-      if (this.$pi.lang.isString(this.val) || this.$pi.lang.isNumber(this.val)) {
+      if (
+        this.$pi.lang.isString(this.val) ||
+        this.$pi.lang.isNumber(this.val)
+      ) {
         return this.val
       }
       // 如果是日期对象，返回格式化后的日期
@@ -190,9 +199,10 @@ export default {
     },
     getDisabled() {
       const parentFormItem = this.$pi.parent(this, 'PiFormItem')
-      const disabled = this.disabled || (parentFormItem && parentFormItem.getDisabled)
+      const disabled =
+        this.disabled || (parentFormItem && parentFormItem.getDisabled)
       return disabled
-    },
+    }
   },
   methods: {
     handleShow() {

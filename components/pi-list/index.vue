@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-list" :style="[customStyle]" :class="[{ border: showBorder }, customClass]">
+  <view
+    class="pi-list"
+    :style="[customStyle]"
+    :class="[{ border: showBorder }, customClass]"
+  >
     <pi-section
       v-if="title"
       :title="title"

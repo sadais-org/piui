@@ -1,5 +1,9 @@
 <template>
-  <view class="page-wrap" :class="customClass" :style="[customStyle, { textAlign: align }]">
+  <view
+    class="page-wrap"
+    :class="customClass"
+    :style="[customStyle, { textAlign: align }]"
+  >
     <view
       class="prev"
       :class="{ active: val > 1 }"

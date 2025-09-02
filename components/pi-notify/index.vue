@@ -65,9 +65,15 @@ export default {
       // 'primary'
       default: notify.type,
       validator: function(value) {
-        return ['primary', 'success', 'danger', 'warning', 'info', 'customDuration', ''].includes(
-          value
-        )
+        return [
+          'primary',
+          'success',
+          'danger',
+          'warning',
+          'info',
+          'customDuration',
+          ''
+        ].includes(value)
       }
     },
     // 展示时长,默认单位 ms

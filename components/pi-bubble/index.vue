@@ -16,7 +16,11 @@
         <view class="pi-bubble-angle pi-abso" />
       </view>
     </view>
-    <pi-mask v-model="showMaks" background="transparent" @close="showBubble = false" />
+    <pi-mask
+      v-model="showMaks"
+      background="transparent"
+      @close="showBubble = false"
+    />
   </view>
 </template>
 
@@ -109,7 +113,11 @@ export default {
         this.$set(this, 'bublePosition', { top: '-9999vh', left: 0 })
         this.showBubble = true
         setTimeout(() => {
-          reslove(this.$refs.bubble ? this.$refs.bubble.$el.getBoundingClientRect().width : 0)
+          reslove(
+            this.$refs.bubble
+              ? this.$refs.bubble.$el.getBoundingClientRect().width
+              : 0
+          )
           this.showBubble = false
         }, 500)
       })
@@ -120,7 +128,10 @@ export default {
       const lengthGap = (this.bubleWidth - bublePosition.width) / 2
       const compRight = this.screenWidth - bublePosition.x - bublePosition.width
       const posRes = {}
-      if (lengthGap <= 0 || (lengthGap < bublePosition.x && lengthGap < compRight)) {
+      if (
+        lengthGap <= 0 ||
+        (lengthGap < bublePosition.x && lengthGap < compRight)
+      ) {
         posRes.left = -Math.abs(lengthGap) + 'px'
       } else {
         posRes.right = 4 - Math.min(bublePosition.x, compRight) + 'px'

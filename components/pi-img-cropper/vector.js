@@ -19,7 +19,7 @@ export default {
         let angle = Math.acos(cosValue)
         const tmp = vector1.x * vector2.y - vector1.y * vector2.x
         angle = tmp > 0 ? angle : -angle
-        return angle * 180 / Math.PI
+        return (angle * 180) / Math.PI
       }
       return 0
     },

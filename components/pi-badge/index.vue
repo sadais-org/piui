@@ -1,12 +1,18 @@
 <template>
-  <view class="badge-wrap" :style="[customStyle]" :class="[customClass]" @tap="handleClick">
+  <view
+    class="badge-wrap"
+    :style="[customStyle]"
+    :class="[customClass]"
+    @tap="handleClick"
+  >
     <view
       class="badge"
       :class="[
         {
           dot,
           'abso': $slots.default || $slots.$default,
-          'hide-border': !dot && !getContent && !($slots.content || $slots.$content)
+          'hide-border':
+            !dot && !getContent && !($slots.content || $slots.$content)
         }
       ]"
       :style="[badgeStyle]"

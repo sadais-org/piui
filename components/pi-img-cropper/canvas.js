@@ -53,11 +53,18 @@ export default {
         width: this.crop.width,
         height: this.crop.height
       })
-      ctx.fillRect(0, 0, this.crop.width * this.canvasZoom, this.crop.height * this.canvasZoom)
+      ctx.fillRect(
+        0,
+        0,
+        this.crop.width * this.canvasZoom,
+        this.crop.height * this.canvasZoom
+      )
       // 将画布的坐标原点 移动到裁剪窗口左上角对应的那个像素点的位置
       ctx.translate(
-        (this.img.width * 0.5 + this.img.transform.x - this.crop.left) * this.canvasZoom,
-        (this.img.height * 0.5 + this.img.transform.y - this.crop.top) * this.canvasZoom
+        (this.img.width * 0.5 + this.img.transform.x - this.crop.left) *
+          this.canvasZoom,
+        (this.img.height * 0.5 + this.img.transform.y - this.crop.top) *
+          this.canvasZoom
       )
       // 旋转图片
       ctx.rotate((this.img.transform.rotate * Math.PI) / 180)

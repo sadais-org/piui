@@ -171,9 +171,10 @@ export default {
     },
     getDisabled() {
       const parentFormItem = this.$pi.parent(this, 'PiFormItem')
-      const disabled = this.disabled || (parentFormItem && parentFormItem.getDisabled)
+      const disabled =
+        this.disabled || (parentFormItem && parentFormItem.getDisabled)
       return disabled
-    },
+    }
   },
   mounted() {
     if (this.autoFocus) {

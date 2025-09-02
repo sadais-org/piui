@@ -24,7 +24,11 @@
       <slot />
     </view>
     <!-- body -->
-    <view v-if="$slots.body" class="pi-pd-tb-24" :style="[{ padding: getPadding }]">
+    <view
+      v-if="$slots.body"
+      class="pi-pd-tb-24"
+      :style="[{ padding: getPadding }]"
+    >
       <slot name="body" />
     </view>
     <!-- footer -->

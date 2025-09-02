@@ -14,7 +14,9 @@
           <view class="pi-icon-right pi-pd-14" @tap="handleNextMonth()" />
         </view>
       </view>
-      <view v-if="showBackToday" class="back-today" @tap="handleBackToday">回到今日</view>
+      <view v-if="showBackToday" class="back-today" @tap="handleBackToday"
+        >回到今日</view
+      >
     </view>
     <!-- 星期 -->
     <view
@@ -72,7 +74,9 @@
         >
           <pi-icon
             name="arrow-down_fill"
-            :custom-style="{ transform: `rotate(${weekView ? '0deg' : '180deg'})` }"
+            :custom-style="{
+              transform: `rotate(${weekView ? '0deg' : '180deg'})`
+            }"
           />
           <text class="pi-fz-24 ">{{ weekView ? '展开' : '收起' }}</text>
         </view>
@@ -244,8 +248,13 @@ export default {
     // 第一天
     firstDay() {
       const preMonthLastDay = this.getPreMonthLastDay
-      const firstDay = new Date(`${this.year}/${this.month}/01 00:00:00`).getDay()
-      return this.$pi.common.generateArray(preMonthLastDay - firstDay + 1, preMonthLastDay)
+      const firstDay = new Date(
+        `${this.year}/${this.month}/01 00:00:00`
+      ).getDay()
+      return this.$pi.common.generateArray(
+        preMonthLastDay - firstDay + 1,
+        preMonthLastDay
+      )
     },
     weekDayZh() {
       return this.$pi.date.getWeekDayZh()
@@ -281,7 +290,9 @@ export default {
     init() {
       console.log(TAG, '组件初始化', this.value)
       let initValue = this.value
-      const nowDate = this.$pi.date.parseDate(this.type === 'date' ? this.value : this.value[0])
+      const nowDate = this.$pi.date.parseDate(
+        this.type === 'date' ? this.value : this.value[0]
+      )
       if (this.type === 'range') {
         initValue = initValue || []
         if (this.value[1]) {
@@ -305,7 +316,8 @@ export default {
       this.value && this.handleChange(initValue)
       if (this.canChangeWeekView) {
         // 如果可以切换周视图，则初始化当前周
-        let targetDay = this.type === 'date' ? this.calendarValue : this.calendarValue[0]
+        let targetDay =
+          this.type === 'date' ? this.calendarValue : this.calendarValue[0]
         if (!targetDay) {
           targetDay = this.now
         }
@@ -392,7 +404,10 @@ export default {
           ? this.calendarValue.map(cv =>
               this.$pi.date.formatDate(new Date(cv.timestamp), this.dateFormat)
             )
-          : this.$pi.date.formatDate(new Date(this.calendarValue.timestamp), this.dateFormat)
+          : this.$pi.date.formatDate(
+              new Date(this.calendarValue.timestamp),
+              this.dateFormat
+            )
       this.handleEmitChange()
     },
     handleTabChange(e) {

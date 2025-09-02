@@ -20,7 +20,9 @@
       :style="[itemStyle(index)]"
       @tap="handleSelectItem(index)"
     >
-      <text class="pi-subsection__item__text" :style="[textStyle(index)]">{{ getText(item) }}</text>
+      <text class="pi-subsection__item__text" :style="[textStyle(index)]">{{
+        getText(item)
+      }}</text>
     </view>
   </view>
 </template>
@@ -243,7 +245,8 @@ export default {
           style.color = this.val === index ? '#fff' : this.inactiveColor
         } else {
           // button模式下，激活时文字颜色默认为activeColor
-          style.color = this.val === index ? this.activeColor : this.inactiveColor
+          style.color =
+            this.val === index ? this.activeColor : this.inactiveColor
         }
         return style
       }
@@ -288,9 +291,11 @@ export default {
     // 获取组件的尺寸
     getRect() {
       // #ifndef APP-NVUE
-      this.$pi.common.queryRect(this, '.pi-subsection__item--0', false).then(size => {
-        this.itemRect = size
-      })
+      this.$pi.common
+        .queryRect(this, '.pi-subsection__item--0', false)
+        .then(size => {
+          this.itemRect = size
+        })
       // #endif
       // #ifdef APP-NVUE
       const ref = this.$refs['pi-subsection__item--0'][0]

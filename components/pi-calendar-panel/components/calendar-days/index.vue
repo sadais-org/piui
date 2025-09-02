@@ -249,7 +249,9 @@ export default {
           // 当月数据
           day = {
             ...day,
-            ...this.$pi.date.parseDate(new Date(this.year, this.month - 1, i - firstDayCount))
+            ...this.$pi.date.parseDate(
+              new Date(this.year, this.month - 1, i - firstDayCount)
+            )
           }
         }
 
@@ -274,7 +276,10 @@ export default {
           const isBegin = this.isSameDay(start, day)
           const isEnd = this.isSameDay(end, day)
           const inRange =
-            start && end && day.timestamp > start.timestamp && day.timestamp < end.timestamp
+            start &&
+            end &&
+            day.timestamp > start.timestamp &&
+            day.timestamp < end.timestamp
           const rangeStyle = {}
           // 处理中间范围的样式
           if (inRange) {

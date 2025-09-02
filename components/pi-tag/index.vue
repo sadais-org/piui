@@ -14,7 +14,12 @@
       <slot name="icon">
         <view v-if="icon" class="pi-tag__icon pi-align-center">
           <image v-if="isImg(icon)" :src="icon" :style="[imgStyle]" />
-          <pi-icon v-else :custom-class="piIconClass" :name="icon" :size="iconSize" />
+          <pi-icon
+            v-else
+            :custom-class="piIconClass"
+            :name="icon"
+            :size="iconSize"
+          />
         </view>
       </slot>
       <text class="pi-tag__text" :style="[textColor]" :class="[textClass]">
@@ -85,7 +90,7 @@ export default {
       type: String,
       // 'medium'
       default: tag.size,
-      validator: function (value) {
+      validator: function(value) {
         return ['large', 'medium', 'mini'].includes(value)
       }
     },
@@ -95,8 +100,10 @@ export default {
       type: String,
       // 'default'
       default: tag.type,
-      validator: function (value) {
-        return ['primary', 'success', 'info', 'warning', 'error'].includes(value)
+      validator: function(value) {
+        return ['primary', 'success', 'info', 'warning', 'error'].includes(
+          value
+        )
       }
     },
     // 是否禁用
@@ -252,7 +259,12 @@ export default {
     },
     // 标签图标style
     imgStyle() {
-      const width = this.size === 'large' ? '34rpx' : this.size === 'medium' ? '30rpx' : '26rpx'
+      const width =
+        this.size === 'large'
+          ? '34rpx'
+          : this.size === 'medium'
+          ? '30rpx'
+          : '26rpx'
       return {
         width,
         height: width

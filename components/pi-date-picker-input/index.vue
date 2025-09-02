@@ -10,7 +10,11 @@
 <template>
   <view class="pi-datePicker-input">
     <!-- 输入框 -->
-    <view v-if="$slots.default || $slots.$default" class="pi-w-100P" @click="handleShow()">
+    <view
+      v-if="$slots.default || $slots.$default"
+      class="pi-w-100P"
+      @click="handleShow()"
+    >
       <slot />
     </view>
     <pi-input
@@ -165,7 +169,10 @@ export default {
       return this.$pi.lang.mergeDeep(datePickerInput.input, this.input)
     },
     getDatePicker() {
-      return this.$pi.lang.mergeDeep(datePickerInput.datePicker, this.datePicker)
+      return this.$pi.lang.mergeDeep(
+        datePickerInput.datePicker,
+        this.datePicker
+      )
     },
     getInputValue() {
       const parseValueFn = this.parseValueFn[PI_DEFAULT_FN_FLAG]
@@ -176,7 +183,9 @@ export default {
         return parseValue
       }
       if (!this.dateFormat) {
-        console.warn('使用pi-datePicker-input组件，请设置.dateFormat，否则无法正常显示')
+        console.warn(
+          '使用pi-datePicker-input组件，请设置.dateFormat，否则无法正常显示'
+        )
       }
       if (this.$pi.lang.isEmpty(this.val)) return ''
       const date = this.$pi.date.parseDate(this.val)
@@ -184,9 +193,10 @@ export default {
     },
     getDisabled() {
       const parentFormItem = this.$pi.parent(this, 'PiFormItem')
-      const disabled = this.disabled || (parentFormItem && parentFormItem.getDisabled)
+      const disabled =
+        this.disabled || (parentFormItem && parentFormItem.getDisabled)
       return disabled
-    },
+    }
   },
   methods: {
     handleShow() {

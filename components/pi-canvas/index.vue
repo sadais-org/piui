@@ -1,5 +1,9 @@
 <template>
-  <view ref="root" :class="['wrapper',customClass, {disabled}]" :style="[customStyle]">
+  <view
+    ref="root"
+    :class="['wrapper', customClass, { disabled }]"
+    :style="[customStyle]"
+  >
     <canvas
       ref="canvas"
       :style="[canvasStyle]"
@@ -236,7 +240,12 @@ export default {
         this.emitCrop(imageData, x1 - x, y1 - y)
       } else {
         // 直接获取整张画布区域的像素点数据
-        const imageData = await this.getImageData(0, 0, this.canvasw, this.canvash)
+        const imageData = await this.getImageData(
+          0,
+          0,
+          this.canvasw,
+          this.canvash
+        )
         this.emitCrop(imageData, this.canvasw, this.canvash)
       }
     },

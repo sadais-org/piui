@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-form" :style="[customStyle]" :class="[{ border }, customClass]">
+  <view
+    class="pi-form"
+    :style="[customStyle]"
+    :class="[{ border }, customClass]"
+  >
     <pi-section
       v-if="title"
       :title="title"
@@ -250,7 +254,9 @@ export default {
     async validation() {
       const validations = this._children.map(c => c.validation())
       const results = await Promise.all(validations)
-      const failedResults = results.filter(result => result.validateState === 'error')
+      const failedResults = results.filter(
+        result => result.validateState === 'error'
+      )
       if (this.errorType === 'toast' && failedResults.length > 0) {
         this.$toast(failedResults[0].validateMessage)
       }

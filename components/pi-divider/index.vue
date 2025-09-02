@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-rela pi-w-100P pi-align-center" :style="[customStyle]" :class="[customClass]">
+  <view
+    class="pi-rela pi-w-100P pi-align-center"
+    :style="[customStyle]"
+    :class="[customClass]"
+  >
     <view
       v-if="['center', 'right'].includes(contentPosition)"
       class="pi-divider"

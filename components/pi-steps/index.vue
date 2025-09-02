@@ -40,7 +40,10 @@
       </view>
 
       <!-- 文字 -->
-      <view :class="['pi-steps-item-text']" :style="{ color: item.style.fontColor }">
+      <view
+        :class="['pi-steps-item-text']"
+        :style="{ color: item.style.fontColor }"
+      >
         <slot
           name="item"
           :item="item"
@@ -49,7 +52,11 @@
           :active="index < val"
         >
           <view>{{ item.name }}</view>
-          <text v-if="item.desc" class="pi-fz-20 pi-mg-top-10" style="word-break:break-all">
+          <text
+            v-if="item.desc"
+            class="pi-fz-20 pi-mg-top-10"
+            style="word-break:break-all"
+          >
             {{ item.desc }}
           </text>
         </slot>
@@ -261,7 +268,8 @@ export default {
           const nextIconsRectHeight = this.iconsRect[index + 1]
             ? this.iconsRect[index + 1].height
             : 0
-          item.lineStyle.height = `${this.itemsRect[index].height - nextIconsRectHeight}px`
+          item.lineStyle.height = `${this.itemsRect[index].height -
+            nextIconsRectHeight}px`
         }
         return item
       })
@@ -289,8 +297,16 @@ export default {
     async init() {
       console.log(TAG, '初始化计算步骤条')
       if (!this.items?.length) return
-      this.iconsRect = await this.$pi.common.queryRect(this, '.step-icon-inner', true)
-      this.itemsRect = await this.$pi.common.queryRect(this, '.pi-steps-item', true)
+      this.iconsRect = await this.$pi.common.queryRect(
+        this,
+        '.step-icon-inner',
+        true
+      )
+      this.itemsRect = await this.$pi.common.queryRect(
+        this,
+        '.pi-steps-item',
+        true
+      )
       if (this.iconsRect.length !== this.itemsRect.length) {
         setTimeout(() => {
           this.init()

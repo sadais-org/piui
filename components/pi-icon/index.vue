@@ -1,7 +1,12 @@
 <template>
   <view class="icon-wrap" @tap="handleClick">
     <view :style="[iconStyle, customStyle]" :class="[iconClass, customClass]" />
-    <view v-if="badge || dot" class="icon-badge" :class="{ dot }" :style="[badgeStyle]">
+    <view
+      v-if="badge || dot"
+      class="icon-badge"
+      :class="{ dot }"
+      :style="[badgeStyle]"
+    >
       {{ badge }}
     </view>
   </view>

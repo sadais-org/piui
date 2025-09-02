@@ -121,13 +121,19 @@ export default {
       return `calc((100% - ${this.getRowGapWidth}) / ${this.getCol})`
     },
     getSquare() {
-      return this.inheritProps.square !== null ? this.inheritProps.square : this.square
+      return this.inheritProps.square !== null
+        ? this.inheritProps.square
+        : this.square
     },
     getBorder() {
-      return this.inheritProps.border !== null ? this.inheritProps.border : this.border
+      return this.inheritProps.border !== null
+        ? this.inheritProps.border
+        : this.border
     },
     getHoverClass() {
-      return this.inheritProps.hoverClass !== null ? this.inheritProps.hoverClass : this.hoverClass
+      return this.inheritProps.hoverClass !== null
+        ? this.inheritProps.hoverClass
+        : this.hoverClass
     },
     isLastCol() {
       // 是否是最后一列
@@ -173,7 +179,10 @@ export default {
   methods: {
     valid() {
       if (this.getGap && this.index === null) {
-        console.warn(TAG, '当设置gap的时候，请把当前迭代器的索引传递到index属性，否则宽度计算有误')
+        console.warn(
+          TAG,
+          '当设置gap的时候，请把当前迭代器的索引传递到index属性，否则宽度计算有误'
+        )
       }
     },
     handleItemClick(e) {

@@ -167,8 +167,14 @@ export default {
       if (this.countDown) {
         this.printVal =
           this.startNumCache - this.isEase
-            ? this.easingFn(progress, 0, this.startNumCache - this.endNum, this.durationCache)
-            : (this.startNumCache - this.endNum) * (progress / this.durationCache)
+            ? this.easingFn(
+                progress,
+                0,
+                this.startNumCache - this.endNum,
+                this.durationCache
+              )
+            : (this.startNumCache - this.endNum) *
+              (progress / this.durationCache)
       } else {
         this.printVal = this.isEase
           ? this.easingFn(

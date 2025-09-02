@@ -23,8 +23,12 @@
 
     <!-- 标题和描述 -->
     <view v-if="title || desc" class="title-wrap">
-      <view v-if="title" :style="[titleStyle]" class="list-item-title">{{ title }}</view>
-      <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{ desc }}</view>
+      <view v-if="title" :style="[titleStyle]" class="list-item-title">{{
+        title
+      }}</view>
+      <view v-if="desc" :style="[descStyle]" class="list-item-desc">{{
+        desc
+      }}</view>
     </view>
     <!-- 中间区域 -->
     <view class="pi-flex-sub pi-w-100P pi-of-hidden">
@@ -234,7 +238,8 @@ export default {
       return this.$pi.common.addUnit(height)
     },
     getShowRightIcon() {
-      return !this.isEmptyInheritProps && this.inheritProps.showRightIcon !== null
+      return !this.isEmptyInheritProps &&
+        this.inheritProps.showRightIcon !== null
         ? this.inheritProps.showRightIcon
         : this.showRightIcon
     },

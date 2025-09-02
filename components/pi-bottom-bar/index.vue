@@ -13,11 +13,18 @@
       >
         <slot />
       </view>
-      <view v-if="safeArea" class="pi-safearea" :style="[{ backgroundColor: safeAreaBgColor }]" />
+      <view
+        v-if="safeArea"
+        class="pi-safearea"
+        :style="[{ backgroundColor: safeAreaBgColor }]"
+      />
     </view>
     <!-- fixed时候的占位空间 -->
     <template v-if="fixed">
-      <view class="pi-bottom-bar-placeholder" :style="[{ height: barHeight }]" />
+      <view
+        class="pi-bottom-bar-placeholder"
+        :style="[{ height: barHeight }]"
+      />
       <!-- <view v-if="safeArea" class="pi-safearea" /> -->
     </template>
   </view>
@@ -114,7 +121,11 @@ export default {
   methods: {
     async init() {
       if (!this.fixed || this.height) return // fixed并且未设定height，才需要计算高度
-      const barRect = await this.$pi.common.queryRect(this, '.pi-bottom-bar', false)
+      const barRect = await this.$pi.common.queryRect(
+        this,
+        '.pi-bottom-bar',
+        false
+      )
       this.barHeight = `${barRect.height}px`
     }
   }

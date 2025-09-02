@@ -31,7 +31,11 @@
     <!-- 按钮内容 -->
     <slot />
     <view v-if="ripple" class="pi-abso-full pi-of-hidden" :class="[{ round }]">
-      <view class="wave-ripple" :class="[{ active: waveInfo.active }]" :style="[waveStyle]" />
+      <view
+        class="wave-ripple"
+        :class="[{ active: waveInfo.active }]"
+        :style="[waveStyle]"
+      />
     </view>
   </button>
 </template>
@@ -57,7 +61,9 @@ export default {
       // 'default'
       default: button.size,
       validator: function(value) {
-        return ['default', 'large', 'medium', 'small', 'tiny', 'mini'].includes(value)
+        return ['default', 'large', 'medium', 'small', 'tiny', 'mini'].includes(
+          value
+        )
       }
     },
     // 按钮的预置样式
@@ -67,7 +73,14 @@ export default {
       // 'default'
       default: button.type,
       validator: function(value) {
-        return ['default', 'primary', 'warn', 'secondary', 'line', 'text'].includes(value)
+        return [
+          'default',
+          'primary',
+          'warn',
+          'secondary',
+          'line',
+          'text'
+        ].includes(value)
       }
     },
     // 按钮是否镂空

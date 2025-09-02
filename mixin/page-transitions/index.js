@@ -30,7 +30,10 @@ export function create(setting) {
         let type = toDepth >= fromDepth ? 'forward' : 'back'
         // 如果配置tab的优先级，使用设置判断是前进还是后退
         if (toPage.meta.pageIndex && fromPage.meta.pageIndex) {
-          type = toPage.meta.pageIndex >= fromPage.meta.pageIndex ? 'forward' : 'back'
+          type =
+            toPage.meta.pageIndex >= fromPage.meta.pageIndex
+              ? 'forward'
+              : 'back'
         }
         this.pageBefore = `animation-${type}`
         this.pageAfterStart = `animation-afterstart-${type}`
@@ -53,7 +56,9 @@ export function create(setting) {
       handlePageHide(callback) {
         setTimeout(() => {
           this.pageBefore = this.isPageBack ? 'animation-back' : this.pageBefore
-          this.pageAfterStart = this.isPageBack ? 'animation-afterstart-back' : this.pageAfterStart
+          this.pageAfterStart = this.isPageBack
+            ? 'animation-afterstart-back'
+            : this.pageAfterStart
 
           const classList = document.querySelector('uni-page').classList
           classList.add(this.pageBefore, 'animation-leave')

@@ -33,7 +33,11 @@
             class="breadcrumb-item"
             @click="handleClickItem(item)"
           >
-            <pi-icon v-if="item[keyField] !== ROOT_NODE" name="right" custom-class="pi-mg-lr-6" />
+            <pi-icon
+              v-if="item[keyField] !== ROOT_NODE"
+              name="right"
+              custom-class="pi-mg-lr-6"
+            />
             <view
               class="breadcrumb-item-title"
               :class="{
@@ -45,7 +49,12 @@
           </view>
         </scroll-view>
         <!-- 选择区域 -->
-        <scroll-view class="scroll-view" :scroll-left="scrollLeft" scroll-x scroll-with-animation>
+        <scroll-view
+          class="scroll-view"
+          :scroll-left="scrollLeft"
+          scroll-x
+          scroll-with-animation
+        >
           <scroll-view
             v-for="(col, index) of columns"
             :key="index"
@@ -73,7 +82,10 @@
                       class="pi-mg-right-16"
                       @change="handleChangeParentSelect(item, $event)"
                     />
-                    <view class="pi-align-center pi-lh-36 pi-flex-sub column-item-inner" @click="handleClickItem(item)">
+                    <view
+                      class="pi-align-center pi-lh-36 pi-flex-sub column-item-inner"
+                      @click="handleClickItem(item)"
+                    >
                       {{ item[displayField] || '' }}
                     </view>
                   </view>
@@ -122,10 +134,12 @@
               class="breadcrumb-item"
               @click="handleClickItem(item)"
             >
-              <pi-icon v-if="index > 0" name="right" custom-class="pi-mg-lr-6" />
-              <view
-                class="breadcrumb-item-title"
-              >
+              <pi-icon
+                v-if="index > 0"
+                name="right"
+                custom-class="pi-mg-lr-6"
+              />
+              <view class="breadcrumb-item-title">
                 {{ item[displayField] }}
               </view>
             </view>
@@ -262,7 +276,10 @@ export default {
       return ROOT_NODE
     },
     getPopupSelect() {
-      const popupSelect = this.$pi.lang.mergeDeep(cascader.popupSelect, this.popupSelect)
+      const popupSelect = this.$pi.lang.mergeDeep(
+        cascader.popupSelect,
+        this.popupSelect
+      )
       if (!this.singleCancel && this.singleConfirm) {
         popupSelect.toolbarPosition = 'none'
       }
@@ -283,7 +300,10 @@ export default {
       return this.$pi.lang.mergeDeep(cascaderCancelBtn, this.cancelBtn)
     },
     getPopup() {
-      const cascaderPopup = this.$pi.lang.mergeDeep(cascader.popup, this.popupSelect.popup)
+      const cascaderPopup = this.$pi.lang.mergeDeep(
+        cascader.popup,
+        this.popupSelect.popup
+      )
       return this.$pi.lang.mergeDeep(cascaderPopup, this.popup)
     },
     getItemStyle() {
@@ -427,9 +447,14 @@ export default {
         this.$nextTick(this.syncScrollLeft)
         return
       }
-      const isLeafNode = !item[this.childrenField] || item[this.childrenField]?.length === 0
+      const isLeafNode =
+        !item[this.childrenField] || item[this.childrenField]?.length === 0
       // 点击非叶子节点
-      if (item && !isLeafNode && this.currentItem[this.keyField] !== item[this.keyField]) {
+      if (
+        item &&
+        !isLeafNode &&
+        this.currentItem[this.keyField] !== item[this.keyField]
+      ) {
         this.currentItem = item
         this.$nextTick(this.syncScrollLeft)
         return
@@ -464,7 +489,11 @@ export default {
       // 调用此方法的时候，必须使用$nextTick，因为column是动态变化的，需要等待界面更新渲染后，才能正确设置scrollLeft的位置
       let scrollLeft = 0
       if (this.cascaderWidth === 0) {
-        const srollWrapRect = await this.$pi.common.queryRect(this, '.cascader-wrap', false)
+        const srollWrapRect = await this.$pi.common.queryRect(
+          this,
+          '.cascader-wrap',
+          false
+        )
         console.log(this, srollWrapRect)
         if (srollWrapRect) {
           this.cascaderWidth = srollWrapRect.width
@@ -494,7 +523,9 @@ export default {
      */
     handleCancel() {
       this.$emit('cancel')
-      this.selectedIds = this.isSingle ? [this.defaultValue] : [...this.defaultValue]
+      this.selectedIds = this.isSingle
+        ? [this.defaultValue]
+        : [...this.defaultValue]
       this.getPopupSelect.onCancelClose && this.handlePopupClose()
     },
     /**
@@ -502,7 +533,10 @@ export default {
      * 确认选择
      */
     handleConfirm() {
-      this.$emit('confirm', this.isSingle ? this.selectedIds[0] || '' : this.selectedIds)
+      this.$emit(
+        'confirm',
+        this.isSingle ? this.selectedIds[0] || '' : this.selectedIds
+      )
       this.getPopupSelect.onConfirmClose && this.handlePopupClose()
     }
   }
@@ -533,7 +567,7 @@ export default {
       min-height: 100rpx;
       width: 100%;
       white-space: initial;
-      padding:  16rpx  32rpx;
+      padding: 16rpx 32rpx;
       font-size: 28rpx;
       color: #333333;
       overflow: hidden;

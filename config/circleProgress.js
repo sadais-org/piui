@@ -9,11 +9,31 @@ export default {
   type: 'success', // 环形进度条的主题 'success', 'error', 'info', 'primary', 'warning'
   // 主题列表
   typeList: {
-    success: { bgColor: '#ffffff', activeColor: '#67c23a', inactiveColor: '#ececec' },
-    error: { bgColor: '#fef0f0', activeColor: '#f56c6c', inactiveColor: '#fbc4c4' },
-    info: { bgColor: '#f4f4f5', activeColor: '#909399', inactiveColor: '#ececec' },
-    primary: { bgColor: '#ecf5ff', activeColor: '#409eff', inactiveColor: '#b3d8ff' },
-    warning: { bgColor: '#fdf6ec', activeColor: '#e6a23c', inactiveColor: '#f5dab1' }
+    success: {
+      bgColor: '#ffffff',
+      activeColor: '#67c23a',
+      inactiveColor: '#ececec'
+    },
+    error: {
+      bgColor: '#fef0f0',
+      activeColor: '#f56c6c',
+      inactiveColor: '#fbc4c4'
+    },
+    info: {
+      bgColor: '#f4f4f5',
+      activeColor: '#909399',
+      inactiveColor: '#ececec'
+    },
+    primary: {
+      bgColor: '#ecf5ff',
+      activeColor: '#409eff',
+      inactiveColor: '#b3d8ff'
+    },
+    warning: {
+      bgColor: '#fdf6ec',
+      activeColor: '#e6a23c',
+      inactiveColor: '#f5dab1'
+    }
   },
   fontSize: '16px', // 环形进度条中间显示文字的大小，字符串形式，默认值：'16px'
   text: '' // 环形进度条中间显示的文字，字符串形式，默认值：''

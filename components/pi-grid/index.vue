@@ -1,5 +1,9 @@
 <template>
-  <view class="pi-grid" :style="[customStyle]" :class="[{ border: showBorder }, customClass]">
+  <view
+    class="pi-grid"
+    :style="[customStyle]"
+    :class="[{ border: showBorder }, customClass]"
+  >
     <slot />
   </view>
 </template>

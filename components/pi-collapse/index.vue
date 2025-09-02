@@ -71,7 +71,8 @@ export default {
       if (this.children.length) {
         this.children.map(child => {
           // 判断子组件(pi-collapse-item)如果有updateParentData方法的话，就就执行(执行的结果是子组件重新从父组件拉取了最新的值)
-          typeof child.updateParentData === 'function' && child.updateParentData()
+          typeof child.updateParentData === 'function' &&
+            child.updateParentData()
         })
       }
     }

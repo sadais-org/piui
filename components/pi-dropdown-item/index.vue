@@ -11,7 +11,9 @@
           :class="[
             customClass,
             item[getDisabledField] ? 'disabled' : '',
-            getSelectedCheckbox === 'none' ? 'pi-justify-center' : 'pi-justify-between'
+            getSelectedCheckbox === 'none'
+              ? 'pi-justify-center'
+              : 'pi-justify-between'
           ]"
           :style="[customStyle, getItemStyle]"
           @tap="handleSelectItem(item)"
@@ -173,10 +175,14 @@ export default {
       return this.$pi.lang.mergeDeep(dropdownItem.iconOption, this.iconOption)
     },
     getItemHeight() {
-      return this.inheritProps.itemHeight !== null ? this.inheritProps.itemHeight : this.itemHeight
+      return this.inheritProps.itemHeight !== null
+        ? this.inheritProps.itemHeight
+        : this.itemHeight
     },
     getKeyField() {
-      return this.inheritProps.keyField !== null ? this.inheritProps.keyField : this.keyField
+      return this.inheritProps.keyField !== null
+        ? this.inheritProps.keyField
+        : this.keyField
     },
     getDisplayField() {
       return this.inheritProps.displayField !== null
@@ -189,14 +195,16 @@ export default {
         : this.disabledField
     },
     getSelectedImg() {
-      const selectedImg = this.inheritProps.selectedImg || dropdownItem.selectedImg
+      const selectedImg =
+        this.inheritProps.selectedImg || dropdownItem.selectedImg
       return this.$pi.lang.mergeDeep(selectedImg, this.selectedImg)
     },
     getSelectedCheckbox() {
       if (this.inheritProps.selectedCheckbox === 'none') {
         return this.inheritProps.selectedCheckbox
       }
-      const selectedCheckbox = this.inheritProps.selectedCheckbox || dropdownItem.selectedCheckbox
+      const selectedCheckbox =
+        this.inheritProps.selectedCheckbox || dropdownItem.selectedCheckbox
       return this.$pi.lang.mergeDeep(selectedCheckbox, this.selectedCheckbox)
     },
     getItemStyle() {

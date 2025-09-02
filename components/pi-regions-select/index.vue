@@ -20,10 +20,18 @@
     @show="$emit('show', $event)"
     @showed="$emit('showed', $event)"
   >
-    <view class="pi-h-100P pi-flex-column" :style="[customStyle]" :class="[customClass]">
+    <view
+      class="pi-h-100P pi-flex-column"
+      :style="[customStyle]"
+      :class="[customClass]"
+    >
       <slot name="header" />
       <pi-tabs v-if="val" v-model="tabCurrentItem" :items="getTabItems" />
-      <swiper class="pi-scroll" :current="tabCurrent" @change="handleSwiperChange">
+      <swiper
+        class="pi-scroll"
+        :current="tabCurrent"
+        @change="handleSwiperChange"
+      >
         <swiper-item v-for="item in getTabItems" :key="item.id">
           <!-- 选择区域 -->
           <scroll-view class="pi-h-100P" scroll-y scroll-with-animation>
@@ -180,14 +188,20 @@ export default {
   },
   computed: {
     getPopupSelect() {
-      return this.$pi.lang.mergeDeep(regionsSelect.popupSelect, this.popupSelect)
+      return this.$pi.lang.mergeDeep(
+        regionsSelect.popupSelect,
+        this.popupSelect
+      )
     },
     getConfirmBtn() {
       const regionsSelectConfirmBtn = this.$pi.lang.mergeDeep(
         regionsSelect.confirmBtn,
         this.popupSelect.confirmBtn
       )
-      const mergeConfirmBtn = this.$pi.lang.mergeDeep(regionsSelectConfirmBtn, this.confirmBtn)
+      const mergeConfirmBtn = this.$pi.lang.mergeDeep(
+        regionsSelectConfirmBtn,
+        this.confirmBtn
+      )
       mergeConfirmBtn.disabled = !this.isCompleted
       return mergeConfirmBtn
     },
@@ -226,7 +240,9 @@ export default {
     },
     getTabItems() {
       const { province, city, county } = this.regions
-      const tabs = [{ id: 'province', text: province.name || PLEASE_SELECT_TIP }]
+      const tabs = [
+        { id: 'province', text: province.name || PLEASE_SELECT_TIP }
+      ]
       if (province.name) {
         tabs.push({ id: 'city', text: city.name || PLEASE_SELECT_TIP })
       }
@@ -236,7 +252,9 @@ export default {
       return tabs
     },
     isCompleted() {
-      return this.getTabItems.findIndex(t => t.text === PLEASE_SELECT_TIP) === -1
+      return (
+        this.getTabItems.findIndex(t => t.text === PLEASE_SELECT_TIP) === -1
+      )
     }
   },
   watch: {
@@ -260,8 +278,14 @@ export default {
           console.error(TAG, 'keyDefaultValue模式下defaultValue不能为对象类型')
           return false
         }
-        if (!this.keyDefaultValue && !this.$pi.lang.isObject(this.defaultValue)) {
-          console.error(TAG, '非keyDefaultValue模式下defaultValue必须为对象类型')
+        if (
+          !this.keyDefaultValue &&
+          !this.$pi.lang.isObject(this.defaultValue)
+        ) {
+          console.error(
+            TAG,
+            '非keyDefaultValue模式下defaultValue必须为对象类型'
+          )
           return false
         }
       }
@@ -274,9 +298,14 @@ export default {
       console.log(TAG, '地区选择组件初始化')
       let defaultCode = ''
       if (!this.$pi.lang.isEmpty(this.defaultValue)) {
-        defaultCode = this.keyDefaultValue ? this.defaultValue : this.defaultValue.code
+        defaultCode = this.keyDefaultValue
+          ? this.defaultValue
+          : this.defaultValue.code
       }
-      const regions = this.$pi.regions.parseRegions(defaultCode, this.regionsData)
+      const regions = this.$pi.regions.parseRegions(
+        defaultCode,
+        this.regionsData
+      )
       this.regions = regions
       // 默认都是展示tab最后一个列表
       this.tabCurrentItem = this.getTabItems[this.getTabItems.length - 1]
@@ -297,12 +326,16 @@ export default {
       const regionsKey = this.tabCurrentItem.id
 
       const isChange =
-        (regionsKey === 'province' && this.regions.province.code !== region.code) ||
+        (regionsKey === 'province' &&
+          this.regions.province.code !== region.code) ||
         (regionsKey === 'city' && this.regions.city.code !== region.code)
 
       if (isChange) {
         // 判断是否切换了省份和城市，如果切换了需要重新生成新的数据
-        this.regions = this.$pi.regions.parseRegions(region.code, this.regionsData)
+        this.regions = this.$pi.regions.parseRegions(
+          region.code,
+          this.regionsData
+        )
       } else {
         this.regions[regionsKey].code = region.code
         this.regions[regionsKey].name = region.name

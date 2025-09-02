@@ -232,7 +232,8 @@ export default {
           }
           res[0].forEach(r => {
             const key = `${r.top}_${r.bottom}_${r.left}_${r.right}_${r.width}_${r.height}`
-            const newNode = this.skeletonNodes.findIndex(n => n.key === key) === -1
+            const newNode =
+              this.skeletonNodes.findIndex(n => n.key === key) === -1
             if (newNode) {
               this.skeletonNodes.push({
                 ...r,

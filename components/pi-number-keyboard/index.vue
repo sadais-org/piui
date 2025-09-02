@@ -17,10 +17,19 @@
     <view
       class="pi-pd-bottom-32"
       :style="[{ backgroundColor: backgroundColor }, customStyle]"
-      :class="[getPopupSelect.showTitle ? 'pi-pd-top-12' : 'pi-pd-top-60', customClass]"
+      :class="[
+        getPopupSelect.showTitle ? 'pi-pd-top-12' : 'pi-pd-top-60',
+        customClass
+      ]"
     >
       <!-- 选择区域 -->
-      <pi-grid col="3" gap="24" :border="false" hover-class="none" custom-class="pi-pd-lr-24">
+      <pi-grid
+        col="3"
+        gap="24"
+        :border="false"
+        hover-class="none"
+        custom-class="pi-pd-lr-24"
+      >
         <!-- 固定生成12个坑位 -->
         <pi-grid-item
           v-for="(key, index) in $pi.common.generateArray(0, 11)"
@@ -128,7 +137,10 @@ export default {
   },
   computed: {
     getPopupSelect() {
-      return this.$pi.lang.mergeDeep(numberKeyboard.popupSelect, this.popupSelect)
+      return this.$pi.lang.mergeDeep(
+        numberKeyboard.popupSelect,
+        this.popupSelect
+      )
     },
     getPopup() {
       const numberKeyboardPopup = this.$pi.lang.mergeDeep(

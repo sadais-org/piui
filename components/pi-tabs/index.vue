@@ -1,7 +1,12 @@
 <template>
   <view>
     <view class="pi-tabs" :style="[customStyle]" :class="[customClass]">
-      <scroll-view class="pi-scroll" :scroll-left="scrollLeft" scroll-x scroll-with-animation>
+      <scroll-view
+        class="pi-scroll"
+        :scroll-left="scrollLeft"
+        scroll-x
+        scroll-with-animation
+      >
         <view class="scroll-wrap" :style="[scrollWrapStyle]">
           <view
             v-for="(item, index) in items"
@@ -10,7 +15,9 @@
             :style="[
               getItemStyle,
               itemStyle,
-              activeIndex === index && activeTextColor ? { color: activeTextColor } : {},
+              activeIndex === index && activeTextColor
+                ? { color: activeTextColor }
+                : {},
               activeIndex === index && activeItemStyle ? activeItemStyle : {}
             ]"
             class="pi-tab pi-justify-center pi-align-center "
@@ -25,15 +32,26 @@
           >
             <!-- slot slot-scoped只支持app,h5,微信小程序平台 -->
             <!-- <template slot="item" slot-scope="{ item }">{{ item.tag }}</template> -->
-            <slot name="item" :item="item" :index="index" :active="activeIndex === index">
+            <slot
+              name="item"
+              :item="item"
+              :index="index"
+              :active="activeIndex === index"
+            >
               {{ item[displayField] }}
             </slot>
           </view>
           <view
             class="slider-bar-guide"
-            :style="[{ 'background-color': showSliderBarGuide ? '#e4e7ed' : 'unset' }]"
+            :style="[
+              { 'background-color': showSliderBarGuide ? '#e4e7ed' : 'unset' }
+            ]"
           >
-            <view v-if="showSliderBar" class="slider-bar" :style="[getSliderBarStyle]" />
+            <view
+              v-if="showSliderBar"
+              class="slider-bar"
+              :style="[getSliderBarStyle]"
+            />
           </view>
         </view>
       </scroll-view>
@@ -233,14 +251,17 @@ export default {
   computed: {
     activeIndex() {
       if (!this.val) return 0
-      const index = this.items.findIndex(item => item[this.keyField] === this.val[this.keyField])
+      const index = this.items.findIndex(
+        item => item[this.keyField] === this.val[this.keyField]
+      )
       return index > 0 ? index : 0
     },
     getHeight() {
       return this.$pi.common.addUnit(this.height)
     },
     getSliderBarWidth() {
-      const sliderBarWidth = this.$pi.common.addUnit(this.sliderBarWidth) || 'auto'
+      const sliderBarWidth =
+        this.$pi.common.addUnit(this.sliderBarWidth) || 'auto'
       return sliderBarWidth
     },
     getSliderBarHeight() {
@@ -268,17 +289,22 @@ export default {
       }
       if (this.tabRects.length) {
         const activeIndex =
-          this.activeIndex >= this.tabRects.length ? this.tabRects.length - 1 : this.activeIndex
-        rect.left = this.tabRects.slice(0, activeIndex).reduce((previous, current) => {
-          return previous + current.width
-        }, 0)
+          this.activeIndex >= this.tabRects.length
+            ? this.tabRects.length - 1
+            : this.activeIndex
+        rect.left = this.tabRects
+          .slice(0, activeIndex)
+          .reduce((previous, current) => {
+            return previous + current.width
+          }, 0)
         rect.width = this.tabRects[activeIndex].width
       }
       return rect
     },
     scrollLeft() {
       // 计算当前激活item移动到容器中心距离左边距离
-      const scrollLeft = this.activeRect.left - this.tabsWidth / 2 + this.activeRect.width / 2
+      const scrollLeft =
+        this.activeRect.left - this.tabsWidth / 2 + this.activeRect.width / 2
       return scrollLeft < 0 ? 0 : scrollLeft
     },
     getSliderBarStyle() {
@@ -295,7 +321,8 @@ export default {
       if (style.width !== 'auto') {
         // 如果width设置了固定的宽度，将滑块移动到对应激活下的中心
         const sliderBarWidth = uni.upx2px(parseInt(this.sliderBarWidth))
-        sliderScrollLeft = sliderScrollLeft + (this.activeRect.width - sliderBarWidth) / 2
+        sliderScrollLeft =
+          sliderScrollLeft + (this.activeRect.width - sliderBarWidth) / 2
         style.transform = `translate(${sliderScrollLeft}px, -25%)`
       }
       if (style.width === 'auto') {
@@ -345,7 +372,11 @@ export default {
       }
     },
     async init() {
-      const srollWrapRect = await this.$pi.common.queryRect(this, '.pi-tabs', false)
+      const srollWrapRect = await this.$pi.common.queryRect(
+        this,
+        '.pi-tabs',
+        false
+      )
       if (srollWrapRect) {
         this.tabsWidth = srollWrapRect.width
       }

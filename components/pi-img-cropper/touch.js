@@ -44,7 +44,10 @@ export default {
         const curVector = { x: p.pageX - touch.pageX, y: p.pageY - touch.pageY }
         if (this.touch.prevVector) {
           if (!this.disableRotate) {
-            this.img.transform.rotate += this.angle(this.touch.prevVector, curVector)
+            this.img.transform.rotate += this.angle(
+              this.touch.prevVector,
+              curVector
+            )
           }
           const zoom = this.mod(curVector) / this.mod(this.touch.prevVector)
           this.img.transform.scale *= zoom

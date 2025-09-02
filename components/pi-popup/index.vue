@@ -22,7 +22,8 @@
         customClass,
         aniClass,
         {
-          'pi-safearea': !['top', 'center'].includes(position) && safeAreaInsetBottom
+          'pi-safearea':
+            !['top', 'center'].includes(position) && safeAreaInsetBottom
         }
       ]"
       :style="[
@@ -213,7 +214,8 @@ export default {
         right: 'tl', // 左上角
         center: 'tr' // 右上角
       }
-      const closePosition = this.getCloseIcon.position || closePositionMap[this.position]
+      const closePosition =
+        this.getCloseIcon.position || closePositionMap[this.position]
       return closePosition
     },
     closeIconStyle() {
@@ -323,11 +325,13 @@ export default {
 @import '../../scss/mixin.scss';
 
 .ani-scale-center-up {
-  animation: scale-center-up $pi-animation-duration $pi-animation-timing-function both;
+  animation: scale-center-up $pi-animation-duration
+    $pi-animation-timing-function both;
 }
 
 .ani-scale-center-down {
-  animation: scale-center-down $pi-animation-duration $pi-animation-timing-function both;
+  animation: scale-center-down $pi-animation-duration
+    $pi-animation-timing-function both;
 }
 
 @keyframes scale-center-up {
