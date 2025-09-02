@@ -220,3 +220,54 @@ export function calculateCompressDimensions(imageInfo, compressOption = {}) {
 
   return { width: targetWidth, height: targetHeight }
 }
+
+/**
+ * 压缩图片处理
+ * @param {Array<string>} tempFilePaths - 临时文件路径数组
+ * @param {Object} compressOption - 压缩配置选项
+ * @returns {Promise<Array<string>>} 压缩后的文件路径数组
+ */
+export async function handleCompressImgs(tempFilePaths, compressOption = {}) {
+  const compressUrls = []
+
+  for (let index = 0; index < tempFilePaths.length; index++) {
+    const url = tempFilePaths[index]
+
+    // 获取图片信息并计算智能压缩参数
+    const imageInfo = await getImageInfo(url)
+    const compressDimensions = calculateCompressDimensions(
+      imageInfo,
+      compressOption
+    )
+
+    // 构建压缩参数
+    const compressParams = {
+      src: url,
+      ...compressOption
+    }
+
+    // 如果启用了智能压缩，添加宽高参数
+    if (compressOption && compressOption.smartCompress) {
+      compressParams.compressedWidth = compressDimensions.width
+      compressParams.compressedHeight = compressDimensions.height
+    }
+
+    console.log('图片压缩参数', compressParams)
+
+    const [, result] = await uni.compressImage(compressParams)
+    const { errMsg, tempFilePath } = result
+
+    if (
+      errMsg == 'compressImage:ok' &&
+      tempFilePath &&
+      typeof tempFilePath == 'string'
+    ) {
+      compressUrls.push(tempFilePath)
+      console.log('智能压缩图片成功', tempFilePath)
+    } else {
+      compressUrls.push(url)
+      console.log('压缩图片失败，使用原图', tempFilePath, 'src=' + url)
+    }
+  }
+  return compressUrls
+}

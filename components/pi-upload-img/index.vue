@@ -180,7 +180,8 @@ import {
   formatFileSize,
   getFileInfoForPaths,
   getImageInfo,
-  calculateCompressDimensions
+  calculateCompressDimensions,
+  handleCompressImgs
 } from '../../utils/file-utils'
 
 const TAG = 'PiUploadImg'
@@ -628,11 +629,11 @@ export default {
     }
   },
   methods: {
-    isImageFilename() {
-      return isImageFilename
+    isImageFilename(filename) {
+      return isImageFilename(filename)
     },
-    isVideoFilename() {
-      return isVideoFilename
+    isVideoFilename(filename) {
+      return isVideoFilename(filename)
     },
     getFileType(file) {
       if (!file) return ''
@@ -879,50 +880,7 @@ export default {
         this.handleUpload(validPaths)
       }
     },
-    async handleCompressImgs(tempFilePaths) {
-      const compressUrls = []
 
-      for (let index = 0; index < tempFilePaths.length; index++) {
-        const url = tempFilePaths[index]
-
-        // 获取图片信息并计算智能压缩参数
-        const imageInfo = await getImageInfo(url)
-        const compressDimensions = calculateCompressDimensions(
-          imageInfo,
-          this.compressOption
-        )
-
-        // 构建压缩参数
-        const compressParams = {
-          src: url,
-          ...this.compressOption
-        }
-
-        // 如果启用了智能压缩，添加宽高参数
-        if (this.compressOption && this.compressOption.smartCompress) {
-          compressParams.compressedWidth = compressDimensions.width
-          compressParams.compressedHeight = compressDimensions.height
-        }
-
-        console.log('图片压缩参数', compressParams)
-
-        const [, result] = await uni.compressImage(compressParams)
-        const { errMsg, tempFilePath } = result
-
-        if (
-          errMsg == 'compressImage:ok' &&
-          tempFilePath &&
-          typeof tempFilePath == 'string'
-        ) {
-          compressUrls.push(tempFilePath)
-          console.log(TAG, '智能压缩图片成功', tempFilePath)
-        } else {
-          compressUrls.push(url)
-          console.log(TAG, '压缩图片失败，使用原图', tempFilePath, 'src=' + url)
-        }
-      }
-      return compressUrls
-    },
     handleChoose() {
       if (this.disabled || !this.getUploadMaxCount) return
       // 检查上传地址
@@ -1081,11 +1039,11 @@ export default {
         }
         // #ifndef H5
         // 压缩图片
-        if (
-          this.compressOption &&
-          this.$pi.system.systemInfo.platform !== 'devtools'
-        ) {
-          tempFilePaths = await this.handleCompressImgs(tempFilePaths)
+        if (this.compressOption) {
+          tempFilePaths = await handleCompressImgs(
+            tempFilePaths,
+            this.compressOption
+          )
         }
         // #endif
         if (
@@ -1195,9 +1153,10 @@ export default {
             const tempFilePath = tempFile.tempFilePath
             let filePath = ''
             if (isImageFilename(tempFilePath)) {
-              const filePaths = await this.handleCompressImgs([
-                tempFile.tempFilePath
-              ])
+              const filePaths = await handleCompressImgs(
+                [tempFile.tempFilePath],
+                this.compressOption
+              )
               filePath = filePaths[0]
             } else {
               filePath = await this.handleCompressVideo(tempFile.tempFilePath)
