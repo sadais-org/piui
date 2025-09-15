@@ -145,23 +145,13 @@
     />
 
     <!-- 自定义拍照操作面板（小程序专用） -->
-    <pi-select
+    <pi-action-sheet
       v-model="showCustomTakePhoto"
       :items="customTakePhotoItems"
-      :single-cancel="false"
-      single-confirm
-      :item-style="{
-        padding: '32rpx'
-      }"
       :popup="{
         borderRadius: 0
       }"
-      :popup-select="{
-        showTitle: true,
-        title: '请选择拍摄方式'
-      }"
-      item-height="auto"
-      @confirm="handleCustomTakePhotoSelect"
+      @select="handleCustomTakePhotoSelect"
     />
   </view>
 </template>
@@ -457,8 +447,7 @@ export default {
       cropPic: '', // 需要剪裁的图片
       cropedPic: '', // 剪裁后的图片
       showActionSheet: false, // 是否显示上传视频操作面板
-      showCustomTakePhoto: false, // 是否显示自定义拍照操作面板
-      currentSourceType: ['camera', 'album'] // 当前选择的拍照方式
+      showCustomTakePhoto: false // 是否显示自定义拍照操作面板
     }
   },
   computed: {
@@ -487,8 +476,16 @@ export default {
         }
       ]
     },
+    currentSourceType() {
+      if (this.type === 'video') {
+        return this.getChooseVideoOpts.sourceType
+      }
+      if (this.type === 'image') {
+        return this.getChooseImageOpts.sourceType
+      }
+      return this.getChooseFileOpts.sourceType
+    },
     customTakePhotoItems() {
-      // currentSourceType 当前选择的拍照方式 ['camera', 'album']
       let sourceType = this.currentSourceType || ['camera', 'album']
       if (sourceType.length === 0) {
         sourceType = ['camera', 'album']
@@ -497,12 +494,16 @@ export default {
         {
           id: 'takePhoto',
           text: '拍照',
-          show: sourceType.includes('camera')
+          show:
+            sourceType.includes('camera') &&
+            ['all', 'image'].includes(this.type)
         },
         {
           id: 'takeVideo',
           text: '录像',
-          show: sourceType.includes('camera')
+          show:
+            sourceType.includes('camera') &&
+            ['all', 'video'].includes(this.type)
         },
         // {
         //   id: 'takePhotoOffline',
@@ -511,9 +512,16 @@ export default {
         //   show: sourceType.includes('camera')
         // },
         {
-          id: 'chooseFromAlbum',
-          text: '从手机相册选择',
-          show: sourceType.includes('album')
+          id: 'chooseImageFromAlbum',
+          text: '从手机相册选择图片',
+          show:
+            sourceType.includes('album') && ['all', 'image'].includes(this.type)
+        },
+        {
+          id: 'chooseVideoFromAlbum',
+          text: '从手机相册选择视频',
+          show:
+            sourceType.includes('album') && ['all', 'video'].includes(this.type)
         }
         // {
         //   id: 'chooseFromCacheAlbum',
@@ -910,10 +918,18 @@ export default {
           this.$emit('show-actions')
           this.showActionSheet = true
         } else {
+          if (this.customTakePhoto) {
+            this.handleOpenCustomTakePhoto()
+            return
+          }
           this.handleChooseMedia()
         }
         // #endif
 
+        return
+      }
+      if (this.customTakePhoto) {
+        this.handleOpenCustomTakePhoto()
         return
       }
       if (this.type === 'image') {
@@ -931,6 +947,13 @@ export default {
 
         return
       }
+    },
+    handleOpenCustomTakePhoto() {
+      if (this.customTakePhotoItems.length === 1) {
+        this.handleCustomTakePhotoSelect(this.customTakePhotoItems[0])
+        return
+      }
+      this.showCustomTakePhoto = true
     },
     async handleChooseFile() {
       const { sizeType, sourceType, crop } = this.getChooseFileOpts
@@ -1010,13 +1033,6 @@ export default {
     async handleChooseImage() {
       const { sizeType, sourceType, crop } = this.getChooseImageOpts
 
-      this.currentSourceType = sourceType
-
-      if (this.customTakePhoto) {
-        this.showCustomTakePhoto = true
-        return
-      }
-
       this.handleUniChooseImage(sizeType, sourceType, crop)
     },
     async handleUniChooseImage(sizeType, sourceType, crop) {
@@ -1075,14 +1091,11 @@ export default {
       }
     },
     async handleChooseVideo() {
-      const { sourceType, maxDuration, camera } = this.getChooseVideoOpts
-
-      this.currentSourceType = sourceType
-
-      if (this.customTakePhoto) {
-        this.showCustomTakePhoto = true
-        return
-      }
+      const { sourceType } = this.getChooseVideoOpts
+      this.handleUniChooseVideo(sourceType)
+    },
+    async handleUniChooseVideo(sourceType) {
+      const { maxDuration, camera } = this.getChooseVideoOpts
 
       try {
         const [cancel, result] = await uni.chooseVideo({
@@ -1114,20 +1127,22 @@ export default {
       }
     },
     async handleChooseMedia() {
-      const { sourceType, maxDuration, camera } =
+      const { sourceType } =
         this.type === 'video' ? this.getChooseVideoOpts : this.getChooseFileOpts
 
-      this.currentSourceType = sourceType
-
-      if (this.customTakePhoto) {
-        this.showCustomTakePhoto = true
-        return
-      }
+      this.handleUniChooseMedia(
+        this.type === 'video' ? ['video'] : ['mix'],
+        sourceType
+      )
+    },
+    async handleUniChooseMedia(mediaType, sourceType) {
+      const { maxDuration, camera } =
+        this.type === 'video' ? this.getChooseVideoOpts : this.getChooseFileOpts
 
       try {
         const [cancel, result] = await uni.chooseMedia({
           count: this.getUploadMaxCount,
-          mediaType: this.type === 'video' ? ['video'] : ['mix'],
+          mediaType,
           extension: this.getExtension,
           sourceType,
           maxDuration,
@@ -1216,10 +1231,30 @@ export default {
       })
     },
     handleCustomTakePhotoSelect(type) {
-      if (type.id === 'chooseFromAlbum') {
+      if (type.id === 'takeVideo') {
+        // #ifndef MP-WEIXIN
+        this.handleUniChooseVideo(['camera'])
+        // #endif
+
+        // #ifdef MP-WEIXIN
+        this.handleUniChooseMedia(['video'], ['camera'])
+        // #endif
+        return
+      }
+      if (type.id === 'chooseImageFromAlbum') {
         // 从手机相册选择
         const { sizeType, crop } = this.getChooseImageOpts
         this.handleUniChooseImage(sizeType, ['album'], crop)
+        return
+      } else if (type.id === 'chooseVideoFromAlbum') {
+        // #ifndef MP-WEIXIN
+        this.handleUniChooseVideo(['album'])
+        // #endif
+
+        // #ifdef MP-WEIXIN
+        this.handleUniChooseMedia(['video'], ['album'])
+        // #endif
+        return
       } else {
         this.handleEmitTakePhoto(type.id)
       }
