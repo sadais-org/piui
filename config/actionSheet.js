@@ -6,7 +6,7 @@ export default {
   items: [], // 选项列表，默认（[]）
   keyField: 'id', // 选项id字段，默认为id
   displayField: 'text', // 选项显示字段，默认为text
-  itemHeight: 110, // 行高（默认：'110rpx'）
+  itemHeight: 120, // 行高（默认：'120rpx'）
   itemStyle: {}, // 行样式（默认：{}）
   itemAlign: 'center', // 行对齐方式，默认值：'center'
   showItemBottomBorder: true, // 是否显示底部边线

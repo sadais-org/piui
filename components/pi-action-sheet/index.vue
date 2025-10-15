@@ -40,7 +40,7 @@
         'pi-solid-bottom-1': showItemBottomBorder,
         'pi-disabled': item.disabled
       }"
-      class="pi-align-center pi-fz-30 pi-pd-lr-32"
+      class="pi-align-center pi-fz-32 pi-pd-lr-32"
       hover-class="pi-hover-class"
       @tap.stop="handleSelectItem(item)"
     >
@@ -56,7 +56,7 @@
     <template v-if="cancelText">
       <pi-gap height="20" />
       <view
-        class="pi-align-center pi-fz-30 pi-pd-32 pi-light-gray"
+        class="pi-align-center pi-fz-32 pi-pd-32 pi-light-gray"
         hover-class="pi-hover-class"
         :style="[getItemAlignStyle]"
         @tap="handleCancel"

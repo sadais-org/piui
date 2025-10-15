@@ -461,17 +461,9 @@ export default {
       )
     },
     getFieldValue(obj, keypath) {
-      if (obj) {
-        return keypath.split('-').reduce((prev, key) => {
-          let tmpKey = key
-          if (/^\[\d+\]$/.test(key)) {
-            tmpKey = tmpKey.slice(1, -1)
-          }
-          prev = prev && prev[tmpKey]
-          return prev
-        }, obj)
-      }
-      return undefined
+      // 使用工具函数中的 getFieldValue 方法
+      // 支持嵌套对象和数组访问，如: a.b.c, items[0].name, users[0].addresses[1].city
+      return this.$pi.lang.getFieldValue(obj, keypath)
     },
     // 校验数据
     validation(trigger) {
