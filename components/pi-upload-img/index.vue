@@ -6,7 +6,7 @@
  * @Description: 图片上传组件
  * @FilePath: \piui\components\pi-upload-img\index.vue
 -->
-
+ 
 <template>
   <view
     class="pi-upload-img"
@@ -439,7 +439,12 @@ export default {
       default() {
         return uploadImg.fileLimit
       }
-    }
+    },
+    // 上传成功解析对象方法
+    customPreview: {
+      type: [Function, null],
+      default: null
+    },
   },
   data() {
     return {
@@ -721,6 +726,13 @@ export default {
     // 预览图片
     handlePreviewImage(img) {
       if (!this.previewFullImage) return
+
+      // 自定义预览功能
+      if (this.customPreview && this.$pi.lang.isFunction(this.customPreview)) {
+        this.customPreview(img)
+        return
+      }
+
       let urls = []
       let current = ''
 
