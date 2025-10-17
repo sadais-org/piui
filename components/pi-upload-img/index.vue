@@ -440,10 +440,12 @@ export default {
         return uploadImg.fileLimit
       }
     },
-    // 上传成功解析对象方法
-    customPreview: {
-      type: [Function, null],
-      default: null
+    // 是否自定义预览图片（如果为true，则不调用预览，通过事件自己实现预览）
+    customPreviewImage: {
+      type: Boolean,
+      default() {
+        return uploadImg.customPreviewImage
+      }
     },
   },
   data() {
@@ -728,8 +730,8 @@ export default {
       if (!this.previewFullImage) return
 
       // 自定义预览功能
-      if (this.customPreview && this.$pi.lang.isFunction(this.customPreview)) {
-        this.customPreview(img)
+      if (this.customPreviewImage) {
+        this.$emit('preview-image', img)
         return
       }
 
