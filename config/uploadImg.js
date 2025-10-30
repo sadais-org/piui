@@ -65,7 +65,7 @@ export default {
     camera: 'back', // 前置或后置摄像头，默认back
     extension: [] // 允许上传的文件类型，不填则不限制
   },
-  parseResultFn: function(result) {
+  parseResultFn: function (result) {
     try {
       return JSON.parse(result.data)?.data.url
     } catch (error) {
@@ -104,4 +104,5 @@ export default {
   customUploadParams: {}, // 自定义上传参数，对象形式
   fileLimit: null, // 文件大小限制，单位为字节，null表示不限制
   customPreviewImage: false, // 是否自定义预览图片（如果为true，则不调用预览，通过事件自己实现预览）
+  disablePreview: false, // 是否禁止preview预览
 }

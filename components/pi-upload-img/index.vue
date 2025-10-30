@@ -6,7 +6,7 @@
  * @Description: 图片上传组件
  * @FilePath: \piui\components\pi-upload-img\index.vue
 -->
- 
+
 <template>
   <view
     class="pi-upload-img"
@@ -447,6 +447,13 @@ export default {
         return uploadImg.customPreviewImage
       }
     },
+    // 是否禁止preview预览
+    disablePreview: {
+      type: Boolean,
+      default() {
+        return uploadImg.disablePreview
+      }
+    },
   },
   data() {
     return {
@@ -689,6 +696,7 @@ export default {
       this.handleEmitChange()
     },
     handlePreview(img) {
+      if (this.disablePreview) return
       const file = this.imgField ? img[this.imgField] : img
       if (isImageFilename(file)) {
         this.handlePreviewImage(file)
