@@ -15,7 +15,12 @@
       class="date-item"
       style="cursor: pointer;"
       :class="[
-        { 'pi-disabled': day.disabled || day.type === 'disabled' },
+        {
+          'pi-disabled':
+            day.disabled ||
+            day.type === 'disabled-prev' ||
+            day.type === 'disabled-next'
+        },
         { range: day.range },
         { marked: day.marked }
       ]"
@@ -234,7 +239,7 @@ export default {
           day = {
             ...day,
             ...this.$pi.date.parseDate(this.firstDay[i - 1]),
-            type: this.weekView ? '' : 'disabled'
+            type: this.weekView ? '' : 'disabled-prev'
           }
         } else if (i > monthDays + firstDayCount) {
           // 下月数据
@@ -243,7 +248,7 @@ export default {
             ...this.$pi.date.parseDate(
               new Date(nextMonthFirstDay.setDate(i - monthDays - firstDayCount))
             ),
-            type: this.weekView ? '' : 'disabled'
+            type: this.weekView ? '' : 'disabled-next'
           }
         } else {
           // 当月数据
@@ -360,7 +365,24 @@ export default {
       this.$emit('change', value)
     },
     handleSelectDate(date) {
-      if (date.disabled) return
+      if (date.disabled) {
+        if (/disabled/.test(date.type)) {
+          if (date.type === 'disabled-prev') {
+            this.$emit('change-prev-month')
+          } else if (date.type === 'disabled-next') {
+            this.$emit('change-next-month')
+          }
+        }
+        return
+      }
+      if (/disabled/.test(date.type)) {
+        if (date.type === 'disabled-prev') {
+          this.$emit('change-prev-month')
+        } else if (date.type === 'disabled-next') {
+          this.$emit('change-next-month')
+        }
+        return
+      }
       if (this.type === 'date') {
         // 单选方式
         this.handleChange(date)

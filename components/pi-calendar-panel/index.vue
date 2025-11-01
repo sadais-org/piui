@@ -64,6 +64,8 @@
               :show-back-today="showBackToday"
               :marks="marks"
               @change="handleChange"
+              @change-prev-month="handlePrevMonth()"
+              @change-next-month="handleNextMonth()"
             />
           </swiper-item>
         </swiper>
