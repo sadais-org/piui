@@ -407,7 +407,7 @@ export default {
 
 <style lang="scss" scoped>
 .pi-calendar-day-item-disabled {
-  opacity: 0.4;
+  opacity: $pi-disabled-opacity;
 }
 .date-item {
   position: relative;
