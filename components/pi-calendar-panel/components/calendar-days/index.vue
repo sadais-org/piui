@@ -16,7 +16,7 @@
       style="cursor: pointer;"
       :class="[
         {
-          'pi-disabled':
+          'pi-calendar-day-item-disabled':
             day.disabled ||
             day.type === 'disabled-prev' ||
             day.type === 'disabled-next'
@@ -406,6 +406,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.pi-calendar-day-item-disabled {
+  opacity: 0.4;
+}
 .date-item {
   position: relative;
   z-index: 2;
