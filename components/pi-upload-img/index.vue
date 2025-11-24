@@ -479,10 +479,19 @@ export default {
       return this.disabled || (parent && parent.getDisabled)
     },
     actionSheetItems() {
+      const hasImage = this.fileTypes.includes('image');
+      const hasVideo = this.fileTypes.includes('video');
+      const mediaTypesTitle = hasImage && hasVideo
+        ? '图片/视频'
+        : hasImage
+        ? '图片'
+        : hasVideo
+        ? '视频'
+        : '';
       return [
         {
           id: 1,
-          text: '选择媒体图片/视频'
+          text: `选择媒体${mediaTypesTitle}`
         },
         {
           id: 2,
@@ -676,7 +685,17 @@ export default {
         isRightType
       )
       if (!isRightType) {
-        this.$toast(`请选择${this.getExtension.join('/')}文件上传`)
+        uni.showModal({
+          title: '文件类型错误',
+          content: `请选择${this.getExtension.join('、')}类型的文件上传`,
+          showCancel: false,
+          confirmText: '好的',
+          success: (res) => {
+            if (res.confirm) {
+              this.handleChoose()
+            }
+          }
+        })
       }
       return isRightType
     },
@@ -978,13 +997,17 @@ export default {
       this.showCustomTakePhoto = true
     },
     async handleChooseFile() {
-      const { sizeType, sourceType, crop } = this.getChooseFileOpts
+      const { sizeType, sourceType, crop, extension } = this.getChooseFileOpts
       try {
+        const hasImage = this.fileTypes.includes('image');
+        const hasVideo = this.fileTypes.includes('video');
+        const type = hasImage && hasVideo ? 'all' : hasImage ? 'image' : 'video';
+
         const [cancel, result] = await uni.chooseFile({
           count: this.getUploadMaxCount,
-          sizeType,
+          type,
           sourceType,
-          crop
+          extension
         })
 
         if (cancel && cancel?.errMsg === 'chooseFile:fail cancel') {
@@ -1149,13 +1172,22 @@ export default {
       }
     },
     async handleChooseMedia() {
-      const { sourceType } =
-        this.type === 'video' ? this.getChooseVideoOpts : this.getChooseFileOpts
-
-      this.handleUniChooseMedia(
-        this.type === 'video' ? ['video'] : ['mix'],
-        sourceType
-      )
+      if(this.type === 'all') {
+        // 选择图片/视频
+        const hasImage = this.fileTypes.includes('image');
+        const hasVideo = this.fileTypes.includes('video');
+        const sourceType = this.getChooseFileOpts.sourceType;
+        if(hasImage && hasVideo) {
+          this.handleUniChooseMedia(['mix'], sourceType);
+        } else if(hasImage) {
+          this.handleUniChooseMedia(['image'], sourceType);
+        } else if(hasVideo) {
+          this.handleUniChooseMedia(['video'], sourceType);
+        }
+      } else {
+        // 选择视频
+        this.handleUniChooseMedia(['video'], this.getChooseVideoOpts.sourceType);
+      }
     },
     async handleUniChooseMedia(mediaType, sourceType) {
       const { maxDuration, camera } =
