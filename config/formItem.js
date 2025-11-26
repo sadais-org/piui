@@ -23,5 +23,6 @@ export default {
     ...icon,
     name: 'right',
     color: '#cccccc'
-  } // 右侧箭头配置
+  }, // 右侧箭头配置
+  sort: ''
 }

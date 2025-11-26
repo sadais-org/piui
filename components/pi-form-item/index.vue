@@ -272,7 +272,15 @@ export default {
       default() {
         return formItem.rightIcon
       }
-    }
+    },
+    // 排序
+    sort: {
+      type: String,
+      default() {
+        // ''
+        return formItem.sort
+      }
+    },
   },
   data() {
     return {
@@ -428,6 +436,12 @@ export default {
   },
   beforeDestroy() {
     this.componentDestroy = true
+    if (this._parent && this._parent._children) {
+      const index = this._parent._children.indexOf(this)
+      if (index !== -1) {
+        this._parent._children.splice(index, 1)
+      }
+    }
   },
   methods: {
     handleItemClick(e) {
