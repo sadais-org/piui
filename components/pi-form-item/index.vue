@@ -2,7 +2,7 @@
   <view
     :id="formItemId"
     class="pi-form-item"
-    :style="[customStyle, itemStyle]"
+    :style="[itemStyle, customStyle]"
     :class="getFormItemClass"
     @tap="handleItemClick"
   >
