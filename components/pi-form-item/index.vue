@@ -1,6 +1,5 @@
 <template>
   <view
-    :id="formItemId"
     class="pi-form-item"
     :style="[itemStyle, customStyle]"
     :class="getFormItemClass"
@@ -280,7 +279,7 @@ export default {
         // ''
         return formItem.sort
       }
-    },
+    }
   },
   data() {
     return {
@@ -291,13 +290,6 @@ export default {
     }
   },
   computed: {
-    formItemId() {
-      // 移除标点符号，只保留英文和数字
-      const itemId = this.prop
-        ? String(this.prop).replace(/[^a-zA-Z0-9]/g, '')
-        : ''
-      return `form-item-${itemId}`
-    },
     getShowRightIcon() {
       return this.$pi.expand.getPropValue(
         this.inheritProps.showRightIcon,
@@ -491,7 +483,6 @@ export default {
     validation(trigger) {
       const _getResolve = () => {
         return {
-          formItemId: this.formItemId,
           prop: this.prop,
           validateState: this.validateState,
           validateMessage: this.validateMessage
