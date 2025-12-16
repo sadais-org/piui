@@ -293,7 +293,7 @@ export default {
         // 查询返回的是一个数组节点
         let data = res[0]
         // 查询不到节点信息，不操作
-        if (!data.width || !data.width) return
+        if (!data || !data.width) return
         // 水波纹的最终形态是一个正方形(通过border-radius让其变为一个圆形)，这里要保证正方形的边长等于按钮的最长边
         // 最终的方形（变换后的圆形）才能覆盖整个按钮
         data.targetWidth = data.height > data.width ? data.height : data.width
