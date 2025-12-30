@@ -2,13 +2,13 @@ import popupSelect from './popupSelect'
 
 const currentYear = new Date().getFullYear()
 const startYear = currentYear - 30
-const endYear = currentYear
+const endYear = currentYear + 1
 
 export default {
   customClass: '', // 自定义样式类，字符串形式（''）
   customStyle: {}, // 自定义样式，对象形式（默认值：{}）
   startYear, // 开始年份（默认当前年份 - 30）
-  endYear, // 结束年份（默认当前年份）
+  endYear, // 结束年份（默认当前年份 + 1）
   field: 'day', // 选择器的粒度 year、month、day、hour、minute、second
   dateType: 'datetime', // 日期类型，date、datetime、time（默认值：datetime）
   yearOptions: [], // 年份选项（默认值：[]）
