@@ -260,7 +260,7 @@ export default {
       if (this.errorType === 'toast' && failedResults.length > 0) {
         this.$toast(failedResults[0].validateMessage)
       }
-      return failedResults
+      return failedResults.sort((a, b) => a.sort - b.sort)
     },
     /*  @vuese
      * 重置表单项，支持传入prop来重置单个或部分表单项

@@ -274,9 +274,8 @@ export default {
     },
     // 排序
     sort: {
-      type: String,
+      type: [String, Number],
       default() {
-        // ''
         return formItem.sort
       }
     }
@@ -484,6 +483,7 @@ export default {
       const _getResolve = () => {
         return {
           prop: this.prop,
+          sort: this.sort,
           validateState: this.validateState,
           validateMessage: this.validateMessage
         }
