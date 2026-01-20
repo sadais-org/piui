@@ -73,6 +73,8 @@
       :popup-select="getDatePicker.popupSelect"
       :confirm-btn="getDatePicker.confirmBtn"
       :cancel-btn="getDatePicker.cancelBtn"
+      :min-date="getDatePicker.minDate"
+      :max-date="getDatePicker.maxDate"
       @confirm="handleDatePickerConfirm"
       @close="$emit('close', $event)"
       @closed="$emit('closed', $event)"
