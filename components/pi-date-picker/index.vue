@@ -224,6 +224,16 @@ export default {
         // 参照popup
         return datePicker.popup
       }
+    },
+    // 最小可选日期
+    minDate: {
+      type: [Date, Number, String],
+      default: datePicker.minDate
+    },
+    // 最大可选日期
+    maxDate: {
+      type: [Date, Number, String],
+      default: datePicker.maxDate
     }
   },
   data() {
@@ -274,8 +284,26 @@ export default {
       )
       return this.$pi.lang.mergeDeep(datePickerPopup, this.popup)
     },
+    // 解析后的最小日期
+    parsedMinDate() {
+      if (!this.minDate) return null
+      return this.$pi.date.parseDate(this.minDate)
+    },
+    // 解析后的最大日期
+    parsedMaxDate() {
+      if (!this.maxDate) return null
+      return this.$pi.date.parseDate(this.maxDate)
+    },
     options() {
-      const watchs = ['val', 'startYear', 'endYear', 'field', 'defaultValue']
+      const watchs = [
+        'val',
+        'startYear',
+        'endYear',
+        'field',
+        'defaultValue',
+        'minDate',
+        'maxDate'
+      ]
       const options = watchs
         .filter(d => this[d])
         .map(d => this[d].toString())
@@ -303,32 +331,115 @@ export default {
       if (this.yearOptions && this.yearOptions.length > 0) {
         return this.yearOptions
       }
-      return this.$pi.common.generateArray(this.startYear, this.endYear)
+      let start = parseInt(this.startYear, 10)
+      let end = parseInt(this.endYear, 10)
+      // 根据 minDate/maxDate 限制年份范围
+      if (this.parsedMinDate) {
+        start = Math.max(start, this.parsedMinDate.year)
+      }
+      if (this.parsedMaxDate) {
+        end = Math.min(end, this.parsedMaxDate.year)
+      }
+      return this.$pi.common.generateArray(start, end)
     },
     getMonthOptions() {
       if (this.monthOptions && this.monthOptions.length > 0) {
         return this.monthOptions
       }
-      return this.$pi.common.generateArray(1, 12)
+      let start = 1
+      let end = 12
+      const currentYear = this.date.year
+      // 当前年份等于最小年份时，限制起始月份
+      if (this.parsedMinDate && currentYear === this.parsedMinDate.year) {
+        start = this.parsedMinDate.month
+      }
+      // 当前年份等于最大年份时，限制结束月份
+      if (this.parsedMaxDate && currentYear === this.parsedMaxDate.year) {
+        end = this.parsedMaxDate.month
+      }
+      return this.$pi.common.generateArray(start, end)
     },
     getDayOptions() {
       if (this.dayOptions && this.dayOptions.length > 0) {
         return this.dayOptions
       }
-      const monthDays = new Date(this.date.year, this.date.month, 0).getDate()
-      return this.$pi.common.generateArray(1, monthDays)
+      const currentYear = this.date.year
+      const currentMonth = this.date.month
+      let start = 1
+      let end = new Date(currentYear, currentMonth, 0).getDate()
+      // 当前年月等于最小年月时，限制起始日期
+      if (
+        this.parsedMinDate &&
+        currentYear === this.parsedMinDate.year &&
+        currentMonth === this.parsedMinDate.month
+      ) {
+        start = this.parsedMinDate.date
+      }
+      // 当前年月等于最大年月时，限制结束日期
+      if (
+        this.parsedMaxDate &&
+        currentYear === this.parsedMaxDate.year &&
+        currentMonth === this.parsedMaxDate.month
+      ) {
+        end = this.parsedMaxDate.date
+      }
+      return this.$pi.common.generateArray(start, end)
     },
     getHourOptions() {
       if (this.hourOptions && this.hourOptions.length > 0) {
         return this.hourOptions
       }
-      return this.$pi.common.generateArray(0, 23)
+      let start = 0
+      let end = 23
+      const { year, month, date } = this.date
+      // 当前年月日等于最小年月日时，限制起始小时
+      if (
+        this.parsedMinDate &&
+        year === this.parsedMinDate.year &&
+        month === this.parsedMinDate.month &&
+        date === this.parsedMinDate.date
+      ) {
+        start = this.parsedMinDate.hour
+      }
+      // 当前年月日等于最大年月日时，限制结束小时
+      if (
+        this.parsedMaxDate &&
+        year === this.parsedMaxDate.year &&
+        month === this.parsedMaxDate.month &&
+        date === this.parsedMaxDate.date
+      ) {
+        end = this.parsedMaxDate.hour
+      }
+      return this.$pi.common.generateArray(start, end)
     },
     getMinuteOptions() {
       if (this.minuteOptions && this.minuteOptions.length > 0) {
         return this.minuteOptions
       }
-      return this.$pi.common.generateArray(0, 59)
+      let start = 0
+      let end = 59
+      const { year, month, date, hour } = this.date
+      // 当前年月日时等于最小年月日时时，限制起始分钟
+      if (
+        this.parsedMinDate &&
+        year === this.parsedMinDate.year &&
+        month === this.parsedMinDate.month &&
+        date === this.parsedMinDate.date &&
+        hour === this.parsedMinDate.hour
+      ) {
+        start = this.parsedMinDate.minute
+      }
+      // 当前年月日时等于最大年月日时时，限制结束分钟
+      if (
+        this.parsedMaxDate &&
+        year === this.parsedMaxDate.year &&
+        month === this.parsedMaxDate.month &&
+        date === this.parsedMaxDate.date &&
+        hour === this.parsedMaxDate.hour
+      ) {
+        end = this.parsedMaxDate.minute
+      }
+      return this.$pi.common.generateArray(start, end)
     },
     columns() {
       let columns = [
@@ -439,6 +550,10 @@ export default {
         }
         this.date = this.$pi.date.parseDate(time)
       }
+      // 校正初始日期边界
+      this.$nextTick(() => {
+        this.correctDateBoundary()
+      })
     },
     handlePickstart() {
       this.scrolling = true
@@ -468,8 +583,28 @@ export default {
       })
       // 重新解析
       this.date = this.$pi.date.parseDate(time)
+      // 校正日期边界
+      this.correctDateBoundary()
 
       this.$emit('scrollend', this.date)
+    },
+    /**
+     * 校正日期边界，确保选中的日期在 minDate 和 maxDate 范围内
+     */
+    correctDateBoundary() {
+      const time = this.date.time
+      let needUpdate = false
+      // 校正最小日期
+      if (this.parsedMinDate && time < this.parsedMinDate.time) {
+        this.date = this.$pi.date.parseDate(this.parsedMinDate.time)
+        needUpdate = true
+      }
+      // 校正最大日期
+      if (this.parsedMaxDate && time > this.parsedMaxDate.time) {
+        this.date = this.$pi.date.parseDate(this.parsedMaxDate.time)
+        needUpdate = true
+      }
+      return needUpdate
     },
     /**
      * @vuese

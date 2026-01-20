@@ -17,6 +17,8 @@ export default {
   hourOptions: [], // 小时选项（默认值：[]）
   minuteOptions: [], // 分钟选项（默认值：[]）
   defaultValue: '', // 日期默认值
+  minDate: null, // 最小可选日期，支持 Date 对象、时间戳、日期字符串（默认值：null）
+  maxDate: null, // 最大可选日期，支持 Date 对象、时间戳、日期字符串（默认值：null）
   units: ['年', '月', '日', '时', '分', '秒'], // 单位数组，默认值：['年', '月', '日', '时', '分', '秒']
   format: '', // 返回的日期格式，为空的时候，返回的是日期对象
   itemHeight: 110, // 行高（默认：'110rpx'）
