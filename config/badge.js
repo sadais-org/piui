@@ -5,5 +5,6 @@ export default {
   dotRadius: 16, // 小红点的半径
   content: '', // 徽标的内容
   color: '#ee0a24', // 徽标背景颜色
-  max: 99 // 最大值，超过最大值会显示 {max}+，仅当 content 为数字时有效
+  max: 99, // 最大值，超过最大值会显示 {max}+，仅当 content 为数字时有效
+  size: 16 // 徽标尺寸，支持数字或字符串数字（如 12、'14'、16、'18'）
 }

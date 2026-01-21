@@ -28,7 +28,6 @@
 <script>
 import { getConfig } from '../../config'
 
-const TAG = 'PiBadge'
 const { badge } = getConfig()
 
 export default {
@@ -79,12 +78,32 @@ export default {
       type: [String, Number],
       // ''
       default: badge.max
+    },
+    // 徽标尺寸，可以是数字（如 12、14、16）或字符串（small、medium、large）
+    size: {
+      type: [String, Number],
+      // 16
+      default: badge.size
     }
   },
   data() {
     return {}
   },
   computed: {
+    // 尺寸配置
+    sizeConfig() {
+      // 将 size 转换为数字
+      const size = Math.max(10, Number(this.size) || 16)
+      const padding = Math.max(2, Math.floor(size / 5))
+      const fontSize = Math.max(10, Math.floor(size * 0.75))
+
+      return {
+        minSize: `${size}px`,
+        padding: `0 ${padding}px`,
+        fontSize: `${fontSize}px`,
+        borderRadius: `${size}px`
+      }
+    },
     getDotRadius() {
       return this.$pi.common.addUnit(this.dotRadius)
     },
@@ -95,13 +114,40 @@ export default {
       if (this.dot) {
         style.width = this.getDotRadius
         style.height = this.getDotRadius
+      } else {
+        // 应用尺寸配置
+        const content = this.getContent
+        const contentStr = String(content)
+        const contentLength = contentStr.length
+
+        // 一个字符时使用正方形（圆形），多个字符时使用椭圆形
+        if (contentLength === 1 && contentStr.trim()) {
+          style.width = this.sizeConfig.minSize
+          style.height = this.sizeConfig.minSize
+          style.padding = '0'
+          style.lineHeight = this.sizeConfig.minSize
+        } else if (contentLength > 1) {
+          style.minWidth = this.sizeConfig.minSize
+          style.padding = this.sizeConfig.padding
+        }
+
+        style.fontSize = this.sizeConfig.fontSize
+        style.borderRadius = this.sizeConfig.borderRadius
       }
       return style
     },
     getContent() {
       const max = parseInt(this.max, 10)
       const content = parseInt(this.content, 10)
-      if (this.$pi.lang.isNumber(content) && max < content) return `${max}+`
+
+      // 更严格的数字判断
+      if (
+        this.$pi.lang.isNumber(content) &&
+        this.$pi.lang.isNumber(max) &&
+        content > max
+      ) {
+        return `${max}+`
+      }
       return this.content
     }
   },
@@ -120,16 +166,12 @@ export default {
 
   .badge {
     box-sizing: border-box;
-    min-width: 16px;
-    padding: 0 3px;
-    font-size: 12px;
     font-weight: 500;
     line-height: 1.2;
     color: #ffffff;
     text-align: center;
     background-color: #ee0a24;
     border: 1px solid #ffffff;
-    border-radius: 16px;
 
     &.hide-border {
       border: none;
