@@ -572,7 +572,7 @@ export default {
       const values = e.detail.value // values 返回的数组固定是picker的数量，只返回有变化的索引值
       const time = this.date.time // 取出当前date的实际时间
       values.forEach((value, index) => {
-        if (value !== null) {
+        if (value !== null && value !== -1) {
           // value为picker列的索引值
           const col = this.columns[index]
           let val = col.items[value] // 取出对应picker值
