@@ -13,6 +13,8 @@
     :confirm-btn="getPopupSelect.confirmBtn"
     :cancel-btn="getPopupSelect.cancelBtn"
     :popup="getPopup"
+    @show="$emit('show')"
+    @showed="$emit('showed')"
     @close="handlePopupClose"
     @cancel="handleCancel"
     @confirm="handleConfirm"

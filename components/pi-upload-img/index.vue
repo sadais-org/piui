@@ -141,6 +141,9 @@
       :popup="{
         borderRadius: 0
       }"
+      @show="$emit('show')"
+      @showed="$emit('showed')"
+      @close="$emit('close')"
       @select="handleActionSheetSelect"
     />
 
@@ -151,6 +154,9 @@
       :popup="{
         borderRadius: 0
       }"
+      @show="$emit('show')"
+      @showed="$emit('showed')"
+      @close="$emit('close')"
       @select="handleCustomTakePhotoSelect"
     />
   </view>
